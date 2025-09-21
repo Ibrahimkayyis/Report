@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- background screen -->
+  <color name="background">#FFFFFF</color>
+
+  <!-- primary color (komponen: button, card, appbar, dll) -->
+  <color name="primary">#226597</color>
+
+  <!-- teks biasa -->
+  <color name="text_primary">#333333</color>
+
+  <!-- teks di dalam komponen -->
+  <color name="on_primary">#FFFFFF</color>
+</resources>

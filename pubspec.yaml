@@ -1,0 +1,89 @@
+name: report
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.8.0 <4.0.0' # Pastikan batas bawah mendukung null safety
+
+dependencies:
+  auto_route: ^10.1.2
+  bloc: ^9.0.0
+  cupertino_icons: ^1.0.8
+  dio: ^5.9.0
+  equatable: ^2.0.7
+  firebase_messaging: ^16.0.1
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  flutter_easyloading: ^3.0.5
+  flutter_localizations:
+    sdk: flutter
+  flutter_screenutil: ^5.9.3
+  formz: ^0.8.0
+  freezed_annotation: ^3.1.0
+  get_it: ^8.2.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  injectable: ^2.5.1
+  json_annotation: ^4.9.0
+  logger: ^2.6.0
+  path_provider: ^2.1.5
+  pretty_dio_logger: ^1.4.0
+  pull_to_refresh: ^2.0.0
+  retrofit: ^4.7.2
+  sentry_flutter: ^9.6.0
+  shared_preferences: ^2.5.3
+  shimmer: ^3.0.0
+  slang: ^4.8.1
+  slang_flutter: ^4.8.0
+
+dev_dependencies:
+  auto_route_generator: ^10.2.4 # Upgrade ke versi terbaru
+  build_runner: ^2.7.1 # Upgrade ke versi terbaru
+  flutter_gen_runner: ^5.11.0
+  flutter_lints: ^6.0.0 # Upgrade ke versi terbaru
+  flutter_test:
+    sdk: flutter
+  freezed: ^3.2.3 # Upgrade ke versi terbaru
+  injectable_generator: ^2.8.1 # Upgrade ke versi terbaru
+  json_serializable: ^6.11.1 # Upgrade ke versi terbaru
+  mocktail: ^1.0.4
+  retrofit_generator: ^10.0.5 # Upgrade ke versi terbaru
+  slang_build_runner: ^4.8.1
+
+flutter_gen:
+  output: lib/gen/
+  colors:
+    inputs:
+      - assets/color/colors.xml
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/color/
+    - assets/i18n/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins/Poppins-Black.ttf
+          weight: 900
