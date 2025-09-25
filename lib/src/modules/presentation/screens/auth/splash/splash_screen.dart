@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/src/modules/presentation/widgets/widgets.dart'; // pakai barrel file
+import 'package:report/src/modules/presentation/widgets/widgets.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {

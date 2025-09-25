@@ -26,6 +26,8 @@
     "use_email_to_continue": "Use your email to continue",
     "invalid_email": "Invalid email address",
     "passwords_do_not_match": "Passwords do not match",
-    "password_too_short": "Password is too short"
+    "password_too_short": "Password is too short",
+    "register_success": "Registration successful, please login",
+    "go_to_login": "Go to Login"
   }
 }
