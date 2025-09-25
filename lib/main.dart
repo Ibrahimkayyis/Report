@@ -63,7 +63,7 @@ class ReportApp extends StatelessWidget {
                       seedColor: ColorName.primary,
                       primary: ColorName.primary,
                       onPrimary: ColorName.onPrimary,
-                      background: ColorName.background,
+                      surface: ColorName.background,
                     ),
                   ),
                   darkTheme: ThemeData.dark().copyWith(

@@ -75,6 +75,8 @@ class _TranslationsAppId extends TranslationsAppEn {
 	@override String get invalid_email => 'Invalid email address';
 	@override String get passwords_do_not_match => 'Passwords do not match';
 	@override String get password_too_short => 'Password is too short';
+	@override String get register_success => 'Registration successful, please login';
+	@override String get go_to_login => 'Go to Login';
 }
 
 /// Flat map(s) containing all translations.
@@ -109,6 +111,8 @@ extension on TranslationsId {
 			case 'app.invalid_email': return 'Invalid email address';
 			case 'app.passwords_do_not_match': return 'Passwords do not match';
 			case 'app.password_too_short': return 'Password is too short';
+			case 'app.register_success': return 'Registration successful, please login';
+			case 'app.go_to_login': return 'Go to Login';
 			default: return null;
 		}
 	}

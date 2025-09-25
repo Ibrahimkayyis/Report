@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 abstract class RegisterModule {
   /// Base URL API untuk REPORT (pusat disini)
   @Named('baseUrl')
-  String get baseUrl => "https://lvhru-180-241-7-224.a.free.pinggy.link";
+  String get baseUrl => "https://8c400d71f866.ngrok-free.app";
 
   /// Dio client untuk REST API
   @lazySingleton

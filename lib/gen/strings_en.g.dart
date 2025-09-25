@@ -130,6 +130,12 @@ class TranslationsAppEn {
 
 	/// en: 'Password is too short'
 	String get password_too_short => 'Password is too short';
+
+	/// en: 'Registration successful, please login'
+	String get register_success => 'Registration successful, please login';
+
+	/// en: 'Go to Login'
+	String get go_to_login => 'Go to Login';
 }
 
 /// Flat map(s) containing all translations.
@@ -164,6 +170,8 @@ extension on Translations {
 			case 'app.invalid_email': return 'Invalid email address';
 			case 'app.passwords_do_not_match': return 'Passwords do not match';
 			case 'app.password_too_short': return 'Password is too short';
+			case 'app.register_success': return 'Registration successful, please login';
+			case 'app.go_to_login': return 'Go to Login';
 			default: return null;
 		}
 	}

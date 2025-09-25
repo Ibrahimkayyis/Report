@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   dio: ^5.9.0
   equatable: ^2.0.7
+  exui: ^1.0.7
   firebase_messaging: ^16.0.1
   flutter:
     sdk: flutter
@@ -33,6 +34,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   retrofit: ^4.7.2
   sentry_flutter: ^9.6.0
+  shadcn_flutter: ^0.0.44
   shared_preferences: ^2.5.3
   shimmer: ^3.0.0
   slang: ^4.8.1

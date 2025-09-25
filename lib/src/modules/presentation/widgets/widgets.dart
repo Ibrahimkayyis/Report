@@ -5,3 +5,4 @@ export 'buttons/primary_button.dart';
 export 'containers/auth_container.dart';
 export 'texts/link_text.dart';
 export 'snackbars/custom_snackbar.dart';
+export 'dialogs/success_dialog.dart';
