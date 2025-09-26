@@ -77,6 +77,12 @@ class _TranslationsAppId extends TranslationsAppEn {
 	@override String get password_too_short => 'Password is too short';
 	@override String get register_success => 'Registration successful, please login';
 	@override String get go_to_login => 'Go to Login';
+	@override String get logged_out => 'You have been logged out';
+	@override String get home => 'Home';
+	@override String get logout_confirmation => 'Are you sure you want to logout?';
+	@override String get logout_message => 'You will need to login again to access your account.';
+	@override String get cancel => 'Cancel';
+	@override String get confirm => 'Confirm';
 }
 
 /// Flat map(s) containing all translations.
@@ -113,6 +119,12 @@ extension on TranslationsId {
 			case 'app.password_too_short': return 'Password is too short';
 			case 'app.register_success': return 'Registration successful, please login';
 			case 'app.go_to_login': return 'Go to Login';
+			case 'app.logged_out': return 'You have been logged out';
+			case 'app.home': return 'Home';
+			case 'app.logout_confirmation': return 'Are you sure you want to logout?';
+			case 'app.logout_message': return 'You will need to login again to access your account.';
+			case 'app.cancel': return 'Cancel';
+			case 'app.confirm': return 'Confirm';
 			default: return null;
 		}
 	}

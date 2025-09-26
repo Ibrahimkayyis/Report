@@ -12,4 +12,12 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+
+  Future<String?> getSavedToken();
+  Future<String?> getSavedRole();
+
+  Future<void> saveToken(String token);
+  Future<void> saveRole(String role);
+  
+  Future<void> logout();
 }
