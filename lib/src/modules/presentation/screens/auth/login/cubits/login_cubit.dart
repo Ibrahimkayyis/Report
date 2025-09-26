@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:report/src/core/errors/failures_mapper.dart';
 import 'package:report/src/modules/domain/usecase/login_usecase.dart';
 import 'login_state.dart';
 
@@ -21,7 +22,7 @@ class LoginCubit extends Cubit<LoginState> {
       );
       emit(LoginSuccess(result));
     } catch (e) {
-      emit(LoginFailure(e.toString()));
+      emit(LoginFailure(mapFailureToMessage(e)));
     }
   }
 }

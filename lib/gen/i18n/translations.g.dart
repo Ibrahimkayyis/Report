@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 70 (35 per locale)
+/// Strings: 80 (40 per locale)
 ///
-/// Built on 2025-09-25 at 09:51 UTC
+/// Built on 2025-09-26 at 08:13 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -17,18 +17,18 @@ import 'package:slang/generated.dart';
 import 'package:slang_flutter/slang_flutter.dart';
 export 'package:slang_flutter/slang_flutter.dart';
 
-import 'translations_id.g.dart' deferred as l_id;
-part 'translations_en.g.dart';
+import 'translations_en.g.dart' deferred as l_en;
+part 'translations_id.g.dart';
 
 /// Supported locales.
 ///
 /// Usage:
-/// - LocaleSettings.setLocale(AppLocale.en) // set locale
-/// - Locale locale = AppLocale.en.flutterLocale // get flutter locale from enum
-/// - if (LocaleSettings.currentLocale == AppLocale.en) // locale check
+/// - LocaleSettings.setLocale(AppLocale.id) // set locale
+/// - Locale locale = AppLocale.id.flutterLocale // get flutter locale from enum
+/// - if (LocaleSettings.currentLocale == AppLocale.id) // locale check
 enum AppLocale with BaseAppLocale<AppLocale, Translations> {
-	en(languageCode: 'en'),
-	id(languageCode: 'id');
+	id(languageCode: 'id'),
+	en(languageCode: 'en');
 
 	const AppLocale({
 		required this.languageCode,
@@ -47,15 +47,15 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 		PluralResolver? ordinalResolver,
 	}) async {
 		switch (this) {
-			case AppLocale.en:
-				return TranslationsEn(
+			case AppLocale.id:
+				return TranslationsId(
 					overrides: overrides,
 					cardinalResolver: cardinalResolver,
 					ordinalResolver: ordinalResolver,
 				);
-			case AppLocale.id:
-				await l_id.loadLibrary();
-				return l_id.TranslationsId(
+			case AppLocale.en:
+				await l_en.loadLibrary();
+				return l_en.TranslationsEn(
 					overrides: overrides,
 					cardinalResolver: cardinalResolver,
 					ordinalResolver: ordinalResolver,
@@ -70,14 +70,14 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 		PluralResolver? ordinalResolver,
 	}) {
 		switch (this) {
-			case AppLocale.en:
-				return TranslationsEn(
+			case AppLocale.id:
+				return TranslationsId(
 					overrides: overrides,
 					cardinalResolver: cardinalResolver,
 					ordinalResolver: ordinalResolver,
 				);
-			case AppLocale.id:
-				return l_id.TranslationsId(
+			case AppLocale.en:
+				return l_en.TranslationsEn(
 					overrides: overrides,
 					cardinalResolver: cardinalResolver,
 					ordinalResolver: ordinalResolver,
@@ -167,7 +167,7 @@ class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, Translations> 
 /// Provides utility functions without any side effects.
 class AppLocaleUtils extends BaseAppLocaleUtils<AppLocale, Translations> {
 	AppLocaleUtils._() : super(
-		baseLocale: AppLocale.en,
+		baseLocale: AppLocale.id,
 		locales: AppLocale.values,
 	);
 

@@ -34,6 +34,13 @@
     "logout_confirmation": "Are you sure you want to logout?",
     "logout_message": "You will need to login again to access your account.",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "errors": {
+      "invalid_credentials": "Invalid email or password",
+      "server_error": "Server error occurred",
+      "network_error": "Network error, please check your connection",
+      "validation_error": "Validation error",
+      "not_found": "Endpoint not found or server is offline"
+    }
   }
 }
