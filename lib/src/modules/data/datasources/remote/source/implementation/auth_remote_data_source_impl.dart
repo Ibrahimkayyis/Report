@@ -16,48 +16,46 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
     String role = 'user',
   }) async {
-    try {
-      final resp = await dio.post(
-        '/register', // pakai relative path
-        data: {
-          "email": email,
-          "last_name": lastName,
-          "first_name": firstName,
-          "password": password,
-          "role": role,
-        },
-      );
+    final resp = await dio.post(
+      '/register',
+      data: {
+        "email": email,
+        "last_name": lastName,
+        "first_name": firstName,
+        "password": password,
+        "role": role,
+      },
+    );
 
-      if (resp.statusCode == 200) {
-        return resp.data is String ? resp.data as String : resp.data.toString();
+    if (resp.statusCode == 200) {
+      if (resp.data is String) return resp.data;
+      if (resp.data is Map && resp.data['message'] != null) {
+        return resp.data['message'];
       }
-      throw Exception('Unexpected status code: ${resp.statusCode}');
-    } on DioException catch (e) {
-      // biarkan repository yang handle lebih detail
-      throw Exception(e.response?.data ?? e.message ?? 'Register request failed');
+      return resp.data.toString();
     }
+    throw Exception('Register failed: ${resp.statusCode}');
   }
 
   @override
-  Future<String> login({
+  Future<Map<String, dynamic>> login({
     required String email,
     required String password,
   }) async {
-    try {
-      final resp = await dio.post(
-        '/login', // pakai relative path
-        data: {
-          "email": email,
-          "password": password,
-        },
-      );
+    final resp = await dio.post(
+      '/login',
+      data: {
+        "email": email,
+        "password": password,
+      },
+    );
 
-      if (resp.statusCode == 200) {
-        return resp.data is String ? resp.data as String : resp.data.toString();
+    if (resp.statusCode == 200) {
+      if (resp.data is Map<String, dynamic>) {
+        return resp.data as Map<String, dynamic>;
       }
-      throw Exception('Unexpected status code: ${resp.statusCode}');
-    } on DioException catch (e) {
-      throw Exception(e.response?.data ?? e.message ?? 'Login request failed');
+      throw Exception("Unexpected login response format");
     }
+    throw Exception('Login failed: ${resp.statusCode}');
   }
 }

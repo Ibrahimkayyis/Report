@@ -1,3 +1,5 @@
+// lib/src/modules/data/datasources/remote/source/abstract/auth_remote_data_source.dart
+
 abstract class AuthRemoteDataSource {
   Future<String> register({
     required String email,
@@ -7,7 +9,7 @@ abstract class AuthRemoteDataSource {
     String role,
   });
 
-  Future<String> login({
+  Future<Map<String, dynamic>> login({  // ⬅️ return Map
     required String email,
     required String password,
   });

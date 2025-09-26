@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:report/src/modules/presentation/cubits/auth/auth_cubit.dart';
 
 import 'gen/colors.gen.dart';
 import 'gen/i18n/translations.g.dart';
@@ -30,21 +31,23 @@ class ReportApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ambil instance dari GetIt
     final appCubit = sl<AppCubit>();
+    final authCubit = sl<AuthCubit>();
     final appRouter = AppRouter();
 
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone 11 Pro design size
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
         return TranslationProvider(
-          child: BlocProvider.value(
-            value: appCubit,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: appCubit),
+              BlocProvider.value(value: authCubit),
+            ],
             child: BlocBuilder<AppCubit, AppState>(
               builder: (context, state) {
-                // Berubah ketika state.themeMode berubah
                 return MaterialApp.router(
                   title: 'REPORT',
                   themeMode: state.themeMode,
@@ -67,7 +70,7 @@ class ReportApp extends StatelessWidget {
                     ),
                   ),
                   darkTheme: ThemeData.dark().copyWith(
-                    scaffoldBackgroundColor: ColorName.background, // atur sesuai desain
+                    scaffoldBackgroundColor: ColorName.background,
                   ),
                   localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
@@ -77,6 +80,9 @@ class ReportApp extends StatelessWidget {
                   supportedLocales: AppLocaleUtils.supportedLocales,
                   locale: LocaleSettings.currentLocale.flutterLocale,
                   routerConfig: appRouter.config(),
+                  builder: (context, child) {
+                    return child ?? const SizedBox.shrink();
+                  },
                 );
               },
             ),

@@ -28,11 +28,12 @@
     "passwords_do_not_match": "Passwords do not match",
     "password_too_short": "Password is too short",
     "register_success": "Registration successful, please login",
-    "go_to_login": "Go to Login"
-
-
-
-
-    
+    "go_to_login": "Go to Login",
+    "logged_out": "You have been logged out",
+    "home": "Home",
+    "logout_confirmation": "Are you sure you want to logout?",
+    "logout_message": "You will need to login again to access your account.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

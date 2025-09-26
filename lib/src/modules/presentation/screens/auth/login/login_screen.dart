@@ -6,6 +6,7 @@ import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
+import 'package:report/src/modules/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/modules/presentation/widgets/widgets.dart';
 import 'cubits/login_cubit.dart';
 import 'cubits/login_state.dart';
@@ -33,9 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onLoginPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       context.read<LoginCubit>().login(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          );
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
     }
   }
 
@@ -48,17 +49,20 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginFailure) {
-            showCustomSnackbar(
-              context,
-              message: state.error,
-              isError: true,
-            );
+            showCustomSnackbar(context, message: state.error, isError: true);
           } else if (state is LoginSuccess) {
+            // ✅ Update global AuthCubit
+            context.read<AuthCubit>().setAuthenticated(state.token);
+
+            // ✅ Show success snackbar
             showCustomSnackbar(
               context,
               message: t.app.LOGIN_SUCCESS,
               isError: false,
             );
+
+            // ✅ Navigate ke Home & clear stack
+            context.router.replaceAll([const HomeRoute()]);
           }
         },
         child: Scaffold(

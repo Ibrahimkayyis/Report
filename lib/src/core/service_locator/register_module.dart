@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class RegisterModule {
   /// Base URL API untuk REPORT (pusat disini)
   @Named('baseUrl')
-  String get baseUrl => "https://8c400d71f866.ngrok-free.app";
+  String get baseUrl => "https://cd67e0bbfdbe.ngrok-free.app";
 
   /// Dio client untuk REST API
   @lazySingleton
@@ -27,5 +28,12 @@ abstract class RegisterModule {
     ));
 
     return dio;
+  }
+
+  @preResolve
+  @lazySingleton
+  Future<SharedPreferences> prefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs;
   }
 }

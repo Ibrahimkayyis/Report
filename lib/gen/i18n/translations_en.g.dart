@@ -136,6 +136,24 @@ class TranslationsAppEn {
 
 	/// en: 'Go to Login'
 	String get go_to_login => 'Go to Login';
+
+	/// en: 'You have been logged out'
+	String get logged_out => 'You have been logged out';
+
+	/// en: 'Home'
+	String get home => 'Home';
+
+	/// en: 'Are you sure you want to logout?'
+	String get logout_confirmation => 'Are you sure you want to logout?';
+
+	/// en: 'You will need to login again to access your account.'
+	String get logout_message => 'You will need to login again to access your account.';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Confirm'
+	String get confirm => 'Confirm';
 }
 
 /// Flat map(s) containing all translations.
@@ -172,6 +190,12 @@ extension on Translations {
 			case 'app.password_too_short': return 'Password is too short';
 			case 'app.register_success': return 'Registration successful, please login';
 			case 'app.go_to_login': return 'Go to Login';
+			case 'app.logged_out': return 'You have been logged out';
+			case 'app.home': return 'Home';
+			case 'app.logout_confirmation': return 'Are you sure you want to logout?';
+			case 'app.logout_message': return 'You will need to login again to access your account.';
+			case 'app.cancel': return 'Cancel';
+			case 'app.confirm': return 'Confirm';
 			default: return null;
 		}
 	}
