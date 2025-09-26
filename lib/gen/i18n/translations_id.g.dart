@@ -4,25 +4,27 @@
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
 
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
-import 'package:slang/generated.dart';
-import 'translations.g.dart';
+part of 'translations.g.dart';
 
 // Path: <root>
-class TranslationsId extends Translations {
+typedef TranslationsId = Translations; // ignore: unused_element
+class Translations implements BaseTranslations<AppLocale, Translations> {
+	/// Returns the current translations of the given [context].
+	///
+	/// Usage:
+	/// final t = Translations.of(context);
+	static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
-	TranslationsId({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
+	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
 		  $meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.id,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
-		  ),
-		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
+		  ) {
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
@@ -30,101 +32,201 @@ class TranslationsId extends Translations {
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	dynamic operator[](String key) => $meta.getTranslation(key);
 
-	late final TranslationsId _root = this; // ignore: unused_field
+	late final Translations _root = this; // ignore: unused_field
 
-	@override 
-	TranslationsId $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsId(meta: meta ?? this.$meta);
+	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	@override late final _TranslationsAppId app = _TranslationsAppId._(_root);
+	late final TranslationsAppId app = TranslationsAppId.internal(_root);
 }
 
 // Path: app
-class _TranslationsAppId extends TranslationsAppEn {
-	_TranslationsAppId._(TranslationsId root) : this._root = root, super.internal(root);
+class TranslationsAppId {
+	TranslationsAppId.internal(this._root);
 
-	final TranslationsId _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'REPORT';
-	@override String get welcome => 'Selamat datang';
-	@override String get login => 'Masuk';
-	@override String get logout => 'Keluar';
-	@override String get please_login_or_register => 'Please login or register';
-	@override String get register => 'Register';
-	@override String get email => 'Email';
-	@override String get password => 'Password';
-	@override String get phone => 'Phone';
-	@override String get dont_have_account => 'Don\'t have an account?';
-	@override String get sign_up_here => 'Sign up here';
-	@override String get forgot_password => 'Forgot password?';
-	@override String get LOGIN_SUCCESS => 'Login success';
-	@override String get name => 'Name';
-	@override String get repeat_password => 'Repeat password';
-	@override String get create_account => 'Create Account';
-	@override String get already_have_account => 'Already have an account?';
-	@override String get first_name => 'First Name';
-	@override String get last_name => 'Last Name';
-	@override String get required_field => 'This field is required';
-	@override String get confirm_password => 'Confirm Password';
-	@override String get password_requirements => 'Password must be at least 8 characters';
-	@override String get show_password => 'Show Password';
-	@override String get use_email_to_continue => 'Use your email to continue';
-	@override String get invalid_email => 'Invalid email address';
-	@override String get passwords_do_not_match => 'Passwords do not match';
-	@override String get password_too_short => 'Password is too short';
-	@override String get register_success => 'Registration successful, please login';
-	@override String get go_to_login => 'Go to Login';
-	@override String get logged_out => 'You have been logged out';
-	@override String get home => 'Home';
-	@override String get logout_confirmation => 'Are you sure you want to logout?';
-	@override String get logout_message => 'You will need to login again to access your account.';
-	@override String get cancel => 'Cancel';
-	@override String get confirm => 'Confirm';
+
+	/// id: 'REPORT'
+	String get title => 'REPORT';
+
+	/// id: 'Selamat datang'
+	String get welcome => 'Selamat datang';
+
+	/// id: 'Masuk'
+	String get login => 'Masuk';
+
+	/// id: 'Keluar'
+	String get logout => 'Keluar';
+
+	/// id: 'masuk atau daftar '
+	String get please_login_or_register => 'masuk atau daftar ';
+
+	/// id: 'Daftar'
+	String get register => 'Daftar';
+
+	/// id: 'Email'
+	String get email => 'Email';
+
+	/// id: 'Kata sandi'
+	String get password => 'Kata sandi';
+
+	/// id: 'Nomor telepon'
+	String get phone => 'Nomor telepon';
+
+	/// id: 'Belum punya akun?'
+	String get dont_have_account => 'Belum punya akun?';
+
+	/// id: 'Daftar di sini'
+	String get sign_up_here => 'Daftar di sini';
+
+	/// id: 'Lupa kata sandi?'
+	String get forgot_password => 'Lupa kata sandi?';
+
+	/// id: 'Berhasil masuk'
+	String get LOGIN_SUCCESS => 'Berhasil masuk';
+
+	/// id: 'Nama'
+	String get name => 'Nama';
+
+	/// id: 'Ulangi kata sandi'
+	String get repeat_password => 'Ulangi kata sandi';
+
+	/// id: 'Buat Akun'
+	String get create_account => 'Buat Akun';
+
+	/// id: 'Sudah punya akun?'
+	String get already_have_account => 'Sudah punya akun?';
+
+	/// id: 'Nama depan'
+	String get first_name => 'Nama depan';
+
+	/// id: 'Nama belakang'
+	String get last_name => 'Nama belakang';
+
+	/// id: 'Kolom ini wajib diisi'
+	String get required_field => 'Kolom ini wajib diisi';
+
+	/// id: 'Konfirmasi kata sandi'
+	String get confirm_password => 'Konfirmasi kata sandi';
+
+	/// id: 'Kata sandi harus terdiri dari minimal 8 karakter'
+	String get password_requirements => 'Kata sandi harus terdiri dari minimal 8 karakter';
+
+	/// id: 'Tampilkan kata sandi'
+	String get show_password => 'Tampilkan kata sandi';
+
+	/// id: 'Gunakan email untuk melanjutkan'
+	String get use_email_to_continue => 'Gunakan email untuk melanjutkan';
+
+	/// id: 'Alamat email tidak valid'
+	String get invalid_email => 'Alamat email tidak valid';
+
+	/// id: 'Kata sandi tidak cocok'
+	String get passwords_do_not_match => 'Kata sandi tidak cocok';
+
+	/// id: 'Kata sandi terlalu pendek'
+	String get password_too_short => 'Kata sandi terlalu pendek';
+
+	/// id: 'Pendaftaran berhasil, silakan masuk'
+	String get register_success => 'Pendaftaran berhasil, silakan masuk';
+
+	/// id: 'Pergi ke halaman masuk'
+	String get go_to_login => 'Pergi ke halaman masuk';
+
+	/// id: 'Anda telah keluar'
+	String get logged_out => 'Anda telah keluar';
+
+	/// id: 'Beranda'
+	String get home => 'Beranda';
+
+	/// id: 'Apakah Anda yakin ingin keluar?'
+	String get logout_confirmation => 'Apakah Anda yakin ingin keluar?';
+
+	/// id: 'Anda harus masuk kembali untuk mengakses akun Anda.'
+	String get logout_message => 'Anda harus masuk kembali untuk mengakses akun Anda.';
+
+	/// id: 'Batal'
+	String get cancel => 'Batal';
+
+	/// id: 'Konfirmasi'
+	String get confirm => 'Konfirmasi';
+
+	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
+}
+
+// Path: app.errors
+class TranslationsAppErrorsId {
+	TranslationsAppErrorsId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Email atau kata sandi salah'
+	String get invalid_credentials => 'Email atau kata sandi salah';
+
+	/// id: 'Terjadi kesalahan server'
+	String get server_error => 'Terjadi kesalahan server';
+
+	/// id: 'Jaringan bermasalah, periksa koneksi Anda'
+	String get network_error => 'Jaringan bermasalah, periksa koneksi Anda';
+
+	/// id: 'Kesalahan validasi'
+	String get validation_error => 'Kesalahan validasi';
+
+	/// id: 'Endpoint tidak ditemukan atau server sedang offline'
+	String get not_found => 'Endpoint tidak ditemukan atau server sedang offline';
 }
 
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
-extension on TranslationsId {
+extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'app.title': return 'REPORT';
 			case 'app.welcome': return 'Selamat datang';
 			case 'app.login': return 'Masuk';
 			case 'app.logout': return 'Keluar';
-			case 'app.please_login_or_register': return 'Please login or register';
-			case 'app.register': return 'Register';
+			case 'app.please_login_or_register': return 'masuk atau daftar ';
+			case 'app.register': return 'Daftar';
 			case 'app.email': return 'Email';
-			case 'app.password': return 'Password';
-			case 'app.phone': return 'Phone';
-			case 'app.dont_have_account': return 'Don\'t have an account?';
-			case 'app.sign_up_here': return 'Sign up here';
-			case 'app.forgot_password': return 'Forgot password?';
-			case 'app.LOGIN_SUCCESS': return 'Login success';
-			case 'app.name': return 'Name';
-			case 'app.repeat_password': return 'Repeat password';
-			case 'app.create_account': return 'Create Account';
-			case 'app.already_have_account': return 'Already have an account?';
-			case 'app.first_name': return 'First Name';
-			case 'app.last_name': return 'Last Name';
-			case 'app.required_field': return 'This field is required';
-			case 'app.confirm_password': return 'Confirm Password';
-			case 'app.password_requirements': return 'Password must be at least 8 characters';
-			case 'app.show_password': return 'Show Password';
-			case 'app.use_email_to_continue': return 'Use your email to continue';
-			case 'app.invalid_email': return 'Invalid email address';
-			case 'app.passwords_do_not_match': return 'Passwords do not match';
-			case 'app.password_too_short': return 'Password is too short';
-			case 'app.register_success': return 'Registration successful, please login';
-			case 'app.go_to_login': return 'Go to Login';
-			case 'app.logged_out': return 'You have been logged out';
-			case 'app.home': return 'Home';
-			case 'app.logout_confirmation': return 'Are you sure you want to logout?';
-			case 'app.logout_message': return 'You will need to login again to access your account.';
-			case 'app.cancel': return 'Cancel';
-			case 'app.confirm': return 'Confirm';
+			case 'app.password': return 'Kata sandi';
+			case 'app.phone': return 'Nomor telepon';
+			case 'app.dont_have_account': return 'Belum punya akun?';
+			case 'app.sign_up_here': return 'Daftar di sini';
+			case 'app.forgot_password': return 'Lupa kata sandi?';
+			case 'app.LOGIN_SUCCESS': return 'Berhasil masuk';
+			case 'app.name': return 'Nama';
+			case 'app.repeat_password': return 'Ulangi kata sandi';
+			case 'app.create_account': return 'Buat Akun';
+			case 'app.already_have_account': return 'Sudah punya akun?';
+			case 'app.first_name': return 'Nama depan';
+			case 'app.last_name': return 'Nama belakang';
+			case 'app.required_field': return 'Kolom ini wajib diisi';
+			case 'app.confirm_password': return 'Konfirmasi kata sandi';
+			case 'app.password_requirements': return 'Kata sandi harus terdiri dari minimal 8 karakter';
+			case 'app.show_password': return 'Tampilkan kata sandi';
+			case 'app.use_email_to_continue': return 'Gunakan email untuk melanjutkan';
+			case 'app.invalid_email': return 'Alamat email tidak valid';
+			case 'app.passwords_do_not_match': return 'Kata sandi tidak cocok';
+			case 'app.password_too_short': return 'Kata sandi terlalu pendek';
+			case 'app.register_success': return 'Pendaftaran berhasil, silakan masuk';
+			case 'app.go_to_login': return 'Pergi ke halaman masuk';
+			case 'app.logged_out': return 'Anda telah keluar';
+			case 'app.home': return 'Beranda';
+			case 'app.logout_confirmation': return 'Apakah Anda yakin ingin keluar?';
+			case 'app.logout_message': return 'Anda harus masuk kembali untuk mengakses akun Anda.';
+			case 'app.cancel': return 'Batal';
+			case 'app.confirm': return 'Konfirmasi';
+			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
+			case 'app.errors.server_error': return 'Terjadi kesalahan server';
+			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
+			case 'app.errors.validation_error': return 'Kesalahan validasi';
+			case 'app.errors.not_found': return 'Endpoint tidak ditemukan atau server sedang offline';
 			default: return null;
 		}
 	}

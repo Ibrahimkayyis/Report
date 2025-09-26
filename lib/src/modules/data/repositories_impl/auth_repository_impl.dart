@@ -1,11 +1,10 @@
-// lib/src/modules/data/repositories_impl/auth_repository_impl.dart
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:report/src/core/errors/failures.dart';
 import 'package:report/src/modules/data/datasources/local/abstract/auth_local_data_source.dart';
 import 'package:report/src/modules/data/datasources/remote/source/abstract/auth_remote_data_source.dart';
 import 'package:report/src/modules/domain/repositories/auth_repository.dart';
+import 'package:report/gen/i18n/translations.g.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
@@ -31,14 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
         role: role,
       );
     } on DioException catch (e) {
-      if (e.response != null) {
-        if (e.response?.statusCode == 422) {
-          final errorMsg = _extractValidationMessage(e.response?.data);
-          throw ValidationFailure(errorMsg);
-        }
-        throw ServerFailure(e.response?.statusMessage ?? 'Server error');
-      }
-      throw NetworkFailure(e.message ?? 'Network error');
+      throw _mapDioException(e);
     }
   }
 
@@ -59,14 +51,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return token;
     } on DioException catch (e) {
-      if (e.response != null) {
-        if (e.response?.statusCode == 422) {
-          final errorMsg = _extractValidationMessage(e.response?.data);
-          throw ValidationFailure(errorMsg);
-        }
-        throw ServerFailure(e.response?.statusMessage ?? 'Server error');
-      }
-      throw NetworkFailure(e.message ?? 'Network error');
+      throw _mapDioException(e);
     }
   }
 
@@ -87,7 +72,36 @@ class AuthRepositoryImpl implements AuthRepository {
     await local.clear();
   }
 
-  /// Helper untuk ambil pesan error dari format API
+  /// 🔑 Centralized error mapping supaya UI dapat pesan yang jelas + translate
+  Failure _mapDioException(DioException e) {
+    if (e.response != null) {
+      final data = e.response?.data;
+
+      // Ambil pesan "detail" jika ada
+      final detailMessage = (data is Map<String, dynamic> && data['detail'] != null)
+          ? data['detail'].toString()
+          : null;
+
+      if (e.response?.statusCode == 401) {
+        return ServerFailure(t.app.errors.invalid_credentials);
+      }
+
+      if (e.response?.statusCode == 422) {
+        final errorMsg = _extractValidationMessage(data);
+        return ValidationFailure(errorMsg);
+      }
+
+      if (e.response?.statusCode == 404) {
+        return ServerFailure(t.app.errors.not_found);
+      }
+
+      return ServerFailure(detailMessage ?? t.app.errors.server_error);
+    }
+
+    return NetworkFailure(t.app.errors.network_error);
+  }
+
+  /// Helper untuk ambil pesan validasi dari API (misalnya dari FastAPI / DRF).
   String _extractValidationMessage(dynamic data) {
     try {
       if (data is Map<String, dynamic>) {
@@ -98,6 +112,6 @@ class AuthRepositoryImpl implements AuthRepository {
         }
       }
     } catch (_) {}
-    return 'Validation error';
+    return t.app.errors.validation_error;
   }
 }

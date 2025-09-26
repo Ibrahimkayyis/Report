@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:report/src/core/errors/failures_mapper.dart';
 import 'package:report/src/modules/domain/usecase/register_usecase.dart';
 import 'register_state.dart';
 
@@ -28,7 +29,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
       emit(RegisterSuccess(result));
     } catch (e) {
-      emit(RegisterFailure(e.toString()));
+      emit(RegisterFailure(mapFailureToMessage(e)));
     }
   }
 }
