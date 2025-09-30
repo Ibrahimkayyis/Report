@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/router/app_router.dart';
 
 class HomeMainCards extends StatelessWidget {
   const HomeMainCards({super.key});
@@ -17,7 +19,9 @@ class HomeMainCards extends StatelessWidget {
             title: t.app.online_reporting,
             subtitle: t.app.online_reporting_subtitle,
             buttonText: t.app.create_report,
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const OpdSelectionRoute());
+            },
           ),
         ),
         

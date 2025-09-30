@@ -200,6 +200,186 @@ class TranslationsAppId {
 	/// id: 'Laporan'
 	String get reports => 'Laporan';
 
+	/// id: 'Laporan Online'
+	String get online_reporting_title => 'Laporan Online';
+
+	/// id: 'Pilih OPD tujuan Anda'
+	String get select_opd_subtitle => 'Pilih OPD tujuan Anda';
+
+	/// id: 'Dinas Pendidikan'
+	String get opd_dinas_pendidikan => 'Dinas Pendidikan';
+
+	/// id: 'Dinas Perpustakaan dan Kearsipan'
+	String get opd_dinas_perpustakaan => 'Dinas Perpustakaan dan Kearsipan';
+
+	/// id: 'Dinas Kesehatan'
+	String get opd_dinas_kesehatan => 'Dinas Kesehatan';
+
+	/// id: 'Dinas Komunikasi dan Informatika'
+	String get opd_dinas_komunikasi_informatika => 'Dinas Komunikasi dan Informatika';
+
+	/// id: 'Dinas Perhubungan'
+	String get opd_dinas_perhubungan => 'Dinas Perhubungan';
+
+	/// id: 'Dinas Lingkungan Hidup'
+	String get opd_dinas_lingkungan_hidup => 'Dinas Lingkungan Hidup';
+
+	/// id: 'Dinas Sosial'
+	String get opd_dinas_sosial => 'Dinas Sosial';
+
+	/// id: 'Dinas Kependudukan dan Pencatatan Sipil'
+	String get opd_dinas_kependudukan_pencatatan_sipil => 'Dinas Kependudukan dan Pencatatan Sipil';
+
+	/// id: 'Dinas Sumber Daya Air dan Bina Marga'
+	String get opd_dinas_sda_bina_marga => 'Dinas Sumber Daya Air dan Bina Marga';
+
+	/// id: 'Dinas Koperasi, Usaha Kecil dan Menengah'
+	String get opd_dinas_koperasi_ukm => 'Dinas Koperasi, Usaha Kecil dan Menengah';
+
+	/// id: 'Dinas Perumahan Rakyat dan Kawasan Permukiman serta Pertanahan'
+	String get opd_dinas_perumahan_kawasan => 'Dinas Perumahan Rakyat dan Kawasan Permukiman serta Pertanahan';
+
+	/// id: 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu'
+	String get opd_dinas_penanaman_modal => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu';
+
+	/// id: 'Dinas Pemadam Kebakaran dan Penyelamatan'
+	String get opd_dinas_pemadam_kebakaran => 'Dinas Pemadam Kebakaran dan Penyelamatan';
+
+	/// id: 'Dinas Kebudayaan, Kepemudaan dan Olah Raga serta Pariwisata'
+	String get opd_dinas_kebudayaan_pariwisata => 'Dinas Kebudayaan, Kepemudaan dan Olah Raga serta Pariwisata';
+
+	/// id: 'Dinas Perindustrian dan Tenaga Kerja'
+	String get opd_dinas_perindustrian_tenaga_kerja => 'Dinas Perindustrian dan Tenaga Kerja';
+
+	/// id: 'Satuan Polisi Pamong Praja'
+	String get opd_satpol_pp => 'Satuan Polisi Pamong Praja';
+
+	/// id: 'Dinas Ketahanan Pangan dan Pertanian'
+	String get opd_dinas_ketahanan_pangan => 'Dinas Ketahanan Pangan dan Pertanian';
+
+	/// id: 'Dinas Pengendalian Penduduk, Pemberdayaan Perempuan dan Perlindungan Anak'
+	String get opd_dinas_pengendalian_penduduk => 'Dinas Pengendalian Penduduk, Pemberdayaan Perempuan dan Perlindungan Anak';
+
+	/// id: 'Kirim laporan ke'
+	String get send_report_to => 'Kirim laporan ke';
+
+	/// id: 'Nama'
+	String get reporter_name => 'Nama';
+
+	/// id: 'NIP'
+	String get reporter_nip => 'NIP';
+
+	/// id: 'Divisi'
+	String get reporter_division => 'Divisi';
+
+	/// id: 'Apa alasan Anda membuat laporan?'
+	String get report_reason_question => 'Apa alasan Anda membuat laporan?';
+
+	/// id: 'Pilih salah satu'
+	String get select_one => 'Pilih salah satu';
+
+	/// id: 'Perangkat Keras'
+	String get report_category_hardware => 'Perangkat Keras';
+
+	/// id: 'Perangkat Lunak & Aplikasi'
+	String get report_category_software => 'Perangkat Lunak & Aplikasi';
+
+	/// id: 'Jaringan & Konektivitas'
+	String get report_category_network => 'Jaringan & Konektivitas';
+
+	/// id: 'Email & Komunikasi'
+	String get report_category_email => 'Email & Komunikasi';
+
+	/// id: 'Keamanan'
+	String get report_category_security => 'Keamanan';
+
+	/// id: 'Permasalahan Lainnya'
+	String get report_category_other => 'Permasalahan Lainnya';
+
+	/// id: 'Bisakah Anda memberikan kejelasan terkait masalah ini?'
+	String get problem_description_question => 'Bisakah Anda memberikan kejelasan terkait masalah ini?';
+
+	/// id: 'Jelaskan lebih rinci terkait masalah tersebut agar kami dapat lebih memahami masalah ini!'
+	String get problem_description_hint => 'Jelaskan lebih rinci terkait masalah tersebut agar kami dapat lebih memahami masalah ini!';
+
+	/// id: 'Level prioritas laporan'
+	String get priority_level_title => 'Level prioritas laporan';
+
+	/// id: 'Pilih tingkat urgensi laporan Anda agar kami dapat memprioritaskan penanganan sesuai dampak masalah!'
+	String get priority_level_subtitle => 'Pilih tingkat urgensi laporan Anda agar kami dapat memprioritaskan penanganan sesuai dampak masalah!';
+
+	/// id: 'Tinggi'
+	String get priority_high => 'Tinggi';
+
+	/// id: 'Sedang'
+	String get priority_medium => 'Sedang';
+
+	/// id: 'Rendah'
+	String get priority_low => 'Rendah';
+
+	/// id: 'Tambahkan file'
+	String get attach_file_title => 'Tambahkan file';
+
+	/// id: 'Lampirkan screenshot, foto, atau dokumen terkait untuk membantu kami memahami masalah Anda lebih cepat!'
+	String get attach_file_subtitle => 'Lampirkan screenshot, foto, atau dokumen terkait untuk membantu kami memahami masalah Anda lebih cepat!';
+
+	/// id: 'Lampirkan File'
+	String get attach_file_button => 'Lampirkan File';
+
+	/// id: 'Informasi Tambahan'
+	String get additional_info_title => 'Informasi Tambahan';
+
+	/// id: 'Tambahkan detail tambahan yang mungkin membantu kami dalam memahami masalah atau permintaan Anda!'
+	String get additional_info_subtitle => 'Tambahkan detail tambahan yang mungkin membantu kami dalam memahami masalah atau permintaan Anda!';
+
+	/// id: 'Ketik disini...'
+	String get additional_info_hint => 'Ketik disini...';
+
+	/// id: 'Batalkan'
+	String get cancel_button => 'Batalkan';
+
+	/// id: 'Simpan Draft'
+	String get save_draft_button => 'Simpan Draft';
+
+	/// id: 'Kirim Laporan'
+	String get submit_report_button => 'Kirim Laporan';
+
+	/// id: 'Laporan Anda Telah Berhasil Dikirim'
+	String get report_success_title => 'Laporan Anda Telah Berhasil Dikirim';
+
+	/// id: 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.'
+	String get report_success_description => 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.';
+
+	/// id: 'Cek laporan dengan ini:'
+	String get check_report_with => 'Cek laporan dengan ini:';
+
+	/// id: 'No. Tiket'
+	String get ticket_number => 'No. Tiket';
+
+	/// id: 'PIN'
+	String get pin => 'PIN';
+
+	/// id: 'Jenis Layanan:'
+	String get service_type => 'Jenis Layanan:';
+
+	/// id: 'Pelaporan Online'
+	String get service_type_reporting => 'Pelaporan Online';
+
+	/// id: 'OPD Tujuan:'
+	String get destination_opd => 'OPD Tujuan:';
+
+	/// id: 'Unduh tiket'
+	String get download_ticket => 'Unduh tiket';
+
+	/// id: 'Cek status layanan'
+	String get check_service_status => 'Cek status layanan';
+
+	/// id: 'Buat laporan baru'
+	String get create_new_report => 'Buat laporan baru';
+
+	/// id: 'Kembali ke beranda'
+	String get back_to_home => 'Kembali ke beranda';
+
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 }
 
@@ -282,6 +462,66 @@ extension on Translations {
 			case 'app.report_history': return 'Riwayat Laporan';
 			case 'app.no_report_history': return 'Belum ada riwayat laporan.';
 			case 'app.reports': return 'Laporan';
+			case 'app.online_reporting_title': return 'Laporan Online';
+			case 'app.select_opd_subtitle': return 'Pilih OPD tujuan Anda';
+			case 'app.opd_dinas_pendidikan': return 'Dinas Pendidikan';
+			case 'app.opd_dinas_perpustakaan': return 'Dinas Perpustakaan dan Kearsipan';
+			case 'app.opd_dinas_kesehatan': return 'Dinas Kesehatan';
+			case 'app.opd_dinas_komunikasi_informatika': return 'Dinas Komunikasi dan Informatika';
+			case 'app.opd_dinas_perhubungan': return 'Dinas Perhubungan';
+			case 'app.opd_dinas_lingkungan_hidup': return 'Dinas Lingkungan Hidup';
+			case 'app.opd_dinas_sosial': return 'Dinas Sosial';
+			case 'app.opd_dinas_kependudukan_pencatatan_sipil': return 'Dinas Kependudukan dan Pencatatan Sipil';
+			case 'app.opd_dinas_sda_bina_marga': return 'Dinas Sumber Daya Air dan Bina Marga';
+			case 'app.opd_dinas_koperasi_ukm': return 'Dinas Koperasi, Usaha Kecil dan Menengah';
+			case 'app.opd_dinas_perumahan_kawasan': return 'Dinas Perumahan Rakyat dan Kawasan Permukiman serta Pertanahan';
+			case 'app.opd_dinas_penanaman_modal': return 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu';
+			case 'app.opd_dinas_pemadam_kebakaran': return 'Dinas Pemadam Kebakaran dan Penyelamatan';
+			case 'app.opd_dinas_kebudayaan_pariwisata': return 'Dinas Kebudayaan, Kepemudaan dan Olah Raga serta Pariwisata';
+			case 'app.opd_dinas_perindustrian_tenaga_kerja': return 'Dinas Perindustrian dan Tenaga Kerja';
+			case 'app.opd_satpol_pp': return 'Satuan Polisi Pamong Praja';
+			case 'app.opd_dinas_ketahanan_pangan': return 'Dinas Ketahanan Pangan dan Pertanian';
+			case 'app.opd_dinas_pengendalian_penduduk': return 'Dinas Pengendalian Penduduk, Pemberdayaan Perempuan dan Perlindungan Anak';
+			case 'app.send_report_to': return 'Kirim laporan ke';
+			case 'app.reporter_name': return 'Nama';
+			case 'app.reporter_nip': return 'NIP';
+			case 'app.reporter_division': return 'Divisi';
+			case 'app.report_reason_question': return 'Apa alasan Anda membuat laporan?';
+			case 'app.select_one': return 'Pilih salah satu';
+			case 'app.report_category_hardware': return 'Perangkat Keras';
+			case 'app.report_category_software': return 'Perangkat Lunak & Aplikasi';
+			case 'app.report_category_network': return 'Jaringan & Konektivitas';
+			case 'app.report_category_email': return 'Email & Komunikasi';
+			case 'app.report_category_security': return 'Keamanan';
+			case 'app.report_category_other': return 'Permasalahan Lainnya';
+			case 'app.problem_description_question': return 'Bisakah Anda memberikan kejelasan terkait masalah ini?';
+			case 'app.problem_description_hint': return 'Jelaskan lebih rinci terkait masalah tersebut agar kami dapat lebih memahami masalah ini!';
+			case 'app.priority_level_title': return 'Level prioritas laporan';
+			case 'app.priority_level_subtitle': return 'Pilih tingkat urgensi laporan Anda agar kami dapat memprioritaskan penanganan sesuai dampak masalah!';
+			case 'app.priority_high': return 'Tinggi';
+			case 'app.priority_medium': return 'Sedang';
+			case 'app.priority_low': return 'Rendah';
+			case 'app.attach_file_title': return 'Tambahkan file';
+			case 'app.attach_file_subtitle': return 'Lampirkan screenshot, foto, atau dokumen terkait untuk membantu kami memahami masalah Anda lebih cepat!';
+			case 'app.attach_file_button': return 'Lampirkan File';
+			case 'app.additional_info_title': return 'Informasi Tambahan';
+			case 'app.additional_info_subtitle': return 'Tambahkan detail tambahan yang mungkin membantu kami dalam memahami masalah atau permintaan Anda!';
+			case 'app.additional_info_hint': return 'Ketik disini...';
+			case 'app.cancel_button': return 'Batalkan';
+			case 'app.save_draft_button': return 'Simpan Draft';
+			case 'app.submit_report_button': return 'Kirim Laporan';
+			case 'app.report_success_title': return 'Laporan Anda Telah Berhasil Dikirim';
+			case 'app.report_success_description': return 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.';
+			case 'app.check_report_with': return 'Cek laporan dengan ini:';
+			case 'app.ticket_number': return 'No. Tiket';
+			case 'app.pin': return 'PIN';
+			case 'app.service_type': return 'Jenis Layanan:';
+			case 'app.service_type_reporting': return 'Pelaporan Online';
+			case 'app.destination_opd': return 'OPD Tujuan:';
+			case 'app.download_ticket': return 'Unduh tiket';
+			case 'app.check_service_status': return 'Cek status layanan';
+			case 'app.create_new_report': return 'Buat laporan baru';
+			case 'app.back_to_home': return 'Kembali ke beranda';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
