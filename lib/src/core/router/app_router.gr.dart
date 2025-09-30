@@ -43,6 +43,54 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MainLayoutScreen]
+class MainLayoutRoute extends PageRouteInfo<void> {
+  const MainLayoutRoute({List<PageRouteInfo>? children})
+    : super(MainLayoutRoute.name, initialChildren: children);
+
+  static const String name = 'MainLayoutRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MainLayoutScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileScreen]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+    : super(ProfileRoute.name, initialChildren: children);
+
+  static const String name = 'ProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [QRScreen]
+class QRRoute extends PageRouteInfo<void> {
+  const QRRoute({List<PageRouteInfo>? children})
+    : super(QRRoute.name, initialChildren: children);
+
+  static const String name = 'QRRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const QRScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [RegisterScreen]
 class RegisterRoute extends PageRouteInfo<void> {
   const RegisterRoute({List<PageRouteInfo>? children})

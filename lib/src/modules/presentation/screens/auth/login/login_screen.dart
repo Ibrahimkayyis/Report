@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
 
             // ✅ Navigate ke Home & clear stack
-            context.router.replaceAll([const HomeRoute()]);
+            context.router.replaceAll([const MainLayoutRoute()]);
           }
         },
         child: Scaffold(

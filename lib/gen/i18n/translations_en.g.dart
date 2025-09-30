@@ -83,6 +83,21 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get logout_message => 'You will need to login again to access your account.';
 	@override String get cancel => 'Cancel';
 	@override String get confirm => 'Confirm';
+	@override String get search_placeholder => 'Search here';
+	@override String get online_reporting => 'Online Reporting';
+	@override String get online_reporting_subtitle => 'Report problems and issues here!';
+	@override String get create_report => 'Create Report';
+	@override String get service_request => 'Service Request';
+	@override String get service_request_subtitle => 'Submit the services you need here!';
+	@override String get create_request => 'Create Request';
+	@override String get services => 'Services';
+	@override String get knowledge_base => 'Knowledge Base';
+	@override String get check_report_status => 'Check Report Status';
+	@override String get report_history => 'Report History';
+	@override String get no_report_history => 'No report history to display';
+	@override String get profile => 'Profile';
+	@override String get qr_code => 'QR Code';
+	@override String get reports => 'Reports';
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 }
 
@@ -140,6 +155,21 @@ extension on TranslationsEn {
 			case 'app.logout_message': return 'You will need to login again to access your account.';
 			case 'app.cancel': return 'Cancel';
 			case 'app.confirm': return 'Confirm';
+			case 'app.search_placeholder': return 'Search here';
+			case 'app.online_reporting': return 'Online Reporting';
+			case 'app.online_reporting_subtitle': return 'Report problems and issues here!';
+			case 'app.create_report': return 'Create Report';
+			case 'app.service_request': return 'Service Request';
+			case 'app.service_request_subtitle': return 'Submit the services you need here!';
+			case 'app.create_request': return 'Create Request';
+			case 'app.services': return 'Services';
+			case 'app.knowledge_base': return 'Knowledge Base';
+			case 'app.check_report_status': return 'Check Report Status';
+			case 'app.report_history': return 'Report History';
+			case 'app.no_report_history': return 'No report history to display';
+			case 'app.profile': return 'Profile';
+			case 'app.qr_code': return 'QR Code';
+			case 'app.reports': return 'Reports';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';

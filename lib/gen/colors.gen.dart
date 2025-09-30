@@ -20,8 +20,8 @@ class ColorName {
   /// Color: #FFFFFF
   static const Color onPrimary = Color(0xFFFFFFFF);
 
-  /// Color: #226597
-  static const Color primary = Color(0xFF226597);
+  /// Color: #113F67
+  static const Color primary = Color(0xFF113F67);
 
   /// Color: #333333
   static const Color textPrimary = Color(0xFF333333);

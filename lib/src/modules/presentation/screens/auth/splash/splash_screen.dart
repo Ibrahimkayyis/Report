@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (_timerDone && _authChecked) {
       if (!mounted) return;
       if (_authResult is AuthAuthenticated) {
-        context.router.replaceAll([const HomeRoute()]);
+        context.router.replaceAll([const MainLayoutRoute()]);
       } else {
         context.router.replaceAll([const RegisterRoute()]); // 🔑 biasanya ke login
       }
