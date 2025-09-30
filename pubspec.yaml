@@ -10,12 +10,14 @@ dependencies:
   auto_route: ^10.1.2
   bloc: ^9.0.0
   cupertino_icons: ^1.0.8
+  curved_navigation_bar: ^1.0.6
   dio: ^5.9.0
   equatable: ^2.0.7
   exui: ^1.0.7
   firebase_messaging: ^16.0.1
   flutter:
     sdk: flutter
+  flutter_animate: ^4.5.2
   flutter_bloc: ^9.1.1
   flutter_easyloading: ^3.0.5
   flutter_localizations:
