@@ -155,6 +155,51 @@ class TranslationsAppId {
 	/// id: 'Konfirmasi'
 	String get confirm => 'Konfirmasi';
 
+	/// id: 'QR Code'
+	String get qr_code => 'QR Code';
+
+	/// id: 'Profil'
+	String get profile => 'Profil';
+
+	/// id: 'Cari disini'
+	String get search_placeholder => 'Cari disini';
+
+	/// id: 'Lapor Online'
+	String get online_reporting => 'Lapor Online';
+
+	/// id: 'Laporkan persoalan dan permasalahan Anda disini!'
+	String get online_reporting_subtitle => 'Laporkan persoalan dan permasalahan Anda disini!';
+
+	/// id: 'Buat Laporan'
+	String get create_report => 'Buat Laporan';
+
+	/// id: 'Permintaan Layanan'
+	String get service_request => 'Permintaan Layanan';
+
+	/// id: 'Ajukan pelayanan yang Anda perlukan disini!'
+	String get service_request_subtitle => 'Ajukan pelayanan yang Anda perlukan disini!';
+
+	/// id: 'Buat Pengajuan'
+	String get create_request => 'Buat Pengajuan';
+
+	/// id: 'Layanan'
+	String get services => 'Layanan';
+
+	/// id: 'Knowledge Base'
+	String get knowledge_base => 'Knowledge Base';
+
+	/// id: 'Cek Status Laporan'
+	String get check_report_status => 'Cek Status Laporan';
+
+	/// id: 'Riwayat Laporan'
+	String get report_history => 'Riwayat Laporan';
+
+	/// id: 'Belum ada riwayat laporan.'
+	String get no_report_history => 'Belum ada riwayat laporan.';
+
+	/// id: 'Laporan'
+	String get reports => 'Laporan';
+
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 }
 
@@ -222,6 +267,21 @@ extension on Translations {
 			case 'app.logout_message': return 'Anda harus masuk kembali untuk mengakses akun Anda.';
 			case 'app.cancel': return 'Batal';
 			case 'app.confirm': return 'Konfirmasi';
+			case 'app.qr_code': return 'QR Code';
+			case 'app.profile': return 'Profil';
+			case 'app.search_placeholder': return 'Cari disini';
+			case 'app.online_reporting': return 'Lapor Online';
+			case 'app.online_reporting_subtitle': return 'Laporkan persoalan dan permasalahan Anda disini!';
+			case 'app.create_report': return 'Buat Laporan';
+			case 'app.service_request': return 'Permintaan Layanan';
+			case 'app.service_request_subtitle': return 'Ajukan pelayanan yang Anda perlukan disini!';
+			case 'app.create_request': return 'Buat Pengajuan';
+			case 'app.services': return 'Layanan';
+			case 'app.knowledge_base': return 'Knowledge Base';
+			case 'app.check_report_status': return 'Cek Status Laporan';
+			case 'app.report_history': return 'Riwayat Laporan';
+			case 'app.no_report_history': return 'Belum ada riwayat laporan.';
+			case 'app.reports': return 'Laporan';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';

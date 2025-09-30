@@ -9,6 +9,11 @@ import 'package:report/src/modules/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/modules/presentation/cubits/auth/auth_state.dart';
 import 'package:report/src/modules/presentation/widgets/snackbars/custom_snackbar.dart';
 
+import 'widgets/home_header.dart';
+import 'widgets/home_main_cards.dart';
+import 'widgets/home_services_section.dart';
+import 'widgets/home_report_history.dart';
+
 @RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -35,73 +40,29 @@ class HomeScreen extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: ColorName.background,
-        appBar: AppBar(
-          title: Text(t.app.home),
-          backgroundColor: ColorName.primary,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () async {
-                final shouldLogout = await showDialog<bool>(
-                  context: context,
-                  builder: (dialogContext) => AlertDialog(
-                    title: Text(t.app.logout_confirmation),
-                    content: Text(t.app.logout_message),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(dialogContext).pop(false),
-                        child: Text(t.app.cancel),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(dialogContext).pop(true),
-                        child: Text(t.app.logout),
-                      ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const HomeHeader(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16.w),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HomeMainCards(),
+                      SizedBox(height: 24),
+                      HomeServicesSection(),
+                      SizedBox(height: 24),
+                      HomeReportHistory(),
                     ],
                   ),
-                );
-
-                if (shouldLogout == true && context.mounted) {
-                  await context.read<AuthCubit>().logout();
-                }
-              },
-            ),
-          ],
-        ),
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home, color: ColorName.primary, size: 64.sp),
-                SizedBox(height: 16.h),
-                Text(
-                  t.app.welcome,
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: ColorName.textPrimary,
-                  ),
                 ),
-                SizedBox(height: 8.h),
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    if (state is AuthAuthenticated) {
-                      return Text(
-                        'Role: ${state.role}',
-                        style: TextStyle(fontSize: 14.sp),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-

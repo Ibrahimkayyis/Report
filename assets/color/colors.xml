@@ -4,7 +4,7 @@
   <color name="background">#FFFFFF</color>
 
   <!-- primary color (komponen: button, card, appbar, dll) -->
-  <color name="primary">#226597</color>
+  <color name="primary">#113F67</color>
 
   <!-- teks biasa -->
   <color name="text_primary">#333333</color>

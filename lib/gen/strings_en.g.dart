@@ -154,6 +154,74 @@ class TranslationsAppEn {
 
 	/// en: 'Confirm'
 	String get confirm => 'Confirm';
+
+	/// en: 'Search here'
+	String get search_placeholder => 'Search here';
+
+	/// en: 'Online Reporting'
+	String get online_reporting => 'Online Reporting';
+
+	/// en: 'Report problems and issues here!'
+	String get online_reporting_subtitle => 'Report problems and issues here!';
+
+	/// en: 'Create Report'
+	String get create_report => 'Create Report';
+
+	/// en: 'Service Request'
+	String get service_request => 'Service Request';
+
+	/// en: 'Submit the services you need here!'
+	String get service_request_subtitle => 'Submit the services you need here!';
+
+	/// en: 'Create Request'
+	String get create_request => 'Create Request';
+
+	/// en: 'Services'
+	String get services => 'Services';
+
+	/// en: 'Knowledge Base'
+	String get knowledge_base => 'Knowledge Base';
+
+	/// en: 'Check Report Status'
+	String get check_report_status => 'Check Report Status';
+
+	/// en: 'Report History'
+	String get report_history => 'Report History';
+
+	/// en: 'No report history to display'
+	String get no_report_history => 'No report history to display';
+
+	/// en: 'Profile'
+	String get profile => 'Profile';
+
+	/// en: 'QR Code'
+	String get qr_code => 'QR Code';
+
+	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
+}
+
+// Path: app.errors
+class TranslationsAppErrorsEn {
+	TranslationsAppErrorsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Invalid email or password'
+	String get invalid_credentials => 'Invalid email or password';
+
+	/// en: 'Server error occurred'
+	String get server_error => 'Server error occurred';
+
+	/// en: 'Network error, please check your connection'
+	String get network_error => 'Network error, please check your connection';
+
+	/// en: 'Validation error'
+	String get validation_error => 'Validation error';
+
+	/// en: 'Endpoint not found or server is offline'
+	String get not_found => 'Endpoint not found or server is offline';
 }
 
 /// Flat map(s) containing all translations.
@@ -196,6 +264,25 @@ extension on Translations {
 			case 'app.logout_message': return 'You will need to login again to access your account.';
 			case 'app.cancel': return 'Cancel';
 			case 'app.confirm': return 'Confirm';
+			case 'app.search_placeholder': return 'Search here';
+			case 'app.online_reporting': return 'Online Reporting';
+			case 'app.online_reporting_subtitle': return 'Report problems and issues here!';
+			case 'app.create_report': return 'Create Report';
+			case 'app.service_request': return 'Service Request';
+			case 'app.service_request_subtitle': return 'Submit the services you need here!';
+			case 'app.create_request': return 'Create Request';
+			case 'app.services': return 'Services';
+			case 'app.knowledge_base': return 'Knowledge Base';
+			case 'app.check_report_status': return 'Check Report Status';
+			case 'app.report_history': return 'Report History';
+			case 'app.no_report_history': return 'No report history to display';
+			case 'app.profile': return 'Profile';
+			case 'app.qr_code': return 'QR Code';
+			case 'app.errors.invalid_credentials': return 'Invalid email or password';
+			case 'app.errors.server_error': return 'Server error occurred';
+			case 'app.errors.network_error': return 'Network error, please check your connection';
+			case 'app.errors.validation_error': return 'Validation error';
+			case 'app.errors.not_found': return 'Endpoint not found or server is offline';
 			default: return null;
 		}
 	}
