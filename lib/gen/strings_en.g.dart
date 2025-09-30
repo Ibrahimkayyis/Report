@@ -197,6 +197,189 @@ class TranslationsAppEn {
 	/// en: 'QR Code'
 	String get qr_code => 'QR Code';
 
+	/// en: 'Reports'
+	String get reports => 'Reports';
+
+	/// en: 'Online Reporting'
+	String get online_reporting_title => 'Online Reporting';
+
+	/// en: 'Select your destination OPD'
+	String get select_opd_subtitle => 'Select your destination OPD';
+
+	/// en: 'Education Department'
+	String get opd_dinas_pendidikan => 'Education Department';
+
+	/// en: 'Library and Archives Department'
+	String get opd_dinas_perpustakaan => 'Library and Archives Department';
+
+	/// en: 'Health Department'
+	String get opd_dinas_kesehatan => 'Health Department';
+
+	/// en: 'Communication and Information Technology Department'
+	String get opd_dinas_komunikasi_informatika => 'Communication and Information Technology Department';
+
+	/// en: 'Transportation Department'
+	String get opd_dinas_perhubungan => 'Transportation Department';
+
+	/// en: 'Environmental Department'
+	String get opd_dinas_lingkungan_hidup => 'Environmental Department';
+
+	/// en: 'Social Affairs Department'
+	String get opd_dinas_sosial => 'Social Affairs Department';
+
+	/// en: 'Population and Civil Registration Department'
+	String get opd_dinas_kependudukan_pencatatan_sipil => 'Population and Civil Registration Department';
+
+	/// en: 'Water Resources and Highways Department'
+	String get opd_dinas_sda_bina_marga => 'Water Resources and Highways Department';
+
+	/// en: 'Cooperatives and Small Medium Enterprises Department'
+	String get opd_dinas_koperasi_ukm => 'Cooperatives and Small Medium Enterprises Department';
+
+	/// en: 'Housing and Settlement Department'
+	String get opd_dinas_perumahan_kawasan => 'Housing and Settlement Department';
+
+	/// en: 'Investment and One Stop Service Department'
+	String get opd_dinas_penanaman_modal => 'Investment and One Stop Service Department';
+
+	/// en: 'Fire and Rescue Department'
+	String get opd_dinas_pemadam_kebakaran => 'Fire and Rescue Department';
+
+	/// en: 'Culture, Youth and Sports Tourism Department'
+	String get opd_dinas_kebudayaan_pariwisata => 'Culture, Youth and Sports Tourism Department';
+
+	/// en: 'Industry and Labor Department'
+	String get opd_dinas_perindustrian_tenaga_kerja => 'Industry and Labor Department';
+
+	/// en: 'Civil Service Police Unit'
+	String get opd_satpol_pp => 'Civil Service Police Unit';
+
+	/// en: 'Food Security and Agriculture Department'
+	String get opd_dinas_ketahanan_pangan => 'Food Security and Agriculture Department';
+
+	/// en: 'Population Control and Family Planning Department'
+	String get opd_dinas_pengendalian_penduduk => 'Population Control and Family Planning Department';
+
+	/// en: 'Send report to'
+	String get send_report_to => 'Send report to';
+
+	/// en: 'Name'
+	String get reporter_name => 'Name';
+
+	/// en: 'NIP'
+	String get reporter_nip => 'NIP';
+
+	/// en: 'Division'
+	String get reporter_division => 'Division';
+
+	/// en: 'What is the reason for your report?'
+	String get report_reason_question => 'What is the reason for your report?';
+
+	/// en: 'Select one'
+	String get select_one => 'Select one';
+
+	/// en: 'Hardware'
+	String get report_category_hardware => 'Hardware';
+
+	/// en: 'Software & Applications'
+	String get report_category_software => 'Software & Applications';
+
+	/// en: 'Network & Connectivity'
+	String get report_category_network => 'Network & Connectivity';
+
+	/// en: 'Email & Communication'
+	String get report_category_email => 'Email & Communication';
+
+	/// en: 'Security'
+	String get report_category_security => 'Security';
+
+	/// en: 'Other Issues'
+	String get report_category_other => 'Other Issues';
+
+	/// en: 'Can you provide details about this issue?'
+	String get problem_description_question => 'Can you provide details about this issue?';
+
+	/// en: 'Explain in more detail about the problem so we can better understand your issue!'
+	String get problem_description_hint => 'Explain in more detail about the problem so we can better understand your issue!';
+
+	/// en: 'Report priority level'
+	String get priority_level_title => 'Report priority level';
+
+	/// en: 'Select the urgency level of your report so we can prioritize handling according to the impact of the issue!'
+	String get priority_level_subtitle => 'Select the urgency level of your report so we can prioritize handling according to the impact of the issue!';
+
+	/// en: 'High'
+	String get priority_high => 'High';
+
+	/// en: 'Medium'
+	String get priority_medium => 'Medium';
+
+	/// en: 'Low'
+	String get priority_low => 'Low';
+
+	/// en: 'Attach file'
+	String get attach_file_title => 'Attach file';
+
+	/// en: 'Attach screenshots, images, or related documents to help us understand your issue better!'
+	String get attach_file_subtitle => 'Attach screenshots, images, or related documents to help us understand your issue better!';
+
+	/// en: 'Attach File'
+	String get attach_file_button => 'Attach File';
+
+	/// en: 'Additional Information'
+	String get additional_info_title => 'Additional Information';
+
+	/// en: 'Add additional details that might help us understand the issue or your request!'
+	String get additional_info_subtitle => 'Add additional details that might help us understand the issue or your request!';
+
+	/// en: 'Type here...'
+	String get additional_info_hint => 'Type here...';
+
+	/// en: 'Cancel'
+	String get cancel_button => 'Cancel';
+
+	/// en: 'Save Draft'
+	String get save_draft_button => 'Save Draft';
+
+	/// en: 'Submit Report'
+	String get submit_report_button => 'Submit Report';
+
+	/// en: 'Your Report Has Been Successfully Submitted'
+	String get report_success_title => 'Your Report Has Been Successfully Submitted';
+
+	/// en: 'Thank you for your report. The report has been recorded, we will follow it up according to the procedure within the specified time. Please track report progress through the Service Status Check menu.'
+	String get report_success_description => 'Thank you for your report. The report has been recorded, we will follow it up according to the procedure within the specified time. Please track report progress through the Service Status Check menu.';
+
+	/// en: 'Check report with:'
+	String get check_report_with => 'Check report with:';
+
+	/// en: 'Ticket No.'
+	String get ticket_number => 'Ticket No.';
+
+	/// en: 'PIN'
+	String get pin => 'PIN';
+
+	/// en: 'Service Type:'
+	String get service_type => 'Service Type:';
+
+	/// en: 'Online Reporting'
+	String get service_type_reporting => 'Online Reporting';
+
+	/// en: 'Destination OPD:'
+	String get destination_opd => 'Destination OPD:';
+
+	/// en: 'Download ticket'
+	String get download_ticket => 'Download ticket';
+
+	/// en: 'Check service status'
+	String get check_service_status => 'Check service status';
+
+	/// en: 'Create new report'
+	String get create_new_report => 'Create new report';
+
+	/// en: 'Back to home'
+	String get back_to_home => 'Back to home';
+
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
 }
 
@@ -278,6 +461,67 @@ extension on Translations {
 			case 'app.no_report_history': return 'No report history to display';
 			case 'app.profile': return 'Profile';
 			case 'app.qr_code': return 'QR Code';
+			case 'app.reports': return 'Reports';
+			case 'app.online_reporting_title': return 'Online Reporting';
+			case 'app.select_opd_subtitle': return 'Select your destination OPD';
+			case 'app.opd_dinas_pendidikan': return 'Education Department';
+			case 'app.opd_dinas_perpustakaan': return 'Library and Archives Department';
+			case 'app.opd_dinas_kesehatan': return 'Health Department';
+			case 'app.opd_dinas_komunikasi_informatika': return 'Communication and Information Technology Department';
+			case 'app.opd_dinas_perhubungan': return 'Transportation Department';
+			case 'app.opd_dinas_lingkungan_hidup': return 'Environmental Department';
+			case 'app.opd_dinas_sosial': return 'Social Affairs Department';
+			case 'app.opd_dinas_kependudukan_pencatatan_sipil': return 'Population and Civil Registration Department';
+			case 'app.opd_dinas_sda_bina_marga': return 'Water Resources and Highways Department';
+			case 'app.opd_dinas_koperasi_ukm': return 'Cooperatives and Small Medium Enterprises Department';
+			case 'app.opd_dinas_perumahan_kawasan': return 'Housing and Settlement Department';
+			case 'app.opd_dinas_penanaman_modal': return 'Investment and One Stop Service Department';
+			case 'app.opd_dinas_pemadam_kebakaran': return 'Fire and Rescue Department';
+			case 'app.opd_dinas_kebudayaan_pariwisata': return 'Culture, Youth and Sports Tourism Department';
+			case 'app.opd_dinas_perindustrian_tenaga_kerja': return 'Industry and Labor Department';
+			case 'app.opd_satpol_pp': return 'Civil Service Police Unit';
+			case 'app.opd_dinas_ketahanan_pangan': return 'Food Security and Agriculture Department';
+			case 'app.opd_dinas_pengendalian_penduduk': return 'Population Control and Family Planning Department';
+			case 'app.send_report_to': return 'Send report to';
+			case 'app.reporter_name': return 'Name';
+			case 'app.reporter_nip': return 'NIP';
+			case 'app.reporter_division': return 'Division';
+			case 'app.report_reason_question': return 'What is the reason for your report?';
+			case 'app.select_one': return 'Select one';
+			case 'app.report_category_hardware': return 'Hardware';
+			case 'app.report_category_software': return 'Software & Applications';
+			case 'app.report_category_network': return 'Network & Connectivity';
+			case 'app.report_category_email': return 'Email & Communication';
+			case 'app.report_category_security': return 'Security';
+			case 'app.report_category_other': return 'Other Issues';
+			case 'app.problem_description_question': return 'Can you provide details about this issue?';
+			case 'app.problem_description_hint': return 'Explain in more detail about the problem so we can better understand your issue!';
+			case 'app.priority_level_title': return 'Report priority level';
+			case 'app.priority_level_subtitle': return 'Select the urgency level of your report so we can prioritize handling according to the impact of the issue!';
+			case 'app.priority_high': return 'High';
+			case 'app.priority_medium': return 'Medium';
+			case 'app.priority_low': return 'Low';
+			case 'app.attach_file_title': return 'Attach file';
+			case 'app.attach_file_subtitle': return 'Attach screenshots, images, or related documents to help us understand your issue better!';
+			case 'app.attach_file_button': return 'Attach File';
+			case 'app.additional_info_title': return 'Additional Information';
+			case 'app.additional_info_subtitle': return 'Add additional details that might help us understand the issue or your request!';
+			case 'app.additional_info_hint': return 'Type here...';
+			case 'app.cancel_button': return 'Cancel';
+			case 'app.save_draft_button': return 'Save Draft';
+			case 'app.submit_report_button': return 'Submit Report';
+			case 'app.report_success_title': return 'Your Report Has Been Successfully Submitted';
+			case 'app.report_success_description': return 'Thank you for your report. The report has been recorded, we will follow it up according to the procedure within the specified time. Please track report progress through the Service Status Check menu.';
+			case 'app.check_report_with': return 'Check report with:';
+			case 'app.ticket_number': return 'Ticket No.';
+			case 'app.pin': return 'PIN';
+			case 'app.service_type': return 'Service Type:';
+			case 'app.service_type_reporting': return 'Online Reporting';
+			case 'app.destination_opd': return 'Destination OPD:';
+			case 'app.download_ticket': return 'Download ticket';
+			case 'app.check_service_status': return 'Check service status';
+			case 'app.create_new_report': return 'Create new report';
+			case 'app.back_to_home': return 'Back to home';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
