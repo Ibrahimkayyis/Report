@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:report/gen/i18n/translations.g.dart';
+// import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'widgets/success_card.dart';
 import 'widgets/bottom_actions.dart';
@@ -21,7 +21,7 @@ class ReportSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t;
+    // final t = context.t;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,

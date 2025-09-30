@@ -11,7 +11,7 @@ class HomeMainCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.t;
-    
+
     return Row(
       children: [
         Expanded(
@@ -24,9 +24,7 @@ class HomeMainCards extends StatelessWidget {
             },
           ),
         ),
-        
         SizedBox(width: 16.w),
-        
         Expanded(
           child: _MainCard(
             title: t.app.service_request,
@@ -56,7 +54,7 @@ class _MainCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150.h, // Increased height for better text spacing
+      height: 150.h,
       decoration: BoxDecoration(
         color: ColorName.primary,
         borderRadius: BorderRadius.circular(16.r),
@@ -81,60 +79,48 @@ class _MainCard extends StatelessWidget {
               color: ColorName.onPrimary,
             ),
           ),
-          
+
           SizedBox(height: 8.h),
-          
-          // Subtitle with flexible space
+
+          // Subtitle (tetap bisa wrap, tidak overflow)
           Expanded(
-            flex: 3, // Give more space to subtitle
             child: Text(
               subtitle,
               style: TextStyle(
-                fontSize: 10.sp, 
+                fontSize: 10.sp,
                 color: ColorName.onPrimary,
-                height: 1.3, // Line height for better readability
+                height: 1.3,
               ),
-              maxLines: 3, // Allow up to 3 lines
-              overflow: TextOverflow.ellipsis, // Handle overflow gracefully
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          
-          SizedBox(height: 12.h),
-          
-          // Button with icon and text
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                border: Border.all(color: ColorName.onPrimary, width: 1.5.w),
-                borderRadius: BorderRadius.circular(20.r),
+
+          SizedBox(height: 8.h),
+
+          // OutlinedButton bawaan Flutter
+          SizedBox(
+            width: double.infinity,
+            height: 32.h, // biar konsisten tinggi tombol
+            child: OutlinedButton.icon(
+              onPressed: onTap,
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: ColorName.onPrimary, width: 1.5.w),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                foregroundColor: ColorName.onPrimary,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      buttonText,
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w600,
-                        color: ColorName.onPrimary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  
-                  SizedBox(width: 4.w),
-                  
-                  Icon(
-                    Icons.add,
-                    color: ColorName.onPrimary,
-                    size: 14.sp,
-                  ),
-                ],
+              icon: Icon(Icons.add, size: 14.sp, color: ColorName.onPrimary),
+              label: Text(
+                buttonText,
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w600,
+                  color: ColorName.onPrimary,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
