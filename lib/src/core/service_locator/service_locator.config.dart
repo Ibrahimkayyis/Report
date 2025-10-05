@@ -13,28 +13,28 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:report/src/core/service_locator/register_module.dart' as _i576;
-import 'package:report/src/modules/data/datasources/local/abstract/auth_local_data_source.dart'
+import 'package:report/src/modules/auth/data/datasources/local/abstract/auth_local_data_source.dart'
     as _i159;
-import 'package:report/src/modules/data/datasources/local/implementation/auth_local_data_source_impl.dart'
+import 'package:report/src/modules/auth/data/datasources/local/implementation/auth_local_data_source_impl.dart'
     as _i578;
-import 'package:report/src/modules/data/datasources/remote/source/abstract/auth_remote_data_source.dart'
+import 'package:report/src/modules/auth/data/datasources/remote/source/abstract/auth_remote_data_source.dart'
     as _i1005;
-import 'package:report/src/modules/data/datasources/remote/source/implementation/api_service.dart'
+import 'package:report/src/modules/auth/data/datasources/remote/source/implementation/api_service.dart'
     as _i37;
-import 'package:report/src/modules/data/datasources/remote/source/implementation/auth_remote_data_source_impl.dart'
+import 'package:report/src/modules/auth/data/datasources/remote/source/implementation/auth_remote_data_source_impl.dart'
     as _i345;
-import 'package:report/src/modules/data/repositories_impl/auth_repository_impl.dart'
+import 'package:report/src/modules/auth/data/repositories_impl/auth_repository_impl.dart'
     as _i769;
-import 'package:report/src/modules/domain/repositories/auth_repository.dart'
+import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart'
     as _i207;
-import 'package:report/src/modules/domain/usecase/login_usecase.dart' as _i672;
-import 'package:report/src/modules/domain/usecase/register_usecase.dart'
+import 'package:report/src/modules/auth/domain/usecase/login_usecase.dart' as _i672;
+import 'package:report/src/modules/auth/domain/usecase/register_usecase.dart'
     as _i125;
-import 'package:report/src/modules/presentation/cubits/auth/auth_cubit.dart'
+import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart'
     as _i150;
-import 'package:report/src/modules/presentation/screens/auth/login/cubits/login_cubit.dart'
+import 'package:report/src/modules/auth/presentation/cubits/login/login_cubit.dart'
     as _i1037;
-import 'package:report/src/modules/presentation/screens/auth/register/cubits/register_cubit.dart'
+import 'package:report/src/modules/auth/presentation/cubits/register/register_cubit.dart'
     as _i832;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
