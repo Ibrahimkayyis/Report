@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:report/src/modules/presentation/cubits/auth/auth_cubit.dart';
+import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 
 import 'gen/colors.gen.dart';
 import 'gen/i18n/translations.g.dart';

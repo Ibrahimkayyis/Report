@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.8.0 <4.0.0' # Pastikan batas bawah mendukung null safety
+  sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   auto_route: ^10.1.2
