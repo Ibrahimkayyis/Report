@@ -7,7 +7,7 @@ import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_state.dart';
-import 'package:report/src/modules/auth/presentation/widgets/snackbars/custom_snackbar.dart';
+import 'package:report/src/core/widgets/snackbars/custom_snackbar.dart';
 
 import '../widgets/home_header.dart';
 import '../widgets/home_main_cards.dart';

@@ -11,6 +11,8 @@ import '../../modules/auth/presentation/screens/register/register_screen.dart';
 import '../../modules/auth/presentation/screens/login/login_screen.dart';
 import '../../modules/home/presentation/screens/home_screen.dart';
 import '../../modules/main_layout/presentation/screens/main_layout_screen.dart';
+import 'package:report/src/modules/service_request/presentation/screens/service_request_selection_screen.dart';
+
 
 part 'app_router.gr.dart';
 
@@ -26,6 +28,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: OpdSelectionRoute.page),
     AutoRoute(page: ReportingFormRoute.page),
     AutoRoute(page: ReportSuccessRoute.page),
+    AutoRoute(page: ServiceRequestSelectionRoute.page),
   ];
 
   //  @override

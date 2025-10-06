@@ -34,6 +34,39 @@ class $AssetsI18nGen {
   List<String> get values => [enI18n, idI18n];
 }
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/device_request.png
+  AssetGenImage get deviceRequest =>
+      const AssetGenImage('assets/icons/device_request.png');
+
+  /// File path: assets/icons/knowledge_base.png
+  AssetGenImage get knowledgeBase =>
+      const AssetGenImage('assets/icons/knowledge_base.png');
+
+  /// File path: assets/icons/report_status.png
+  AssetGenImage get reportStatus =>
+      const AssetGenImage('assets/icons/report_status.png');
+
+  /// File path: assets/icons/reset_password.png
+  AssetGenImage get resetPassword =>
+      const AssetGenImage('assets/icons/reset_password.png');
+
+  /// File path: assets/icons/system_access.png
+  AssetGenImage get systemAccess =>
+      const AssetGenImage('assets/icons/system_access.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    deviceRequest,
+    knowledgeBase,
+    reportStatus,
+    resetPassword,
+    systemAccess,
+  ];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -54,6 +87,7 @@ class Assets {
 
   static const $AssetsColorGen color = $AssetsColorGen();
   static const $AssetsI18nGen i18n = $AssetsI18nGen();
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

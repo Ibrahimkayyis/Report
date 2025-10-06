@@ -6,7 +6,7 @@ import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
-import 'package:report/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:report/src/core/widgets/widgets.dart';
 import '../../cubits/register/register_cubit.dart';
 import '../../cubits/register/register_state.dart';
 

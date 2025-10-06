@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
+import 'package:report/src/core/widgets/widgets.dart';
 
 import '../widgets/reporting_form/reporting_form_opd_display.dart';
 import '../widgets/reporting_form/reporting_form_reporter_data.dart';
@@ -56,19 +57,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
     return Scaffold(
       backgroundColor: ColorName.background,
-      appBar: AppBar(
-        backgroundColor: ColorName.primary,
-        foregroundColor: ColorName.onPrimary,
-        title: Text(
-          t.app.online_reporting_title,
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.r)),
-        ),
-      ),
+      appBar: AppPrimaryBar(title: t.app.online_reporting_title),
       body: Column(
         children: [
           Expanded(

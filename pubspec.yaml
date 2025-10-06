@@ -23,6 +23,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.1
   formz: ^0.8.0
   freezed_annotation: ^3.1.0
   get_it: ^8.2.0
@@ -70,6 +71,8 @@ flutter:
     - assets/images/
     - assets/color/
     - assets/i18n/
+    - assets/icons/
+
 
   fonts:
     - family: Poppins

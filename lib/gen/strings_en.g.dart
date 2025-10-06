@@ -380,6 +380,30 @@ class TranslationsAppEn {
 	/// en: 'Back to home'
 	String get back_to_home => 'Back to home';
 
+	/// en: 'Service Request'
+	String get service_request_title => 'Service Request';
+
+	/// en: 'Select the request you need'
+	String get service_request_select_subtitle => 'Select the request you need';
+
+	/// en: 'Reset Password'
+	String get service_reset_password => 'Reset Password';
+
+	/// en: 'Request to reset your account password'
+	String get service_reset_password_desc => 'Request to reset your account password';
+
+	/// en: 'System Access'
+	String get service_system_access => 'System Access';
+
+	/// en: 'Request access to applications or systems'
+	String get service_system_access_desc => 'Request access to applications or systems';
+
+	/// en: 'Device Request'
+	String get service_device_request => 'Device Request';
+
+	/// en: 'Request work equipment or devices'
+	String get service_device_request_desc => 'Request work equipment or devices';
+
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
 }
 
@@ -522,6 +546,14 @@ extension on Translations {
 			case 'app.check_service_status': return 'Check service status';
 			case 'app.create_new_report': return 'Create new report';
 			case 'app.back_to_home': return 'Back to home';
+			case 'app.service_request_title': return 'Service Request';
+			case 'app.service_request_select_subtitle': return 'Select the request you need';
+			case 'app.service_reset_password': return 'Reset Password';
+			case 'app.service_reset_password_desc': return 'Request to reset your account password';
+			case 'app.service_system_access': return 'System Access';
+			case 'app.service_system_access_desc': return 'Request access to applications or systems';
+			case 'app.service_device_request': return 'Device Request';
+			case 'app.service_device_request_desc': return 'Request work equipment or devices';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';

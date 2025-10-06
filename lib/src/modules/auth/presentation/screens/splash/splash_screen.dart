@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/src/core/router/app_router.dart';
-import 'package:report/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_state.dart';
 
