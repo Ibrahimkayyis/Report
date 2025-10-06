@@ -6,9 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
+import 'package:report/src/core/widgets/widgets.dart';
 
-part '../widgets/opd_selection/opd_selection_appbar.dart';
-part '../widgets/opd_selection/opd_selection_title.dart';
 part '../widgets/opd_selection/opd_card.dart';
 part '../widgets/opd_selection/opd_item.dart';
 
@@ -22,11 +21,11 @@ class OpdSelectionScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ColorName.background,
-      appBar: const OpdSelectionAppBar(),
+      appBar: AppPrimaryBar(title: t.app.online_reporting_title),
       body: ListView(
         padding: EdgeInsets.all(16.w),
         children: [
-          OpdSelectionTitle(title: t.app.select_opd_subtitle),
+          AppSectionTitle(title: t.app.select_opd_subtitle),
           SizedBox(height: 16.h),
           ..._buildOpdList(context, t),
         ],

@@ -14,28 +14,29 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:report/src/core/service_locator/register_module.dart' as _i576;
 import 'package:report/src/modules/auth/data/datasources/local/abstract/auth_local_data_source.dart'
-    as _i159;
+    as _i344;
 import 'package:report/src/modules/auth/data/datasources/local/implementation/auth_local_data_source_impl.dart'
-    as _i578;
+    as _i172;
 import 'package:report/src/modules/auth/data/datasources/remote/source/abstract/auth_remote_data_source.dart'
-    as _i1005;
+    as _i260;
 import 'package:report/src/modules/auth/data/datasources/remote/source/implementation/api_service.dart'
-    as _i37;
+    as _i1073;
 import 'package:report/src/modules/auth/data/datasources/remote/source/implementation/auth_remote_data_source_impl.dart'
-    as _i345;
+    as _i1028;
 import 'package:report/src/modules/auth/data/repositories_impl/auth_repository_impl.dart'
-    as _i769;
+    as _i138;
 import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart'
-    as _i207;
-import 'package:report/src/modules/auth/domain/usecase/login_usecase.dart' as _i672;
+    as _i292;
+import 'package:report/src/modules/auth/domain/usecase/login_usecase.dart'
+    as _i95;
 import 'package:report/src/modules/auth/domain/usecase/register_usecase.dart'
-    as _i125;
+    as _i96;
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart'
-    as _i150;
+    as _i428;
 import 'package:report/src/modules/auth/presentation/cubits/login/login_cubit.dart'
-    as _i1037;
+    as _i531;
 import 'package:report/src/modules/auth/presentation/cubits/register/register_cubit.dart'
-    as _i832;
+    as _i243;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -50,37 +51,37 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs(),
       preResolve: true,
     );
-    gh.lazySingleton<_i37.ApiService>(() => _i37.ApiService());
-    gh.lazySingleton<_i159.AuthLocalDataSource>(
-      () => _i578.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    gh.lazySingleton<_i1073.ApiService>(() => _i1073.ApiService());
+    gh.lazySingleton<_i344.AuthLocalDataSource>(
+      () => _i172.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.factory<String>(() => registerModule.baseUrl, instanceName: 'baseUrl');
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<String>(instanceName: 'baseUrl')),
     );
-    gh.lazySingleton<_i1005.AuthRemoteDataSource>(
-      () => _i345.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    gh.lazySingleton<_i260.AuthRemoteDataSource>(
+      () => _i1028.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i207.AuthRepository>(
-      () => _i769.AuthRepositoryImpl(
-        remote: gh<_i1005.AuthRemoteDataSource>(),
-        local: gh<_i159.AuthLocalDataSource>(),
+    gh.lazySingleton<_i292.AuthRepository>(
+      () => _i138.AuthRepositoryImpl(
+        remote: gh<_i260.AuthRemoteDataSource>(),
+        local: gh<_i344.AuthLocalDataSource>(),
       ),
     );
-    gh.lazySingleton<_i150.AuthCubit>(
-      () => _i150.AuthCubit(gh<_i207.AuthRepository>()),
+    gh.lazySingleton<_i428.AuthCubit>(
+      () => _i428.AuthCubit(gh<_i292.AuthRepository>()),
     );
-    gh.factory<_i672.LoginUseCase>(
-      () => _i672.LoginUseCase(gh<_i207.AuthRepository>()),
+    gh.factory<_i95.LoginUseCase>(
+      () => _i95.LoginUseCase(gh<_i292.AuthRepository>()),
     );
-    gh.factory<_i125.RegisterUseCase>(
-      () => _i125.RegisterUseCase(gh<_i207.AuthRepository>()),
+    gh.factory<_i96.RegisterUseCase>(
+      () => _i96.RegisterUseCase(gh<_i292.AuthRepository>()),
     );
-    gh.factory<_i1037.LoginCubit>(
-      () => _i1037.LoginCubit(gh<_i672.LoginUseCase>()),
+    gh.factory<_i531.LoginCubit>(
+      () => _i531.LoginCubit(gh<_i95.LoginUseCase>()),
     );
-    gh.factory<_i832.RegisterCubit>(
-      () => _i832.RegisterCubit(gh<_i125.RegisterUseCase>()),
+    gh.factory<_i243.RegisterCubit>(
+      () => _i243.RegisterCubit(gh<_i96.RegisterUseCase>()),
     );
     return this;
   }

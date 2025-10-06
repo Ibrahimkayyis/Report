@@ -158,6 +158,14 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get check_service_status => 'Check service status';
 	@override String get create_new_report => 'Create new report';
 	@override String get back_to_home => 'Back to home';
+	@override String get service_request_title => 'Service Request';
+	@override String get service_request_select_subtitle => 'Select the request you need';
+	@override String get service_reset_password => 'Reset Password';
+	@override String get service_reset_password_desc => 'Request to reset your account password';
+	@override String get service_system_access => 'System Access';
+	@override String get service_system_access_desc => 'Request access to applications or systems';
+	@override String get service_device_request => 'Device Request';
+	@override String get service_device_request_desc => 'Request work equipment or devices';
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 }
 
@@ -290,6 +298,14 @@ extension on TranslationsEn {
 			case 'app.check_service_status': return 'Check service status';
 			case 'app.create_new_report': return 'Create new report';
 			case 'app.back_to_home': return 'Back to home';
+			case 'app.service_request_title': return 'Service Request';
+			case 'app.service_request_select_subtitle': return 'Select the request you need';
+			case 'app.service_reset_password': return 'Reset Password';
+			case 'app.service_reset_password_desc': return 'Request to reset your account password';
+			case 'app.service_system_access': return 'System Access';
+			case 'app.service_system_access_desc': return 'Request access to applications or systems';
+			case 'app.service_device_request': return 'Device Request';
+			case 'app.service_device_request_desc': return 'Request work equipment or devices';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';

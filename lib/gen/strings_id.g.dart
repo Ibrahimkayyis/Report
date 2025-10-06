@@ -156,6 +156,14 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override String get check_service_status => 'Cek status layanan';
 	@override String get create_new_report => 'Buat laporan baru';
 	@override String get back_to_home => 'Kembali ke beranda';
+	@override String get service_request_title => 'Pengajuan Pelayanan';
+	@override String get service_request_select_subtitle => 'Pilih permohonan yang Anda butuhkan';
+	@override String get service_reset_password => 'Reset Password';
+	@override String get service_reset_password_desc => 'Permintaan untuk mereset password akun Anda';
+	@override String get service_system_access => 'Akses Sistem';
+	@override String get service_system_access_desc => 'Permintaan akses ke aplikasi atau sistem';
+	@override String get service_device_request => 'Permintaan Perangkat';
+	@override String get service_device_request_desc => 'Permintaan peralatan atau perangkat kerja';
 	@override late final _TranslationsAppErrorsId errors = _TranslationsAppErrorsId._(_root);
 }
 
@@ -288,6 +296,14 @@ extension on TranslationsId {
 			case 'app.check_service_status': return 'Cek status layanan';
 			case 'app.create_new_report': return 'Buat laporan baru';
 			case 'app.back_to_home': return 'Kembali ke beranda';
+			case 'app.service_request_title': return 'Pengajuan Pelayanan';
+			case 'app.service_request_select_subtitle': return 'Pilih permohonan yang Anda butuhkan';
+			case 'app.service_reset_password': return 'Reset Password';
+			case 'app.service_reset_password_desc': return 'Permintaan untuk mereset password akun Anda';
+			case 'app.service_system_access': return 'Akses Sistem';
+			case 'app.service_system_access_desc': return 'Permintaan akses ke aplikasi atau sistem';
+			case 'app.service_device_request': return 'Permintaan Perangkat';
+			case 'app.service_device_request_desc': return 'Permintaan peralatan atau perangkat kerja';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';

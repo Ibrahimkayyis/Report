@@ -267,6 +267,22 @@ class ReportingFormRouteArgs {
 }
 
 /// generated route for
+/// [ServiceRequestSelectionScreen]
+class ServiceRequestSelectionRoute extends PageRouteInfo<void> {
+  const ServiceRequestSelectionRoute({List<PageRouteInfo>? children})
+    : super(ServiceRequestSelectionRoute.name, initialChildren: children);
+
+  static const String name = 'ServiceRequestSelectionRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ServiceRequestSelectionScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [SplashScreen]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})

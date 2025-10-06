@@ -4,5 +4,7 @@ export 'textfields/password_field.dart';
 export 'buttons/primary_button.dart';
 export 'containers/auth_container.dart';
 export 'texts/link_text.dart';
+export 'texts/app_section_title.dart';
 export 'snackbars/custom_snackbar.dart';
 export 'dialogs/success_dialog.dart';
+export 'app_bar/app_primary_bar.dart';
