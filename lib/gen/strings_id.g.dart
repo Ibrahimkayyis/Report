@@ -164,6 +164,10 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override String get service_system_access_desc => 'Permintaan akses ke aplikasi atau sistem';
 	@override String get service_device_request => 'Permintaan Perangkat';
 	@override String get service_device_request_desc => 'Permintaan peralatan atau perangkat kerja';
+	@override String get asset_data_title => 'Data Aset';
+	@override String get asset_id_label => 'ID Aset';
+	@override String get asset_name_label => 'Nama Aset';
+	@override String get asset_location_label => 'Lokasi Aset';
 	@override late final _TranslationsAppErrorsId errors = _TranslationsAppErrorsId._(_root);
 }
 
@@ -304,6 +308,10 @@ extension on TranslationsId {
 			case 'app.service_system_access_desc': return 'Permintaan akses ke aplikasi atau sistem';
 			case 'app.service_device_request': return 'Permintaan Perangkat';
 			case 'app.service_device_request_desc': return 'Permintaan peralatan atau perangkat kerja';
+			case 'app.asset_data_title': return 'Data Aset';
+			case 'app.asset_id_label': return 'ID Aset';
+			case 'app.asset_name_label': return 'Nama Aset';
+			case 'app.asset_location_label': return 'Lokasi Aset';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';

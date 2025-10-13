@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormBottomActions extends StatelessWidget {
+class AppFormBottomActions extends StatelessWidget {
   final VoidCallback onCancel;
   final VoidCallback onSaveDraft;
   final VoidCallback onSubmit;
 
-  const ReportingFormBottomActions({
+  const AppFormBottomActions({
     super.key,
     required this.onCancel,
     required this.onSaveDraft,

@@ -404,6 +404,18 @@ class TranslationsAppEn {
 	/// en: 'Request work equipment or devices'
 	String get service_device_request_desc => 'Request work equipment or devices';
 
+	/// en: 'Asset Information'
+	String get asset_data_title => 'Asset Information';
+
+	/// en: 'Asset ID'
+	String get asset_id_label => 'Asset ID';
+
+	/// en: 'Asset Name'
+	String get asset_name_label => 'Asset Name';
+
+	/// en: 'Asset Location'
+	String get asset_location_label => 'Asset Location';
+
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
 }
 
@@ -554,6 +566,10 @@ extension on Translations {
 			case 'app.service_system_access_desc': return 'Request access to applications or systems';
 			case 'app.service_device_request': return 'Device Request';
 			case 'app.service_device_request_desc': return 'Request work equipment or devices';
+			case 'app.asset_data_title': return 'Asset Information';
+			case 'app.asset_id_label': return 'Asset ID';
+			case 'app.asset_name_label': return 'Asset Name';
+			case 'app.asset_location_label': return 'Asset Location';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';

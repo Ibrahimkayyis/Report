@@ -3,19 +3,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormPriorityLevel extends StatelessWidget {
-  final String? selectedPriority;
-  final ValueChanged<String> onPrioritySelected;
+class AppFormPrioritySelector extends StatelessWidget {
+  final String? selected;
+  final ValueChanged<String> onSelected;
+  final String? title;
+  final String? subtitle;
 
-  const ReportingFormPriorityLevel({
+  const AppFormPrioritySelector({
     super.key,
-    required this.selectedPriority,
-    required this.onPrioritySelected,
+    required this.selected,
+    required this.onSelected,
+    this.title,
+    this.subtitle,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
+    final effectiveTitle = title ?? t.app.priority_level_title;
+    final effectiveSubtitle = subtitle ?? t.app.priority_level_subtitle;
 
     final priorities = [
       {'label': t.app.priority_high, 'color': Colors.red},
@@ -27,7 +33,7 @@ class ReportingFormPriorityLevel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t.app.priority_level_title,
+          effectiveTitle,
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
@@ -36,7 +42,7 @@ class ReportingFormPriorityLevel extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          t.app.priority_level_subtitle,
+          effectiveSubtitle,
           style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
         ),
         SizedBox(height: 12.h),
@@ -44,7 +50,7 @@ class ReportingFormPriorityLevel extends StatelessWidget {
           children: priorities.map((priority) {
             final label = priority['label'] as String;
             final color = priority['color'] as Color;
-            final isSelected = selectedPriority == label;
+            final isSelected = selected == label;
 
             return Expanded(
               child: Padding(
@@ -52,7 +58,7 @@ class ReportingFormPriorityLevel extends StatelessWidget {
                   right: priorities.last == priority ? 0 : 8.w,
                 ),
                 child: GestureDetector(
-                  onTap: () => onPrioritySelected(label),
+                  onTap: () => onSelected(label),
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     decoration: BoxDecoration(

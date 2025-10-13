@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormReportCategory extends StatelessWidget {
+class AppFormCategorySelector extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String> onCategorySelected;
 
-  const ReportingFormReportCategory({
+  const AppFormCategorySelector({
     super.key,
     required this.selectedCategory,
     required this.onCategorySelected,
@@ -44,13 +44,13 @@ class ReportingFormReportCategory extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
 
-        /// 🔹 Grid layout (2 item per row)
+        /// 🔹 Grid layout (2 items per row)
         GridView.count(
           shrinkWrap: true,
           crossAxisCount: 2,
           mainAxisSpacing: 10.h,
           crossAxisSpacing: 10.w,
-          childAspectRatio: 3.5, // biar bentuknya mirip chip, agak melebar
+          childAspectRatio: 3.5,
           physics: const NeverScrollableScrollPhysics(),
           children: categories.map((category) {
             final isSelected = selectedCategory == category;
@@ -84,7 +84,8 @@ class ReportingFormReportCategory extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 9.5.sp,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        fontWeight:
+                            isSelected ? FontWeight.w600 : FontWeight.w400,
                         color: isSelected
                             ? ColorName.onPrimary
                             : ColorName.textPrimary,

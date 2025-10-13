@@ -3,22 +3,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormAdditionalInfo extends StatelessWidget {
+class AppFormProblemDescription extends StatelessWidget {
   final TextEditingController controller;
+  final String? title;
+  final String? hint;
 
-  const ReportingFormAdditionalInfo({
+  const AppFormProblemDescription({
     super.key,
     required this.controller,
+    this.title,
+    this.hint,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
+    final effectiveTitle = title ?? t.app.problem_description_question;
+    final effectiveHint = hint ?? t.app.problem_description_hint;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t.app.additional_info_title,
+          effectiveTitle,
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
@@ -27,14 +34,15 @@ class ReportingFormAdditionalInfo extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          t.app.additional_info_subtitle,
+          effectiveHint,
           style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
         ),
         SizedBox(height: 12.h),
         TextField(
           controller: controller,
-          maxLines: 4,
+          maxLines: 5,
           decoration: InputDecoration(
+            // hintText: effectiveHint,
             hintText: t.app.additional_info_hint,
             hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13.sp),
             filled: true,

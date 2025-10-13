@@ -1,6 +1,6 @@
 export 'logo/logo_widget.dart';
-export 'textfields/app_text_field.dart';
-export 'textfields/password_field.dart';
+export 'fields/app_text_field.dart';
+export 'fields/password_field.dart';
 export 'buttons/primary_button.dart';
 export 'containers/auth_container.dart';
 export 'texts/link_text.dart';
@@ -8,3 +8,15 @@ export 'texts/app_section_title.dart';
 export 'snackbars/custom_snackbar.dart';
 export 'dialogs/success_dialog.dart';
 export 'app_bar/app_primary_bar.dart';
+export 'forms/app_form_additional_info.dart';
+export 'forms/app_form_attach_file.dart';
+export 'forms/app_form_bottom_actions.dart';
+export 'forms/app_form_category_selector.dart';
+export 'forms/app_form_priority_selector.dart';
+export 'forms/app_form_problem_description.dart';
+export 'forms/app_form_target_display.dart';
+export 'forms/app_form_user_info.dart';
+export 'forms/app_form_asset_info.dart';
+export 'fields/app_dropdown_field.dart';
+export 'fields/app_number_field.dart';
+
