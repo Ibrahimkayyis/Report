@@ -341,8 +341,8 @@ class TranslationsAppId {
 	/// id: 'Simpan Draft'
 	String get save_draft_button => 'Simpan Draft';
 
-	/// id: 'Kirim Laporan'
-	String get submit_report_button => 'Kirim Laporan';
+	/// id: 'Kirim'
+	String get submit_report_button => 'Kirim';
 
 	/// id: 'Laporan Anda Telah Berhasil Dikirim'
 	String get report_success_title => 'Laporan Anda Telah Berhasil Dikirim';
@@ -403,6 +403,78 @@ class TranslationsAppId {
 
 	/// id: 'Permintaan peralatan atau perangkat kerja'
 	String get service_device_request_desc => 'Permintaan peralatan atau perangkat kerja';
+
+	/// id: 'Data Aset'
+	String get asset_data_title => 'Data Aset';
+
+	/// id: 'Pilih Perangkat'
+	String get select_device_label => 'Pilih Perangkat';
+
+	/// id: 'Pilih Sistem'
+	String get select_system_label => 'Pilih Sistem';
+
+	/// id: 'Pilih Jenis Akses'
+	String get select_access_type_label => 'Pilih Jenis Akses';
+
+	/// id: 'Pilih Jenis Perangkat'
+	String get select_device_type_label => 'Pilih Jenis Perangkat';
+
+	/// id: 'Jumlah Perangkat'
+	String get device_count_label => 'Jumlah Perangkat';
+
+	/// id: 'Masukkan jumlah'
+	String get device_count_hint => 'Masukkan jumlah';
+
+	/// id: 'ID Aset'
+	String get asset_id_label => 'ID Aset';
+
+	/// id: 'Nama Aset'
+	String get asset_name_label => 'Nama Aset';
+
+	/// id: 'Lokasi Aset'
+	String get asset_location_label => 'Lokasi Aset';
+
+	/// id: 'Permintaan Reset Password'
+	String get service_reset_password_title => 'Permintaan Reset Password';
+
+	/// id: 'Permintaan Akses Sistem'
+	String get service_system_access_title => 'Permintaan Akses Sistem';
+
+	/// id: 'Permintaan Perangkat Baru'
+	String get service_device_request_title => 'Permintaan Perangkat Baru';
+
+	/// id: 'Apa alasan Anda melakukan reset password ?'
+	String get service_reset_password_problem_label => 'Apa alasan Anda melakukan reset password ?';
+
+	/// id: 'Jelaskan dengan rinci terkait masalah tersebut agar kami dapat menindaklanjuti sesuai prosedur keamanan!'
+	String get service_reset_password_problem_hint => 'Jelaskan dengan rinci terkait masalah tersebut agar kami dapat menindaklanjuti sesuai prosedur keamanan!';
+
+	/// id: 'Apa alasan Anda mengajukan permohonan akses?'
+	String get service_system_access_problem_label => 'Apa alasan Anda mengajukan permohonan akses?';
+
+	/// id: 'Jelaskan dengan rinci terkait hal ini agar kami dapat menindaklanjuti sesuai prosedur keamanan!'
+	String get service_system_access_problem_hint => 'Jelaskan dengan rinci terkait hal ini agar kami dapat menindaklanjuti sesuai prosedur keamanan!';
+
+	/// id: 'Apa alasan Anda mengajukan permohonan permintaan perangkat?'
+	String get service_device_request_problem_label => 'Apa alasan Anda mengajukan permohonan permintaan perangkat?';
+
+	/// id: 'Jelaskan dengan rinci terkait hal ini agar kami dapat menindaklanjuti sesuai prosedur keamanan!'
+	String get service_device_request_problem_hint => 'Jelaskan dengan rinci terkait hal ini agar kami dapat menindaklanjuti sesuai prosedur keamanan!';
+
+	/// id: 'Prioritas Permintaan'
+	String get service_reset_password_priority_label => 'Prioritas Permintaan';
+
+	/// id: 'Prioritas Akses'
+	String get service_system_access_priority_label => 'Prioritas Akses';
+
+	/// id: 'Prioritas Permintaan'
+	String get service_device_request_priority_label => 'Prioritas Permintaan';
+
+	/// id: 'Lampiran File'
+	String get attach_file_label => 'Lampiran File';
+
+	/// id: 'Informasi Tambahan'
+	String get additional_info_label => 'Informasi Tambahan';
 
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 }
@@ -533,7 +605,7 @@ extension on Translations {
 			case 'app.additional_info_hint': return 'Ketik disini...';
 			case 'app.cancel_button': return 'Batalkan';
 			case 'app.save_draft_button': return 'Simpan Draft';
-			case 'app.submit_report_button': return 'Kirim Laporan';
+			case 'app.submit_report_button': return 'Kirim';
 			case 'app.report_success_title': return 'Laporan Anda Telah Berhasil Dikirim';
 			case 'app.report_success_description': return 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.';
 			case 'app.check_report_with': return 'Cek laporan dengan ini:';
@@ -554,6 +626,30 @@ extension on Translations {
 			case 'app.service_system_access_desc': return 'Permintaan akses ke aplikasi atau sistem';
 			case 'app.service_device_request': return 'Permintaan Perangkat';
 			case 'app.service_device_request_desc': return 'Permintaan peralatan atau perangkat kerja';
+			case 'app.asset_data_title': return 'Data Aset';
+			case 'app.select_device_label': return 'Pilih Perangkat';
+			case 'app.select_system_label': return 'Pilih Sistem';
+			case 'app.select_access_type_label': return 'Pilih Jenis Akses';
+			case 'app.select_device_type_label': return 'Pilih Jenis Perangkat';
+			case 'app.device_count_label': return 'Jumlah Perangkat';
+			case 'app.device_count_hint': return 'Masukkan jumlah';
+			case 'app.asset_id_label': return 'ID Aset';
+			case 'app.asset_name_label': return 'Nama Aset';
+			case 'app.asset_location_label': return 'Lokasi Aset';
+			case 'app.service_reset_password_title': return 'Permintaan Reset Password';
+			case 'app.service_system_access_title': return 'Permintaan Akses Sistem';
+			case 'app.service_device_request_title': return 'Permintaan Perangkat Baru';
+			case 'app.service_reset_password_problem_label': return 'Apa alasan Anda melakukan reset password ?';
+			case 'app.service_reset_password_problem_hint': return 'Jelaskan dengan rinci terkait masalah tersebut agar kami dapat menindaklanjuti sesuai prosedur keamanan!';
+			case 'app.service_system_access_problem_label': return 'Apa alasan Anda mengajukan permohonan akses?';
+			case 'app.service_system_access_problem_hint': return 'Jelaskan dengan rinci terkait hal ini agar kami dapat menindaklanjuti sesuai prosedur keamanan!';
+			case 'app.service_device_request_problem_label': return 'Apa alasan Anda mengajukan permohonan permintaan perangkat?';
+			case 'app.service_device_request_problem_hint': return 'Jelaskan dengan rinci terkait hal ini agar kami dapat menindaklanjuti sesuai prosedur keamanan!';
+			case 'app.service_reset_password_priority_label': return 'Prioritas Permintaan';
+			case 'app.service_system_access_priority_label': return 'Prioritas Akses';
+			case 'app.service_device_request_priority_label': return 'Prioritas Permintaan';
+			case 'app.attach_file_label': return 'Lampiran File';
+			case 'app.additional_info_label': return 'Informasi Tambahan';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';

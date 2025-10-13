@@ -12,6 +12,9 @@ import '../../modules/auth/presentation/screens/login/login_screen.dart';
 import '../../modules/home/presentation/screens/home_screen.dart';
 import '../../modules/main_layout/presentation/screens/main_layout_screen.dart';
 import 'package:report/src/modules/service_request/presentation/screens/service_request_selection_screen.dart';
+import 'package:report/src/modules/service_request/presentation/screens/service_request_form_screen.dart';
+import 'package:report/src/modules/service_request/domain/models/service_type.dart';
+
 
 
 part 'app_router.gr.dart';
@@ -29,6 +32,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ReportingFormRoute.page),
     AutoRoute(page: ReportSuccessRoute.page),
     AutoRoute(page: ServiceRequestSelectionRoute.page),
+    AutoRoute(page: ServiceRequestFormRoute.page),
   ];
 
   //  @override
@@ -39,5 +43,9 @@ class AppRouter extends RootStackRouter {
   //   AutoRoute(page: HomeRoute.page),
   //   AutoRoute(page: MainLayoutRoute.page, guards: [AuthGuard()]),
   //   AutoRoute(page: OpdSelectionRoute.page),
+  //   AutoRoute(page: ReportingFormRoute.page),
+  //   AutoRoute(page: ReportSuccessRoute.page),
+  //   AutoRoute(page: ServiceRequestSelectionRoute.page),
+  //   AutoRoute(page: ServiceRequestFormRoute.page)
   // ];
 }

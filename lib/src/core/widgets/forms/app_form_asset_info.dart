@@ -3,28 +3,41 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormReporterData extends StatelessWidget {
-  final String name;
-  final String nip;
-  final String division;
+class AppFormAssetInfo extends StatelessWidget {
+  final String assetId;
+  final String assetName;
+  final String assetLocation;
 
-  const ReportingFormReporterData({
+  const AppFormAssetInfo({
     super.key,
-    required this.name,
-    required this.nip,
-    required this.division,
+    required this.assetId,
+    required this.assetName,
+    required this.assetLocation,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildReadOnlyField(t.app.reporter_name, name),
+        Text(
+          t.app.asset_data_title,
+          style: TextStyle(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600,
+            color: ColorName.textPrimary,
+          ),
+        ),
         SizedBox(height: 12.h),
-        _buildReadOnlyField(t.app.reporter_nip, nip),
+
+        _buildReadOnlyField(t.app.asset_id_label, assetId),
         SizedBox(height: 12.h),
-        _buildReadOnlyField(t.app.reporter_division, division),
+
+        _buildReadOnlyField(t.app.asset_name_label, assetName),
+        SizedBox(height: 12.h),
+
+        _buildReadOnlyField(t.app.asset_location_label, assetLocation),
       ],
     );
   }

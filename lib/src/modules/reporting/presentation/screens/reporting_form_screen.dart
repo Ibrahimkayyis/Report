@@ -6,15 +6,6 @@ import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 
-import '../widgets/reporting_form/reporting_form_opd_display.dart';
-import '../widgets/reporting_form/reporting_form_reporter_data.dart';
-import '../widgets/reporting_form/reporting_form_report_category.dart';
-import '../widgets/reporting_form/reporting_form_problem_description.dart';
-import '../widgets/reporting_form/reporting_form_priority_level.dart';
-import '../widgets/reporting_form/reporting_form_attach_file.dart';
-import '../widgets/reporting_form/reporting_form_additional_info.dart';
-import '../widgets/reporting_form/reporting_form_bottom_actions.dart';
-
 @RoutePage()
 class ReportingFormScreen extends StatefulWidget {
   final String opdName;
@@ -66,17 +57,17 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // OPD Selection Display
-                  ReportingFormOpdDisplay(
-                    opdName: widget.opdName,
-                    opdIcon: widget.opdIcon,
-                    opdColor: widget.opdColor,
+                  /// 🏢 OPD / Tujuan Laporan
+                  AppFormTargetDisplay(
+                    name: widget.opdName,
+                    icon: widget.opdIcon,
+                    color: widget.opdColor,
                   ),
 
                   SizedBox(height: 24.h),
 
-                  // Reporter Data
-                  ReportingFormReporterData(
+                  /// 👤 Data Pelapor
+                  AppFormUserInfo(
                     name: _userName,
                     nip: _userNip,
                     division: _userDivision,
@@ -84,8 +75,17 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
                   SizedBox(height: 24.h),
 
-                  // Report Category
-                  ReportingFormReportCategory(
+                  /// 🏢 Data Aset (sementara tampil selalu)
+                  AppFormAssetInfo(
+                    assetId: "AST-009812",
+                    assetName: "Printer Canon LBP-6030",
+                    assetLocation: "Lantai 2, Ruang Kepegawaian",
+                  ),
+
+                  SizedBox(height: 24.h),
+
+                  /// 🧭 Kategori Laporan
+                  AppFormCategorySelector(
                     selectedCategory: _selectedCategory,
                     onCategorySelected: (val) {
                       setState(() => _selectedCategory = val);
@@ -94,44 +94,40 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
                   SizedBox(height: 24.h),
 
-                  // Problem Description
-                  ReportingFormProblemDescription(
-                    controller: _problemController,
-                  ),
+                  /// 📝 Deskripsi Masalah
+                  AppFormProblemDescription(controller: _problemController),
+
+                  // SizedBox(height: 24.h),
+
+                  // /// 🚦 Prioritas Laporan
+                  // AppFormPrioritySelector(
+                  //   selected: _selectedPriority,
+                  //   onSelected: (val) {
+                  //     setState(() => _selectedPriority = val);
+                  //   },
+                  // ),
 
                   SizedBox(height: 24.h),
 
-                  // Priority Level
-                  ReportingFormPriorityLevel(
-                    selectedPriority: _selectedPriority,
-                    onPrioritySelected: (val) {
-                      setState(() => _selectedPriority = val);
-                    },
-                  ),
+                  /// 📎 Lampiran File
+                  const AppFormAttachFile(),
 
                   SizedBox(height: 24.h),
 
-                  // Attach File
-                  const ReportingFormAttachFile(),
+                  /// 💬 Informasi Tambahan
+                  AppFormAdditionalInfo(controller: _additionalInfoController),
 
-                  SizedBox(height: 24.h),
-
-                  // Additional Information
-                  ReportingFormAdditionalInfo(
-                    controller: _additionalInfoController,
-                  ),
-
-                  SizedBox(height: 20.h), // space for bottom buttons
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),
           ),
 
-          // Bottom Buttons
-          ReportingFormBottomActions(
+          /// 🔘 Tombol Aksi
+          AppFormBottomActions(
             onCancel: () => context.router.pop(),
             onSaveDraft: () {
-              // TODO: Save draft
+              // TODO: Save draft ke local cache
             },
             onSubmit: () {
               // TODO: Submit ke API

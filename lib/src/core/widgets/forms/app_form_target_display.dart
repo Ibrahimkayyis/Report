@@ -3,16 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormOpdDisplay extends StatelessWidget {
-  final String opdName;
-  final IconData opdIcon;
-  final Color opdColor;
+class AppFormTargetDisplay extends StatelessWidget {
+  final String name;
+  final IconData icon;
+  final Color color;
 
-  const ReportingFormOpdDisplay({
+  const AppFormTargetDisplay({
     super.key,
-    required this.opdName,
-    required this.opdIcon,
-    required this.opdColor,
+    required this.name,
+    required this.icon,
+    required this.color,
   });
 
   @override
@@ -42,15 +42,15 @@ class ReportingFormOpdDisplay extends StatelessWidget {
                 width: 28.w,
                 height: 28.w,
                 decoration: BoxDecoration(
-                  color: opdColor,
+                  color: color,
                   borderRadius: BorderRadius.circular(6.r),
                 ),
-                child: Icon(opdIcon, color: Colors.white, size: 16.sp),
+                child: Icon(icon, color: Colors.white, size: 16.sp),
               ),
               SizedBox(width: 10.w),
               Flexible(
                 child: Text(
-                  opdName,
+                  name,
                   style: TextStyle(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w500,

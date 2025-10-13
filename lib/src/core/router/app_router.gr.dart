@@ -267,6 +267,57 @@ class ReportingFormRouteArgs {
 }
 
 /// generated route for
+/// [ServiceRequestFormScreen]
+class ServiceRequestFormRoute
+    extends PageRouteInfo<ServiceRequestFormRouteArgs> {
+  ServiceRequestFormRoute({
+    Key? key,
+    required ServiceType serviceType,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ServiceRequestFormRoute.name,
+         args: ServiceRequestFormRouteArgs(key: key, serviceType: serviceType),
+         initialChildren: children,
+       );
+
+  static const String name = 'ServiceRequestFormRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ServiceRequestFormRouteArgs>();
+      return ServiceRequestFormScreen(
+        key: args.key,
+        serviceType: args.serviceType,
+      );
+    },
+  );
+}
+
+class ServiceRequestFormRouteArgs {
+  const ServiceRequestFormRouteArgs({this.key, required this.serviceType});
+
+  final Key? key;
+
+  final ServiceType serviceType;
+
+  @override
+  String toString() {
+    return 'ServiceRequestFormRouteArgs{key: $key, serviceType: $serviceType}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ServiceRequestFormRouteArgs) return false;
+    return key == other.key && serviceType == other.serviceType;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ serviceType.hashCode;
+}
+
+/// generated route for
 /// [ServiceRequestSelectionScreen]
 class ServiceRequestSelectionRoute extends PageRouteInfo<void> {
   const ServiceRequestSelectionRoute({List<PageRouteInfo>? children})

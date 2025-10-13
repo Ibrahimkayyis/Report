@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/assets.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/router/app_router.dart';
+import 'package:report/src/modules/service_request/domain/models/service_type.dart';
 import 'service_request_card.dart';
 import 'service_item.dart';
 
@@ -35,11 +38,18 @@ class ServiceRequestList extends StatelessWidget {
         return ServiceRequestCard(
           service: service,
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Selected: ${service.title}'),
-                duration: const Duration(seconds: 1),
-              ),
+            final serviceType = switch (service.title) {
+              String title when title.contains(t.app.service_reset_password) =>
+                ServiceType.resetPassword,
+              String title when title.contains(t.app.service_system_access) =>
+                ServiceType.systemAccess,
+              String title when title.contains(t.app.service_device_request) =>
+                ServiceType.deviceRequest,
+              _ => ServiceType.resetPassword,
+            };
+
+            context.router.push(
+              ServiceRequestFormRoute(serviceType: serviceType),
             );
           },
         );

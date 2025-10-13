@@ -3,17 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 
-class ReportingFormAttachFile extends StatelessWidget {
-  const ReportingFormAttachFile({super.key});
+class AppFormAttachFile extends StatelessWidget {
+  final String? title;
+
+  const AppFormAttachFile({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
+    final effectiveTitle = title ?? t.app.attach_file_title;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t.app.attach_file_title,
+          effectiveTitle,
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
