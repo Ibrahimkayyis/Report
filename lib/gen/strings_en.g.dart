@@ -341,8 +341,8 @@ class TranslationsAppEn {
 	/// en: 'Save Draft'
 	String get save_draft_button => 'Save Draft';
 
-	/// en: 'Submit Report'
-	String get submit_report_button => 'Submit Report';
+	/// en: 'Submit'
+	String get submit_report_button => 'Submit';
 
 	/// en: 'Your Report Has Been Successfully Submitted'
 	String get report_success_title => 'Your Report Has Been Successfully Submitted';
@@ -407,6 +407,24 @@ class TranslationsAppEn {
 	/// en: 'Asset Information'
 	String get asset_data_title => 'Asset Information';
 
+	/// en: 'Select Device'
+	String get select_device_label => 'Select Device';
+
+	/// en: 'Select System'
+	String get select_system_label => 'Select System';
+
+	/// en: 'Select Access Type'
+	String get select_access_type_label => 'Select Access Type';
+
+	/// en: 'Select Device Type'
+	String get select_device_type_label => 'Select Device Type';
+
+	/// en: 'Number of Devices'
+	String get device_count_label => 'Number of Devices';
+
+	/// en: 'Enter quantity'
+	String get device_count_hint => 'Enter quantity';
+
 	/// en: 'Asset ID'
 	String get asset_id_label => 'Asset ID';
 
@@ -415,6 +433,54 @@ class TranslationsAppEn {
 
 	/// en: 'Asset Location'
 	String get asset_location_label => 'Asset Location';
+
+	/// en: 'Password Reset Request'
+	String get service_reset_password_title => 'Password Reset Request';
+
+	/// en: 'System Access Request'
+	String get service_system_access_title => 'System Access Request';
+
+	/// en: 'Device Request'
+	String get service_device_request_title => 'Device Request';
+
+	/// en: 'What is your reason for resetting your password?'
+	String get service_reset_password_problem_label => 'What is your reason for resetting your password?';
+
+	/// en: 'Please explain the issue in detail so that we can follow up in accordance with security procedures!'
+	String get service_reset_password_problem_hint => 'Please explain the issue in detail so that we can follow up in accordance with security procedures!';
+
+	/// en: 'What is your reason for requesting access?'
+	String get service_system_access_problem_label => 'What is your reason for requesting access?';
+
+	/// en: 'Please explain the issue in detail so that we can follow up in accordance with security procedures!'
+	String get service_system_access_problem_hint => 'Please explain the issue in detail so that we can follow up in accordance with security procedures!';
+
+	/// en: 'Apa alasan Anda mengajukan permohonan permintaan perangkat?'
+	String get service_device_request_problem_label => 'Apa alasan Anda mengajukan permohonan permintaan perangkat?';
+
+	/// en: 'Please explain the issue in detail so that we can follow up in accordance with security procedures!'
+	String get service_device_request_problem_hint => 'Please explain the issue in detail so that we can follow up in accordance with security procedures!';
+
+	/// en: 'Request Priority'
+	String get service_reset_password_priority_label => 'Request Priority';
+
+	/// en: 'Access Priority'
+	String get service_system_access_priority_label => 'Access Priority';
+
+	/// en: 'Device Request Priority'
+	String get service_device_request_priority_label => 'Device Request Priority';
+
+	/// en: 'Attach File'
+	String get attach_file_label => 'Attach File';
+
+	/// en: 'Additional Information'
+	String get additional_info_label => 'Additional Information';
+
+	/// en: 'Activity'
+	String get activity => 'Activity';
+
+	/// en: 'Notification'
+	String get notification => 'Notification';
 
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
 }
@@ -545,7 +611,7 @@ extension on Translations {
 			case 'app.additional_info_hint': return 'Type here...';
 			case 'app.cancel_button': return 'Cancel';
 			case 'app.save_draft_button': return 'Save Draft';
-			case 'app.submit_report_button': return 'Submit Report';
+			case 'app.submit_report_button': return 'Submit';
 			case 'app.report_success_title': return 'Your Report Has Been Successfully Submitted';
 			case 'app.report_success_description': return 'Thank you for your report. The report has been recorded, we will follow it up according to the procedure within the specified time. Please track report progress through the Service Status Check menu.';
 			case 'app.check_report_with': return 'Check report with:';
@@ -567,9 +633,31 @@ extension on Translations {
 			case 'app.service_device_request': return 'Device Request';
 			case 'app.service_device_request_desc': return 'Request work equipment or devices';
 			case 'app.asset_data_title': return 'Asset Information';
+			case 'app.select_device_label': return 'Select Device';
+			case 'app.select_system_label': return 'Select System';
+			case 'app.select_access_type_label': return 'Select Access Type';
+			case 'app.select_device_type_label': return 'Select Device Type';
+			case 'app.device_count_label': return 'Number of Devices';
+			case 'app.device_count_hint': return 'Enter quantity';
 			case 'app.asset_id_label': return 'Asset ID';
 			case 'app.asset_name_label': return 'Asset Name';
 			case 'app.asset_location_label': return 'Asset Location';
+			case 'app.service_reset_password_title': return 'Password Reset Request';
+			case 'app.service_system_access_title': return 'System Access Request';
+			case 'app.service_device_request_title': return 'Device Request';
+			case 'app.service_reset_password_problem_label': return 'What is your reason for resetting your password?';
+			case 'app.service_reset_password_problem_hint': return 'Please explain the issue in detail so that we can follow up in accordance with security procedures!';
+			case 'app.service_system_access_problem_label': return 'What is your reason for requesting access?';
+			case 'app.service_system_access_problem_hint': return 'Please explain the issue in detail so that we can follow up in accordance with security procedures!';
+			case 'app.service_device_request_problem_label': return 'Apa alasan Anda mengajukan permohonan permintaan perangkat?';
+			case 'app.service_device_request_problem_hint': return 'Please explain the issue in detail so that we can follow up in accordance with security procedures!';
+			case 'app.service_reset_password_priority_label': return 'Request Priority';
+			case 'app.service_system_access_priority_label': return 'Access Priority';
+			case 'app.service_device_request_priority_label': return 'Device Request Priority';
+			case 'app.attach_file_label': return 'Attach File';
+			case 'app.additional_info_label': return 'Additional Information';
+			case 'app.activity': return 'Activity';
+			case 'app.notification': return 'Notification';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';

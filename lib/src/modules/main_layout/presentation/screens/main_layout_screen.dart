@@ -3,10 +3,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/modules/home/presentation/screens/home_screen.dart';
 import 'package:report/src/modules/qr/presentation/screens/qr_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/activity_screen.dart';
+import 'package:report/src/modules/notification/presentation/screens/notification_screen.dart';
 
 @RoutePage()
 class MainLayoutScreen extends StatefulWidget {
@@ -27,9 +28,9 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     super.initState();
     _screens = const [
       HomeScreen(),
-      ReportsScreen(),
+      ActivityScreen(),
       QRScreen(),
-      KnowledgeBaseScreen(),
+      NotificationScreen(),
       ProfileScreen(),
     ];
   }
@@ -38,16 +39,15 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
   Widget build(BuildContext context) {
     final items = <Widget>[
       Icon(Icons.home, size: 28.sp, color: Colors.white),
-      Icon(Icons.assignment, size: 28.sp, color: Colors.white),
+      Icon(Icons.assignment, size: 28.sp, color: Colors.white), // Activity
       Icon(Icons.qr_code, size: 30.sp, color: Colors.white),
-      Icon(Icons.book, size: 28.sp, color: Colors.white),
+      Icon(Icons.notifications, size: 28.sp, color: Colors.white), // Notification
       Icon(Icons.person, size: 28.sp, color: Colors.white),
     ];
 
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _screens),
 
-      // FAB tetap ada di Home
       floatingActionButton: _currentIndex == 0
           ? Padding(
               padding: EdgeInsets.only(bottom: 60.h),
@@ -71,37 +71,9 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
         animationDuration: const Duration(milliseconds: 400),
         height: 60.h,
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          setState(() => _currentIndex = index);
         },
       ),
-    );
-  }
-}
-
-/// Placeholder Reports
-class ReportsScreen extends StatelessWidget {
-  const ReportsScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    final t = context.t;
-    return Scaffold(
-      appBar: AppBar(title: Text(t.app.reports)),
-      body: const Center(child: Text("Reports Screen (placeholder)")),
-    );
-  }
-}
-
-/// Placeholder Knowledge Base
-class KnowledgeBaseScreen extends StatelessWidget {
-  const KnowledgeBaseScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    final t = context.t;
-    return Scaffold(
-      appBar: AppBar(title: Text(t.app.knowledge_base)),
-      body: const Center(child: Text("Knowledge Base Screen (placeholder)")),
     );
   }
 }

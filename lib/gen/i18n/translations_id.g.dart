@@ -476,6 +476,66 @@ class TranslationsAppId {
 	/// id: 'Informasi Tambahan'
 	String get additional_info_label => 'Informasi Tambahan';
 
+	/// id: 'Aktivitas'
+	String get activity => 'Aktivitas';
+
+	/// id: 'Notifikasi'
+	String get notification => 'Notifikasi';
+
+	/// id: 'Knowledge Base'
+	String get knowledge_base_title => 'Knowledge Base';
+
+	/// id: 'Pelajari dan cari solusi yang Anda butuhkan'
+	String get knowledge_base_subtitle => 'Pelajari dan cari solusi yang Anda butuhkan';
+
+	/// id: 'Cari di sini'
+	String get search_here => 'Cari di sini';
+
+	/// id: 'Bagaimana cara membuat tiket baru?'
+	String get faq_how_to_create_ticket => 'Bagaimana cara membuat tiket baru?';
+
+	/// id: 'Bagaimana cara mengecek status tiket saya?'
+	String get faq_how_to_check_ticket_status => 'Bagaimana cara mengecek status tiket saya?';
+
+	/// id: 'Bagaimana panduan untuk menghubungi support langsung?'
+	String get faq_guide_contact_support => 'Bagaimana panduan untuk menghubungi support langsung?';
+
+	/// id: 'Bagaimana panduan untuk reset password?'
+	String get faq_guide_reset_password => 'Bagaimana panduan untuk reset password?';
+
+	/// id: 'Berapa lama tiket biasanya ditangani?'
+	String get faq_how_long_ticket_processing => 'Berapa lama tiket biasanya ditangani?';
+
+	/// id: 'Apa yang harus dilakukan jika tiket belum mendapat respon?'
+	String get faq_what_to_do_no_response => 'Apa yang harus dilakukan jika tiket belum mendapat respon?';
+
+	/// id: 'Pelacakan Laporan'
+	String get check_report_status_title => 'Pelacakan Laporan';
+
+	/// id: 'Lacak status laporan Anda'
+	String get check_report_status_subtitle => 'Lacak status laporan Anda';
+
+	/// id: 'ID Laporan'
+	String get report_id_label => 'ID Laporan';
+
+	/// id: 'Masukkan ID laporan Anda'
+	String get report_id_hint => 'Masukkan ID laporan Anda';
+
+	/// id: 'PIN'
+	String get pin_label => 'PIN';
+
+	/// id: 'Masukkan PIN Anda'
+	String get pin_hint => 'Masukkan PIN Anda';
+
+	/// id: 'Cari'
+	String get search_button => 'Cari';
+
+	/// id: 'Harap isi semua kolom terlebih dahulu'
+	String get error_empty_fields => 'Harap isi semua kolom terlebih dahulu';
+
+	/// id: 'Mencari status laporan...'
+	String get searching_report_status => 'Mencari status laporan...';
+
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 }
 
@@ -650,6 +710,26 @@ extension on Translations {
 			case 'app.service_device_request_priority_label': return 'Prioritas Permintaan';
 			case 'app.attach_file_label': return 'Lampiran File';
 			case 'app.additional_info_label': return 'Informasi Tambahan';
+			case 'app.activity': return 'Aktivitas';
+			case 'app.notification': return 'Notifikasi';
+			case 'app.knowledge_base_title': return 'Knowledge Base';
+			case 'app.knowledge_base_subtitle': return 'Pelajari dan cari solusi yang Anda butuhkan';
+			case 'app.search_here': return 'Cari di sini';
+			case 'app.faq_how_to_create_ticket': return 'Bagaimana cara membuat tiket baru?';
+			case 'app.faq_how_to_check_ticket_status': return 'Bagaimana cara mengecek status tiket saya?';
+			case 'app.faq_guide_contact_support': return 'Bagaimana panduan untuk menghubungi support langsung?';
+			case 'app.faq_guide_reset_password': return 'Bagaimana panduan untuk reset password?';
+			case 'app.faq_how_long_ticket_processing': return 'Berapa lama tiket biasanya ditangani?';
+			case 'app.faq_what_to_do_no_response': return 'Apa yang harus dilakukan jika tiket belum mendapat respon?';
+			case 'app.check_report_status_title': return 'Pelacakan Laporan';
+			case 'app.check_report_status_subtitle': return 'Lacak status laporan Anda';
+			case 'app.report_id_label': return 'ID Laporan';
+			case 'app.report_id_hint': return 'Masukkan ID laporan Anda';
+			case 'app.pin_label': return 'PIN';
+			case 'app.pin_hint': return 'Masukkan PIN Anda';
+			case 'app.search_button': return 'Cari';
+			case 'app.error_empty_fields': return 'Harap isi semua kolom terlebih dahulu';
+			case 'app.searching_report_status': return 'Mencari status laporan...';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';

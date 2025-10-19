@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/assets.gen.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/router/app_router.dart';
 
 class HomeServicesSection extends StatelessWidget {
   const HomeServicesSection({super.key});
@@ -34,7 +36,7 @@ class HomeServicesSection extends StatelessWidget {
             _ServiceItem(
               imagePath: Assets.icons.knowledgeBase.path,
               title: t.app.knowledge_base,
-              onTap: () {},
+              onTap: () => context.router.push(const KnowledgeBaseRoute()),
             ),
 
             SizedBox(width: 32.w),
@@ -43,7 +45,7 @@ class HomeServicesSection extends StatelessWidget {
             _ServiceItem(
               imagePath: Assets.icons.reportStatus.path,
               title: t.app.check_report_status,
-              onTap: () {},
+              onTap: () => context.router.push(const CheckReportStatusRoute()),
             ),
 
             const Spacer(),
