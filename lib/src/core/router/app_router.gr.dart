@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [CheckReportStatusScreen]
+class CheckReportStatusRoute extends PageRouteInfo<void> {
+  const CheckReportStatusRoute({List<PageRouteInfo>? children})
+    : super(CheckReportStatusRoute.name, initialChildren: children);
+
+  static const String name = 'CheckReportStatusRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const CheckReportStatusScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -22,6 +38,22 @@ class HomeRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const HomeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [KnowledgeBaseScreen]
+class KnowledgeBaseRoute extends PageRouteInfo<void> {
+  const KnowledgeBaseRoute({List<PageRouteInfo>? children})
+    : super(KnowledgeBaseRoute.name, initialChildren: children);
+
+  static const String name = 'KnowledgeBaseRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const KnowledgeBaseScreen();
     },
   );
 }

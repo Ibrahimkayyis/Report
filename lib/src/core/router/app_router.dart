@@ -14,6 +14,8 @@ import '../../modules/main_layout/presentation/screens/main_layout_screen.dart';
 import 'package:report/src/modules/service_request/presentation/screens/service_request_selection_screen.dart';
 import 'package:report/src/modules/service_request/presentation/screens/service_request_form_screen.dart';
 import 'package:report/src/modules/service_request/domain/models/service_type.dart';
+import 'package:report/src/modules/knowledge_base/presentation/screens/knowledge_base_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/check_report_status_screen.dart';
 
 
 
@@ -33,6 +35,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ReportSuccessRoute.page),
     AutoRoute(page: ServiceRequestSelectionRoute.page),
     AutoRoute(page: ServiceRequestFormRoute.page),
+    AutoRoute(page: KnowledgeBaseRoute.page),
+    AutoRoute(page: CheckReportStatusRoute.page),
   ];
 
   //  @override
@@ -46,6 +50,8 @@ class AppRouter extends RootStackRouter {
   //   AutoRoute(page: ReportingFormRoute.page),
   //   AutoRoute(page: ReportSuccessRoute.page),
   //   AutoRoute(page: ServiceRequestSelectionRoute.page),
-  //   AutoRoute(page: ServiceRequestFormRoute.page)
+  //   AutoRoute(page: ServiceRequestFormRoute.page),
+  //   AutoRoute(page: KnowledgeBaseRoute.page),
+  //   AutoRoute(page: CheckReportStatusRoute.page),
   // ];
 }
