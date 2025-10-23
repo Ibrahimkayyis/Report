@@ -86,7 +86,7 @@ class _ServiceItem extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 child: Image.asset(
                   imagePath,
-                  color: Colors.white, // 🔥 Putih agar kontras dengan primary
+                  color: ColorName.white, // 🔥 Putih agar kontras dengan primary
                   fit: BoxFit.contain,
                 ),
               ),

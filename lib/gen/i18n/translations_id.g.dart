@@ -536,7 +536,146 @@ class TranslationsAppId {
 	/// id: 'Mencari status laporan...'
 	String get searching_report_status => 'Mencari status laporan...';
 
+	/// id: 'Permohonan Anda Telah Berhasil Dikirim'
+	String get service_request_success_title => 'Permohonan Anda Telah Berhasil Dikirim';
+
+	/// id: 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.'
+	String get service_request_success_description => 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.';
+
+	/// id: 'Pengajuan layanan'
+	String get service_type_request => 'Pengajuan layanan';
+
+	/// id: 'Jenis Permohonan'
+	String get request_type => 'Jenis Permohonan';
+
+	/// id: 'Mengunduh tiket...'
+	String get downloading_ticket => 'Mengunduh tiket...';
+
+	/// id: 'Buat pengajuan baru'
+	String get create_new_request => 'Buat pengajuan baru';
+
+	/// id: 'Edit Profil'
+	String get edit_profile => 'Edit Profil';
+
+	/// id: 'Ubah Kata Sandi'
+	String get change_password => 'Ubah Kata Sandi';
+
+	/// id: 'Bahasa'
+	String get language => 'Bahasa';
+
+	/// id: 'Tema'
+	String get theme => 'Tema';
+
+	/// id: 'FAQ'
+	String get faq => 'FAQ';
+
+	/// id: 'Tentang Kami'
+	String get about_us => 'Tentang Kami';
+
+	/// id: 'Helpdesk'
+	String get helpdesk_title => 'Helpdesk';
+
+	/// id: 'Kami akan mengalihkan Anda ke helpdesk OPD yang ingin Anda hubungi'
+	String get helpdesk_intro_text => 'Kami akan mengalihkan Anda ke helpdesk OPD yang ingin Anda hubungi';
+
+	/// id: 'Pilih OPD'
+	String get select_opd => 'Pilih OPD';
+
+	/// id: 'Mulai percakapan dengan Helpdesk...'
+	String get helpdesk_empty_chat => 'Mulai percakapan dengan Helpdesk...';
+
+	/// id: 'Tulis pesan'
+	String get write_message => 'Tulis pesan';
+
+	/// id: 'Laporan Ditemukan'
+	String get report_found_title => 'Laporan Ditemukan';
+
+	/// id: 'Laporan Anda: '
+	String get your_report_label => 'Laporan Anda: ';
+
+	/// id: 'ID Tiket: '
+	String get ticket_label => 'ID Tiket: ';
+
+	/// id: 'Status: '
+	String get status_label => 'Status: ';
+
+	/// id: 'Jenis Layanan: '
+	String get service_type_label => 'Jenis Layanan: ';
+
+	/// id: 'OPD Tujuan: '
+	String get destination_opd_label => 'OPD Tujuan: ';
+
+	/// id: 'Kembali'
+	String get back_button => 'Kembali';
+
+	/// id: 'Profil Saya'
+	String get my_profile => 'Profil Saya';
+
+	/// id: 'Pegawai'
+	String get employee => 'Pegawai';
+
+	/// id: 'Info Pribadi'
+	String get personal_info => 'Info Pribadi';
+
+	/// id: 'Info Pekerjaan'
+	String get work_info => 'Info Pekerjaan';
+
+	/// id: 'Ubah'
+	String get edit => 'Ubah';
+
+	/// id: 'Tanggal Lahir'
+	String get birth_date => 'Tanggal Lahir';
+
+	/// id: 'Nomor Telepon'
+	String get phone_number => 'Nomor Telepon';
+
+	/// id: 'Alamat'
+	String get address => 'Alamat';
+
+	/// id: 'Nomor Induk Pegawai'
+	String get employee_id => 'Nomor Induk Pegawai';
+
+	/// id: 'Tanggal Penerimaan'
+	String get hire_date => 'Tanggal Penerimaan';
+
+	/// id: 'Jabatan'
+	String get position => 'Jabatan';
+
+	/// id: 'Divisi'
+	String get division => 'Divisi';
+
+	/// id: 'Tampilan'
+	String get theme_settings_title => 'Tampilan';
+
+	/// id: 'Preferensi'
+	String get theme_preference => 'Preferensi';
+
+	/// id: 'Pilih preferensi tampilan Anda'
+	String get theme_preference_subtitle => 'Pilih preferensi tampilan Anda';
+
+	/// id: 'Sistem'
+	String get system => 'Sistem';
+
+	/// id: 'Terang'
+	String get light => 'Terang';
+
+	/// id: 'Gelap'
+	String get dark => 'Gelap';
+
+	/// id: 'Ukuran Font'
+	String get font_size => 'Ukuran Font';
+
+	/// id: 'Pilih ukuran font yang Anda inginkan'
+	String get font_size_subtitle => 'Pilih ukuran font yang Anda inginkan';
+
+	/// id: 'Simpan'
+	String get save => 'Simpan';
+
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
+	late final TranslationsAppDialogId dialog = TranslationsAppDialogId.internal(_root);
+	late final TranslationsAppNotificationsId notifications = TranslationsAppNotificationsId.internal(_root);
+	late final TranslationsAppReportActivityId report_activity = TranslationsAppReportActivityId.internal(_root);
+	late final TranslationsAppQrId qr = TranslationsAppQrId.internal(_root);
 }
 
 // Path: app.errors
@@ -561,6 +700,210 @@ class TranslationsAppErrorsId {
 
 	/// id: 'Endpoint tidak ditemukan atau server sedang offline'
 	String get not_found => 'Endpoint tidak ditemukan atau server sedang offline';
+}
+
+// Path: app.dialog
+class TranslationsAppDialogId {
+	TranslationsAppDialogId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Apakah Anda yakin ingin mengirim?'
+	String get confirm_submit_title => 'Apakah Anda yakin ingin mengirim?';
+
+	/// id: 'Cek kembali inputan Anda sebelum mengirim!'
+	String get confirm_submit_message => 'Cek kembali inputan Anda sebelum mengirim!';
+
+	/// id: 'Ya, saya yakin!'
+	String get confirm_yes => 'Ya, saya yakin!';
+
+	/// id: 'Batalkan'
+	String get cancel => 'Batalkan';
+
+	/// id: 'Data tidak ditemukan!'
+	String get data_not_found_title => 'Data tidak ditemukan!';
+
+	/// id: 'Cek kembali inputan Anda'
+	String get data_not_found_message => 'Cek kembali inputan Anda';
+
+	/// id: 'Oke'
+	String get ok => 'Oke';
+}
+
+// Path: app.notifications
+class TranslationsAppNotificationsId {
+	TranslationsAppNotificationsId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Notifikasi'
+	String get title => 'Notifikasi';
+
+	/// id: 'Cari notifikasi...'
+	String get search_placeholder => 'Cari notifikasi...';
+
+	/// id: 'Tandai semua dibaca'
+	String get mark_all_as_read => 'Tandai semua dibaca';
+
+	/// id: 'Filter'
+	String get filter => 'Filter';
+
+	/// id: 'Jenis'
+	String get type => 'Jenis';
+
+	/// id: 'Analitik'
+	String get analytics => 'Analitik';
+
+	/// id: 'Tiket Baru Ditugaskan'
+	String get new_ticket_assigned => 'Tiket Baru Ditugaskan';
+
+	/// id: 'Pesan Baru'
+	String get new_message => 'Pesan Baru';
+
+	/// id: 'Pembaruan Tim'
+	String get team_update => 'Pembaruan Tim';
+
+	/// id: 'Status Tiket Diperbarui'
+	String get ticket_status_update => 'Status Tiket Diperbarui';
+
+	/// id: 'Tiket Baru Dibuat'
+	String get new_ticket_created => 'Tiket Baru Dibuat';
+
+	/// id: '{time} yang lalu'
+	String get time_ago => '{time} yang lalu';
+
+	/// id: 'Semua'
+	String get filter_all => 'Semua';
+
+	/// id: 'Sudah Dibaca'
+	String get filter_read => 'Sudah Dibaca';
+
+	/// id: 'Belum Dibaca'
+	String get filter_unread => 'Belum Dibaca';
+
+	/// id: 'Semua Jenis'
+	String get type_all => 'Semua Jenis';
+
+	/// id: 'Tiket'
+	String get type_ticket => 'Tiket';
+
+	/// id: 'Pesan'
+	String get type_message => 'Pesan';
+
+	/// id: 'Pembaruan'
+	String get type_update => 'Pembaruan';
+}
+
+// Path: app.report_activity
+class TranslationsAppReportActivityId {
+	TranslationsAppReportActivityId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Riwayat Aktivitas'
+	String get title => 'Riwayat Aktivitas';
+
+	/// id: 'Cari laporan...'
+	String get search_placeholder => 'Cari laporan...';
+
+	/// id: 'Status'
+	String get filter => 'Status';
+
+	/// id: 'Semua'
+	String get filter_all => 'Semua';
+
+	/// id: 'Dibuka'
+	String get filter_open => 'Dibuka';
+
+	/// id: 'Sedang diproses'
+	String get filter_in_progress => 'Sedang diproses';
+
+	/// id: 'Selesai'
+	String get filter_resolved => 'Selesai';
+
+	/// id: 'Ditutup'
+	String get filter_closed => 'Ditutup';
+
+	/// id: 'Jenis'
+	String get type => 'Jenis';
+
+	/// id: 'Insiden'
+	String get type_incident => 'Insiden';
+
+	/// id: 'Permintaan Layanan'
+	String get type_service_request => 'Permintaan Layanan';
+
+	/// id: 'Belum ada laporan.'
+	String get no_reports => 'Belum ada laporan.';
+}
+
+// Path: app.qr
+class TranslationsAppQrId {
+	TranslationsAppQrId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Pemindai Kode QR'
+	String get title => 'Pemindai Kode QR';
+
+	/// id: 'Arahkan kode QR ke dalam bingkai untuk memindai otomatis.'
+	String get instruction => 'Arahkan kode QR ke dalam bingkai untuk memindai otomatis.';
+
+	/// id: 'Lampu'
+	String get flash => 'Lampu';
+
+	/// id: 'Kamera'
+	String get switch_camera => 'Kamera';
+
+	/// id: 'Hasil'
+	String get result_label => 'Hasil';
+
+	/// id: 'Buka Tautan'
+	String get go_to_link => 'Buka Tautan';
+
+	/// id: 'Lihat Teks Lengkap'
+	String get view_full_text => 'Lihat Teks Lengkap';
+
+	/// id: 'Pindai Lagi'
+	String get scan_again => 'Pindai Lagi';
+
+	/// id: 'Detail Aset'
+	String get asset_detail_title => 'Detail Aset';
+
+	/// id: 'Pratinjau QR Code'
+	String get qr_preview_label => 'Pratinjau QR Code';
+
+	/// id: 'ID Aset'
+	String get asset_id => 'ID Aset';
+
+	/// id: 'Nama Aset'
+	String get asset_name => 'Nama Aset';
+
+	/// id: 'Lokasi Aset'
+	String get asset_location => 'Lokasi Aset';
+
+	/// id: 'Status Aset'
+	String get asset_status => 'Status Aset';
+
+	/// id: 'Jenis Aset'
+	String get asset_type => 'Jenis Aset';
+
+	/// id: 'Buat Laporan Berdasarkan Aset Ini'
+	String get create_report_based_on_asset => 'Buat Laporan Berdasarkan Aset Ini';
+
+	/// id: 'Data QR tidak valid. Silakan pindai kode aset yang benar.'
+	String get invalid_qr_message => 'Data QR tidak valid. Silakan pindai kode aset yang benar.';
+
+	/// id: 'Memproses data aset...'
+	String get processing => 'Memproses data aset...';
 }
 
 /// Flat map(s) containing all translations.
@@ -730,11 +1073,112 @@ extension on Translations {
 			case 'app.search_button': return 'Cari';
 			case 'app.error_empty_fields': return 'Harap isi semua kolom terlebih dahulu';
 			case 'app.searching_report_status': return 'Mencari status laporan...';
+			case 'app.service_request_success_title': return 'Permohonan Anda Telah Berhasil Dikirim';
+			case 'app.service_request_success_description': return 'Terima kasih atas laporan Anda. Laporan telah tercatat, kami akan menindaklanjuti sesuai prosedur dalam waktu yang ditentukan. Silakan pantau perkembangan laporan melalui menu Cek Status Layanan.';
+			case 'app.service_type_request': return 'Pengajuan layanan';
+			case 'app.request_type': return 'Jenis Permohonan';
+			case 'app.downloading_ticket': return 'Mengunduh tiket...';
+			case 'app.create_new_request': return 'Buat pengajuan baru';
+			case 'app.edit_profile': return 'Edit Profil';
+			case 'app.change_password': return 'Ubah Kata Sandi';
+			case 'app.language': return 'Bahasa';
+			case 'app.theme': return 'Tema';
+			case 'app.faq': return 'FAQ';
+			case 'app.about_us': return 'Tentang Kami';
+			case 'app.helpdesk_title': return 'Helpdesk';
+			case 'app.helpdesk_intro_text': return 'Kami akan mengalihkan Anda ke helpdesk OPD yang ingin Anda hubungi';
+			case 'app.select_opd': return 'Pilih OPD';
+			case 'app.helpdesk_empty_chat': return 'Mulai percakapan dengan Helpdesk...';
+			case 'app.write_message': return 'Tulis pesan';
+			case 'app.report_found_title': return 'Laporan Ditemukan';
+			case 'app.your_report_label': return 'Laporan Anda: ';
+			case 'app.ticket_label': return 'ID Tiket: ';
+			case 'app.status_label': return 'Status: ';
+			case 'app.service_type_label': return 'Jenis Layanan: ';
+			case 'app.destination_opd_label': return 'OPD Tujuan: ';
+			case 'app.back_button': return 'Kembali';
+			case 'app.my_profile': return 'Profil Saya';
+			case 'app.employee': return 'Pegawai';
+			case 'app.personal_info': return 'Info Pribadi';
+			case 'app.work_info': return 'Info Pekerjaan';
+			case 'app.edit': return 'Ubah';
+			case 'app.birth_date': return 'Tanggal Lahir';
+			case 'app.phone_number': return 'Nomor Telepon';
+			case 'app.address': return 'Alamat';
+			case 'app.employee_id': return 'Nomor Induk Pegawai';
+			case 'app.hire_date': return 'Tanggal Penerimaan';
+			case 'app.position': return 'Jabatan';
+			case 'app.division': return 'Divisi';
+			case 'app.theme_settings_title': return 'Tampilan';
+			case 'app.theme_preference': return 'Preferensi';
+			case 'app.theme_preference_subtitle': return 'Pilih preferensi tampilan Anda';
+			case 'app.system': return 'Sistem';
+			case 'app.light': return 'Terang';
+			case 'app.dark': return 'Gelap';
+			case 'app.font_size': return 'Ukuran Font';
+			case 'app.font_size_subtitle': return 'Pilih ukuran font yang Anda inginkan';
+			case 'app.save': return 'Simpan';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
 			case 'app.errors.validation_error': return 'Kesalahan validasi';
 			case 'app.errors.not_found': return 'Endpoint tidak ditemukan atau server sedang offline';
+			case 'app.dialog.confirm_submit_title': return 'Apakah Anda yakin ingin mengirim?';
+			case 'app.dialog.confirm_submit_message': return 'Cek kembali inputan Anda sebelum mengirim!';
+			case 'app.dialog.confirm_yes': return 'Ya, saya yakin!';
+			case 'app.dialog.cancel': return 'Batalkan';
+			case 'app.dialog.data_not_found_title': return 'Data tidak ditemukan!';
+			case 'app.dialog.data_not_found_message': return 'Cek kembali inputan Anda';
+			case 'app.dialog.ok': return 'Oke';
+			case 'app.notifications.title': return 'Notifikasi';
+			case 'app.notifications.search_placeholder': return 'Cari notifikasi...';
+			case 'app.notifications.mark_all_as_read': return 'Tandai semua dibaca';
+			case 'app.notifications.filter': return 'Filter';
+			case 'app.notifications.type': return 'Jenis';
+			case 'app.notifications.analytics': return 'Analitik';
+			case 'app.notifications.new_ticket_assigned': return 'Tiket Baru Ditugaskan';
+			case 'app.notifications.new_message': return 'Pesan Baru';
+			case 'app.notifications.team_update': return 'Pembaruan Tim';
+			case 'app.notifications.ticket_status_update': return 'Status Tiket Diperbarui';
+			case 'app.notifications.new_ticket_created': return 'Tiket Baru Dibuat';
+			case 'app.notifications.time_ago': return '{time} yang lalu';
+			case 'app.notifications.filter_all': return 'Semua';
+			case 'app.notifications.filter_read': return 'Sudah Dibaca';
+			case 'app.notifications.filter_unread': return 'Belum Dibaca';
+			case 'app.notifications.type_all': return 'Semua Jenis';
+			case 'app.notifications.type_ticket': return 'Tiket';
+			case 'app.notifications.type_message': return 'Pesan';
+			case 'app.notifications.type_update': return 'Pembaruan';
+			case 'app.report_activity.title': return 'Riwayat Aktivitas';
+			case 'app.report_activity.search_placeholder': return 'Cari laporan...';
+			case 'app.report_activity.filter': return 'Status';
+			case 'app.report_activity.filter_all': return 'Semua';
+			case 'app.report_activity.filter_open': return 'Dibuka';
+			case 'app.report_activity.filter_in_progress': return 'Sedang diproses';
+			case 'app.report_activity.filter_resolved': return 'Selesai';
+			case 'app.report_activity.filter_closed': return 'Ditutup';
+			case 'app.report_activity.type': return 'Jenis';
+			case 'app.report_activity.type_incident': return 'Insiden';
+			case 'app.report_activity.type_service_request': return 'Permintaan Layanan';
+			case 'app.report_activity.no_reports': return 'Belum ada laporan.';
+			case 'app.qr.title': return 'Pemindai Kode QR';
+			case 'app.qr.instruction': return 'Arahkan kode QR ke dalam bingkai untuk memindai otomatis.';
+			case 'app.qr.flash': return 'Lampu';
+			case 'app.qr.switch_camera': return 'Kamera';
+			case 'app.qr.result_label': return 'Hasil';
+			case 'app.qr.go_to_link': return 'Buka Tautan';
+			case 'app.qr.view_full_text': return 'Lihat Teks Lengkap';
+			case 'app.qr.scan_again': return 'Pindai Lagi';
+			case 'app.qr.asset_detail_title': return 'Detail Aset';
+			case 'app.qr.qr_preview_label': return 'Pratinjau QR Code';
+			case 'app.qr.asset_id': return 'ID Aset';
+			case 'app.qr.asset_name': return 'Nama Aset';
+			case 'app.qr.asset_location': return 'Lokasi Aset';
+			case 'app.qr.asset_status': return 'Status Aset';
+			case 'app.qr.asset_type': return 'Jenis Aset';
+			case 'app.qr.create_report_based_on_asset': return 'Buat Laporan Berdasarkan Aset Ini';
+			case 'app.qr.invalid_qr_message': return 'Data QR tidak valid. Silakan pindai kode aset yang benar.';
+			case 'app.qr.processing': return 'Memproses data aset...';
 			default: return null;
 		}
 	}

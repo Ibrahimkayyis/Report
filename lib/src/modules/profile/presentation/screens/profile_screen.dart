@@ -1,8 +1,9 @@
-// lib/src/modules/presentation/screens/profile/profile_screen.dart
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:report/gen/i18n/translations.g.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:report/gen/colors.gen.dart';
+import '../widgets/profile_header.dart';
+import '../widgets/profile_menu_list.dart';
 
 @RoutePage()
 class ProfileScreen extends StatelessWidget {
@@ -10,11 +11,32 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t;
     return Scaffold(
-      appBar: AppBar(title: Text(t.app.profile)),
-      body: const Center(
-        child: Text('Profile Screen (placeholder)'),
+      backgroundColor: ColorName.background,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              children: [
+                // Profile Header (Photo, Name, Email)
+                const ProfileHeader(
+                  name: 'Jack William',
+                  email: 'jackwilliam1704@gmail.com',
+                  imageAsset: null, // Set to null to show default icon
+                  // imageAsset: 'assets/images/profile_placeholder.png', // Use this when you have asset
+                ),
+                
+                SizedBox(height: 8.h),
+                
+                // Menu List
+                const ProfileMenuList(),
+                
+                SizedBox(height: 24.h),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

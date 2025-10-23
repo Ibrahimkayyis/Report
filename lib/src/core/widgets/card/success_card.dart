@@ -1,34 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/gen/i18n/translations.g.dart';
-import 'copyable_field.dart';
+import '../../../modules/reporting/presentation/widgets/success/copyable_field.dart';
 
 class SuccessCard extends StatelessWidget {
   final String ticketNumber;
   final String pin;
   final String opdName;
 
+  /// 🧠 Texts injected from outside (screen)
+  final String title;
+  final String description;
+  final String checkWithLabel;
+  final String ticketLabel;
+  final String pinLabel;
+  final String serviceTypeLabel;
+  final String serviceTypeValue;
+  final String destinationLabel;
+  final String downloadLabel;
+
+  final VoidCallback? onDownload;
+
   const SuccessCard({
     super.key,
     required this.ticketNumber,
     required this.pin,
     required this.opdName,
+    required this.title,
+    required this.description,
+    required this.checkWithLabel,
+    required this.ticketLabel,
+    required this.pinLabel,
+    required this.serviceTypeLabel,
+    required this.serviceTypeValue,
+    required this.destinationLabel,
+    required this.downloadLabel,
+    this.onDownload,
   });
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorName.white,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: ColorName.black.withOpacity(0.08),
             blurRadius: 12.r,
             offset: Offset(0, 4.h),
           ),
@@ -44,17 +64,14 @@ class SuccessCard extends StatelessWidget {
               color: ColorName.primary,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.check,
-              size: 48.sp,
-              color: Colors.white,
-            ),
+            child: Icon(Icons.check, size: 48.sp, color: ColorName.white),
           ),
+
           SizedBox(height: 24.h),
 
-          // ✅ Title
+          // ✅ Dynamic Title
           Text(
-            t.app.report_success_title,
+            title,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20.sp,
@@ -62,11 +79,12 @@ class SuccessCard extends StatelessWidget {
               color: ColorName.textPrimary,
             ),
           ),
+
           SizedBox(height: 12.h),
 
-          // ✅ Description
+          // ✅ Dynamic Description
           Text(
-            t.app.report_success_description,
+            description,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13.sp,
@@ -74,63 +92,37 @@ class SuccessCard extends StatelessWidget {
               height: 1.5,
             ),
           ),
+
           SizedBox(height: 24.h),
 
           // ✅ Check with Ticket & PIN
           Text(
-            t.app.check_report_with,
+            checkWithLabel,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
               color: ColorName.textPrimary,
             ),
           ),
+
           SizedBox(height: 16.h),
 
-          CopyableField(label: t.app.ticket_number, value: ticketNumber),
+          CopyableField(label: ticketLabel, value: ticketNumber),
           SizedBox(height: 12.h),
-          CopyableField(label: t.app.pin, value: pin),
-
-          SizedBox(height: 24.h),
-
-          // ✅ QR Placeholder
-          Container(
-            width: 150.w,
-            height: 150.w,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: Colors.grey.shade300, width: 2.w),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.qr_code, size: 80.sp, color: ColorName.primary),
-                SizedBox(height: 8.h),
-                Text(
-                  'QR Code',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          CopyableField(label: pinLabel, value: pin),
 
           SizedBox(height: 24.h),
 
           // ✅ Service Details
-          _buildServiceDetails(t),
+          _buildServiceDetails(),
+
           SizedBox(height: 16.h),
 
           // ✅ Download Ticket
           OutlinedButton.icon(
-            onPressed: () {
-              // TODO: Implement download
-            },
+            onPressed: onDownload,
             icon: Icon(Icons.download, size: 18.sp),
-            label: Text(t.app.download_ticket),
+            label: Text(downloadLabel),
             style: OutlinedButton.styleFrom(
               foregroundColor: ColorName.primary,
               side: BorderSide(color: ColorName.primary, width: 1.5.w),
@@ -145,7 +137,7 @@ class SuccessCard extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceDetails(Translations t) {
+  Widget _buildServiceDetails() {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
@@ -166,11 +158,11 @@ class SuccessCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    t.app.service_type,
+                    serviceTypeLabel,
                     style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
                   ),
                   Text(
-                    t.app.service_type_reporting,
+                    serviceTypeValue,
                     style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
@@ -195,7 +187,7 @@ class SuccessCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      t.app.destination_opd,
+                      destinationLabel,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: Colors.grey.shade600,

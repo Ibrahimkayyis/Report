@@ -62,7 +62,7 @@ class AppFormPrioritySelector extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     decoration: BoxDecoration(
-                      color: isSelected ? color : Colors.white,
+                      color: isSelected ? color : ColorName.white,
                       borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
                         color: isSelected ? color : color.withOpacity(0.5),
@@ -76,7 +76,7 @@ class AppFormPrioritySelector extends StatelessWidget {
                           fontSize: 13.sp,
                           fontWeight:
                               isSelected ? FontWeight.w600 : FontWeight.w500,
-                          color: isSelected ? Colors.white : color,
+                          color: isSelected ? ColorName.white : color,
                         ),
                       ),
                     ),

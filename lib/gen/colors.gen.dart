@@ -17,6 +17,9 @@ class ColorName {
   /// Color: #FFFFFF
   static const Color background = Color(0xFFFFFFFF);
 
+  /// Color: #000000
+  static const Color black = Color(0xFF000000);
+
   /// Color: #FFFFFF
   static const Color onPrimary = Color(0xFFFFFFFF);
 
@@ -25,4 +28,7 @@ class ColorName {
 
   /// Color: #333333
   static const Color textPrimary = Color(0xFF333333);
+
+  /// Color: #FFFFFF
+  static const Color white = Color(0xFFFFFFFF);
 }

@@ -22,10 +22,10 @@ class AppFormBottomActions extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorName.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: ColorName.black.withOpacity(0.05),
             blurRadius: 8.r,
             offset: Offset(0, -2.h),
           ),
@@ -59,29 +59,29 @@ class AppFormBottomActions extends StatelessWidget {
             SizedBox(width: 6.w),
 
             // Save Draft
-            Expanded(
-              flex: 1,
-              child: OutlinedButton(
-                onPressed: onSaveDraft,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: ColorName.primary,
-                  side: BorderSide(color: ColorName.primary, width: 1.w),
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                ),
-                child: Text(
-                  t.app.save_draft_button,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            SizedBox(width: 6.w),
+            // Expanded(
+            //   flex: 1,
+            //   child: OutlinedButton(
+            //     onPressed: onSaveDraft,
+            //     style: OutlinedButton.styleFrom(
+            //       foregroundColor: ColorName.primary,
+            //       side: BorderSide(color: ColorName.primary, width: 1.w),
+            //       padding: EdgeInsets.symmetric(vertical: 10.h),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(6.r),
+            //       ),
+            //     ),
+            //     child: Text(
+            //       t.app.save_draft_button,
+            //       style: TextStyle(
+            //         fontSize: 13.sp,
+            //         fontWeight: FontWeight.w500,
+            //       ),
+            //       textAlign: TextAlign.center,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(width: 6.w),
 
             // Submit
             Expanded(

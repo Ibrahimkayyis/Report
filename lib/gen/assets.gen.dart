@@ -78,8 +78,41 @@ class $AssetsImagesGen {
   AssetGenImage get reportText =>
       const AssetGenImage('assets/images/REPORT_TEXT.png');
 
+  /// File path: assets/images/helpdesk_avatar.png
+  AssetGenImage get helpdeskAvatar =>
+      const AssetGenImage('assets/images/helpdesk_avatar.png');
+
+  /// File path: assets/images/logo_text.png
+  AssetGenImage get logoText =>
+      const AssetGenImage('assets/images/logo_text.png');
+
+  /// File path: assets/images/theme_dark.png
+  AssetGenImage get themeDark =>
+      const AssetGenImage('assets/images/theme_dark.png');
+
+  /// File path: assets/images/theme_light.png
+  AssetGenImage get themeLight =>
+      const AssetGenImage('assets/images/theme_light.png');
+
+  /// File path: assets/images/theme_system.png
+  AssetGenImage get themeSystem =>
+      const AssetGenImage('assets/images/theme_system.png');
+
+  /// File path: assets/images/user_avatar.png
+  AssetGenImage get userAvatar =>
+      const AssetGenImage('assets/images/user_avatar.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [reportLogo, reportText];
+  List<AssetGenImage> get values => [
+    reportLogo,
+    reportText,
+    helpdeskAvatar,
+    logoText,
+    themeDark,
+    themeLight,
+    themeSystem,
+    userAvatar,
+  ];
 }
 
 class Assets {

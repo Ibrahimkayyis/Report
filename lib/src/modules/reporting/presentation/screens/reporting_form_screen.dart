@@ -28,7 +28,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
   final _additionalInfoController = TextEditingController();
 
   String? _selectedCategory;
-  String? _selectedPriority;
+  // String? _selectedPriority;
 
   // Mock user data
   final String _userName = "Sri Wulandari";
@@ -106,7 +106,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                   //     setState(() => _selectedPriority = val);
                   //   },
                   // ),
-
                   SizedBox(height: 24.h),
 
                   /// 📎 Lampiran File
@@ -130,15 +129,38 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
               // TODO: Save draft ke local cache
             },
             onSubmit: () {
-              // TODO: Submit ke API
-              const ticketNumber = 'LPR318728';
-              const pin = '228973';
+              final t = context.t;
 
-              context.router.push(
-                ReportSuccessRoute(
-                  ticketNumber: ticketNumber,
-                  pin: pin,
-                  opdName: widget.opdName,
+              showDialog(
+                context: context,
+                builder: (context) => AppConfirmationDialog(
+                  title: t
+                      .app
+                      .dialog
+                      .confirm_submit_title,
+                  message: t
+                      .app
+                      .dialog
+                      .confirm_submit_message,
+                  confirmText:
+                      t.app.dialog.confirm_yes,
+                  cancelText: t.app.dialog.cancel,
+                  icon: Icons.warning_amber_rounded,
+                  onConfirm: () {
+                    Navigator.pop(context);
+
+                    const ticketNumber = 'LPR318728';
+                    const pin = '228973';
+
+                    context.router.push(
+                      ReportSuccessRoute(
+                        ticketNumber: ticketNumber,
+                        pin: pin,
+                        opdName: widget.opdName,
+                      ),
+                    );
+                  },
+                  onCancel: () => Navigator.pop(context),
                 ),
               );
             },

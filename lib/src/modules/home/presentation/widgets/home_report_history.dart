@@ -29,7 +29,7 @@ class HomeReportHistory extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(20.w),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorName.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
               color: Colors.grey.shade200,
@@ -37,7 +37,7 @@ class HomeReportHistory extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: ColorName.black.withOpacity(0.05),
                 blurRadius: 4.r,
                 offset: Offset(0, 2.h),
               ),

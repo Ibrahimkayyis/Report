@@ -11,6 +11,106 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [ActivityScreen]
+class ActivityRoute extends PageRouteInfo<void> {
+  const ActivityRoute({List<PageRouteInfo>? children})
+    : super(ActivityRoute.name, initialChildren: children);
+
+  static const String name = 'ActivityRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ActivityScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [CheckReportStatusResultScreen]
+class CheckReportStatusResultRoute
+    extends PageRouteInfo<CheckReportStatusResultRouteArgs> {
+  CheckReportStatusResultRoute({
+    Key? key,
+    required String ticketNumber,
+    required String status,
+    required String serviceType,
+    required String opdDestination,
+    List<PageRouteInfo>? children,
+  }) : super(
+         CheckReportStatusResultRoute.name,
+         args: CheckReportStatusResultRouteArgs(
+           key: key,
+           ticketNumber: ticketNumber,
+           status: status,
+           serviceType: serviceType,
+           opdDestination: opdDestination,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'CheckReportStatusResultRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<CheckReportStatusResultRouteArgs>();
+      return CheckReportStatusResultScreen(
+        key: args.key,
+        ticketNumber: args.ticketNumber,
+        status: args.status,
+        serviceType: args.serviceType,
+        opdDestination: args.opdDestination,
+      );
+    },
+  );
+}
+
+class CheckReportStatusResultRouteArgs {
+  const CheckReportStatusResultRouteArgs({
+    this.key,
+    required this.ticketNumber,
+    required this.status,
+    required this.serviceType,
+    required this.opdDestination,
+  });
+
+  final Key? key;
+
+  final String ticketNumber;
+
+  final String status;
+
+  final String serviceType;
+
+  final String opdDestination;
+
+  @override
+  String toString() {
+    return 'CheckReportStatusResultRouteArgs{key: $key, ticketNumber: $ticketNumber, status: $status, serviceType: $serviceType, opdDestination: $opdDestination}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! CheckReportStatusResultRouteArgs) return false;
+    return key == other.key &&
+        ticketNumber == other.ticketNumber &&
+        status == other.status &&
+        serviceType == other.serviceType &&
+        opdDestination == other.opdDestination;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      ticketNumber.hashCode ^
+      status.hashCode ^
+      serviceType.hashCode ^
+      opdDestination.hashCode;
+}
+
+/// generated route for
 /// [CheckReportStatusScreen]
 class CheckReportStatusRoute extends PageRouteInfo<void> {
   const CheckReportStatusRoute({List<PageRouteInfo>? children})
@@ -22,6 +122,54 @@ class CheckReportStatusRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const CheckReportStatusScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [EditProfileScreen]
+class EditProfileRoute extends PageRouteInfo<void> {
+  const EditProfileRoute({List<PageRouteInfo>? children})
+    : super(EditProfileRoute.name, initialChildren: children);
+
+  static const String name = 'EditProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const EditProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [EditThemeScreen]
+class EditThemeRoute extends PageRouteInfo<void> {
+  const EditThemeRoute({List<PageRouteInfo>? children})
+    : super(EditThemeRoute.name, initialChildren: children);
+
+  static const String name = 'EditThemeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const EditThemeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [HelpdeskChatScreen]
+class HelpdeskChatRoute extends PageRouteInfo<void> {
+  const HelpdeskChatRoute({List<PageRouteInfo>? children})
+    : super(HelpdeskChatRoute.name, initialChildren: children);
+
+  static const String name = 'HelpdeskChatRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HelpdeskChatScreen();
     },
   );
 }
@@ -91,6 +239,22 @@ class MainLayoutRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [NotificationScreen]
+class NotificationRoute extends PageRouteInfo<void> {
+  const NotificationRoute({List<PageRouteInfo>? children})
+    : super(NotificationRoute.name, initialChildren: children);
+
+  static const String name = 'NotificationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const NotificationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [OpdSelectionScreen]
 class OpdSelectionRoute extends PageRouteInfo<void> {
   const OpdSelectionRoute({List<PageRouteInfo>? children})
@@ -120,6 +284,70 @@ class ProfileRoute extends PageRouteInfo<void> {
       return const ProfileScreen();
     },
   );
+}
+
+/// generated route for
+/// [QRAssetDetailScreen]
+class QRAssetDetailRoute extends PageRouteInfo<QRAssetDetailRouteArgs> {
+  QRAssetDetailRoute({
+    Key? key,
+    required String qrValue,
+    Uint8List? qrImageBytes,
+    List<PageRouteInfo>? children,
+  }) : super(
+         QRAssetDetailRoute.name,
+         args: QRAssetDetailRouteArgs(
+           key: key,
+           qrValue: qrValue,
+           qrImageBytes: qrImageBytes,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'QRAssetDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<QRAssetDetailRouteArgs>();
+      return QRAssetDetailScreen(
+        key: args.key,
+        qrValue: args.qrValue,
+        qrImageBytes: args.qrImageBytes,
+      );
+    },
+  );
+}
+
+class QRAssetDetailRouteArgs {
+  const QRAssetDetailRouteArgs({
+    this.key,
+    required this.qrValue,
+    this.qrImageBytes,
+  });
+
+  final Key? key;
+
+  final String qrValue;
+
+  final Uint8List? qrImageBytes;
+
+  @override
+  String toString() {
+    return 'QRAssetDetailRouteArgs{key: $key, qrValue: $qrValue, qrImageBytes: $qrImageBytes}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! QRAssetDetailRouteArgs) return false;
+    return key == other.key &&
+        qrValue == other.qrValue &&
+        qrImageBytes == other.qrImageBytes;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ qrValue.hashCode ^ qrImageBytes.hashCode;
 }
 
 /// generated route for
@@ -363,6 +591,82 @@ class ServiceRequestSelectionRoute extends PageRouteInfo<void> {
       return const ServiceRequestSelectionScreen();
     },
   );
+}
+
+/// generated route for
+/// [ServiceRequestSuccessScreen]
+class ServiceRequestSuccessRoute
+    extends PageRouteInfo<ServiceRequestSuccessRouteArgs> {
+  ServiceRequestSuccessRoute({
+    Key? key,
+    required String ticketNumber,
+    required String pin,
+    required String requestType,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ServiceRequestSuccessRoute.name,
+         args: ServiceRequestSuccessRouteArgs(
+           key: key,
+           ticketNumber: ticketNumber,
+           pin: pin,
+           requestType: requestType,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'ServiceRequestSuccessRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ServiceRequestSuccessRouteArgs>();
+      return ServiceRequestSuccessScreen(
+        key: args.key,
+        ticketNumber: args.ticketNumber,
+        pin: args.pin,
+        requestType: args.requestType,
+      );
+    },
+  );
+}
+
+class ServiceRequestSuccessRouteArgs {
+  const ServiceRequestSuccessRouteArgs({
+    this.key,
+    required this.ticketNumber,
+    required this.pin,
+    required this.requestType,
+  });
+
+  final Key? key;
+
+  final String ticketNumber;
+
+  final String pin;
+
+  final String requestType;
+
+  @override
+  String toString() {
+    return 'ServiceRequestSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, pin: $pin, requestType: $requestType}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ServiceRequestSuccessRouteArgs) return false;
+    return key == other.key &&
+        ticketNumber == other.ticketNumber &&
+        pin == other.pin &&
+        requestType == other.requestType;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      ticketNumber.hashCode ^
+      pin.hashCode ^
+      requestType.hashCode;
 }
 
 /// generated route for

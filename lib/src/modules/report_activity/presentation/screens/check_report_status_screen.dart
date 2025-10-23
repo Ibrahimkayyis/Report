@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 
 @RoutePage()
@@ -10,7 +11,8 @@ class CheckReportStatusScreen extends StatefulWidget {
   const CheckReportStatusScreen({super.key});
 
   @override
-  State<CheckReportStatusScreen> createState() => _CheckReportStatusScreenState();
+  State<CheckReportStatusScreen> createState() =>
+      _CheckReportStatusScreenState();
 }
 
 class _CheckReportStatusScreenState extends State<CheckReportStatusScreen> {
@@ -29,13 +31,13 @@ class _CheckReportStatusScreenState extends State<CheckReportStatusScreen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           child: Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height - 120.h, // hampir penuh layar
+            height: MediaQuery.of(context).size.height - 120.h,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ColorName.white,
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: ColorName.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -134,11 +136,39 @@ class _CheckReportStatusScreenState extends State<CheckReportStatusScreen> {
                             return;
                           }
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(t.app.searching_report_status)),
-                          );
+                          // 🔹 Simulasi hasil pengecekan laporan
+                          final bool dataFound = true; // sementara dummy
+
+                          if (!dataFound) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AppInfoDialog(
+                                icon: Icons.info_outline_rounded,
+                                iconColor: ColorName.primary,
+                                title: t.app.dialog.data_not_found_title,
+                                message: t.app.dialog.data_not_found_message,
+                                buttonText: t.app.dialog.ok,
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            );
+                          } else {
+                            // 🔹 Navigasi ke hasil laporan (dummy data)
+                            context.router.push(
+                              CheckReportStatusResultRoute(
+                                ticketNumber: "LPR318728",
+                                status: "Pending",
+                                serviceType: t.app.service_device_request,
+                                opdDestination:
+                                    t.app.opd_dinas_pendidikan,
+                              ),
+                            );
+                          }
                         },
-                        icon: Icon(Icons.search, color: ColorName.background, size: 18.sp),
+                        icon: Icon(
+                          Icons.search,
+                          color: ColorName.background,
+                          size: 18.sp,
+                        ),
                         label: Text(
                           t.app.search_button,
                           style: TextStyle(

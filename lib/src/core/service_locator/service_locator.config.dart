@@ -19,8 +19,6 @@ import 'package:report/src/modules/auth/data/datasources/local/implementation/au
     as _i172;
 import 'package:report/src/modules/auth/data/datasources/remote/source/abstract/auth_remote_data_source.dart'
     as _i260;
-import 'package:report/src/modules/auth/data/datasources/remote/source/implementation/api_service.dart'
-    as _i1073;
 import 'package:report/src/modules/auth/data/datasources/remote/source/implementation/auth_remote_data_source_impl.dart'
     as _i1028;
 import 'package:report/src/modules/auth/data/repositories_impl/auth_repository_impl.dart'
@@ -51,7 +49,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs(),
       preResolve: true,
     );
-    gh.lazySingleton<_i1073.ApiService>(() => _i1073.ApiService());
     gh.lazySingleton<_i344.AuthLocalDataSource>(
       () => _i172.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );

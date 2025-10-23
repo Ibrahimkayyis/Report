@@ -37,11 +37,11 @@ class AppDropdownField extends StatelessWidget {
           initialItem: value,
           onChanged: onChanged,
           decoration: CustomDropdownDecoration(
-            closedFillColor: Colors.white,
+            closedFillColor: ColorName.white,
             closedBorder: Border.all(color: Colors.grey.shade400),
             closedBorderRadius: BorderRadius.circular(8.r),
             expandedBorderRadius: BorderRadius.circular(8.r),
-            listItemStyle: TextStyle(fontSize: 14.sp, color: Colors.black87),
+            listItemStyle: TextStyle(fontSize: 14.sp, color: ColorName.black),
             hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
           ),
         ),
