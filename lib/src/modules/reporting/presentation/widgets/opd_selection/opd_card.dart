@@ -45,7 +45,7 @@ class OpdCard extends StatelessWidget {
                     color: opd.color,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: Icon(opd.icon, color: Colors.white, size: 24.sp),
+                  child: Icon(opd.icon, color: ColorName.white, size: 24.sp),
                 ),
                 SizedBox(width: 14.w),
                 // OPD name

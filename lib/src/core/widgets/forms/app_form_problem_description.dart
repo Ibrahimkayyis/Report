@@ -46,7 +46,7 @@ class AppFormProblemDescription extends StatelessWidget {
             hintText: t.app.additional_info_hint,
             hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13.sp),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: ColorName.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide(color: Colors.grey.shade300),

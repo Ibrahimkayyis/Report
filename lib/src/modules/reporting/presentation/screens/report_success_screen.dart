@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:report/gen/i18n/translations.g.dart';
 // import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
-import '../widgets/success/success_card.dart';
-import '../widgets/success/bottom_actions.dart';
+import 'package:report/src/core/widgets/widgets.dart';
 
 @RoutePage()
 class ReportSuccessScreen extends StatelessWidget {
@@ -38,20 +38,36 @@ class ReportSuccessScreen extends StatelessWidget {
                       ticketNumber: ticketNumber,
                       pin: pin,
                       opdName: opdName,
+                      title: t.app.report_success_title,
+                      description: t.app.report_success_description,
+                      checkWithLabel: t.app.check_report_with,
+                      ticketLabel: t.app.ticket_number,
+                      pinLabel: t.app.pin,
+                      serviceTypeLabel: t.app.service_type,
+                      serviceTypeValue: t.app.service_type_reporting,
+                      destinationLabel: t.app.destination_opd,
+                      downloadLabel: t.app.download_ticket,
+                      onDownload: () {
+                        // TODO: implement download
+                      },
                     ),
                     SizedBox(height: 24.h),
                   ],
                 ),
               ),
             ),
-            ReportSuccessBottomActions(
-              onCheckStatus: () {
-                // TODO: Navigate to check status
+            AppBottomActions(
+              primaryLabel: t.app.check_service_status,
+              onPrimaryPressed: () {
+                context.router.push(const CheckReportStatusRoute());
               },
-              onCreateNewReport: () {
-                // TODO: Navigate to create new report
+              secondaryLeftLabel: t.app.create_new_report,
+              onSecondaryLeftPressed: () {
+                context.router.popUntilRoot();
+                context.router.push(const OpdSelectionRoute());
               },
-              onBackToHome: () {
+              secondaryRightLabel: t.app.back_to_home,
+              onSecondaryRightPressed: () {
                 context.router.replaceAll([const MainLayoutRoute()]);
               },
             ),

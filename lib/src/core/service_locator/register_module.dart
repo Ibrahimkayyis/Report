@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class RegisterModule {
   /// Base URL API untuk REPORT (pusat disini)
   @Named('baseUrl')
-  String get baseUrl => "https://cd67e0bbfdbe.ngrok-free.app";
+  String get baseUrl => "https://service-desk-be-production.up.railway.app";
 
   /// Dio client untuk REST API
   @lazySingleton

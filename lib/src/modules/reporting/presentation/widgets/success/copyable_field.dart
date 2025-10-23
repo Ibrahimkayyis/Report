@@ -39,7 +39,7 @@ class CopyableField extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: ColorName.white,
                         letterSpacing: 1.2,
                       ),
                     ),

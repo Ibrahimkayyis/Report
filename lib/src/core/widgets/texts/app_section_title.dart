@@ -28,7 +28,7 @@ class AppSectionTitle extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: ColorName.black.withOpacity(0.05),
             blurRadius: 6.r,
             offset: Offset(0, 3.h),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/service_request/domain/models/service_request_texts.dart';
 import 'package:report/src/modules/service_request/domain/models/service_type.dart';
@@ -22,7 +23,7 @@ class _ServiceRequestFormScreenState extends State<ServiceRequestFormScreen> {
   final _problemController = TextEditingController();
   final _additionalInfoController = TextEditingController();
 
-  String? _selectedPriority;
+  // String? _selectedPriority;
   String? _dropdown1Value;
   String? _dropdown2Value;
   String? _deviceCount;
@@ -85,8 +86,38 @@ class _ServiceRequestFormScreenState extends State<ServiceRequestFormScreen> {
             onCancel: () => context.router.pop(),
             onSaveDraft: () {},
             onSubmit: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Form submitted for ${widget.serviceType.name}")),
+              final t = context.t;
+
+              showDialog(
+                context: context,
+                builder: (context) => AppConfirmationDialog(
+                  title: t.app
+                      .dialog
+                      .confirm_submit_title, // ex: "Apakah Anda yakin ingin mengirim?"
+                  message: t.app
+                      .dialog
+                      .confirm_submit_message, // ex: "Cek kembali inputan Anda sebelum mengirim!"
+                  confirmText: t.app.dialog.confirm_yes, // ex: "Ya, saya yakin!"
+                  cancelText: t.app.dialog.cancel, // ex: "Batalkan"
+                  icon: Icons.warning_amber_rounded,
+                  onConfirm: () {
+                    Navigator.pop(context);
+
+                    final ticketNumber =
+                        "SR-${DateTime.now().millisecondsSinceEpoch}";
+                    const pin = "982134";
+                    final typeName = widget.serviceType.title;
+
+                    context.router.push(
+                      ServiceRequestSuccessRoute(
+                        ticketNumber: ticketNumber,
+                        pin: pin,
+                        requestType: typeName,
+                      ),
+                    );
+                  },
+                  onCancel: () => Navigator.pop(context),
+                ),
               );
             },
           ),

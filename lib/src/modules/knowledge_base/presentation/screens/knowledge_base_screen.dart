@@ -43,11 +43,11 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ColorName.white,
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: ColorName.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -204,7 +204,7 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: ColorName.white,
                 height: 1.3,
               ),
               maxLines: 4,
@@ -218,10 +218,10 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
               width: 30.w,
               height: 30.w,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: ColorName.white.withOpacity(0.2),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.arrow_right, color: Colors.white, size: 18.sp),
+              child: Icon(Icons.arrow_right, color: ColorName.white, size: 18.sp),
             ),
           ),
         ],

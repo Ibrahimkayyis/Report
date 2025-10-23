@@ -45,7 +45,7 @@ class AppFormTargetDisplay extends StatelessWidget {
                   color: color,
                   borderRadius: BorderRadius.circular(6.r),
                 ),
-                child: Icon(icon, color: Colors.white, size: 16.sp),
+                child: Icon(icon, color: ColorName.white, size: 16.sp),
               ),
               SizedBox(width: 10.w),
               Flexible(

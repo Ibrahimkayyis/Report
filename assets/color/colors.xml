@@ -11,4 +11,7 @@
 
   <!-- teks di dalam komponen -->
   <color name="on_primary">#FFFFFF</color>
+
+  <color name="white">#FFFFFF</color>
+  <color name="black">#000000</color>
 </resources>

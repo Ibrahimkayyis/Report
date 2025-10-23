@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:report/gen/colors.gen.dart';
 
 
 /// Container untuk form login/register.
@@ -24,7 +25,7 @@ class AuthContainer extends StatelessWidget {
       width: double.infinity,
       padding: padding ?? EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorName.white,
         borderRadius: BorderRadius.circular(borderRadius ?? 20.r),
         border: Border.all(
           color: Colors.grey.shade300,
@@ -32,7 +33,7 @@ class AuthContainer extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: ColorName.black.withOpacity(0.1),
             blurRadius: elevation ?? 10.r,
             offset: Offset(0, 4.h),
           ),

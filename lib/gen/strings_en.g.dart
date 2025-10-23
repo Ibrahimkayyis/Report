@@ -482,7 +482,200 @@ class TranslationsAppEn {
 	/// en: 'Notification'
 	String get notification => 'Notification';
 
+	/// en: 'Knowledge Base'
+	String get knowledge_base_title => 'Knowledge Base';
+
+	/// en: 'Learn and find the solutions you need'
+	String get knowledge_base_subtitle => 'Learn and find the solutions you need';
+
+	/// en: 'Search here'
+	String get search_here => 'Search here';
+
+	/// en: 'How to create a new ticket?'
+	String get faq_how_to_create_ticket => 'How to create a new ticket?';
+
+	/// en: 'How to check my ticket status?'
+	String get faq_how_to_check_ticket_status => 'How to check my ticket status?';
+
+	/// en: 'Guide to contact direct support?'
+	String get faq_guide_contact_support => 'Guide to contact direct support?';
+
+	/// en: 'Guide to reset password?'
+	String get faq_guide_reset_password => 'Guide to reset password?';
+
+	/// en: 'How long does ticket processing usually take?'
+	String get faq_how_long_ticket_processing => 'How long does ticket processing usually take?';
+
+	/// en: 'What to do if the ticket hasn't received a response?'
+	String get faq_what_to_do_no_response => 'What to do if the ticket hasn\'t received a response?';
+
+	/// en: 'Report Tracking'
+	String get check_report_status_title => 'Report Tracking';
+
+	/// en: 'Track the status of your report'
+	String get check_report_status_subtitle => 'Track the status of your report';
+
+	/// en: 'Report ID'
+	String get report_id_label => 'Report ID';
+
+	/// en: 'Enter your report ID'
+	String get report_id_hint => 'Enter your report ID';
+
+	/// en: 'PIN'
+	String get pin_label => 'PIN';
+
+	/// en: 'Enter your PIN'
+	String get pin_hint => 'Enter your PIN';
+
+	/// en: 'Search'
+	String get search_button => 'Search';
+
+	/// en: 'Please fill in all fields first'
+	String get error_empty_fields => 'Please fill in all fields first';
+
+	/// en: 'Searching report status...'
+	String get searching_report_status => 'Searching report status...';
+
+	/// en: 'Your Request Has Been Successfully Submitted'
+	String get service_request_success_title => 'Your Request Has Been Successfully Submitted';
+
+	/// en: 'Thank you for your submission. Your request has been recorded, and we will follow up according to procedure within the specified time. Please monitor progress through the Service Status menu.'
+	String get service_request_success_description => 'Thank you for your submission. Your request has been recorded, and we will follow up according to procedure within the specified time. Please monitor progress through the Service Status menu.';
+
+	/// en: 'Service Request'
+	String get service_type_request => 'Service Request';
+
+	/// en: 'Request Type'
+	String get request_type => 'Request Type';
+
+	/// en: 'Downloading ticket...'
+	String get downloading_ticket => 'Downloading ticket...';
+
+	/// en: 'Create new request'
+	String get create_new_request => 'Create new request';
+
+	/// en: 'Edit Profile'
+	String get edit_profile => 'Edit Profile';
+
+	/// en: 'Change Password'
+	String get change_password => 'Change Password';
+
+	/// en: 'Language'
+	String get language => 'Language';
+
+	/// en: 'Theme'
+	String get theme => 'Theme';
+
+	/// en: 'FAQ'
+	String get faq => 'FAQ';
+
+	/// en: 'About Us'
+	String get about_us => 'About Us';
+
+	/// en: 'Helpdesk'
+	String get helpdesk_title => 'Helpdesk';
+
+	/// en: 'How can we assist you today? Start a conversation with our helpdesk team for support and inquiries.'
+	String get helpdesk_intro_text => 'How can we assist you today? Start a conversation with our helpdesk team for support and inquiries.';
+
+	/// en: 'Select OPD'
+	String get select_opd => 'Select OPD';
+
+	/// en: 'No messages yet. Start the conversation now!'
+	String get helpdesk_empty_chat => 'No messages yet. Start the conversation now!';
+
+	/// en: 'Write your message...'
+	String get write_message => 'Write your message...';
+
+	/// en: 'Report Found'
+	String get report_found_title => 'Report Found';
+
+	/// en: 'Your Report: '
+	String get your_report_label => 'Your Report: ';
+
+	/// en: 'Ticket ID: '
+	String get ticket_label => 'Ticket ID: ';
+
+	/// en: 'Status: '
+	String get status_label => 'Status: ';
+
+	/// en: 'Service Type: '
+	String get service_type_label => 'Service Type: ';
+
+	/// en: 'Destination OPD: '
+	String get destination_opd_label => 'Destination OPD: ';
+
+	/// en: 'Back'
+	String get back_button => 'Back';
+
+	/// en: 'My Profile'
+	String get my_profile => 'My Profile';
+
+	/// en: 'Employee'
+	String get employee => 'Employee';
+
+	/// en: 'Personal Info'
+	String get personal_info => 'Personal Info';
+
+	/// en: 'Work Info'
+	String get work_info => 'Work Info';
+
+	/// en: 'Edit'
+	String get edit => 'Edit';
+
+	/// en: 'Birth Date'
+	String get birth_date => 'Birth Date';
+
+	/// en: 'Phone Number'
+	String get phone_number => 'Phone Number';
+
+	/// en: 'Address'
+	String get address => 'Address';
+
+	/// en: 'Employee ID'
+	String get employee_id => 'Employee ID';
+
+	/// en: 'Hire Date'
+	String get hire_date => 'Hire Date';
+
+	/// en: 'Position'
+	String get position => 'Position';
+
+	/// en: 'Division'
+	String get division => 'Division';
+
+	/// en: 'Appearance'
+	String get theme_settings_title => 'Appearance';
+
+	/// en: 'Preference'
+	String get theme_preference => 'Preference';
+
+	/// en: 'Choose your display preference'
+	String get theme_preference_subtitle => 'Choose your display preference';
+
+	/// en: 'System'
+	String get system => 'System';
+
+	/// en: 'Light'
+	String get light => 'Light';
+
+	/// en: 'Dark'
+	String get dark => 'Dark';
+
+	/// en: 'Font Size'
+	String get font_size => 'Font Size';
+
+	/// en: 'Choose your preferred font size'
+	String get font_size_subtitle => 'Choose your preferred font size';
+
+	/// en: 'Save'
+	String get save => 'Save';
+
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
+	late final TranslationsAppDialogEn dialog = TranslationsAppDialogEn._(_root);
+	late final TranslationsAppNotificationsEn notifications = TranslationsAppNotificationsEn._(_root);
+	late final TranslationsAppReportActivityEn report_activity = TranslationsAppReportActivityEn._(_root);
+	late final TranslationsAppQrEn qr = TranslationsAppQrEn._(_root);
 }
 
 // Path: app.errors
@@ -507,6 +700,210 @@ class TranslationsAppErrorsEn {
 
 	/// en: 'Endpoint not found or server is offline'
 	String get not_found => 'Endpoint not found or server is offline';
+}
+
+// Path: app.dialog
+class TranslationsAppDialogEn {
+	TranslationsAppDialogEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Are you sure you want to submit?'
+	String get confirm_submit_title => 'Are you sure you want to submit?';
+
+	/// en: 'Please double-check your input before submitting!'
+	String get confirm_submit_message => 'Please double-check your input before submitting!';
+
+	/// en: 'Yes, I'm sure!'
+	String get confirm_yes => 'Yes, I\'m sure!';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Data not found!'
+	String get data_not_found_title => 'Data not found!';
+
+	/// en: 'Please check your input again'
+	String get data_not_found_message => 'Please check your input again';
+
+	/// en: 'OK'
+	String get ok => 'OK';
+}
+
+// Path: app.notifications
+class TranslationsAppNotificationsEn {
+	TranslationsAppNotificationsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Notifications'
+	String get title => 'Notifications';
+
+	/// en: 'Search notifications...'
+	String get search_placeholder => 'Search notifications...';
+
+	/// en: 'Mark all as read'
+	String get mark_all_as_read => 'Mark all as read';
+
+	/// en: 'Filter'
+	String get filter => 'Filter';
+
+	/// en: 'Type'
+	String get type => 'Type';
+
+	/// en: 'Analytics'
+	String get analytics => 'Analytics';
+
+	/// en: 'New Ticket Assigned'
+	String get new_ticket_assigned => 'New Ticket Assigned';
+
+	/// en: 'New Message'
+	String get new_message => 'New Message';
+
+	/// en: 'Team Update'
+	String get team_update => 'Team Update';
+
+	/// en: 'Ticket Status Update'
+	String get ticket_status_update => 'Ticket Status Update';
+
+	/// en: 'New Ticket Created'
+	String get new_ticket_created => 'New Ticket Created';
+
+	/// en: '{time} ago'
+	String get time_ago => '{time} ago';
+
+	/// en: 'All'
+	String get filter_all => 'All';
+
+	/// en: 'Read'
+	String get filter_read => 'Read';
+
+	/// en: 'Unread'
+	String get filter_unread => 'Unread';
+
+	/// en: 'All Types'
+	String get type_all => 'All Types';
+
+	/// en: 'Ticket'
+	String get type_ticket => 'Ticket';
+
+	/// en: 'Message'
+	String get type_message => 'Message';
+
+	/// en: 'Update'
+	String get type_update => 'Update';
+}
+
+// Path: app.report_activity
+class TranslationsAppReportActivityEn {
+	TranslationsAppReportActivityEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Activity History'
+	String get title => 'Activity History';
+
+	/// en: 'Search reports...'
+	String get search_placeholder => 'Search reports...';
+
+	/// en: 'Filter'
+	String get filter => 'Filter';
+
+	/// en: 'All'
+	String get filter_all => 'All';
+
+	/// en: 'Open'
+	String get filter_open => 'Open';
+
+	/// en: 'In Progress'
+	String get filter_in_progress => 'In Progress';
+
+	/// en: 'Resolved'
+	String get filter_resolved => 'Resolved';
+
+	/// en: 'Closed'
+	String get filter_closed => 'Closed';
+
+	/// en: 'Type'
+	String get type => 'Type';
+
+	/// en: 'Incident'
+	String get type_incident => 'Incident';
+
+	/// en: 'Service Request'
+	String get type_service_request => 'Service Request';
+
+	/// en: 'No reports yet.'
+	String get no_reports => 'No reports yet.';
+}
+
+// Path: app.qr
+class TranslationsAppQrEn {
+	TranslationsAppQrEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'QR Code Scanner'
+	String get title => 'QR Code Scanner';
+
+	/// en: 'Align the QR code within the frame to scan automatically.'
+	String get instruction => 'Align the QR code within the frame to scan automatically.';
+
+	/// en: 'Flash'
+	String get flash => 'Flash';
+
+	/// en: 'Switch'
+	String get switch_camera => 'Switch';
+
+	/// en: 'Result'
+	String get result_label => 'Result';
+
+	/// en: 'Go to Link'
+	String get go_to_link => 'Go to Link';
+
+	/// en: 'View Full Text'
+	String get view_full_text => 'View Full Text';
+
+	/// en: 'Scan Again'
+	String get scan_again => 'Scan Again';
+
+	/// en: 'Detail Aset'
+	String get asset_detail_title => 'Detail Aset';
+
+	/// en: 'QR Code Preview'
+	String get qr_preview_label => 'QR Code Preview';
+
+	/// en: 'Asset ID'
+	String get asset_id => 'Asset ID';
+
+	/// en: 'Asset Name'
+	String get asset_name => 'Asset Name';
+
+	/// en: 'Asset Location'
+	String get asset_location => 'Asset Location';
+
+	/// en: 'Asset Status'
+	String get asset_status => 'Asset Status';
+
+	/// en: 'Asset Type'
+	String get asset_type => 'Asset Type';
+
+	/// en: 'Create Report Based on This Asset'
+	String get create_report_based_on_asset => 'Create Report Based on This Asset';
+
+	/// en: 'Invalid QR data. Please scan a valid asset QR code.'
+	String get invalid_qr_message => 'Invalid QR data. Please scan a valid asset QR code.';
+
+	/// en: 'Processing Asset Data...'
+	String get processing => 'Processing Asset Data...';
 }
 
 /// Flat map(s) containing all translations.
@@ -658,11 +1055,130 @@ extension on Translations {
 			case 'app.additional_info_label': return 'Additional Information';
 			case 'app.activity': return 'Activity';
 			case 'app.notification': return 'Notification';
+			case 'app.knowledge_base_title': return 'Knowledge Base';
+			case 'app.knowledge_base_subtitle': return 'Learn and find the solutions you need';
+			case 'app.search_here': return 'Search here';
+			case 'app.faq_how_to_create_ticket': return 'How to create a new ticket?';
+			case 'app.faq_how_to_check_ticket_status': return 'How to check my ticket status?';
+			case 'app.faq_guide_contact_support': return 'Guide to contact direct support?';
+			case 'app.faq_guide_reset_password': return 'Guide to reset password?';
+			case 'app.faq_how_long_ticket_processing': return 'How long does ticket processing usually take?';
+			case 'app.faq_what_to_do_no_response': return 'What to do if the ticket hasn\'t received a response?';
+			case 'app.check_report_status_title': return 'Report Tracking';
+			case 'app.check_report_status_subtitle': return 'Track the status of your report';
+			case 'app.report_id_label': return 'Report ID';
+			case 'app.report_id_hint': return 'Enter your report ID';
+			case 'app.pin_label': return 'PIN';
+			case 'app.pin_hint': return 'Enter your PIN';
+			case 'app.search_button': return 'Search';
+			case 'app.error_empty_fields': return 'Please fill in all fields first';
+			case 'app.searching_report_status': return 'Searching report status...';
+			case 'app.service_request_success_title': return 'Your Request Has Been Successfully Submitted';
+			case 'app.service_request_success_description': return 'Thank you for your submission. Your request has been recorded, and we will follow up according to procedure within the specified time. Please monitor progress through the Service Status menu.';
+			case 'app.service_type_request': return 'Service Request';
+			case 'app.request_type': return 'Request Type';
+			case 'app.downloading_ticket': return 'Downloading ticket...';
+			case 'app.create_new_request': return 'Create new request';
+			case 'app.edit_profile': return 'Edit Profile';
+			case 'app.change_password': return 'Change Password';
+			case 'app.language': return 'Language';
+			case 'app.theme': return 'Theme';
+			case 'app.faq': return 'FAQ';
+			case 'app.about_us': return 'About Us';
+			case 'app.helpdesk_title': return 'Helpdesk';
+			case 'app.helpdesk_intro_text': return 'How can we assist you today? Start a conversation with our helpdesk team for support and inquiries.';
+			case 'app.select_opd': return 'Select OPD';
+			case 'app.helpdesk_empty_chat': return 'No messages yet. Start the conversation now!';
+			case 'app.write_message': return 'Write your message...';
+			case 'app.report_found_title': return 'Report Found';
+			case 'app.your_report_label': return 'Your Report: ';
+			case 'app.ticket_label': return 'Ticket ID: ';
+			case 'app.status_label': return 'Status: ';
+			case 'app.service_type_label': return 'Service Type: ';
+			case 'app.destination_opd_label': return 'Destination OPD: ';
+			case 'app.back_button': return 'Back';
+			case 'app.my_profile': return 'My Profile';
+			case 'app.employee': return 'Employee';
+			case 'app.personal_info': return 'Personal Info';
+			case 'app.work_info': return 'Work Info';
+			case 'app.edit': return 'Edit';
+			case 'app.birth_date': return 'Birth Date';
+			case 'app.phone_number': return 'Phone Number';
+			case 'app.address': return 'Address';
+			case 'app.employee_id': return 'Employee ID';
+			case 'app.hire_date': return 'Hire Date';
+			case 'app.position': return 'Position';
+			case 'app.division': return 'Division';
+			case 'app.theme_settings_title': return 'Appearance';
+			case 'app.theme_preference': return 'Preference';
+			case 'app.theme_preference_subtitle': return 'Choose your display preference';
+			case 'app.system': return 'System';
+			case 'app.light': return 'Light';
+			case 'app.dark': return 'Dark';
+			case 'app.font_size': return 'Font Size';
+			case 'app.font_size_subtitle': return 'Choose your preferred font size';
+			case 'app.save': return 'Save';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
 			case 'app.errors.validation_error': return 'Validation error';
 			case 'app.errors.not_found': return 'Endpoint not found or server is offline';
+			case 'app.dialog.confirm_submit_title': return 'Are you sure you want to submit?';
+			case 'app.dialog.confirm_submit_message': return 'Please double-check your input before submitting!';
+			case 'app.dialog.confirm_yes': return 'Yes, I\'m sure!';
+			case 'app.dialog.cancel': return 'Cancel';
+			case 'app.dialog.data_not_found_title': return 'Data not found!';
+			case 'app.dialog.data_not_found_message': return 'Please check your input again';
+			case 'app.dialog.ok': return 'OK';
+			case 'app.notifications.title': return 'Notifications';
+			case 'app.notifications.search_placeholder': return 'Search notifications...';
+			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
+			case 'app.notifications.filter': return 'Filter';
+			case 'app.notifications.type': return 'Type';
+			case 'app.notifications.analytics': return 'Analytics';
+			case 'app.notifications.new_ticket_assigned': return 'New Ticket Assigned';
+			case 'app.notifications.new_message': return 'New Message';
+			case 'app.notifications.team_update': return 'Team Update';
+			case 'app.notifications.ticket_status_update': return 'Ticket Status Update';
+			case 'app.notifications.new_ticket_created': return 'New Ticket Created';
+			case 'app.notifications.time_ago': return '{time} ago';
+			case 'app.notifications.filter_all': return 'All';
+			case 'app.notifications.filter_read': return 'Read';
+			case 'app.notifications.filter_unread': return 'Unread';
+			case 'app.notifications.type_all': return 'All Types';
+			case 'app.notifications.type_ticket': return 'Ticket';
+			case 'app.notifications.type_message': return 'Message';
+			case 'app.notifications.type_update': return 'Update';
+			case 'app.report_activity.title': return 'Activity History';
+			case 'app.report_activity.search_placeholder': return 'Search reports...';
+			case 'app.report_activity.filter': return 'Filter';
+			case 'app.report_activity.filter_all': return 'All';
+			case 'app.report_activity.filter_open': return 'Open';
+			case 'app.report_activity.filter_in_progress': return 'In Progress';
+			case 'app.report_activity.filter_resolved': return 'Resolved';
+			case 'app.report_activity.filter_closed': return 'Closed';
+			case 'app.report_activity.type': return 'Type';
+			case 'app.report_activity.type_incident': return 'Incident';
+			case 'app.report_activity.type_service_request': return 'Service Request';
+			case 'app.report_activity.no_reports': return 'No reports yet.';
+			case 'app.qr.title': return 'QR Code Scanner';
+			case 'app.qr.instruction': return 'Align the QR code within the frame to scan automatically.';
+			case 'app.qr.flash': return 'Flash';
+			case 'app.qr.switch_camera': return 'Switch';
+			case 'app.qr.result_label': return 'Result';
+			case 'app.qr.go_to_link': return 'Go to Link';
+			case 'app.qr.view_full_text': return 'View Full Text';
+			case 'app.qr.scan_again': return 'Scan Again';
+			case 'app.qr.asset_detail_title': return 'Detail Aset';
+			case 'app.qr.qr_preview_label': return 'QR Code Preview';
+			case 'app.qr.asset_id': return 'Asset ID';
+			case 'app.qr.asset_name': return 'Asset Name';
+			case 'app.qr.asset_location': return 'Asset Location';
+			case 'app.qr.asset_status': return 'Asset Status';
+			case 'app.qr.asset_type': return 'Asset Type';
+			case 'app.qr.create_report_based_on_asset': return 'Create Report Based on This Asset';
+			case 'app.qr.invalid_qr_message': return 'Invalid QR data. Please scan a valid asset QR code.';
+			case 'app.qr.processing': return 'Processing Asset Data...';
 			default: return null;
 		}
 	}
