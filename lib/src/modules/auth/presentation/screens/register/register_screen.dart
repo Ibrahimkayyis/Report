@@ -25,6 +25,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _birthDateController = TextEditingController();
+
+  DateTime? _selectedDate;
 
   @override
   void dispose() {
@@ -33,7 +38,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    _birthDateController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final now = DateTime.now();
+    final initialDate = _selectedDate ?? DateTime(now.year - 18, now.month, now.day);
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1950),
+      lastDate: now,
+      helpText: 'Pilih Tanggal Lahir',
+      confirmText: 'Pilih',
+      cancelText: 'Batal',
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+        _birthDateController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+      });
+    }
   }
 
   void _onRegisterPressed(BuildContext context) {
@@ -43,6 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         firstName: _firstNameController.text.trim(),
         lastName: _lastNameController.text.trim(),
         password: _passwordController.text,
+        phoneNumber: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
+        birthDate: _birthDateController.text.trim().isEmpty ? null : _birthDateController.text.trim(),
+        address: _addressController.text.trim().isEmpty ? null : _addressController.text.trim(),
       );
     }
   }
@@ -79,7 +110,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           /// Logo
                           const Center(child: LogoWidget()),
-
                           SizedBox(height: 20.h),
 
                           /// Title
@@ -94,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-
                           SizedBox(height: 8.h),
 
                           /// Already have account? Login
@@ -102,11 +131,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: LinkText(
                               leadingText: t.app.already_have_account,
                               linkText: t.app.login,
-                              onTap: () =>
-                                  context.router.push(const LoginRoute()),
+                              onTap: () => context.router.push(const LoginRoute()),
                             ),
                           ),
-
                           SizedBox(height: 30.h),
 
                           /// First Name
@@ -121,7 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-
                           SizedBox(height: 16.h),
 
                           /// Last Name
@@ -136,7 +162,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-
                           SizedBox(height: 16.h),
 
                           /// Email
@@ -155,7 +180,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
+                          SizedBox(height: 16.h),
 
+                          /// Phone Number
+                          AppTextField(
+                            controller: _phoneController,
+                            label: t.app.phone_number,
+                            hint: '',
+                            keyboardType: TextInputType.phone,
+                          ),
+                          SizedBox(height: 16.h),
+
+                          /// Birth Date
+                          GestureDetector(
+                            onTap: () => _selectDate(context),
+                            child: AbsorbPointer(
+                              child: AppTextField(
+                                controller: _birthDateController,
+                                label: t.app.birth_date,
+                                hint: 'YYYY-MM-DD',
+                                suffixIcon: const Icon(Icons.calendar_today_outlined, size: 20),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+
+                          /// Address
+                          AppTextField(
+                            controller: _addressController,
+                            label: t.app.address,
+                            hint: '',
+                            maxLines: 2,
+                          ),
                           SizedBox(height: 16.h),
 
                           /// Password
@@ -174,7 +230,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-
                           SizedBox(height: 16.h),
 
                           /// Confirm Password
@@ -192,7 +247,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-
                           SizedBox(height: 8.h),
 
                           /// Password requirement text
@@ -203,7 +257,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.grey.shade600,
                             ),
                           ),
-
                           SizedBox(height: 30.h),
 
                           /// Register Button
@@ -212,9 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               final isLoading = state is RegisterLoading;
                               return PrimaryButton(
                                 label: t.app.create_account,
-                                onPressed: isLoading
-                                    ? null
-                                    : () => _onRegisterPressed(context),
+                                onPressed: isLoading ? null : () => _onRegisterPressed(context),
                                 isLoading: isLoading,
                               );
                             },
@@ -223,7 +274,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: 40.h),
                 ],
               ),
@@ -243,7 +293,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           message: t.app.register_success,
           buttonText: t.app.go_to_login,
           onButtonPressed: () {
-            context.router.pop(); // close dialog
+            context.router.pop();
             context.router.replace(const LoginRoute());
           },
         );

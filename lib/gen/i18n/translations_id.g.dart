@@ -671,6 +671,12 @@ class TranslationsAppId {
 	/// id: 'Simpan'
 	String get save => 'Simpan';
 
+	/// id: 'Konfirmasi Keluar'
+	String get confirm_logout_title => 'Konfirmasi Keluar';
+
+	/// id: 'Apakah Anda yakin ingin keluar dari akun ini?'
+	String get confirm_logout_message => 'Apakah Anda yakin ingin keluar dari akun ini?';
+
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 	late final TranslationsAppDialogId dialog = TranslationsAppDialogId.internal(_root);
 	late final TranslationsAppNotificationsId notifications = TranslationsAppNotificationsId.internal(_root);
@@ -1118,6 +1124,8 @@ extension on Translations {
 			case 'app.font_size': return 'Ukuran Font';
 			case 'app.font_size_subtitle': return 'Pilih ukuran font yang Anda inginkan';
 			case 'app.save': return 'Simpan';
+			case 'app.confirm_logout_title': return 'Konfirmasi Keluar';
+			case 'app.confirm_logout_message': return 'Apakah Anda yakin ingin keluar dari akun ini?';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
