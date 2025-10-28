@@ -15,6 +15,9 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String firstName,
     required String lastName,
     required String password,
+    String? phoneNumber,
+    String? birthDate,
+    String? address,
   }) async {
     emit(RegisterLoading());
 
@@ -25,6 +28,10 @@ class RegisterCubit extends Cubit<RegisterState> {
           firstName: firstName,
           lastName: lastName,
           password: password,
+          phoneNumber: phoneNumber,
+          birthDate: birthDate,
+          address: address,
+          // role left to default 'masyarakat'
         ),
       );
       emit(RegisterSuccess(result));

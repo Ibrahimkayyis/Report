@@ -207,6 +207,8 @@
     "font_size": "Font Size",
     "font_size_subtitle": "Choose your preferred font size",
     "save": "Save",
+    "confirm_logout_title": "Logout Confirmation",
+    "confirm_logout_message": "Are you sure you want to logout from this account?",
     "errors": {
       "invalid_credentials": "Invalid email or password",
       "server_error": "Server error occurred",

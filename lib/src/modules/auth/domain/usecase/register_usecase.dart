@@ -7,13 +7,19 @@ class RegisterParams {
   final String lastName;
   final String password;
   final String role;
+  final String? phoneNumber;
+  final String? birthDate;
+  final String? address;
 
   RegisterParams({
     required this.email,
     required this.firstName,
     required this.lastName,
     required this.password,
-    this.role = 'user',
+    this.role = 'masyarakat',
+    this.phoneNumber,
+    this.birthDate,
+    this.address,
   });
 }
 
@@ -29,6 +35,9 @@ class RegisterUseCase {
       firstName: params.firstName,
       lastName: params.lastName,
       password: params.password,
+      phoneNumber: params.phoneNumber,
+      birthDate: params.birthDate,
+      address: params.address,
       role: params.role,
     );
   }

@@ -1,11 +1,13 @@
-
 abstract class AuthRepository {
   Future<String> register({
     required String email,
     required String firstName,
     required String lastName,
     required String password,
-    String role,
+    String? phoneNumber,
+    String? birthDate,
+    String? address,
+    String role, // default role jika diperlukan
   });
 
   Future<String> login({

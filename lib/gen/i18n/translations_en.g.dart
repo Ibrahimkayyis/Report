@@ -255,6 +255,8 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get font_size => 'Font Size';
 	@override String get font_size_subtitle => 'Choose your preferred font size';
 	@override String get save => 'Save';
+	@override String get confirm_logout_title => 'Logout Confirmation';
+	@override String get confirm_logout_message => 'Are you sure you want to logout from this account?';
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 	@override late final _TranslationsAppDialogEn dialog = _TranslationsAppDialogEn._(_root);
 	@override late final _TranslationsAppNotificationsEn notifications = _TranslationsAppNotificationsEn._(_root);
@@ -580,6 +582,8 @@ extension on TranslationsEn {
 			case 'app.font_size': return 'Font Size';
 			case 'app.font_size_subtitle': return 'Choose your preferred font size';
 			case 'app.save': return 'Save';
+			case 'app.confirm_logout_title': return 'Logout Confirmation';
+			case 'app.confirm_logout_message': return 'Are you sure you want to logout from this account?';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';

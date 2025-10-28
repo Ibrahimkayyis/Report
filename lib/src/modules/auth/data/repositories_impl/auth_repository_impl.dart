@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:report/src/core/errors/failures.dart';
 import 'package:report/src/modules/auth/data/datasources/local/abstract/auth_local_data_source.dart';
@@ -19,7 +20,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String firstName,
     required String lastName,
     required String password,
-    String role = 'user',
+    String? phoneNumber,
+    String? birthDate,
+    String? address,
+    String role = 'masyarakat',
   }) async {
     try {
       return await remote.register(
@@ -27,6 +31,9 @@ class AuthRepositoryImpl implements AuthRepository {
         firstName: firstName,
         lastName: lastName,
         password: password,
+        phoneNumber: phoneNumber,
+        birthDate: birthDate,
+        address: address,
         role: role,
       );
     } on DioException catch (e) {
@@ -43,9 +50,18 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await remote.login(email: email, password: password);
 
       final token = response['access_token'] as String;
-      final role = response['user']?['role'] as String? ?? 'user';
+  
+      // ✅ Ambil role pertama dari daftar roles (default: masyarakat)
+      final user = response['user'];
+      final roles = (user?['roles'] as List<dynamic>?) ?? [];
+      final role = roles.isNotEmpty ? roles.first.toString() : 'masyarakat';
 
-      // Simpan ke local
+      debugPrint('✅ Login berhasil:');
+      debugPrint('   Email: $email');
+      debugPrint('   Role terdeteksi: $role');
+      debugPrint('   Token: ${token.substring(0, 20)}...');
+
+      // Simpan ke local storage
       await saveToken(token);
       await saveRole(role);
 
@@ -78,7 +94,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final data = e.response?.data;
 
       // Ambil pesan "detail" jika ada
-      final detailMessage = (data is Map<String, dynamic> && data['detail'] != null)
+      final detailMessage =
+          (data is Map<String, dynamic> && data['detail'] != null)
           ? data['detail'].toString()
           : null;
 

@@ -6,6 +6,9 @@ abstract class AuthRemoteDataSource {
     required String firstName,
     required String lastName,
     required String password,
+    String? phoneNumber,
+    String? birthDate,
+    String? address,
     String role,
   });
 
