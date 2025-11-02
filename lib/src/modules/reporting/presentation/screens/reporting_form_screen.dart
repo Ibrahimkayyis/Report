@@ -1,22 +1,36 @@
+// lib/src/modules/reporting/presentation/screens/reporting_form_screen.dart
+
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/core/service_locator/service_locator.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_state.dart';
+import 'package:report/src/modules/reporting/domain/models/ticket_category_model.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/ticket_category_cubit.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/ticket_category_state.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/report_cubit.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/report_state.dart';
 
 @RoutePage()
 class ReportingFormScreen extends StatefulWidget {
-  final String opdName;
-  final IconData opdIcon;
-  final Color opdColor;
+  final String opdId;
+  final String? opdName;
+  final IconData? opdIcon;
+  final Color? opdColor;
 
   const ReportingFormScreen({
     super.key,
-    required this.opdName,
-    required this.opdIcon,
-    required this.opdColor,
+    required this.opdId,
+    this.opdName,
+    this.opdIcon,
+    this.opdColor,
   });
 
   @override
@@ -26,14 +40,12 @@ class ReportingFormScreen extends StatefulWidget {
 class _ReportingFormScreenState extends State<ReportingFormScreen> {
   final _problemController = TextEditingController();
   final _additionalInfoController = TextEditingController();
+  final GlobalKey<AppFormAttachFileState> _attachFileKey = GlobalKey();
 
-  String? _selectedCategory;
-  // String? _selectedPriority;
-
-  // Mock user data
-  final String _userName = "Sri Wulandari";
-  final String _userNip = "200011420230062053";
-  final String _userDivision = "Divisi Sumber Daya Manusia";
+  String? _selectedCategoryName;
+  String? _selectedCategoryId;
+  List<TicketCategoryModel> _categories = [];
+  List<File> _attachedFiles = [];
 
   @override
   void dispose() {
@@ -46,126 +58,394 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
   Widget build(BuildContext context) {
     final t = context.t;
 
-    return Scaffold(
-      backgroundColor: ColorName.background,
-      appBar: AppPrimaryBar(title: t.app.online_reporting_title),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
+        BlocProvider(
+          create: (_) => sl<TicketCategoryCubit>()..fetchCategories(),
+        ),
+        BlocProvider(create: (_) => sl<ReportCubit>()),
+      ],
+
+      child: Builder(
+        builder: (context) {
+          // Use Builder to get the correct context with providers
+          return BlocListener<ReportCubit, ReportState>(
+            listener: (context, state) {
+              if (state is ReportLoading) {
+                _showLoadingDialog(context);
+              } else if (state is ReportSuccess) {
+                // Close loading dialog
+                Navigator.of(context, rootNavigator: true).pop();
+
+                // Navigate to success screen
+                context.router.push(
+                  ReportSuccessRoute(
+                    ticketNumber: state.report.ticketId,
+                    status: state.report.status, // sementara tampilkan status
+                    opdName: widget.opdName ?? 'OPD - ${widget.opdId}',
+                  ),
+                );
+              } else if (state is ReportError) {
+                // Close loading dialog
+                Navigator.of(context, rootNavigator: true).pop();
+
+                // Show error message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Gagal mengirim laporan: ${state.message}'),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
+            },
+            child: Scaffold(
+              backgroundColor: ColorName.background,
+              appBar: AppPrimaryBar(title: t.app.online_reporting_title),
+              body: Column(
                 children: [
-                  /// 🏢 OPD / Tujuan Laporan
-                  AppFormTargetDisplay(
-                    name: widget.opdName,
-                    icon: widget.opdIcon,
-                    color: widget.opdColor,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(16.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Target OPD Display
+                          AppFormTargetDisplay(
+                            name: widget.opdName ?? 'OPD - ${widget.opdId}',
+                            icon: widget.opdIcon ?? Icons.apartment_rounded,
+                            color: widget.opdColor ?? ColorName.primary,
+                          ),
+
+                          SizedBox(height: 24.h),
+
+                          // User Information
+                          BlocBuilder<ProfileCubit, ProfileState>(
+                            builder: (context, state) {
+                              if (state is ProfileLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (state is ProfileLoaded ||
+                                  state is ProfileUpdated) {
+                                final profile = (state is ProfileLoaded)
+                                    ? state.profile
+                                    : (state as ProfileUpdated).profile;
+
+                                final fullName =
+                                    '${profile.firstName} ${profile.lastName}'
+                                        .trim();
+
+                                return AppFormUserInfo(
+                                  name: fullName.isNotEmpty ? fullName : '-',
+                                  nip: profile.noEmployee.isNotEmpty
+                                      ? profile.noEmployee
+                                      : '-',
+                                  division: profile.division.isNotEmpty
+                                      ? profile.division
+                                      : '-',
+                                );
+                              } else if (state is ProfileError) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                                  child: Text(
+                                    'Gagal memuat profil pengguna: ${state.message}',
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
+                                );
+                              } else {
+                                return const SizedBox.shrink();
+                              }
+                            },
+                          ),
+
+                          SizedBox(height: 24.h),
+
+                          // Asset Information
+                          // AppFormAssetInfo(
+                          //   assetId: "AST-009812",
+                          //   assetName: "Printer Canon LBP-6030",
+                          //   assetLocation: "Lantai 2, Ruang Kepegawaian",
+                          // ),
+
+                          // SizedBox(height: 24.h),
+
+                          // Category Selector
+                          BlocBuilder<TicketCategoryCubit, TicketCategoryState>(
+                            builder: (context, state) {
+                              if (state is TicketCategoryLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (state is TicketCategoryLoaded) {
+                                _categories = state.categories;
+
+                                final categoryNames = _categories
+                                    .map((e) => e.categoryName)
+                                    .toList();
+
+                                return AppFormCategorySelector(
+                                  categories: categoryNames,
+                                  selectedCategory: _selectedCategoryName,
+                                  onCategorySelected: (name) {
+                                    setState(() {
+                                      _selectedCategoryName = name;
+                                      _selectedCategoryId = _categories
+                                          .firstWhere(
+                                            (e) => e.categoryName == name,
+                                          )
+                                          .categoryId;
+                                    });
+                                    debugPrint(
+                                      'Selected category ID: $_selectedCategoryId',
+                                    );
+                                  },
+                                );
+                              } else if (state is TicketCategoryError) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                                  child: Text(
+                                    'Gagal memuat kategori: ${state.message}',
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
+                                );
+                              } else {
+                                return const SizedBox.shrink();
+                              }
+                            },
+                          ),
+
+                          SizedBox(height: 24.h),
+
+                          // Problem Description
+                          AppFormProblemDescription(
+                            controller: _problemController,
+                          ),
+
+                          SizedBox(height: 24.h),
+
+                          // File Attachment with Auto-Upload
+                          AppFormAttachFile(
+                            key: _attachFileKey,
+                            title: 'Lampiran Bukti',
+                            uploadUrl: null, // Set to null for simulation mode
+                            onFilesChanged: (files) {
+                              setState(() {
+                                _attachedFiles = files;
+                              });
+                              debugPrint('Files attached: ${files.length}');
+                            },
+                          ),
+
+                          SizedBox(height: 24.h),
+                        ],
+                      ),
+                    ),
                   ),
 
-                  SizedBox(height: 24.h),
-
-                  /// 👤 Data Pelapor
-                  AppFormUserInfo(
-                    name: _userName,
-                    nip: _userNip,
-                    division: _userDivision,
+                  // Bottom Action Buttons
+                  AppFormBottomActions(
+                    onCancel: () => _handleCancel(context),
+                    onSaveDraft: () => _handleSaveDraft(context),
+                    onSubmit: () => _handleSubmit(context),
                   ),
-
-                  SizedBox(height: 24.h),
-
-                  /// 🏢 Data Aset (sementara tampil selalu)
-                  AppFormAssetInfo(
-                    assetId: "AST-009812",
-                    assetName: "Printer Canon LBP-6030",
-                    assetLocation: "Lantai 2, Ruang Kepegawaian",
-                  ),
-
-                  SizedBox(height: 24.h),
-
-                  /// 🧭 Kategori Laporan
-                  AppFormCategorySelector(
-                    selectedCategory: _selectedCategory,
-                    onCategorySelected: (val) {
-                      setState(() => _selectedCategory = val);
-                    },
-                  ),
-
-                  SizedBox(height: 24.h),
-
-                  /// 📝 Deskripsi Masalah
-                  AppFormProblemDescription(controller: _problemController),
-
-                  // SizedBox(height: 24.h),
-
-                  // /// 🚦 Prioritas Laporan
-                  // AppFormPrioritySelector(
-                  //   selected: _selectedPriority,
-                  //   onSelected: (val) {
-                  //     setState(() => _selectedPriority = val);
-                  //   },
-                  // ),
-                  SizedBox(height: 24.h),
-
-                  /// 📎 Lampiran File
-                  const AppFormAttachFile(),
-
-                  SizedBox(height: 24.h),
-
-                  /// 💬 Informasi Tambahan
-                  AppFormAdditionalInfo(controller: _additionalInfoController),
-
-                  SizedBox(height: 20.h),
                 ],
               ),
             ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _handleCancel(BuildContext context) {
+    // Check if form has data
+    final hasData =
+        _problemController.text.isNotEmpty ||
+        _selectedCategoryName != null ||
+        _attachedFiles.isNotEmpty;
+
+    if (hasData) {
+      showDialog(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: Text(t.app.dialog.cancel_report_title),
+          content: Text(t.app.dialog.cancel_report_message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(t.app.dialog.continue_filling),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                context.router.pop();
+              },
+              child: Text(
+                t.app.dialog.cancel_report,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      context.router.pop();
+    }
+  }
+
+  void _handleSaveDraft(BuildContext context) {
+    // TODO: Implement save draft to local storage
+    final draft = {
+      'opdId': widget.opdId,
+      'opdName': widget.opdName,
+      'category': _selectedCategoryName,
+      'categoryId': _selectedCategoryId,
+      'problem': _problemController.text,
+      'attachedFilesCount': _attachedFiles.length,
+      'timestamp': DateTime.now().toIso8601String(),
+    };
+
+    debugPrint('Saving draft: $draft');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(t.app.draft_saved),
+        backgroundColor: Colors.blue,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  void _handleSubmit(BuildContext context) {
+    final t = context.t;
+
+    // Validate form
+    if (!_validateForm(context)) {
+      return;
+    }
+
+    // Get files before showing dialog
+    final files = _attachFileKey.currentState?.getAttachedFiles() ?? [];
+    final file = files.isNotEmpty ? files.first : null;
+
+    // Get the ReportCubit before showing dialog (IMPORTANT!)
+    final reportCubit = context.read<ReportCubit>();
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AppConfirmationDialog(
+        title: t.app.dialog.confirm_submit_title,
+        message: t.app.dialog.confirm_submit_message,
+        confirmText: t.app.dialog.confirm_yes,
+        cancelText: t.app.dialog.cancel,
+        icon: Icons.warning_amber_rounded,
+        onConfirm: () {
+          // Close confirmation dialog
+          Navigator.of(dialogContext).pop();
+
+          // Submit report using the stored cubit reference
+          reportCubit.createPublicReport(
+            opdId: widget.opdId,
+            categoryId: _selectedCategoryId!,
+            description: _problemController.text.trim(),
+            action: "submit",
+            file: file,
+          );
+        },
+        onCancel: () => Navigator.of(dialogContext).pop(),
+      ),
+    );
+  }
+
+  bool _validateForm(BuildContext context) {
+    final errors = <String>[];
+
+    if (_selectedCategoryId == null || _selectedCategoryId!.isEmpty) {
+      errors.add(t.app.validation.category_required);
+    }
+
+    if (_problemController.text.trim().isEmpty) {
+      errors.add(t.app.validation.description_required);
+    } else if (_problemController.text.trim().length < 20) {
+      errors.add(t.app.validation.description_min_length);
+    }
+
+    if (errors.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: Text(t.app.dialog.incomplete_form_title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: errors
+                .map(
+                  (e) => Padding(
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          size: 16.sp,
+                          color: Colors.red,
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(e, style: TextStyle(fontSize: 14.sp)),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(t.app.ok),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
 
-          /// 🔘 Tombol Aksi
-          AppFormBottomActions(
-            onCancel: () => context.router.pop(),
-            onSaveDraft: () {
-              // TODO: Save draft ke local cache
-            },
-            onSubmit: () {
-              final t = context.t;
+    return true;
+  }
 
-              showDialog(
-                context: context,
-                builder: (context) => AppConfirmationDialog(
-                  title: t
-                      .app
-                      .dialog
-                      .confirm_submit_title,
-                  message: t
-                      .app
-                      .dialog
-                      .confirm_submit_message,
-                  confirmText:
-                      t.app.dialog.confirm_yes,
-                  cancelText: t.app.dialog.cancel,
-                  icon: Icons.warning_amber_rounded,
-                  onConfirm: () {
-                    Navigator.pop(context);
-
-                    const ticketNumber = 'LPR318728';
-                    const pin = '228973';
-
-                    context.router.push(
-                      ReportSuccessRoute(
-                        ticketNumber: ticketNumber,
-                        pin: pin,
-                        opdName: widget.opdName,
-                      ),
-                    );
-                  },
-                  onCancel: () => Navigator.pop(context),
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => PopScope(
+        canPop: false,
+        child: Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(20.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                SizedBox(height: 16.h),
+                Text(
+                  t.app.sending_report,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              );
-            },
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -8,10 +8,14 @@ import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
 import 'profile_menu_item.dart';
 
 class ProfileMenuList extends StatelessWidget {
-  const ProfileMenuList({super.key});
+  final ProfileCubit
+  profileCubit; // ✅ cubit aktif diteruskan dari ProfileScreen
+
+  const ProfileMenuList({super.key, required this.profileCubit});
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +23,27 @@ class ProfileMenuList extends StatelessWidget {
 
     return Column(
       children: [
-        // Edit Profile
+        // ✏️ Edit Profile
         ProfileMenuItem(
           icon: Icons.person_outline,
           title: t.app.edit_profile,
-          onTap: () => context.router.push(const EditProfileRoute()),
+          onTap: () {
+            context.router
+                .push(
+                  EditProfileRoute(
+                    profileCubit:
+                        profileCubit, // ✅ kirim cubit aktif ke layar EditProfile
+                  ),
+                )
+                .then((_) {
+                  profileCubit.fetchProfile();
+                });
+          },
         ),
 
         SizedBox(height: 16.h),
 
-        // Change Password
+        // 🔒 Change Password (belum diimplementasikan)
         ProfileMenuItem(
           icon: Icons.lock_outline,
           title: t.app.change_password,
@@ -39,7 +54,7 @@ class ProfileMenuList extends StatelessWidget {
 
         SizedBox(height: 16.h),
 
-        // Theme
+        // 🎨 Theme
         ProfileMenuItem(
           icon: Icons.palette_outlined,
           title: t.app.theme,
@@ -48,7 +63,7 @@ class ProfileMenuList extends StatelessWidget {
 
         SizedBox(height: 16.h),
 
-        // FAQ
+        // ❓ FAQ
         ProfileMenuItem(
           icon: Icons.help_outline,
           title: t.app.faq,
@@ -59,7 +74,7 @@ class ProfileMenuList extends StatelessWidget {
 
         SizedBox(height: 16.h),
 
-        // About Us
+        // ℹ️ About Us
         ProfileMenuItem(
           icon: Icons.info_outline,
           title: t.app.about_us,
@@ -70,7 +85,7 @@ class ProfileMenuList extends StatelessWidget {
 
         SizedBox(height: 24.h),
 
-        // Logout
+        // 🚪 Logout
         _buildLogoutItem(context, t),
       ],
     );

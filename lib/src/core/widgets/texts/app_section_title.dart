@@ -7,6 +7,7 @@ class AppSectionTitle extends StatelessWidget {
   final double? fontSize;
   final FontWeight? fontWeight;
   final Color? backgroundColor;
+  final Color? textColor;
   final EdgeInsetsGeometry? padding;
 
   const AppSectionTitle({
@@ -15,6 +16,7 @@ class AppSectionTitle extends StatelessWidget {
     this.fontSize,
     this.fontWeight,
     this.backgroundColor,
+    this.textColor,
     this.padding,
   }) : super(key: key);
 
@@ -24,13 +26,19 @@ class AppSectionTitle extends StatelessWidget {
       width: double.infinity,
       padding: padding ?? EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
       decoration: BoxDecoration(
-        color: backgroundColor ?? ColorName.primary,
+        color: backgroundColor ?? ColorName.background,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.05),
+            color: ColorName.black.withOpacity(0.08),
+            blurRadius: 12.r,
+            spreadRadius: 1.r,
+            offset: Offset(0, 4.h),
+          ),
+          BoxShadow(
+            color: ColorName.black.withOpacity(0.04),
             blurRadius: 6.r,
-            offset: Offset(0, 3.h),
+            offset: Offset(0, 2.h),
           ),
         ],
       ),
@@ -38,9 +46,9 @@ class AppSectionTitle extends StatelessWidget {
         title,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: fontSize ?? 15.sp,
+          fontSize: fontSize ?? 18.sp,
           fontWeight: fontWeight ?? FontWeight.w600,
-          color: ColorName.onPrimary,
+          color: textColor ?? ColorName.primary,
         ),
       ),
     );

@@ -5,7 +5,7 @@ import '../../../modules/reporting/presentation/widgets/success/copyable_field.d
 
 class SuccessCard extends StatelessWidget {
   final String ticketNumber;
-  final String pin;
+  final String status;
   final String opdName;
 
   /// 🧠 Texts injected from outside (screen)
@@ -13,7 +13,7 @@ class SuccessCard extends StatelessWidget {
   final String description;
   final String checkWithLabel;
   final String ticketLabel;
-  final String pinLabel;
+  final String statusLabel;
   final String serviceTypeLabel;
   final String serviceTypeValue;
   final String destinationLabel;
@@ -24,13 +24,13 @@ class SuccessCard extends StatelessWidget {
   const SuccessCard({
     super.key,
     required this.ticketNumber,
-    required this.pin,
+    required this.status,
     required this.opdName,
     required this.title,
     required this.description,
     required this.checkWithLabel,
     required this.ticketLabel,
-    required this.pinLabel,
+    required this.statusLabel,
     required this.serviceTypeLabel,
     required this.serviceTypeValue,
     required this.destinationLabel,
@@ -109,7 +109,7 @@ class SuccessCard extends StatelessWidget {
 
           CopyableField(label: ticketLabel, value: ticketNumber),
           SizedBox(height: 12.h),
-          CopyableField(label: pinLabel, value: pin),
+          CopyableField(label: statusLabel, value: status),
 
           SizedBox(height: 24.h),
 

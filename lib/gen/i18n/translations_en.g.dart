@@ -257,11 +257,37 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get save => 'Save';
 	@override String get confirm_logout_title => 'Logout Confirmation';
 	@override String get confirm_logout_message => 'Are you sure you want to logout from this account?';
+	@override String get no_data_available => 'No Data Available';
+	@override String get upload_dialog_title => 'Upload attachments as evidence';
+	@override String get upload_dialog_subtitle => 'Send in pdf format';
+	@override String get upload_dialog_choose_file => 'Choose file or Move here';
+	@override String get upload_dialog_file_format => 'Pdf file format, maximum size 1 MB';
+	@override String get upload_dialog_status_waiting => 'waiting';
+	@override String get upload_dialog_status_complete => 'complete';
+	@override String get upload_dialog_cancel => 'Cancel';
+	@override String get upload_dialog_upload => 'Upload';
+	@override String get unknown_user => 'Unknown User';
+	@override String get edit_profile_title => 'Edit Profile';
+	@override String get confirmation_title => 'Confirmation';
+	@override String get confirmation_save_changes => 'Are you sure you want to save changes?';
+	@override String get validation_phone_required => 'Phone number is required';
+	@override String get validation_phone_format => 'Invalid phone number format';
+	@override String get validation_required => 'is required';
+	@override String get profile_updated_success => 'Profile updated successfully';
+	@override String get error => 'Error';
+	@override String get success => 'Success';
+	@override String get gallery => 'Gallery';
+	@override String get camera => 'Camera';
+	@override String get draft_saved => 'Draft saved successfully';
+	@override String get sending_report => 'Sending report...';
+	@override String get ok => 'OK';
+	@override String get status => 'Status';
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 	@override late final _TranslationsAppDialogEn dialog = _TranslationsAppDialogEn._(_root);
 	@override late final _TranslationsAppNotificationsEn notifications = _TranslationsAppNotificationsEn._(_root);
 	@override late final _TranslationsAppReportActivityEn report_activity = _TranslationsAppReportActivityEn._(_root);
 	@override late final _TranslationsAppQrEn qr = _TranslationsAppQrEn._(_root);
+	@override late final _TranslationsAppValidationEn validation = _TranslationsAppValidationEn._(_root);
 }
 
 // Path: app.errors
@@ -292,6 +318,11 @@ class _TranslationsAppDialogEn extends TranslationsAppDialogId {
 	@override String get data_not_found_title => 'Data not found!';
 	@override String get data_not_found_message => 'Please check your input again';
 	@override String get ok => 'OK';
+	@override String get cancel_report_title => 'Cancel Report?';
+	@override String get cancel_report_message => 'The data you entered will be lost. Are you sure?';
+	@override String get continue_filling => 'Continue Filling';
+	@override String get cancel_report => 'Cancel';
+	@override String get incomplete_form_title => 'Incomplete Form';
 }
 
 // Path: app.notifications
@@ -368,6 +399,18 @@ class _TranslationsAppQrEn extends TranslationsAppQrId {
 	@override String get create_report_based_on_asset => 'Create Report Based on This Asset';
 	@override String get invalid_qr_message => 'Invalid QR data. Please scan a valid asset QR code.';
 	@override String get processing => 'Processing Asset Data...';
+}
+
+// Path: app.validation
+class _TranslationsAppValidationEn extends TranslationsAppValidationId {
+	_TranslationsAppValidationEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get category_required => 'Report category must be selected';
+	@override String get description_required => 'Problem description is required';
+	@override String get description_min_length => 'Problem description must be at least 20 characters';
 }
 
 /// Flat map(s) containing all translations.
@@ -584,6 +627,31 @@ extension on TranslationsEn {
 			case 'app.save': return 'Save';
 			case 'app.confirm_logout_title': return 'Logout Confirmation';
 			case 'app.confirm_logout_message': return 'Are you sure you want to logout from this account?';
+			case 'app.no_data_available': return 'No Data Available';
+			case 'app.upload_dialog_title': return 'Upload attachments as evidence';
+			case 'app.upload_dialog_subtitle': return 'Send in pdf format';
+			case 'app.upload_dialog_choose_file': return 'Choose file or Move here';
+			case 'app.upload_dialog_file_format': return 'Pdf file format, maximum size 1 MB';
+			case 'app.upload_dialog_status_waiting': return 'waiting';
+			case 'app.upload_dialog_status_complete': return 'complete';
+			case 'app.upload_dialog_cancel': return 'Cancel';
+			case 'app.upload_dialog_upload': return 'Upload';
+			case 'app.unknown_user': return 'Unknown User';
+			case 'app.edit_profile_title': return 'Edit Profile';
+			case 'app.confirmation_title': return 'Confirmation';
+			case 'app.confirmation_save_changes': return 'Are you sure you want to save changes?';
+			case 'app.validation_phone_required': return 'Phone number is required';
+			case 'app.validation_phone_format': return 'Invalid phone number format';
+			case 'app.validation_required': return 'is required';
+			case 'app.profile_updated_success': return 'Profile updated successfully';
+			case 'app.error': return 'Error';
+			case 'app.success': return 'Success';
+			case 'app.gallery': return 'Gallery';
+			case 'app.camera': return 'Camera';
+			case 'app.draft_saved': return 'Draft saved successfully';
+			case 'app.sending_report': return 'Sending report...';
+			case 'app.ok': return 'OK';
+			case 'app.status': return 'Status';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
@@ -596,6 +664,11 @@ extension on TranslationsEn {
 			case 'app.dialog.data_not_found_title': return 'Data not found!';
 			case 'app.dialog.data_not_found_message': return 'Please check your input again';
 			case 'app.dialog.ok': return 'OK';
+			case 'app.dialog.cancel_report_title': return 'Cancel Report?';
+			case 'app.dialog.cancel_report_message': return 'The data you entered will be lost. Are you sure?';
+			case 'app.dialog.continue_filling': return 'Continue Filling';
+			case 'app.dialog.cancel_report': return 'Cancel';
+			case 'app.dialog.incomplete_form_title': return 'Incomplete Form';
 			case 'app.notifications.title': return 'Notifications';
 			case 'app.notifications.search_placeholder': return 'Search notifications...';
 			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
@@ -645,6 +718,9 @@ extension on TranslationsEn {
 			case 'app.qr.create_report_based_on_asset': return 'Create Report Based on This Asset';
 			case 'app.qr.invalid_qr_message': return 'Invalid QR data. Please scan a valid asset QR code.';
 			case 'app.qr.processing': return 'Processing Asset Data...';
+			case 'app.validation.category_required': return 'Report category must be selected';
+			case 'app.validation.description_required': return 'Problem description is required';
+			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
 			default: return null;
 		}
 	}

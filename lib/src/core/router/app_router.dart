@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:report/src/core/router/auth_guard.dart';
 import 'package:report/src/modules/notification/presentation/screens/notification_screen.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
 import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
 import 'package:report/src/modules/qr/presentation/screens/qr_asset_detail_screen.dart';
 import 'package:report/src/modules/qr/presentation/screens/qr_screen.dart';

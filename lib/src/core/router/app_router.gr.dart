@@ -128,18 +128,49 @@ class CheckReportStatusRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [EditProfileScreen]
-class EditProfileRoute extends PageRouteInfo<void> {
-  const EditProfileRoute({List<PageRouteInfo>? children})
-    : super(EditProfileRoute.name, initialChildren: children);
+class EditProfileRoute extends PageRouteInfo<EditProfileRouteArgs> {
+  EditProfileRoute({
+    Key? key,
+    required ProfileCubit profileCubit,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditProfileRoute.name,
+         args: EditProfileRouteArgs(key: key, profileCubit: profileCubit),
+         initialChildren: children,
+       );
 
   static const String name = 'EditProfileRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const EditProfileScreen();
+      final args = data.argsAs<EditProfileRouteArgs>();
+      return EditProfileScreen(key: args.key, profileCubit: args.profileCubit);
     },
   );
+}
+
+class EditProfileRouteArgs {
+  const EditProfileRouteArgs({this.key, required this.profileCubit});
+
+  final Key? key;
+
+  final ProfileCubit profileCubit;
+
+  @override
+  String toString() {
+    return 'EditProfileRouteArgs{key: $key, profileCubit: $profileCubit}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EditProfileRouteArgs) return false;
+    return key == other.key && profileCubit == other.profileCubit;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ profileCubit.hashCode;
 }
 
 /// generated route for
@@ -388,7 +419,7 @@ class ReportSuccessRoute extends PageRouteInfo<ReportSuccessRouteArgs> {
   ReportSuccessRoute({
     Key? key,
     required String ticketNumber,
-    required String pin,
+    required String status,
     required String opdName,
     List<PageRouteInfo>? children,
   }) : super(
@@ -396,7 +427,7 @@ class ReportSuccessRoute extends PageRouteInfo<ReportSuccessRouteArgs> {
          args: ReportSuccessRouteArgs(
            key: key,
            ticketNumber: ticketNumber,
-           pin: pin,
+           status: status,
            opdName: opdName,
          ),
          initialChildren: children,
@@ -411,7 +442,7 @@ class ReportSuccessRoute extends PageRouteInfo<ReportSuccessRouteArgs> {
       return ReportSuccessScreen(
         key: args.key,
         ticketNumber: args.ticketNumber,
-        pin: args.pin,
+        status: args.status,
         opdName: args.opdName,
       );
     },
@@ -422,7 +453,7 @@ class ReportSuccessRouteArgs {
   const ReportSuccessRouteArgs({
     this.key,
     required this.ticketNumber,
-    required this.pin,
+    required this.status,
     required this.opdName,
   });
 
@@ -430,13 +461,13 @@ class ReportSuccessRouteArgs {
 
   final String ticketNumber;
 
-  final String pin;
+  final String status;
 
   final String opdName;
 
   @override
   String toString() {
-    return 'ReportSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, pin: $pin, opdName: $opdName}';
+    return 'ReportSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, status: $status, opdName: $opdName}';
   }
 
   @override
@@ -445,13 +476,13 @@ class ReportSuccessRouteArgs {
     if (other is! ReportSuccessRouteArgs) return false;
     return key == other.key &&
         ticketNumber == other.ticketNumber &&
-        pin == other.pin &&
+        status == other.status &&
         opdName == other.opdName;
   }
 
   @override
   int get hashCode =>
-      key.hashCode ^ ticketNumber.hashCode ^ pin.hashCode ^ opdName.hashCode;
+      key.hashCode ^ ticketNumber.hashCode ^ status.hashCode ^ opdName.hashCode;
 }
 
 /// generated route for
@@ -459,14 +490,16 @@ class ReportSuccessRouteArgs {
 class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
   ReportingFormRoute({
     Key? key,
-    required String opdName,
-    required IconData opdIcon,
-    required Color opdColor,
+    required String opdId,
+    String? opdName,
+    IconData? opdIcon,
+    Color? opdColor,
     List<PageRouteInfo>? children,
   }) : super(
          ReportingFormRoute.name,
          args: ReportingFormRouteArgs(
            key: key,
+           opdId: opdId,
            opdName: opdName,
            opdIcon: opdIcon,
            opdColor: opdColor,
@@ -482,6 +515,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
       final args = data.argsAs<ReportingFormRouteArgs>();
       return ReportingFormScreen(
         key: args.key,
+        opdId: args.opdId,
         opdName: args.opdName,
         opdIcon: args.opdIcon,
         opdColor: args.opdColor,
@@ -493,22 +527,25 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
 class ReportingFormRouteArgs {
   const ReportingFormRouteArgs({
     this.key,
-    required this.opdName,
-    required this.opdIcon,
-    required this.opdColor,
+    required this.opdId,
+    this.opdName,
+    this.opdIcon,
+    this.opdColor,
   });
 
   final Key? key;
 
-  final String opdName;
+  final String opdId;
 
-  final IconData opdIcon;
+  final String? opdName;
 
-  final Color opdColor;
+  final IconData? opdIcon;
+
+  final Color? opdColor;
 
   @override
   String toString() {
-    return 'ReportingFormRouteArgs{key: $key, opdName: $opdName, opdIcon: $opdIcon, opdColor: $opdColor}';
+    return 'ReportingFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdIcon: $opdIcon, opdColor: $opdColor}';
   }
 
   @override
@@ -516,6 +553,7 @@ class ReportingFormRouteArgs {
     if (identical(this, other)) return true;
     if (other is! ReportingFormRouteArgs) return false;
     return key == other.key &&
+        opdId == other.opdId &&
         opdName == other.opdName &&
         opdIcon == other.opdIcon &&
         opdColor == other.opdColor;
@@ -523,7 +561,11 @@ class ReportingFormRouteArgs {
 
   @override
   int get hashCode =>
-      key.hashCode ^ opdName.hashCode ^ opdIcon.hashCode ^ opdColor.hashCode;
+      key.hashCode ^
+      opdId.hashCode ^
+      opdName.hashCode ^
+      opdIcon.hashCode ^
+      opdColor.hashCode;
 }
 
 /// generated route for
@@ -600,7 +642,7 @@ class ServiceRequestSuccessRoute
   ServiceRequestSuccessRoute({
     Key? key,
     required String ticketNumber,
-    required String pin,
+    required String status,
     required String requestType,
     List<PageRouteInfo>? children,
   }) : super(
@@ -608,7 +650,7 @@ class ServiceRequestSuccessRoute
          args: ServiceRequestSuccessRouteArgs(
            key: key,
            ticketNumber: ticketNumber,
-           pin: pin,
+           status: status,
            requestType: requestType,
          ),
          initialChildren: children,
@@ -623,7 +665,7 @@ class ServiceRequestSuccessRoute
       return ServiceRequestSuccessScreen(
         key: args.key,
         ticketNumber: args.ticketNumber,
-        pin: args.pin,
+        status: args.status,
         requestType: args.requestType,
       );
     },
@@ -634,7 +676,7 @@ class ServiceRequestSuccessRouteArgs {
   const ServiceRequestSuccessRouteArgs({
     this.key,
     required this.ticketNumber,
-    required this.pin,
+    required this.status,
     required this.requestType,
   });
 
@@ -642,13 +684,13 @@ class ServiceRequestSuccessRouteArgs {
 
   final String ticketNumber;
 
-  final String pin;
+  final String status;
 
   final String requestType;
 
   @override
   String toString() {
-    return 'ServiceRequestSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, pin: $pin, requestType: $requestType}';
+    return 'ServiceRequestSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, status: $status, requestType: $requestType}';
   }
 
   @override
@@ -657,7 +699,7 @@ class ServiceRequestSuccessRouteArgs {
     if (other is! ServiceRequestSuccessRouteArgs) return false;
     return key == other.key &&
         ticketNumber == other.ticketNumber &&
-        pin == other.pin &&
+        status == other.status &&
         requestType == other.requestType;
   }
 
@@ -665,7 +707,7 @@ class ServiceRequestSuccessRouteArgs {
   int get hashCode =>
       key.hashCode ^
       ticketNumber.hashCode ^
-      pin.hashCode ^
+      status.hashCode ^
       requestType.hashCode;
 }
 

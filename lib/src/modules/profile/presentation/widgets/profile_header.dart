@@ -16,6 +16,10 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 🔹 Deteksi apakah imageAsset adalah URL network
+    final isNetworkImage =
+        imageAsset != null && imageAsset!.startsWith('http');
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 32.h),
       child: Column(
@@ -31,7 +35,9 @@ class ProfileHeader extends StatelessWidget {
                   color: Colors.grey.shade200,
                   image: imageAsset != null
                       ? DecorationImage(
-                          image: AssetImage(imageAsset!),
+                          image: isNetworkImage
+                              ? NetworkImage(imageAsset!)
+                              : AssetImage(imageAsset!) as ImageProvider,
                           fit: BoxFit.cover,
                         )
                       : null,
@@ -44,35 +50,35 @@ class ProfileHeader extends StatelessWidget {
                       )
                     : null,
               ),
-              
-              // Edit Icon
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 32.w,
-                  height: 32.w,
-                  decoration: BoxDecoration(
-                    color: ColorName.primary,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: ColorName.white,
-                      width: 3.w,
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.edit,
-                    size: 16.sp,
-                    color: ColorName.white,
-                  ),
-                ),
-              ),
+
+              // // ✏️ Edit Icon
+              // Positioned(
+              //   bottom: 0,
+              //   right: 0,
+              //   child: Container(
+              //     width: 32.w,
+              //     height: 32.w,
+              //     decoration: BoxDecoration(
+              //       color: ColorName.primary,
+              //       shape: BoxShape.circle,
+              //       border: Border.all(
+              //         color: ColorName.white,
+              //         width: 3.w,
+              //       ),
+              //     ),
+              //     child: Icon(
+              //       Icons.edit,
+              //       size: 16.sp,
+              //       color: ColorName.white,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
-          
+
           SizedBox(height: 16.h),
-          
-          // Name
+
+          // 👤 Name
           Text(
             name,
             style: TextStyle(
@@ -81,10 +87,10 @@ class ProfileHeader extends StatelessWidget {
               color: ColorName.textPrimary,
             ),
           ),
-          
+
           SizedBox(height: 4.h),
-          
-          // Email
+
+          // ✉️ Email
           Text(
             email,
             style: TextStyle(

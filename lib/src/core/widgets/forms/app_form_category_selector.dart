@@ -6,18 +6,20 @@ import 'package:report/gen/i18n/translations.g.dart';
 class AppFormCategorySelector extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String> onCategorySelected;
+  final List<String>? categories;
 
   const AppFormCategorySelector({
     super.key,
     required this.selectedCategory,
     required this.onCategorySelected,
+    this.categories,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
 
-    final categories = [
+    final defaultCategories = [
       t.app.report_category_hardware,
       t.app.report_category_software,
       t.app.report_category_network,
@@ -25,6 +27,10 @@ class AppFormCategorySelector extends StatelessWidget {
       t.app.report_category_security,
       t.app.report_category_other,
     ];
+
+    final effectiveCategories = (categories == null || categories!.isEmpty)
+        ? defaultCategories
+        : categories!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +50,6 @@ class AppFormCategorySelector extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
 
-        /// 🔹 Grid layout (2 items per row)
         GridView.count(
           shrinkWrap: true,
           crossAxisCount: 2,
@@ -52,7 +57,7 @@ class AppFormCategorySelector extends StatelessWidget {
           crossAxisSpacing: 10.w,
           childAspectRatio: 3.5,
           physics: const NeverScrollableScrollPhysics(),
-          children: categories.map((category) {
+          children: effectiveCategories.map((category) {
             final isSelected = selectedCategory == category;
             return Material(
               color: Colors.transparent,
@@ -60,7 +65,8 @@ class AppFormCategorySelector extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 onTap: () => onCategorySelected(category),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: isSelected ? ColorName.primary : ColorName.background,
                     borderRadius: BorderRadius.circular(8.r),

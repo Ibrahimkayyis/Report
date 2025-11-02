@@ -5,7 +5,7 @@ import 'package:report/gen/colors.gen.dart';
 
 /// Custom reusable TextFormField.
 ///
-/// Digunakan di Login & Register screen.
+/// Digunakan di berbagai form (login, register, profile, dsb).
 /// Sudah mendukung validator, errorText, inputFormatters, dan password mode.
 class AppTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -20,7 +20,8 @@ class AppTextField extends StatelessWidget {
   final int? maxLength;
   final bool autofocus;
   final TextInputAction textInputAction;
-  final bool obscureText; // <-- tambahkan ini
+  final bool obscureText;
+  final bool readOnly; // ✅ Tambahkan properti ini
 
   const AppTextField({
     super.key,
@@ -36,12 +37,12 @@ class AppTextField extends StatelessWidget {
     this.maxLength,
     this.autofocus = false,
     this.textInputAction = TextInputAction.next,
-    this.obscureText = false, // <-- default false
+    this.obscureText = false,
+    this.readOnly = false, // ✅ Default false
   });
 
   @override
   Widget build(BuildContext context) {
-    // Tambahkan inputFormatter untuk email bila keyboardType = emailAddress
     final formatters = <TextInputFormatter>[];
     if (keyboardType == TextInputType.emailAddress) {
       formatters.add(FilteringTextInputFormatter.deny(RegExp(r"\s")));
@@ -65,12 +66,13 @@ class AppTextField extends StatelessWidget {
           keyboardType: keyboardType,
           validator: validator,
           onChanged: onChanged,
-          maxLines: obscureText ? 1 : maxLines, // jika password, paksa 1 line
+          maxLines: obscureText ? 1 : maxLines,
           maxLength: maxLength,
           autofocus: autofocus,
           textInputAction: textInputAction,
           inputFormatters: formatters,
-          obscureText: obscureText, // <-- forward ke TextFormField
+          obscureText: obscureText,
+          readOnly: readOnly, // ✅ Forward ke TextFormField
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(
@@ -80,7 +82,9 @@ class AppTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: Colors.grey.shade50,
+            fillColor: readOnly
+                ? Colors.grey.shade100 // ✅ Warna lebih soft kalau readonly
+                : Colors.grey.shade50,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide(
@@ -116,7 +120,9 @@ class AppTextField extends StatelessWidget {
           ),
           style: TextStyle(
             fontSize: 14.sp,
-            color: ColorName.textPrimary,
+            color: readOnly
+                ? Colors.grey.shade600 // ✅ Abu-abu untuk readonly
+                : ColorName.textPrimary,
           ),
         ),
       ],

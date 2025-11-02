@@ -671,11 +671,93 @@ class TranslationsAppEn {
 	/// en: 'Save'
 	String get save => 'Save';
 
+	/// en: 'Logout Confirmation'
+	String get confirm_logout_title => 'Logout Confirmation';
+
+	/// en: 'Are you sure you want to logout from this account?'
+	String get confirm_logout_message => 'Are you sure you want to logout from this account?';
+
+	/// en: 'No Data Available'
+	String get no_data_available => 'No Data Available';
+
+	/// en: 'Upload attachments as evidence'
+	String get upload_dialog_title => 'Upload attachments as evidence';
+
+	/// en: 'Send in pdf format'
+	String get upload_dialog_subtitle => 'Send in pdf format';
+
+	/// en: 'Choose file or Move here'
+	String get upload_dialog_choose_file => 'Choose file or Move here';
+
+	/// en: 'Pdf file format, maximum size 1 MB'
+	String get upload_dialog_file_format => 'Pdf file format, maximum size 1 MB';
+
+	/// en: 'waiting'
+	String get upload_dialog_status_waiting => 'waiting';
+
+	/// en: 'complete'
+	String get upload_dialog_status_complete => 'complete';
+
+	/// en: 'Cancel'
+	String get upload_dialog_cancel => 'Cancel';
+
+	/// en: 'Upload'
+	String get upload_dialog_upload => 'Upload';
+
+	/// en: 'Unknown User'
+	String get unknown_user => 'Unknown User';
+
+	/// en: 'Edit Profile'
+	String get edit_profile_title => 'Edit Profile';
+
+	/// en: 'Confirmation'
+	String get confirmation_title => 'Confirmation';
+
+	/// en: 'Are you sure you want to save changes?'
+	String get confirmation_save_changes => 'Are you sure you want to save changes?';
+
+	/// en: 'Phone number is required'
+	String get validation_phone_required => 'Phone number is required';
+
+	/// en: 'Invalid phone number format'
+	String get validation_phone_format => 'Invalid phone number format';
+
+	/// en: 'is required'
+	String get validation_required => 'is required';
+
+	/// en: 'Profile updated successfully'
+	String get profile_updated_success => 'Profile updated successfully';
+
+	/// en: 'Error'
+	String get error => 'Error';
+
+	/// en: 'Success'
+	String get success => 'Success';
+
+	/// en: 'Gallery'
+	String get gallery => 'Gallery';
+
+	/// en: 'Camera'
+	String get camera => 'Camera';
+
+	/// en: 'Draft saved successfully'
+	String get draft_saved => 'Draft saved successfully';
+
+	/// en: 'Sending report...'
+	String get sending_report => 'Sending report...';
+
+	/// en: 'OK'
+	String get ok => 'OK';
+
+	/// en: 'Status'
+	String get status => 'Status';
+
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
 	late final TranslationsAppDialogEn dialog = TranslationsAppDialogEn._(_root);
 	late final TranslationsAppNotificationsEn notifications = TranslationsAppNotificationsEn._(_root);
 	late final TranslationsAppReportActivityEn report_activity = TranslationsAppReportActivityEn._(_root);
 	late final TranslationsAppQrEn qr = TranslationsAppQrEn._(_root);
+	late final TranslationsAppValidationEn validation = TranslationsAppValidationEn._(_root);
 }
 
 // Path: app.errors
@@ -730,6 +812,21 @@ class TranslationsAppDialogEn {
 
 	/// en: 'OK'
 	String get ok => 'OK';
+
+	/// en: 'Cancel Report?'
+	String get cancel_report_title => 'Cancel Report?';
+
+	/// en: 'The data you entered will be lost. Are you sure?'
+	String get cancel_report_message => 'The data you entered will be lost. Are you sure?';
+
+	/// en: 'Continue Filling'
+	String get continue_filling => 'Continue Filling';
+
+	/// en: 'Cancel'
+	String get cancel_report => 'Cancel';
+
+	/// en: 'Incomplete Form'
+	String get incomplete_form_title => 'Incomplete Form';
 }
 
 // Path: app.notifications
@@ -904,6 +1001,24 @@ class TranslationsAppQrEn {
 
 	/// en: 'Processing Asset Data...'
 	String get processing => 'Processing Asset Data...';
+}
+
+// Path: app.validation
+class TranslationsAppValidationEn {
+	TranslationsAppValidationEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Report category must be selected'
+	String get category_required => 'Report category must be selected';
+
+	/// en: 'Problem description is required'
+	String get description_required => 'Problem description is required';
+
+	/// en: 'Problem description must be at least 20 characters'
+	String get description_min_length => 'Problem description must be at least 20 characters';
 }
 
 /// Flat map(s) containing all translations.
@@ -1118,6 +1233,33 @@ extension on Translations {
 			case 'app.font_size': return 'Font Size';
 			case 'app.font_size_subtitle': return 'Choose your preferred font size';
 			case 'app.save': return 'Save';
+			case 'app.confirm_logout_title': return 'Logout Confirmation';
+			case 'app.confirm_logout_message': return 'Are you sure you want to logout from this account?';
+			case 'app.no_data_available': return 'No Data Available';
+			case 'app.upload_dialog_title': return 'Upload attachments as evidence';
+			case 'app.upload_dialog_subtitle': return 'Send in pdf format';
+			case 'app.upload_dialog_choose_file': return 'Choose file or Move here';
+			case 'app.upload_dialog_file_format': return 'Pdf file format, maximum size 1 MB';
+			case 'app.upload_dialog_status_waiting': return 'waiting';
+			case 'app.upload_dialog_status_complete': return 'complete';
+			case 'app.upload_dialog_cancel': return 'Cancel';
+			case 'app.upload_dialog_upload': return 'Upload';
+			case 'app.unknown_user': return 'Unknown User';
+			case 'app.edit_profile_title': return 'Edit Profile';
+			case 'app.confirmation_title': return 'Confirmation';
+			case 'app.confirmation_save_changes': return 'Are you sure you want to save changes?';
+			case 'app.validation_phone_required': return 'Phone number is required';
+			case 'app.validation_phone_format': return 'Invalid phone number format';
+			case 'app.validation_required': return 'is required';
+			case 'app.profile_updated_success': return 'Profile updated successfully';
+			case 'app.error': return 'Error';
+			case 'app.success': return 'Success';
+			case 'app.gallery': return 'Gallery';
+			case 'app.camera': return 'Camera';
+			case 'app.draft_saved': return 'Draft saved successfully';
+			case 'app.sending_report': return 'Sending report...';
+			case 'app.ok': return 'OK';
+			case 'app.status': return 'Status';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
@@ -1130,6 +1272,11 @@ extension on Translations {
 			case 'app.dialog.data_not_found_title': return 'Data not found!';
 			case 'app.dialog.data_not_found_message': return 'Please check your input again';
 			case 'app.dialog.ok': return 'OK';
+			case 'app.dialog.cancel_report_title': return 'Cancel Report?';
+			case 'app.dialog.cancel_report_message': return 'The data you entered will be lost. Are you sure?';
+			case 'app.dialog.continue_filling': return 'Continue Filling';
+			case 'app.dialog.cancel_report': return 'Cancel';
+			case 'app.dialog.incomplete_form_title': return 'Incomplete Form';
 			case 'app.notifications.title': return 'Notifications';
 			case 'app.notifications.search_placeholder': return 'Search notifications...';
 			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
@@ -1179,6 +1326,9 @@ extension on Translations {
 			case 'app.qr.create_report_based_on_asset': return 'Create Report Based on This Asset';
 			case 'app.qr.invalid_qr_message': return 'Invalid QR data. Please scan a valid asset QR code.';
 			case 'app.qr.processing': return 'Processing Asset Data...';
+			case 'app.validation.category_required': return 'Report category must be selected';
+			case 'app.validation.description_required': return 'Problem description is required';
+			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
 			default: return null;
 		}
 	}

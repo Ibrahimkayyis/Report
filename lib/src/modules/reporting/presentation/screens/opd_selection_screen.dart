@@ -1,12 +1,17 @@
-// lib/src/modules/presentation/screens/reporting/opd_selection_screen.dart
+// lib/src/modules/reporting/presentation/screens/opd_selection_screen.dart
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
+import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/opd_cubit.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/opd_state.dart';
+import 'package:shimmer/shimmer.dart';
 
 part '../widgets/opd_selection/opd_card.dart';
 part '../widgets/opd_selection/opd_item.dart';
@@ -19,42 +24,136 @@ class OpdSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.t;
 
-    return Scaffold(
-      backgroundColor: ColorName.background,
-      appBar: AppPrimaryBar(title: t.app.online_reporting_title),
-      body: ListView(
-        padding: EdgeInsets.all(16.w),
-        children: [
-          AppSectionTitle(title: t.app.select_opd_subtitle),
-          SizedBox(height: 16.h),
-          ..._buildOpdList(context, t),
-        ],
+    return BlocProvider(
+      create: (_) => sl<OpdCubit>()..fetchOpdList(),
+      child: Scaffold(
+        backgroundColor: ColorName.background,
+        appBar: AppPrimaryBar(title: t.app.online_reporting_title),
+        body: Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppSectionTitle(title: t.app.select_opd_subtitle),
+              SizedBox(height: 16.h),
+
+              Expanded(
+                child: BlocBuilder<OpdCubit, OpdState>(
+                  builder: (context, state) {
+                    if (state is OpdLoading) {
+                      // 🌟 Tampilan shimmer saat loading
+                      return ListView.builder(
+                        itemCount: 20, // jumlah shimmer dummy
+                        itemBuilder: (_, __) => const OpdShimmerCard(),
+                      );
+                    } else if (state is OpdLoaded) {
+                      final opdList = state.opdList;
+
+                      if (opdList.isEmpty) {
+                        return Center(
+                          child: Text(
+                            t.app.no_data_available,
+                            style: TextStyle(
+                              color: ColorName.textPrimary,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: opdList.length,
+                        itemBuilder: (context, index) {
+                          final opd = opdList[index];
+
+                          // Icon dan warna dinamis, card tetap ColorName.primary
+                          final icon = _iconByIndex(index);
+                          final iconColor = _colorByIndex(index);
+
+                          return OpdCard(
+                            opd: OpdItem(
+                              icon: icon,
+                              name: opd.opdName,
+                              color: iconColor,
+                            ),
+                            onTap: () => context.router.push(
+                              ReportingFormRoute(
+                                opdId: opd.opdId,
+                                opdName: opd.opdName,
+                                opdIcon: icon,
+                                opdColor: iconColor,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else if (state is OpdError) {
+                      return Center(
+                        child: Text(
+                          state.message,
+                          style: TextStyle(color: Colors.red, fontSize: 14.sp),
+                        ),
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  List<Widget> _buildOpdList(BuildContext context, Translations t) {
-    final List<OpdItem> opdList = [
-      OpdItem(icon: Icons.school, name: t.app.opd_dinas_pendidikan, color: Colors.blue.shade700),
-      OpdItem(icon: Icons.library_books, name: t.app.opd_dinas_perpustakaan, color: Colors.red.shade600),
-      OpdItem(icon: Icons.local_hospital, name: t.app.opd_dinas_kesehatan, color: Colors.pink.shade600),
-      OpdItem(icon: Icons.devices, name: t.app.opd_dinas_komunikasi_informatika, color: Colors.indigo.shade700),
-      OpdItem(icon: Icons.directions_bus, name: t.app.opd_dinas_perhubungan, color: Colors.orange.shade700),
-      OpdItem(icon: Icons.eco, name: t.app.opd_dinas_lingkungan_hidup, color: Colors.green.shade600),
-      OpdItem(icon: Icons.diversity_3, name: t.app.opd_dinas_sosial, color: Colors.teal.shade700),
-      OpdItem(icon: Icons.badge, name: t.app.opd_dinas_kependudukan_pencatatan_sipil, color: Colors.cyan.shade700),
-      OpdItem(icon: Icons.water_drop, name: t.app.opd_dinas_sda_bina_marga, color: Colors.blue.shade800),
-      OpdItem(icon: Icons.business_center, name: t.app.opd_dinas_koperasi_ukm, color: Colors.amber.shade800),
-      OpdItem(icon: Icons.home_work, name: t.app.opd_dinas_perumahan_kawasan, color: Colors.brown.shade600),
-      OpdItem(icon: Icons.account_balance, name: t.app.opd_dinas_penanaman_modal, color: Colors.deepPurple.shade700),
-      OpdItem(icon: Icons.fire_truck, name: t.app.opd_dinas_pemadam_kebakaran, color: Colors.red.shade700),
-      OpdItem(icon: Icons.museum, name: t.app.opd_dinas_kebudayaan_pariwisata, color: Colors.deepOrange.shade700),
-      OpdItem(icon: Icons.factory, name: t.app.opd_dinas_perindustrian_tenaga_kerja, color: Colors.grey.shade700),
-      OpdItem(icon: Icons.shield, name: t.app.opd_satpol_pp, color: Colors.orange.shade800),
-      OpdItem(icon: Icons.agriculture, name: t.app.opd_dinas_ketahanan_pangan, color: Colors.lightGreen.shade700),
-      OpdItem(icon: Icons.people, name: t.app.opd_dinas_pengendalian_penduduk, color: Colors.purple.shade700),
+  // 🎨 Warna untuk icon (beragam)
+  Color _colorByIndex(int index) {
+    final colors = [
+      Colors.blue.shade700,
+      Colors.red.shade600,
+      Colors.pink.shade600,
+      Colors.indigo.shade700,
+      Colors.orange.shade700,
+      Colors.green.shade600,
+      Colors.teal.shade700,
+      Colors.cyan.shade700,
+      Colors.blue.shade800,
+      Colors.amber.shade800,
+      Colors.brown.shade600,
+      Colors.deepPurple.shade700,
+      Colors.red.shade700,
+      Colors.deepOrange.shade700,
+      Colors.grey.shade700,
+      Colors.orange.shade800,
+      Colors.lightGreen.shade700,
+      Colors.purple.shade700,
     ];
+    return colors[index % colors.length];
+  }
 
-    return opdList.map((opd) => OpdCard(opd: opd)).toList();
+  // 🧩 Icon dinamis agar tampil menarik
+  IconData _iconByIndex(int index) {
+    const icons = [
+      Icons.school,
+      Icons.library_books,
+      Icons.local_hospital,
+      Icons.devices,
+      Icons.directions_bus,
+      Icons.eco,
+      Icons.diversity_3,
+      Icons.badge,
+      Icons.water_drop,
+      Icons.business_center,
+      Icons.home_work,
+      Icons.account_balance,
+      Icons.fire_truck,
+      Icons.museum,
+      Icons.factory,
+      Icons.shield,
+      Icons.agriculture,
+      Icons.people,
+    ];
+    return icons[index % icons.length];
   }
 }

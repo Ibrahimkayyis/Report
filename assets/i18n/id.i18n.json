@@ -209,6 +209,31 @@
     "save": "Simpan",
     "confirm_logout_title": "Konfirmasi Keluar",
     "confirm_logout_message": "Apakah Anda yakin ingin keluar dari akun ini?",
+    "no_data_available": "Tidak Ada Data Yang Tersedia",
+    "upload_dialog_title": "Unggah lampiran sebagai bukti",
+    "upload_dialog_subtitle": "Kirim dalam format pdf",
+    "upload_dialog_choose_file": "Pilih file atau Pindahkan kesini",
+    "upload_dialog_file_format": "Format file pdf, ukuran maksimal 1 MB",
+    "upload_dialog_status_waiting": "tunggu",
+    "upload_dialog_status_complete": "selesai",
+    "upload_dialog_cancel": "Batalkan",
+    "upload_dialog_upload": "Unggah",
+    "unknown_user": "Pengguna Tidak Dikenal",
+    "edit_profile_title": "Edit Profil",
+    "confirmation_title": "Konfirmasi",
+    "confirmation_save_changes": "Apakah Anda yakin ingin menyimpan perubahan?",
+    "validation_phone_required": "Nomor telepon tidak boleh kosong",
+    "validation_phone_format": "Format nomor telepon tidak valid",
+    "validation_required": "tidak boleh kosong",
+    "profile_updated_success": "Profil berhasil diperbarui",
+    "error": "Kesalahan",
+    "success": "Berhasil",
+    "gallery": "Galeri",
+    "camera": "Kamera",
+    "draft_saved": "Draft berhasil disimpan",
+    "sending_report": "Mengirim laporan...",
+    "ok": "OK",
+    "status": "Status",
     "errors": {
       "invalid_credentials": "Email atau kata sandi salah",
       "server_error": "Terjadi kesalahan server",
@@ -223,7 +248,12 @@
       "cancel": "Batalkan",
       "data_not_found_title": "Data tidak ditemukan!",
       "data_not_found_message": "Cek kembali inputan Anda",
-      "ok": "Oke"
+      "ok": "Oke",
+      "cancel_report_title": "Batalkan Laporan?",
+      "cancel_report_message": "Data yang telah Anda isi akan hilang. Apakah Anda yakin?",
+      "continue_filling": "Lanjutkan Mengisi",
+      "cancel_report": "Batalkan",
+      "incomplete_form_title": "Form Belum Lengkap"
     },
     "notifications": {
       "title": "Notifikasi",
@@ -279,6 +309,11 @@
       "create_report_based_on_asset": "Buat Laporan Berdasarkan Aset Ini",
       "invalid_qr_message": "Data QR tidak valid. Silakan pindai kode aset yang benar.",
       "processing": "Memproses data aset..."
-    }
+    },
+    "validation": {
+    "category_required": "Kategori laporan harus dipilih",
+    "description_required": "Deskripsi masalah harus diisi",
+    "description_min_length": "Deskripsi masalah minimal 20 karakter"
+  }
   }
 }

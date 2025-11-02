@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 // import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
@@ -9,13 +10,13 @@ import 'package:report/src/core/widgets/widgets.dart';
 @RoutePage()
 class ReportSuccessScreen extends StatelessWidget {
   final String ticketNumber;
-  final String pin;
+  final String status;
   final String opdName;
 
   const ReportSuccessScreen({
     super.key,
     required this.ticketNumber,
-    required this.pin,
+    required this.status,
     required this.opdName,
   });
 
@@ -24,7 +25,7 @@ class ReportSuccessScreen extends StatelessWidget {
     // final t = context.t;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: ColorName.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -36,13 +37,13 @@ class ReportSuccessScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     SuccessCard(
                       ticketNumber: ticketNumber,
-                      pin: pin,
+                      status: status,
                       opdName: opdName,
                       title: t.app.report_success_title,
                       description: t.app.report_success_description,
                       checkWithLabel: t.app.check_report_with,
                       ticketLabel: t.app.ticket_number,
-                      pinLabel: t.app.pin,
+                      statusLabel: t.app.status,
                       serviceTypeLabel: t.app.service_type,
                       serviceTypeValue: t.app.service_type_reporting,
                       destinationLabel: t.app.destination_opd,

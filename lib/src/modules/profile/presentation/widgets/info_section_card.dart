@@ -3,36 +3,42 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'info_field_item.dart';
 
-class InfoSectionCard extends StatelessWidget {
+class InfoSectionCard extends StatefulWidget {
   final String title;
-  final String editButtonLabel;
   final Map<String, String> fields;
-  final VoidCallback? onEdit;
+  final String? secondTabTitle;
+  final Map<String, String>? secondTabFields;
 
   const InfoSectionCard({
     super.key,
     required this.title,
-    required this.editButtonLabel,
     required this.fields,
-    this.onEdit,
+    this.secondTabTitle,
+    this.secondTabFields,
   });
 
   @override
+  State<InfoSectionCard> createState() => _InfoSectionCardState();
+}
+
+class _InfoSectionCardState extends State<InfoSectionCard> {
+  int _selectedTabIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
+    final hasSecondTab = widget.secondTabTitle != null && widget.secondTabFields != null;
+
     return Container(
-      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: ColorName.white,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
-          // Stronger primary shadow for depth
           BoxShadow(
             color: ColorName.black.withOpacity(0.12),
             blurRadius: 24.r,
             spreadRadius: 1.r,
             offset: Offset(0, 6.h),
           ),
-          // Secondary subtle shadow to give a crisp edge
           BoxShadow(
             color: ColorName.black.withOpacity(0.06),
             blurRadius: 8.r,
@@ -43,108 +49,221 @@ class InfoSectionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with Title and Edit Button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: ColorName.primary,
-                ),
-              ),
-              
-              GestureDetector(
-                onTap: onEdit,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  decoration: BoxDecoration(
-                    color: ColorName.primary,
-                    borderRadius: BorderRadius.circular(20.r),
+          // Tabs with curved divider (if second tab exists)
+          if (hasSecondTab) ...[
+            _buildCurvedTabs(),
+          ] else ...[
+            // Single title (no tabs)
+            Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: ColorName.primary,
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        editButtonLabel,
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600,
-                          color: ColorName.white,
-                        ),
-                      ),
-                      SizedBox(width: 4.w),
-                      Icon(
-                        Icons.edit,
-                        size: 14.sp,
-                        color: ColorName.white,
-                      ),
-                    ],
+                  SizedBox(height: 8.h),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.grey.shade300,
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
 
-          SizedBox(height: 8.h),
-          // Thin divider to separate header from content below
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: Colors.grey.shade300,
+          // Content area
+          Padding(
+            padding: EdgeInsets.all(16.w),
+            child: _buildContent(),
           ),
-
-          SizedBox(height: 16.h),
-          
-          // Fields Grid (2 columns)
-          _buildFieldsGrid(),
         ],
       ),
     );
   }
 
-  Widget _buildFieldsGrid() {
-    final fieldEntries = fields.entries.toList();
-    final rows = <Widget>[];
-    
-    for (int i = 0; i < fieldEntries.length; i += 2) {
-      final leftField = fieldEntries[i];
-      final rightField = i + 1 < fieldEntries.length ? fieldEntries[i + 1] : null;
-      
-      rows.add(
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: InfoFieldItem(
-                label: leftField.key,
-                value: leftField.value,
+  Widget _buildCurvedTabs() {
+    return SizedBox(
+      height: 60.h,
+      child: Stack(
+        children: [
+          // Background grey container
+          Container(
+            height: 60.h,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r),
               ),
             ),
-            
-            if (rightField != null) ...[
-              SizedBox(width: 16.w),
+          ),
+
+          // Custom paint for curved shape
+          CustomPaint(
+            size: Size(double.infinity, 60.h),
+            painter: CurvedTabPainter(
+              isFirstTabActive: _selectedTabIndex == 0,
+              activeColor: ColorName.white,
+              inactiveColor: Colors.grey.shade200,
+            ),
+          ),
+
+          // Tab buttons
+          Row(
+            children: [
               Expanded(
-                child: InfoFieldItem(
-                  label: rightField.key,
-                  value: rightField.value,
+                child: GestureDetector(
+                  onTap: () => setState(() => _selectedTabIndex = 0),
+                  behavior: HitTestBehavior.opaque,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: _selectedTabIndex == 0 ? FontWeight.w700 : FontWeight.w500,
+                        color: _selectedTabIndex == 0 ? ColorName.primary : Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ] else
-              const Spacer(),
-          ],
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => setState(() => _selectedTabIndex = 1),
+                  behavior: HitTestBehavior.opaque,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    child: Text(
+                      widget.secondTabTitle!,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: _selectedTabIndex == 1 ? FontWeight.w700 : FontWeight.w500,
+                        color: _selectedTabIndex == 1 ? ColorName.primary : Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    final fieldsToShow = _selectedTabIndex == 0
+        ? widget.fields
+        : (widget.secondTabFields ?? widget.fields);
+
+    return _buildFieldsList(fieldsToShow);
+  }
+
+  Widget _buildFieldsList(Map<String, String> fields) {
+    final fieldEntries = fields.entries.toList();
+    final items = <Widget>[];
+
+    for (int i = 0; i < fieldEntries.length; i++) {
+      final field = fieldEntries[i];
+
+      items.add(
+        InfoFieldItem(
+          label: field.key,
+          value: field.value,
         ),
       );
-      
-      if (i + 2 < fieldEntries.length) {
-        rows.add(SizedBox(height: 16.h));
+
+      if (i < fieldEntries.length - 1) {
+        items.add(SizedBox(height: 16.h));
       }
     }
-    
+
     return Column(
-      children: rows,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: items,
     );
+  }
+}
+
+// Custom Painter for curved tab divider
+class CurvedTabPainter extends CustomPainter {
+  final bool isFirstTabActive;
+  final Color activeColor;
+  final Color inactiveColor;
+
+  CurvedTabPainter({
+    required this.isFirstTabActive,
+    required this.activeColor,
+    required this.inactiveColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = activeColor;
+
+    final path = Path();
+
+    if (isFirstTabActive) {
+      // Left tab is active - draw white background on left with curve on right
+      path.moveTo(0, 0);
+      path.lineTo(size.width / 2 - 20, 0);
+      
+      // Curved transition
+      path.quadraticBezierTo(
+        size.width / 2,
+        0,
+        size.width / 2,
+        20,
+      );
+      path.quadraticBezierTo(
+        size.width / 2,
+        size.height,
+        size.width / 2 + 20,
+        size.height,
+      );
+      
+      path.lineTo(0, size.height);
+      path.close();
+    } else {
+      // Right tab is active - draw white background on right with curve on left
+      path.moveTo(size.width, 0);
+      path.lineTo(size.width / 2 + 20, 0);
+      
+      // Curved transition
+      path.quadraticBezierTo(
+        size.width / 2,
+        0,
+        size.width / 2,
+        20,
+      );
+      path.quadraticBezierTo(
+        size.width / 2,
+        size.height,
+        size.width / 2 - 20,
+        size.height,
+      );
+      
+      path.lineTo(size.width, size.height);
+      path.close();
+    }
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CurvedTabPainter oldDelegate) {
+    return oldDelegate.isFirstTabActive != isFirstTabActive;
   }
 }
