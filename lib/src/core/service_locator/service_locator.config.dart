@@ -35,6 +35,56 @@ import 'package:report/src/modules/auth/presentation/cubits/login/login_cubit.da
     as _i531;
 import 'package:report/src/modules/auth/presentation/cubits/register/register_cubit.dart'
     as _i243;
+import 'package:report/src/modules/profile/data/datasources/remote/source/abstract/profile_remote_data_source.dart'
+    as _i257;
+import 'package:report/src/modules/profile/data/datasources/remote/source/implementation/profile_remote_data_source_impl.dart'
+    as _i741;
+import 'package:report/src/modules/profile/data/repositories_impl/profile_repository_impl.dart'
+    as _i799;
+import 'package:report/src/modules/profile/domain/repositories/profile_repository.dart'
+    as _i429;
+import 'package:report/src/modules/profile/domain/usecase/get_profile_usecase.dart'
+    as _i963;
+import 'package:report/src/modules/profile/domain/usecase/update_profile_usecase.dart'
+    as _i40;
+import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart'
+    as _i96;
+import 'package:report/src/modules/reporting/data/datasources/remote/source/abstract/opd_remote_data_source.dart'
+    as _i144;
+import 'package:report/src/modules/reporting/data/datasources/remote/source/abstract/report_remote_data_source.dart'
+    as _i425;
+import 'package:report/src/modules/reporting/data/datasources/remote/source/abstract/ticket_category_remote_data_source.dart'
+    as _i312;
+import 'package:report/src/modules/reporting/data/datasources/remote/source/implementation/opd_remote_data_source_impl.dart'
+    as _i972;
+import 'package:report/src/modules/reporting/data/datasources/remote/source/implementation/report_remote_data_source_impl.dart'
+    as _i715;
+import 'package:report/src/modules/reporting/data/datasources/remote/source/implementation/ticket_category_remote_data_source_impl.dart'
+    as _i774;
+import 'package:report/src/modules/reporting/data/repositories_impl/opd_repository_impl.dart'
+    as _i235;
+import 'package:report/src/modules/reporting/data/repositories_impl/report_repository_impl.dart'
+    as _i533;
+import 'package:report/src/modules/reporting/data/repositories_impl/ticket_category_repository_impl.dart'
+    as _i593;
+import 'package:report/src/modules/reporting/domain/repositories/opd_repository.dart'
+    as _i189;
+import 'package:report/src/modules/reporting/domain/repositories/report_repository.dart'
+    as _i277;
+import 'package:report/src/modules/reporting/domain/repositories/ticket_category_repository.dart'
+    as _i514;
+import 'package:report/src/modules/reporting/domain/usecase/create_public_report_usecase.dart'
+    as _i901;
+import 'package:report/src/modules/reporting/domain/usecase/get_all_opd_usecase.dart'
+    as _i166;
+import 'package:report/src/modules/reporting/domain/usecase/get_ticket_categories_usecase.dart'
+    as _i813;
+import 'package:report/src/modules/reporting/presentation/cubits/opd_cubit.dart'
+    as _i988;
+import 'package:report/src/modules/reporting/presentation/cubits/report_cubit.dart'
+    as _i377;
+import 'package:report/src/modules/reporting/presentation/cubits/ticket_category_cubit.dart'
+    as _i573;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -56,8 +106,48 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<String>(instanceName: 'baseUrl')),
     );
+    gh.lazySingleton<_i257.ProfileRemoteDataSource>(
+      () => _i741.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i312.TicketCategoryRemoteDataSource>(
+      () => _i774.TicketCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i425.ReportRemoteDataSource>(
+      () => _i715.ReportRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i144.OpdRemoteDataSource>(
+      () => _i972.OpdRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i429.ProfileRepository>(
+      () => _i799.ProfileRepositoryImpl(gh<_i257.ProfileRemoteDataSource>()),
+    );
     gh.lazySingleton<_i260.AuthRemoteDataSource>(
       () => _i1028.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i514.TicketCategoryRepository>(
+      () => _i593.TicketCategoryRepositoryImpl(
+        gh<_i312.TicketCategoryRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i189.OpdRepository>(
+      () => _i235.OpdRepositoryImpl(gh<_i144.OpdRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i277.ReportRepository>(
+      () => _i533.ReportRepositoryImpl(gh<_i425.ReportRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i813.GetTicketCategoriesUseCase>(
+      () => _i813.GetTicketCategoriesUseCase(
+        gh<_i514.TicketCategoryRepository>(),
+      ),
+    );
+    gh.factory<_i901.CreatePublicReportUsecase>(
+      () => _i901.CreatePublicReportUsecase(gh<_i277.ReportRepository>()),
+    );
+    gh.factory<_i963.GetProfileUsecase>(
+      () => _i963.GetProfileUsecase(gh<_i429.ProfileRepository>()),
+    );
+    gh.factory<_i40.UpdateProfileUsecase>(
+      () => _i40.UpdateProfileUsecase(gh<_i429.ProfileRepository>()),
     );
     gh.lazySingleton<_i292.AuthRepository>(
       () => _i138.AuthRepositoryImpl(
@@ -65,8 +155,14 @@ extension GetItInjectableX on _i174.GetIt {
         local: gh<_i344.AuthLocalDataSource>(),
       ),
     );
+    gh.factory<_i166.GetAllOpdUsecase>(
+      () => _i166.GetAllOpdUsecase(gh<_i189.OpdRepository>()),
+    );
     gh.lazySingleton<_i428.AuthCubit>(
       () => _i428.AuthCubit(gh<_i292.AuthRepository>()),
+    );
+    gh.factory<_i377.ReportCubit>(
+      () => _i377.ReportCubit(gh<_i901.CreatePublicReportUsecase>()),
     );
     gh.factory<_i95.LoginUseCase>(
       () => _i95.LoginUseCase(gh<_i292.AuthRepository>()),
@@ -76,6 +172,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i531.LoginCubit>(
       () => _i531.LoginCubit(gh<_i95.LoginUseCase>()),
+    );
+    gh.factory<_i573.TicketCategoryCubit>(
+      () => _i573.TicketCategoryCubit(gh<_i813.GetTicketCategoriesUseCase>()),
+    );
+    gh.factory<_i988.OpdCubit>(
+      () => _i988.OpdCubit(gh<_i166.GetAllOpdUsecase>()),
+    );
+    gh.factory<_i96.ProfileCubit>(
+      () => _i96.ProfileCubit(
+        gh<_i963.GetProfileUsecase>(),
+        gh<_i40.UpdateProfileUsecase>(),
+      ),
     );
     gh.factory<_i243.RegisterCubit>(
       () => _i243.RegisterCubit(gh<_i96.RegisterUseCase>()),

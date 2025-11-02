@@ -209,6 +209,31 @@
     "save": "Save",
     "confirm_logout_title": "Logout Confirmation",
     "confirm_logout_message": "Are you sure you want to logout from this account?",
+    "no_data_available": "No Data Available",
+    "upload_dialog_title": "Upload attachments as evidence",
+    "upload_dialog_subtitle": "Send in pdf format",
+    "upload_dialog_choose_file": "Choose file or Move here",
+    "upload_dialog_file_format": "Pdf file format, maximum size 1 MB",
+    "upload_dialog_status_waiting": "waiting",
+    "upload_dialog_status_complete": "complete",
+    "upload_dialog_cancel": "Cancel",
+    "upload_dialog_upload": "Upload",
+    "unknown_user": "Unknown User",
+    "edit_profile_title": "Edit Profile",
+    "confirmation_title": "Confirmation",
+    "confirmation_save_changes": "Are you sure you want to save changes?",
+    "validation_phone_required": "Phone number is required",
+    "validation_phone_format": "Invalid phone number format",
+    "validation_required": "is required",
+    "profile_updated_success": "Profile updated successfully",
+    "error": "Error",
+    "success": "Success",
+    "gallery": "Gallery",
+    "camera": "Camera",
+    "draft_saved": "Draft saved successfully",
+    "sending_report": "Sending report...",
+    "ok": "OK",
+    "status": "Status",
     "errors": {
       "invalid_credentials": "Invalid email or password",
       "server_error": "Server error occurred",
@@ -223,7 +248,12 @@
       "cancel": "Cancel",
       "data_not_found_title": "Data not found!",
       "data_not_found_message": "Please check your input again",
-      "ok": "OK"
+      "ok": "OK",
+      "cancel_report_title": "Cancel Report?",
+      "cancel_report_message": "The data you entered will be lost. Are you sure?",
+      "continue_filling": "Continue Filling",
+      "cancel_report": "Cancel",
+      "incomplete_form_title": "Incomplete Form"
     },
     "notifications": {
       "title": "Notifications",
@@ -279,6 +309,11 @@
       "create_report_based_on_asset": "Create Report Based on This Asset",
       "invalid_qr_message": "Invalid QR data. Please scan a valid asset QR code.",
       "processing": "Processing Asset Data..."
+    },
+    "validation": {
+      "category_required": "Report category must be selected",
+      "description_required": "Problem description is required",
+      "description_min_length": "Problem description must be at least 20 characters"
     }
   }
 }

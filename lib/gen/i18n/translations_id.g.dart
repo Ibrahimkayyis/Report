@@ -677,11 +677,87 @@ class TranslationsAppId {
 	/// id: 'Apakah Anda yakin ingin keluar dari akun ini?'
 	String get confirm_logout_message => 'Apakah Anda yakin ingin keluar dari akun ini?';
 
+	/// id: 'Tidak Ada Data Yang Tersedia'
+	String get no_data_available => 'Tidak Ada Data Yang Tersedia';
+
+	/// id: 'Unggah lampiran sebagai bukti'
+	String get upload_dialog_title => 'Unggah lampiran sebagai bukti';
+
+	/// id: 'Kirim dalam format pdf'
+	String get upload_dialog_subtitle => 'Kirim dalam format pdf';
+
+	/// id: 'Pilih file atau Pindahkan kesini'
+	String get upload_dialog_choose_file => 'Pilih file atau Pindahkan kesini';
+
+	/// id: 'Format file pdf, ukuran maksimal 1 MB'
+	String get upload_dialog_file_format => 'Format file pdf, ukuran maksimal 1 MB';
+
+	/// id: 'tunggu'
+	String get upload_dialog_status_waiting => 'tunggu';
+
+	/// id: 'selesai'
+	String get upload_dialog_status_complete => 'selesai';
+
+	/// id: 'Batalkan'
+	String get upload_dialog_cancel => 'Batalkan';
+
+	/// id: 'Unggah'
+	String get upload_dialog_upload => 'Unggah';
+
+	/// id: 'Pengguna Tidak Dikenal'
+	String get unknown_user => 'Pengguna Tidak Dikenal';
+
+	/// id: 'Edit Profil'
+	String get edit_profile_title => 'Edit Profil';
+
+	/// id: 'Konfirmasi'
+	String get confirmation_title => 'Konfirmasi';
+
+	/// id: 'Apakah Anda yakin ingin menyimpan perubahan?'
+	String get confirmation_save_changes => 'Apakah Anda yakin ingin menyimpan perubahan?';
+
+	/// id: 'Nomor telepon tidak boleh kosong'
+	String get validation_phone_required => 'Nomor telepon tidak boleh kosong';
+
+	/// id: 'Format nomor telepon tidak valid'
+	String get validation_phone_format => 'Format nomor telepon tidak valid';
+
+	/// id: 'tidak boleh kosong'
+	String get validation_required => 'tidak boleh kosong';
+
+	/// id: 'Profil berhasil diperbarui'
+	String get profile_updated_success => 'Profil berhasil diperbarui';
+
+	/// id: 'Kesalahan'
+	String get error => 'Kesalahan';
+
+	/// id: 'Berhasil'
+	String get success => 'Berhasil';
+
+	/// id: 'Galeri'
+	String get gallery => 'Galeri';
+
+	/// id: 'Kamera'
+	String get camera => 'Kamera';
+
+	/// id: 'Draft berhasil disimpan'
+	String get draft_saved => 'Draft berhasil disimpan';
+
+	/// id: 'Mengirim laporan...'
+	String get sending_report => 'Mengirim laporan...';
+
+	/// id: 'OK'
+	String get ok => 'OK';
+
+	/// id: 'Status'
+	String get status => 'Status';
+
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 	late final TranslationsAppDialogId dialog = TranslationsAppDialogId.internal(_root);
 	late final TranslationsAppNotificationsId notifications = TranslationsAppNotificationsId.internal(_root);
 	late final TranslationsAppReportActivityId report_activity = TranslationsAppReportActivityId.internal(_root);
 	late final TranslationsAppQrId qr = TranslationsAppQrId.internal(_root);
+	late final TranslationsAppValidationId validation = TranslationsAppValidationId.internal(_root);
 }
 
 // Path: app.errors
@@ -736,6 +812,21 @@ class TranslationsAppDialogId {
 
 	/// id: 'Oke'
 	String get ok => 'Oke';
+
+	/// id: 'Batalkan Laporan?'
+	String get cancel_report_title => 'Batalkan Laporan?';
+
+	/// id: 'Data yang telah Anda isi akan hilang. Apakah Anda yakin?'
+	String get cancel_report_message => 'Data yang telah Anda isi akan hilang. Apakah Anda yakin?';
+
+	/// id: 'Lanjutkan Mengisi'
+	String get continue_filling => 'Lanjutkan Mengisi';
+
+	/// id: 'Batalkan'
+	String get cancel_report => 'Batalkan';
+
+	/// id: 'Form Belum Lengkap'
+	String get incomplete_form_title => 'Form Belum Lengkap';
 }
 
 // Path: app.notifications
@@ -910,6 +1001,24 @@ class TranslationsAppQrId {
 
 	/// id: 'Memproses data aset...'
 	String get processing => 'Memproses data aset...';
+}
+
+// Path: app.validation
+class TranslationsAppValidationId {
+	TranslationsAppValidationId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Kategori laporan harus dipilih'
+	String get category_required => 'Kategori laporan harus dipilih';
+
+	/// id: 'Deskripsi masalah harus diisi'
+	String get description_required => 'Deskripsi masalah harus diisi';
+
+	/// id: 'Deskripsi masalah minimal 20 karakter'
+	String get description_min_length => 'Deskripsi masalah minimal 20 karakter';
 }
 
 /// Flat map(s) containing all translations.
@@ -1126,6 +1235,31 @@ extension on Translations {
 			case 'app.save': return 'Simpan';
 			case 'app.confirm_logout_title': return 'Konfirmasi Keluar';
 			case 'app.confirm_logout_message': return 'Apakah Anda yakin ingin keluar dari akun ini?';
+			case 'app.no_data_available': return 'Tidak Ada Data Yang Tersedia';
+			case 'app.upload_dialog_title': return 'Unggah lampiran sebagai bukti';
+			case 'app.upload_dialog_subtitle': return 'Kirim dalam format pdf';
+			case 'app.upload_dialog_choose_file': return 'Pilih file atau Pindahkan kesini';
+			case 'app.upload_dialog_file_format': return 'Format file pdf, ukuran maksimal 1 MB';
+			case 'app.upload_dialog_status_waiting': return 'tunggu';
+			case 'app.upload_dialog_status_complete': return 'selesai';
+			case 'app.upload_dialog_cancel': return 'Batalkan';
+			case 'app.upload_dialog_upload': return 'Unggah';
+			case 'app.unknown_user': return 'Pengguna Tidak Dikenal';
+			case 'app.edit_profile_title': return 'Edit Profil';
+			case 'app.confirmation_title': return 'Konfirmasi';
+			case 'app.confirmation_save_changes': return 'Apakah Anda yakin ingin menyimpan perubahan?';
+			case 'app.validation_phone_required': return 'Nomor telepon tidak boleh kosong';
+			case 'app.validation_phone_format': return 'Format nomor telepon tidak valid';
+			case 'app.validation_required': return 'tidak boleh kosong';
+			case 'app.profile_updated_success': return 'Profil berhasil diperbarui';
+			case 'app.error': return 'Kesalahan';
+			case 'app.success': return 'Berhasil';
+			case 'app.gallery': return 'Galeri';
+			case 'app.camera': return 'Kamera';
+			case 'app.draft_saved': return 'Draft berhasil disimpan';
+			case 'app.sending_report': return 'Mengirim laporan...';
+			case 'app.ok': return 'OK';
+			case 'app.status': return 'Status';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
@@ -1138,6 +1272,11 @@ extension on Translations {
 			case 'app.dialog.data_not_found_title': return 'Data tidak ditemukan!';
 			case 'app.dialog.data_not_found_message': return 'Cek kembali inputan Anda';
 			case 'app.dialog.ok': return 'Oke';
+			case 'app.dialog.cancel_report_title': return 'Batalkan Laporan?';
+			case 'app.dialog.cancel_report_message': return 'Data yang telah Anda isi akan hilang. Apakah Anda yakin?';
+			case 'app.dialog.continue_filling': return 'Lanjutkan Mengisi';
+			case 'app.dialog.cancel_report': return 'Batalkan';
+			case 'app.dialog.incomplete_form_title': return 'Form Belum Lengkap';
 			case 'app.notifications.title': return 'Notifikasi';
 			case 'app.notifications.search_placeholder': return 'Cari notifikasi...';
 			case 'app.notifications.mark_all_as_read': return 'Tandai semua dibaca';
@@ -1187,6 +1326,9 @@ extension on Translations {
 			case 'app.qr.create_report_based_on_asset': return 'Buat Laporan Berdasarkan Aset Ini';
 			case 'app.qr.invalid_qr_message': return 'Data QR tidak valid. Silakan pindai kode aset yang benar.';
 			case 'app.qr.processing': return 'Memproses data aset...';
+			case 'app.validation.category_required': return 'Kategori laporan harus dipilih';
+			case 'app.validation.description_required': return 'Deskripsi masalah harus diisi';
+			case 'app.validation.description_min_length': return 'Deskripsi masalah minimal 20 karakter';
 			default: return null;
 		}
 	}

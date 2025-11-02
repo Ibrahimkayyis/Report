@@ -9,13 +9,13 @@ import 'package:report/gen/colors.gen.dart';
 @RoutePage()
 class ServiceRequestSuccessScreen extends StatelessWidget {
   final String ticketNumber;
-  final String pin;
+  final String status;
   final String requestType;
 
   const ServiceRequestSuccessScreen({
     super.key,
     required this.ticketNumber,
-    required this.pin,
+    required this.status,
     required this.requestType,
   });
 
@@ -38,7 +38,7 @@ class ServiceRequestSuccessScreen extends StatelessWidget {
                     /// ✅ Success Card
                     SuccessCard(
                       ticketNumber: ticketNumber,
-                      pin: pin,
+                      status: status,
                       opdName: requestType,
 
                       // 🌐 translation-based texts
@@ -46,7 +46,7 @@ class ServiceRequestSuccessScreen extends StatelessWidget {
                       description: t.app.service_request_success_description,
                       checkWithLabel: t.app.check_report_with,
                       ticketLabel: t.app.ticket_number,
-                      pinLabel: t.app.pin,
+                      statusLabel: t.app.status,
                       serviceTypeLabel: t.app.service_type,
                       serviceTypeValue: t.app.service_type_request, // "Pengajuan layanan"
                       destinationLabel: t.app.request_type, // "Jenis Permohonan"

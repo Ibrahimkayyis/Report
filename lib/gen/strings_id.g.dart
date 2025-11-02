@@ -253,11 +253,39 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override String get font_size => 'Ukuran Font';
 	@override String get font_size_subtitle => 'Pilih ukuran font yang Anda inginkan';
 	@override String get save => 'Simpan';
+	@override String get confirm_logout_title => 'Konfirmasi Keluar';
+	@override String get confirm_logout_message => 'Apakah Anda yakin ingin keluar dari akun ini?';
+	@override String get no_data_available => 'Tidak Ada Data Yang Tersedia';
+	@override String get upload_dialog_title => 'Unggah lampiran sebagai bukti';
+	@override String get upload_dialog_subtitle => 'Kirim dalam format pdf';
+	@override String get upload_dialog_choose_file => 'Pilih file atau Pindahkan kesini';
+	@override String get upload_dialog_file_format => 'Format file pdf, ukuran maksimal 1 MB';
+	@override String get upload_dialog_status_waiting => 'tunggu';
+	@override String get upload_dialog_status_complete => 'selesai';
+	@override String get upload_dialog_cancel => 'Batalkan';
+	@override String get upload_dialog_upload => 'Unggah';
+	@override String get unknown_user => 'Pengguna Tidak Dikenal';
+	@override String get edit_profile_title => 'Edit Profil';
+	@override String get confirmation_title => 'Konfirmasi';
+	@override String get confirmation_save_changes => 'Apakah Anda yakin ingin menyimpan perubahan?';
+	@override String get validation_phone_required => 'Nomor telepon tidak boleh kosong';
+	@override String get validation_phone_format => 'Format nomor telepon tidak valid';
+	@override String get validation_required => 'tidak boleh kosong';
+	@override String get profile_updated_success => 'Profil berhasil diperbarui';
+	@override String get error => 'Kesalahan';
+	@override String get success => 'Berhasil';
+	@override String get gallery => 'Galeri';
+	@override String get camera => 'Kamera';
+	@override String get draft_saved => 'Draft berhasil disimpan';
+	@override String get sending_report => 'Mengirim laporan...';
+	@override String get ok => 'OK';
+	@override String get status => 'Status';
 	@override late final _TranslationsAppErrorsId errors = _TranslationsAppErrorsId._(_root);
 	@override late final _TranslationsAppDialogId dialog = _TranslationsAppDialogId._(_root);
 	@override late final _TranslationsAppNotificationsId notifications = _TranslationsAppNotificationsId._(_root);
 	@override late final _TranslationsAppReportActivityId report_activity = _TranslationsAppReportActivityId._(_root);
 	@override late final _TranslationsAppQrId qr = _TranslationsAppQrId._(_root);
+	@override late final _TranslationsAppValidationId validation = _TranslationsAppValidationId._(_root);
 }
 
 // Path: app.errors
@@ -288,6 +316,11 @@ class _TranslationsAppDialogId implements TranslationsAppDialogEn {
 	@override String get data_not_found_title => 'Data tidak ditemukan!';
 	@override String get data_not_found_message => 'Cek kembali inputan Anda';
 	@override String get ok => 'Oke';
+	@override String get cancel_report_title => 'Batalkan Laporan?';
+	@override String get cancel_report_message => 'Data yang telah Anda isi akan hilang. Apakah Anda yakin?';
+	@override String get continue_filling => 'Lanjutkan Mengisi';
+	@override String get cancel_report => 'Batalkan';
+	@override String get incomplete_form_title => 'Form Belum Lengkap';
 }
 
 // Path: app.notifications
@@ -364,6 +397,18 @@ class _TranslationsAppQrId implements TranslationsAppQrEn {
 	@override String get create_report_based_on_asset => 'Buat Laporan Berdasarkan Aset Ini';
 	@override String get invalid_qr_message => 'Data QR tidak valid. Silakan pindai kode aset yang benar.';
 	@override String get processing => 'Memproses data aset...';
+}
+
+// Path: app.validation
+class _TranslationsAppValidationId implements TranslationsAppValidationEn {
+	_TranslationsAppValidationId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get category_required => 'Kategori laporan harus dipilih';
+	@override String get description_required => 'Deskripsi masalah harus diisi';
+	@override String get description_min_length => 'Deskripsi masalah minimal 20 karakter';
 }
 
 /// Flat map(s) containing all translations.
@@ -578,6 +623,33 @@ extension on TranslationsId {
 			case 'app.font_size': return 'Ukuran Font';
 			case 'app.font_size_subtitle': return 'Pilih ukuran font yang Anda inginkan';
 			case 'app.save': return 'Simpan';
+			case 'app.confirm_logout_title': return 'Konfirmasi Keluar';
+			case 'app.confirm_logout_message': return 'Apakah Anda yakin ingin keluar dari akun ini?';
+			case 'app.no_data_available': return 'Tidak Ada Data Yang Tersedia';
+			case 'app.upload_dialog_title': return 'Unggah lampiran sebagai bukti';
+			case 'app.upload_dialog_subtitle': return 'Kirim dalam format pdf';
+			case 'app.upload_dialog_choose_file': return 'Pilih file atau Pindahkan kesini';
+			case 'app.upload_dialog_file_format': return 'Format file pdf, ukuran maksimal 1 MB';
+			case 'app.upload_dialog_status_waiting': return 'tunggu';
+			case 'app.upload_dialog_status_complete': return 'selesai';
+			case 'app.upload_dialog_cancel': return 'Batalkan';
+			case 'app.upload_dialog_upload': return 'Unggah';
+			case 'app.unknown_user': return 'Pengguna Tidak Dikenal';
+			case 'app.edit_profile_title': return 'Edit Profil';
+			case 'app.confirmation_title': return 'Konfirmasi';
+			case 'app.confirmation_save_changes': return 'Apakah Anda yakin ingin menyimpan perubahan?';
+			case 'app.validation_phone_required': return 'Nomor telepon tidak boleh kosong';
+			case 'app.validation_phone_format': return 'Format nomor telepon tidak valid';
+			case 'app.validation_required': return 'tidak boleh kosong';
+			case 'app.profile_updated_success': return 'Profil berhasil diperbarui';
+			case 'app.error': return 'Kesalahan';
+			case 'app.success': return 'Berhasil';
+			case 'app.gallery': return 'Galeri';
+			case 'app.camera': return 'Kamera';
+			case 'app.draft_saved': return 'Draft berhasil disimpan';
+			case 'app.sending_report': return 'Mengirim laporan...';
+			case 'app.ok': return 'OK';
+			case 'app.status': return 'Status';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
@@ -590,6 +662,11 @@ extension on TranslationsId {
 			case 'app.dialog.data_not_found_title': return 'Data tidak ditemukan!';
 			case 'app.dialog.data_not_found_message': return 'Cek kembali inputan Anda';
 			case 'app.dialog.ok': return 'Oke';
+			case 'app.dialog.cancel_report_title': return 'Batalkan Laporan?';
+			case 'app.dialog.cancel_report_message': return 'Data yang telah Anda isi akan hilang. Apakah Anda yakin?';
+			case 'app.dialog.continue_filling': return 'Lanjutkan Mengisi';
+			case 'app.dialog.cancel_report': return 'Batalkan';
+			case 'app.dialog.incomplete_form_title': return 'Form Belum Lengkap';
 			case 'app.notifications.title': return 'Notifikasi';
 			case 'app.notifications.search_placeholder': return 'Cari notifikasi...';
 			case 'app.notifications.mark_all_as_read': return 'Tandai semua dibaca';
@@ -639,6 +716,9 @@ extension on TranslationsId {
 			case 'app.qr.create_report_based_on_asset': return 'Buat Laporan Berdasarkan Aset Ini';
 			case 'app.qr.invalid_qr_message': return 'Data QR tidak valid. Silakan pindai kode aset yang benar.';
 			case 'app.qr.processing': return 'Memproses data aset...';
+			case 'app.validation.category_required': return 'Kategori laporan harus dipilih';
+			case 'app.validation.description_required': return 'Deskripsi masalah harus diisi';
+			case 'app.validation.description_min_length': return 'Deskripsi masalah minimal 20 karakter';
 			default: return null;
 		}
 	}

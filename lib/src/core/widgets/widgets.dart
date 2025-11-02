@@ -25,5 +25,7 @@ export 'card/success_card.dart';
 export 'dialogs/app_confirmation_dialog.dart';
 export 'dialogs/app_info_dialog.dart';
 export 'card/report_status_card.dart';
+export 'dialogs/upload_file_dialog.dart';
+export 'dialogs/app_edit_profile_dialog.dart';
 
 

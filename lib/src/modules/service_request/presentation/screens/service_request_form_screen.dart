@@ -111,7 +111,7 @@ class _ServiceRequestFormScreenState extends State<ServiceRequestFormScreen> {
                     context.router.push(
                       ServiceRequestSuccessRoute(
                         ticketNumber: ticketNumber,
-                        pin: pin,
+                        status: pin,
                         requestType: typeName,
                       ),
                     );

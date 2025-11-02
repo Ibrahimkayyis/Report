@@ -16,6 +16,9 @@ class ProfileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isNetworkImage =
+        imageAsset != null && (imageAsset!.startsWith('http') || imageAsset!.startsWith('https'));
+
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
@@ -42,7 +45,9 @@ class ProfileInfoCard extends StatelessWidget {
               color: Colors.grey.shade200,
               image: imageAsset != null
                   ? DecorationImage(
-                      image: AssetImage(imageAsset!),
+                      image: isNetworkImage
+                          ? NetworkImage(imageAsset!)
+                          : AssetImage(imageAsset!) as ImageProvider,
                       fit: BoxFit.cover,
                     )
                   : null,
@@ -55,9 +60,9 @@ class ProfileInfoCard extends StatelessWidget {
                   )
                 : null,
           ),
-          
+
           SizedBox(width: 16.w),
-          
+
           // Name and Role
           Expanded(
             child: Column(
@@ -71,9 +76,8 @@ class ProfileInfoCard extends StatelessWidget {
                     color: ColorName.textPrimary,
                   ),
                 ),
-                
                 SizedBox(height: 8.h),
-                
+
                 // Role Badge
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
