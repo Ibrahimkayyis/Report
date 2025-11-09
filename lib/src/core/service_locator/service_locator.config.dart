@@ -35,6 +35,20 @@ import 'package:report/src/modules/auth/presentation/cubits/login/login_cubit.da
     as _i531;
 import 'package:report/src/modules/auth/presentation/cubits/register/register_cubit.dart'
     as _i243;
+import 'package:report/src/modules/knowledge_base/data/datasources/remote/source/abstract/knowledge_base_remote_data_source.dart'
+    as _i27;
+import 'package:report/src/modules/knowledge_base/data/datasources/remote/source/implementation/knowledge_base_remote_data_source_impl.dart'
+    as _i757;
+import 'package:report/src/modules/knowledge_base/data/repositories_impl/knowledge_base_repository_impl.dart'
+    as _i840;
+import 'package:report/src/modules/knowledge_base/domain/repositories/knowledge_base_repository.dart'
+    as _i131;
+import 'package:report/src/modules/knowledge_base/domain/usecase/get_all_articles_usecase.dart'
+    as _i12;
+import 'package:report/src/modules/knowledge_base/domain/usecase/get_all_tags_usecase.dart'
+    as _i11;
+import 'package:report/src/modules/knowledge_base/presentation/cubits/knowledge_base_cubit.dart'
+    as _i385;
 import 'package:report/src/modules/profile/data/datasources/remote/source/abstract/profile_remote_data_source.dart'
     as _i257;
 import 'package:report/src/modules/profile/data/datasources/remote/source/implementation/profile_remote_data_source_impl.dart'
@@ -85,6 +99,8 @@ import 'package:report/src/modules/reporting/presentation/cubits/report_cubit.da
     as _i377;
 import 'package:report/src/modules/reporting/presentation/cubits/ticket_category_cubit.dart'
     as _i573;
+import 'package:report/src/modules/test_helper/presentation/cubits/test_helper_cubit.dart'
+    as _i876;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -109,6 +125,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i257.ProfileRemoteDataSource>(
       () => _i741.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i27.KnowledgeBaseRemoteDataSource>(
+      () => _i757.KnowledgeBaseRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i312.TicketCategoryRemoteDataSource>(
       () => _i774.TicketCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -129,8 +148,25 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i312.TicketCategoryRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i131.KnowledgeBaseRepository>(
+      () => _i840.KnowledgeBaseRepositoryImpl(
+        gh<_i27.KnowledgeBaseRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i12.GetAllArticlesUseCase>(
+      () => _i12.GetAllArticlesUseCase(gh<_i131.KnowledgeBaseRepository>()),
+    );
+    gh.lazySingleton<_i11.GetAllTagsUseCase>(
+      () => _i11.GetAllTagsUseCase(gh<_i131.KnowledgeBaseRepository>()),
+    );
     gh.lazySingleton<_i189.OpdRepository>(
       () => _i235.OpdRepositoryImpl(gh<_i144.OpdRemoteDataSource>()),
+    );
+    gh.factory<_i385.KnowledgeBaseCubit>(
+      () => _i385.KnowledgeBaseCubit(
+        gh<_i12.GetAllArticlesUseCase>(),
+        gh<_i11.GetAllTagsUseCase>(),
+      ),
     );
     gh.lazySingleton<_i277.ReportRepository>(
       () => _i533.ReportRepositoryImpl(gh<_i425.ReportRemoteDataSource>()),
@@ -161,6 +197,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i428.AuthCubit>(
       () => _i428.AuthCubit(gh<_i292.AuthRepository>()),
     );
+    gh.factory<_i876.TestHelperCubit>(
+      () => _i876.TestHelperCubit(gh<_i292.AuthRepository>()),
+    );
     gh.factory<_i377.ReportCubit>(
       () => _i377.ReportCubit(gh<_i901.CreatePublicReportUsecase>()),
     );
@@ -169,9 +208,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i96.RegisterUseCase>(
       () => _i96.RegisterUseCase(gh<_i292.AuthRepository>()),
-    );
-    gh.factory<_i531.LoginCubit>(
-      () => _i531.LoginCubit(gh<_i95.LoginUseCase>()),
     );
     gh.factory<_i573.TicketCategoryCubit>(
       () => _i573.TicketCategoryCubit(gh<_i813.GetTicketCategoriesUseCase>()),
@@ -184,6 +220,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i963.GetProfileUsecase>(),
         gh<_i40.UpdateProfileUsecase>(),
       ),
+    );
+    gh.factory<_i531.LoginCubit>(
+      () =>
+          _i531.LoginCubit(gh<_i95.LoginUseCase>(), gh<_i292.AuthRepository>()),
     );
     gh.factory<_i243.RegisterCubit>(
       () => _i243.RegisterCubit(gh<_i96.RegisterUseCase>()),

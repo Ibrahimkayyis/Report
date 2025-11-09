@@ -34,13 +34,13 @@ class _InfoSectionCardState extends State<InfoSectionCard> {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.12),
+            color: ColorName.black.withValues(alpha:0.12),
             blurRadius: 24.r,
             spreadRadius: 1.r,
             offset: Offset(0, 6.h),
           ),
           BoxShadow(
-            color: ColorName.black.withOpacity(0.06),
+            color: ColorName.black.withValues(alpha:0.06),
             blurRadius: 8.r,
             offset: Offset(0, 2.h),
           ),

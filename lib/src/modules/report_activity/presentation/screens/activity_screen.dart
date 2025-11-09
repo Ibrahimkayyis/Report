@@ -56,7 +56,7 @@ class ActivityScreen extends StatelessWidget {
             /// 🔍 Header (search + filter dropdown)
             ActivityHeader(),
 
-            Divider(height: 1.h, color: ColorName.black.withOpacity(0.1)),
+            Divider(height: 1.h, color: ColorName.black.withValues(alpha:0.1)),
 
             /// 📋 Activity List
             Expanded(

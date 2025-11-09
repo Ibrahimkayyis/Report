@@ -6,6 +6,7 @@ class OpdMapper {
       opdId: json['opd_id'] as String? ?? '',
       opdName: json['opd_name'] as String? ?? '',
       description: json['description'] as String? ?? '',
+      filePath: json['file_path'] as String?,
     );
   }
 

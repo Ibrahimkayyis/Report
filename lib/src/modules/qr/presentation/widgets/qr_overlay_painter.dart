@@ -19,7 +19,7 @@ class QROverlayPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // 1) fill seluruh layar dengan overlay gelap semi-transparent
     final Paint overlayPaint = Paint()
-      ..color = Colors.black.withOpacity(0.45)
+      ..color = Colors.black.withValues(alpha:0.45)
       ..style = PaintingStyle.fill;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), overlayPaint);
 

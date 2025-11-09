@@ -48,9 +48,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final response = await remote.login(email: email, password: password);
-
+      
       final token = response['access_token'] as String;
-  
+      final refreshToken = response['refresh_token'] as String; // NEW
+
       // ✅ Ambil role pertama dari daftar roles (default: masyarakat)
       final user = response['user'];
       final roles = (user?['roles'] as List<dynamic>?) ?? [];
@@ -59,10 +60,12 @@ class AuthRepositoryImpl implements AuthRepository {
       debugPrint('✅ Login berhasil:');
       debugPrint('   Email: $email');
       debugPrint('   Role terdeteksi: $role');
-      debugPrint('   Token: ${token.substring(0, 20)}...');
+      debugPrint('   Access Token: ${token.substring(0, 20)}...');
+      debugPrint('   Refresh Token: ${refreshToken.substring(0, 20)}...'); // NEW
 
       // Simpan ke local storage
       await saveToken(token);
+      await saveRefreshToken(refreshToken); // NEW
       await saveRole(role);
 
       return token;
@@ -71,36 +74,94 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  // ========== Access Token ==========
   @override
   Future<String?> getSavedToken() => local.getToken();
 
   @override
-  Future<String?> getSavedRole() => local.getRole();
+  Future<void> saveToken(String token) => local.saveToken(token);
+
+  // ========== Refresh Token - NEW ==========
+  @override
+  Future<String?> getSavedRefreshToken() => local.getRefreshToken();
 
   @override
-  Future<void> saveToken(String token) => local.saveToken(token);
+  Future<void> saveRefreshToken(String refreshToken) =>
+      local.saveRefreshToken(refreshToken);
+
+  @override
+  Future<String> refreshAccessToken() async {
+    try {
+      // Ambil refresh token dari local storage
+      final refreshToken = await getSavedRefreshToken();
+
+      if (refreshToken == null || refreshToken.isEmpty) {
+        debugPrint('❌ Refresh token tidak ditemukan di local storage');
+        throw ServerFailure('Refresh token tidak tersedia');
+      }
+
+      debugPrint('🔄 Melakukan refresh token...');
+      debugPrint('   Refresh Token: ${refreshToken.substring(0, 20)}...');
+
+      // Call API refresh token
+      final newAccessToken = await remote.refreshToken(
+        refreshToken: refreshToken,
+      );
+
+      debugPrint('✅ Refresh token berhasil!');
+      debugPrint('   New Access Token: ${newAccessToken.substring(0, 20)}...');
+
+      // Simpan access token baru
+      await saveToken(newAccessToken);
+
+      return newAccessToken;
+    } on DioException catch (e) {
+      debugPrint('❌ Refresh token gagal: ${e.message}');
+      
+      // Jika refresh token expired (401/403), hapus semua data auth
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
+        debugPrint('⚠️ Refresh token expired, melakukan logout...');
+        await logout();
+      }
+      
+      throw _mapDioException(e);
+    } catch (e) {
+      debugPrint('❌ Error tidak terduga saat refresh token: $e');
+      throw ServerFailure('Gagal memperbarui token');
+    }
+  }
+
+  // ========== User Role ==========
+  @override
+  Future<String?> getSavedRole() => local.getRole();
 
   @override
   Future<void> saveRole(String role) => local.saveRole(role);
 
+  // ========== Logout ==========
   @override
   Future<void> logout() async {
     await local.clear();
+    debugPrint('🚪 Logout berhasil, semua data auth dihapus');
   }
 
   /// 🔑 Centralized error mapping supaya UI dapat pesan yang jelas + translate
   Failure _mapDioException(DioException e) {
     if (e.response != null) {
       final data = e.response?.data;
-
+      
       // Ambil pesan "detail" jika ada
       final detailMessage =
           (data is Map<String, dynamic> && data['detail'] != null)
-          ? data['detail'].toString()
-          : null;
+              ? data['detail'].toString()
+              : null;
 
       if (e.response?.statusCode == 401) {
         return ServerFailure(t.app.errors.invalid_credentials);
+      }
+
+      if (e.response?.statusCode == 403) {
+        return ServerFailure('Token tidak valid atau sudah kadaluarsa');
       }
 
       if (e.response?.statusCode == 422) {

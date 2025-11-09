@@ -206,6 +206,22 @@ class HelpdeskChatRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HomeMasyarakatScreen]
+class HomeMasyarakatRoute extends PageRouteInfo<void> {
+  const HomeMasyarakatRoute({List<PageRouteInfo>? children})
+    : super(HomeMasyarakatRoute.name, initialChildren: children);
+
+  static const String name = 'HomeMasyarakatRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HomeMasyarakatScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -217,6 +233,22 @@ class HomeRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const HomeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [HomeTeknisiScreen]
+class HomeTeknisiRoute extends PageRouteInfo<void> {
+  const HomeTeknisiRoute({List<PageRouteInfo>? children})
+    : super(HomeTeknisiRoute.name, initialChildren: children);
+
+  static const String name = 'HomeTeknisiRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HomeTeknisiScreen();
     },
   );
 }
@@ -254,6 +286,22 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MainLayoutMasyarakatScreen]
+class MainLayoutMasyarakatRoute extends PageRouteInfo<void> {
+  const MainLayoutMasyarakatRoute({List<PageRouteInfo>? children})
+    : super(MainLayoutMasyarakatRoute.name, initialChildren: children);
+
+  static const String name = 'MainLayoutMasyarakatRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MainLayoutMasyarakatScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [MainLayoutScreen]
 class MainLayoutRoute extends PageRouteInfo<void> {
   const MainLayoutRoute({List<PageRouteInfo>? children})
@@ -265,6 +313,22 @@ class MainLayoutRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const MainLayoutScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [MainLayoutTeknisiScreen]
+class MainLayoutTeknisiRoute extends PageRouteInfo<void> {
+  const MainLayoutTeknisiRoute({List<PageRouteInfo>? children})
+    : super(MainLayoutTeknisiRoute.name, initialChildren: children);
+
+  static const String name = 'MainLayoutTeknisiRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MainLayoutTeknisiScreen();
     },
   );
 }
@@ -398,6 +462,38 @@ class QRRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [RFCFormScreen]
+class RFCFormRoute extends PageRouteInfo<void> {
+  const RFCFormRoute({List<PageRouteInfo>? children})
+    : super(RFCFormRoute.name, initialChildren: children);
+
+  static const String name = 'RFCFormRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RFCFormScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [RFCScreen]
+class RFCRoute extends PageRouteInfo<void> {
+  const RFCRoute({List<PageRouteInfo>? children})
+    : super(RFCRoute.name, initialChildren: children);
+
+  static const String name = 'RFCRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RFCScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [RegisterScreen]
 class RegisterRoute extends PageRouteInfo<void> {
   const RegisterRoute({List<PageRouteInfo>? children})
@@ -492,7 +588,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
     Key? key,
     required String opdId,
     String? opdName,
-    IconData? opdIcon,
+    String? opdIconUrl,
     Color? opdColor,
     List<PageRouteInfo>? children,
   }) : super(
@@ -501,7 +597,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
            key: key,
            opdId: opdId,
            opdName: opdName,
-           opdIcon: opdIcon,
+           opdIconUrl: opdIconUrl,
            opdColor: opdColor,
          ),
          initialChildren: children,
@@ -517,7 +613,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
         key: args.key,
         opdId: args.opdId,
         opdName: args.opdName,
-        opdIcon: args.opdIcon,
+        opdIconUrl: args.opdIconUrl,
         opdColor: args.opdColor,
       );
     },
@@ -529,7 +625,7 @@ class ReportingFormRouteArgs {
     this.key,
     required this.opdId,
     this.opdName,
-    this.opdIcon,
+    this.opdIconUrl,
     this.opdColor,
   });
 
@@ -539,13 +635,13 @@ class ReportingFormRouteArgs {
 
   final String? opdName;
 
-  final IconData? opdIcon;
+  final String? opdIconUrl;
 
   final Color? opdColor;
 
   @override
   String toString() {
-    return 'ReportingFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdIcon: $opdIcon, opdColor: $opdColor}';
+    return 'ReportingFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdIconUrl: $opdIconUrl, opdColor: $opdColor}';
   }
 
   @override
@@ -555,7 +651,7 @@ class ReportingFormRouteArgs {
     return key == other.key &&
         opdId == other.opdId &&
         opdName == other.opdName &&
-        opdIcon == other.opdIcon &&
+        opdIconUrl == other.opdIconUrl &&
         opdColor == other.opdColor;
   }
 
@@ -564,7 +660,7 @@ class ReportingFormRouteArgs {
       key.hashCode ^
       opdId.hashCode ^
       opdName.hashCode ^
-      opdIcon.hashCode ^
+      opdIconUrl.hashCode ^
       opdColor.hashCode;
 }
 
@@ -574,11 +670,20 @@ class ServiceRequestFormRoute
     extends PageRouteInfo<ServiceRequestFormRouteArgs> {
   ServiceRequestFormRoute({
     Key? key,
-    required ServiceType serviceType,
+    required String opdId,
+    String? opdName,
+    String? opdIconUrl,
+    Color? opdColor,
     List<PageRouteInfo>? children,
   }) : super(
          ServiceRequestFormRoute.name,
-         args: ServiceRequestFormRouteArgs(key: key, serviceType: serviceType),
+         args: ServiceRequestFormRouteArgs(
+           key: key,
+           opdId: opdId,
+           opdName: opdName,
+           opdIconUrl: opdIconUrl,
+           opdColor: opdColor,
+         ),
          initialChildren: children,
        );
 
@@ -590,33 +695,57 @@ class ServiceRequestFormRoute
       final args = data.argsAs<ServiceRequestFormRouteArgs>();
       return ServiceRequestFormScreen(
         key: args.key,
-        serviceType: args.serviceType,
+        opdId: args.opdId,
+        opdName: args.opdName,
+        opdIconUrl: args.opdIconUrl,
+        opdColor: args.opdColor,
       );
     },
   );
 }
 
 class ServiceRequestFormRouteArgs {
-  const ServiceRequestFormRouteArgs({this.key, required this.serviceType});
+  const ServiceRequestFormRouteArgs({
+    this.key,
+    required this.opdId,
+    this.opdName,
+    this.opdIconUrl,
+    this.opdColor,
+  });
 
   final Key? key;
 
-  final ServiceType serviceType;
+  final String opdId;
+
+  final String? opdName;
+
+  final String? opdIconUrl;
+
+  final Color? opdColor;
 
   @override
   String toString() {
-    return 'ServiceRequestFormRouteArgs{key: $key, serviceType: $serviceType}';
+    return 'ServiceRequestFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdIconUrl: $opdIconUrl, opdColor: $opdColor}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ServiceRequestFormRouteArgs) return false;
-    return key == other.key && serviceType == other.serviceType;
+    return key == other.key &&
+        opdId == other.opdId &&
+        opdName == other.opdName &&
+        opdIconUrl == other.opdIconUrl &&
+        opdColor == other.opdColor;
   }
 
   @override
-  int get hashCode => key.hashCode ^ serviceType.hashCode;
+  int get hashCode =>
+      key.hashCode ^
+      opdId.hashCode ^
+      opdName.hashCode ^
+      opdIconUrl.hashCode ^
+      opdColor.hashCode;
 }
 
 /// generated route for
@@ -723,6 +852,226 @@ class SplashRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const SplashScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [TeknisiRatingDetailScreen]
+class TeknisiRatingDetailRoute
+    extends PageRouteInfo<TeknisiRatingDetailRouteArgs> {
+  TeknisiRatingDetailRoute({
+    Key? key,
+    required String senderName,
+    String? senderAvatar,
+    String? ticketId,
+    required String category,
+    required String type,
+    required String form,
+    required int rating,
+    String? comment,
+    int? easeOfUse,
+    int? responseSpeed,
+    int? solutionQuality,
+    List<PageRouteInfo>? children,
+  }) : super(
+         TeknisiRatingDetailRoute.name,
+         args: TeknisiRatingDetailRouteArgs(
+           key: key,
+           senderName: senderName,
+           senderAvatar: senderAvatar,
+           ticketId: ticketId,
+           category: category,
+           type: type,
+           form: form,
+           rating: rating,
+           comment: comment,
+           easeOfUse: easeOfUse,
+           responseSpeed: responseSpeed,
+           solutionQuality: solutionQuality,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'TeknisiRatingDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TeknisiRatingDetailRouteArgs>();
+      return TeknisiRatingDetailScreen(
+        key: args.key,
+        senderName: args.senderName,
+        senderAvatar: args.senderAvatar,
+        ticketId: args.ticketId,
+        category: args.category,
+        type: args.type,
+        form: args.form,
+        rating: args.rating,
+        comment: args.comment,
+        easeOfUse: args.easeOfUse,
+        responseSpeed: args.responseSpeed,
+        solutionQuality: args.solutionQuality,
+      );
+    },
+  );
+}
+
+class TeknisiRatingDetailRouteArgs {
+  const TeknisiRatingDetailRouteArgs({
+    this.key,
+    required this.senderName,
+    this.senderAvatar,
+    this.ticketId,
+    required this.category,
+    required this.type,
+    required this.form,
+    required this.rating,
+    this.comment,
+    this.easeOfUse,
+    this.responseSpeed,
+    this.solutionQuality,
+  });
+
+  final Key? key;
+
+  final String senderName;
+
+  final String? senderAvatar;
+
+  final String? ticketId;
+
+  final String category;
+
+  final String type;
+
+  final String form;
+
+  final int rating;
+
+  final String? comment;
+
+  final int? easeOfUse;
+
+  final int? responseSpeed;
+
+  final int? solutionQuality;
+
+  @override
+  String toString() {
+    return 'TeknisiRatingDetailRouteArgs{key: $key, senderName: $senderName, senderAvatar: $senderAvatar, ticketId: $ticketId, category: $category, type: $type, form: $form, rating: $rating, comment: $comment, easeOfUse: $easeOfUse, responseSpeed: $responseSpeed, solutionQuality: $solutionQuality}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TeknisiRatingDetailRouteArgs) return false;
+    return key == other.key &&
+        senderName == other.senderName &&
+        senderAvatar == other.senderAvatar &&
+        ticketId == other.ticketId &&
+        category == other.category &&
+        type == other.type &&
+        form == other.form &&
+        rating == other.rating &&
+        comment == other.comment &&
+        easeOfUse == other.easeOfUse &&
+        responseSpeed == other.responseSpeed &&
+        solutionQuality == other.solutionQuality;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      senderName.hashCode ^
+      senderAvatar.hashCode ^
+      ticketId.hashCode ^
+      category.hashCode ^
+      type.hashCode ^
+      form.hashCode ^
+      rating.hashCode ^
+      comment.hashCode ^
+      easeOfUse.hashCode ^
+      responseSpeed.hashCode ^
+      solutionQuality.hashCode;
+}
+
+/// generated route for
+/// [TeknisiRatingScreen]
+class TeknisiRatingRoute extends PageRouteInfo<void> {
+  const TeknisiRatingRoute({List<PageRouteInfo>? children})
+    : super(TeknisiRatingRoute.name, initialChildren: children);
+
+  static const String name = 'TeknisiRatingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const TeknisiRatingScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [TeknisiTicketDetailScreen]
+class TeknisiTicketDetailRoute
+    extends PageRouteInfo<TeknisiTicketDetailRouteArgs> {
+  TeknisiTicketDetailRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         TeknisiTicketDetailRoute.name,
+         args: TeknisiTicketDetailRouteArgs(key: key, ticketId: ticketId),
+         initialChildren: children,
+       );
+
+  static const String name = 'TeknisiTicketDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TeknisiTicketDetailRouteArgs>();
+      return TeknisiTicketDetailScreen(key: args.key, ticketId: args.ticketId);
+    },
+  );
+}
+
+class TeknisiTicketDetailRouteArgs {
+  const TeknisiTicketDetailRouteArgs({this.key, required this.ticketId});
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'TeknisiTicketDetailRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TeknisiTicketDetailRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
+}
+
+/// generated route for
+/// [TestHelperScreen]
+class TestHelperRoute extends PageRouteInfo<void> {
+  const TestHelperRoute({List<PageRouteInfo>? children})
+    : super(TestHelperRoute.name, initialChildren: children);
+
+  static const String name = 'TestHelperRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const TestHelperScreen();
     },
   );
 }

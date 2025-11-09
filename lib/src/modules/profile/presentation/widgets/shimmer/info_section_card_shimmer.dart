@@ -15,7 +15,7 @@ class InfoSectionCardShimmer extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.1),
+            color: ColorName.black.withValues(alpha:0.1),
             blurRadius: 12.r,
             offset: Offset(0, 4.h),
           ),

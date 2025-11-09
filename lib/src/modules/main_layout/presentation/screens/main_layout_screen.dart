@@ -41,7 +41,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     final items = <Widget>[
       Icon(Icons.home, size: 28.sp, color: ColorName.white),
       Icon(Icons.assignment, size: 28.sp, color: ColorName.white), // Activity
-      Icon(Icons.qr_code, size: 30.sp, color: ColorName.white),
+      Icon(Icons.qr_code_scanner, size: 30.sp, color: ColorName.white),
       Icon(
         Icons.notifications,
         size: 28.sp,
@@ -62,7 +62,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                 onPressed: () {
                   context.router.push(const HelpdeskChatRoute());
                 },
-                child: const Icon(Icons.chat, color: ColorName.onPrimary),
+                child: const Icon(Icons.support_agent, color: ColorName.onPrimary),
               ),
             )
           : null,

@@ -38,7 +38,7 @@ class CheckReportStatusResultScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
-                  color: ColorName.black.withOpacity(0.05),
+                  color: ColorName.black.withValues(alpha:0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),

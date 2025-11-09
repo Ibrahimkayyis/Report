@@ -28,6 +28,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_screenutil: ^5.9.3
+  flutter_side_menu: ^0.5.41
   flutter_svg: ^2.2.1
   formz: ^0.8.0
   freezed_annotation: ^3.1.0
@@ -43,6 +44,7 @@ dependencies:
   logger: ^2.6.0
   mobile_scanner: ^7.1.2
   path_provider: ^2.1.5
+  permission_handler: ^12.0.1
   pretty_dio_logger: ^1.4.0
   pull_to_refresh: ^2.0.0
   retrofit: ^4.7.2
@@ -54,6 +56,7 @@ dependencies:
   slang_flutter: ^4.8.0
   standard_searchbar: ^2.1.1
   styled_widget: ^0.4.1
+  table_calendar: ^3.2.0
   url_launcher: ^6.3.2
   uuid: ^4.4.2
 

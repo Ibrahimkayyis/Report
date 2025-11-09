@@ -280,12 +280,76 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override String get sending_report => 'Mengirim laporan...';
 	@override String get ok => 'OK';
 	@override String get status => 'Status';
+	@override String get ticket_detail => 'Detail Tiket';
+	@override String get ticket_detail_placeholder => 'Halaman detail tiket (placeholder)';
+	@override String get ticket_detail_title => 'Detail Tiket';
+	@override String get ticket_sender => 'Pengirim';
+	@override String get ticket_report_id => 'ID Laporan';
+	@override String get ticket_priority => 'Prioritas';
+	@override String get ticket_update_status => 'Perbarui Status';
+	@override String get ticket_report_title => 'Judul Pelaporan';
+	@override String get ticket_asset_category => 'Kategori Aset';
+	@override String get ticket_asset_type => 'Jenis Aset';
+	@override String get ticket_asset_form => 'Bentuk Aset';
+	@override String get ticket_asset_data => 'Data Aset';
+	@override String get ticket_incident_location => 'Lokasi Kejadian';
+	@override String get ticket_start_date => 'Tanggal Mulai';
+	@override String get ticket_end_date => 'Tanggal Selesai';
+	@override String get ticket_problem_detail => 'Rincian Masalah';
+	@override String get ticket_attachments => 'Lampiran File';
+	@override String get ticket_expected_solution => 'Penyelesaian yang Diharapkan';
+	@override String get status_draft => 'Draft';
+	@override String get status_in_progress => 'Diproses';
+	@override String get status_completed => 'Selesai';
+	@override String get button_cancel => 'Batal';
+	@override String get button_save_draft => 'Simpan Draft';
+	@override String get button_update => 'Perbarui';
+	@override String get message_draft_saved => 'Draft berhasil disimpan';
+	@override String get message_status_updated => 'Status berhasil diperbarui';
+	@override String get report_title_label => 'Judul Pelaporan';
+	@override String get report_title_hint => 'Ketik disini';
+	@override String get category_label => 'Kategori Pelaporan';
+	@override String get category_label_service => 'Kategori Layanan';
+	@override String get asset_type_label => 'Jenis Aset';
+	@override String get asset_form_label => 'Bentuk Aset';
+	@override String get asset_data_label => 'Data Aset';
+	@override String get location_label => 'Lokasi Kejadian';
+	@override String get location_hint => 'Ketik disini';
+	@override String get expected_solution_label => 'Penyelesaian yang Diharapkan';
+	@override String get expected_solution_hint => 'Ketik disini...';
+	@override String get request_title_label => 'Judul Permintaan';
+	@override String get request_title_hint => 'Masukkan judul permintaan layanan';
+	@override String get problem_label => 'Rincian Permintaan';
+	@override String get problem_hint => 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
+	@override String get search_opd_hint => 'Cari nama OPD...';
+	@override late final _TranslationsAppValidationId validation = _TranslationsAppValidationId._(_root);
 	@override late final _TranslationsAppErrorsId errors = _TranslationsAppErrorsId._(_root);
 	@override late final _TranslationsAppDialogId dialog = _TranslationsAppDialogId._(_root);
 	@override late final _TranslationsAppNotificationsId notifications = _TranslationsAppNotificationsId._(_root);
 	@override late final _TranslationsAppReportActivityId report_activity = _TranslationsAppReportActivityId._(_root);
 	@override late final _TranslationsAppQrId qr = _TranslationsAppQrId._(_root);
-	@override late final _TranslationsAppValidationId validation = _TranslationsAppValidationId._(_root);
+	@override late final _TranslationsAppDashboardId dashboard = _TranslationsAppDashboardId._(_root);
+	@override late final _TranslationsAppRfcId rfc = _TranslationsAppRfcId._(_root);
+	@override late final _TranslationsAppRatingId rating = _TranslationsAppRatingId._(_root);
+	@override late final _TranslationsAppRatingDetailId rating_detail = _TranslationsAppRatingDetailId._(_root);
+}
+
+// Path: app.validation
+class _TranslationsAppValidationId implements TranslationsAppValidationEn {
+	_TranslationsAppValidationId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get title_required => 'Judul pelaporan wajib diisi';
+	@override String get asset_type_required => 'Jenis aset wajib dipilih';
+	@override String get asset_form_required => 'Bentuk aset wajib dipilih';
+	@override String get asset_data_required => 'Data aset wajib dipilih';
+	@override String get location_required => 'Lokasi kejadian wajib diisi';
+	@override String get expected_solution_required => 'Penyelesaian yang diharapkan wajib diisi';
+	@override String get category_required => 'Kategori laporan harus dipilih';
+	@override String get description_required => 'Deskripsi masalah harus diisi';
+	@override String get description_min_length => 'Deskripsi masalah minimal 20 karakter';
 }
 
 // Path: app.errors
@@ -321,6 +385,9 @@ class _TranslationsAppDialogId implements TranslationsAppDialogEn {
 	@override String get continue_filling => 'Lanjutkan Mengisi';
 	@override String get cancel_report => 'Batalkan';
 	@override String get incomplete_form_title => 'Form Belum Lengkap';
+	@override String get cancel_request_title => 'Batalkan Permintaan?';
+	@override String get cancel_request_message => 'Anda yakin ingin membatalkan pengisian formulir ini?';
+	@override String get cancel_request => 'Batalkan';
 }
 
 // Path: app.notifications
@@ -399,16 +466,170 @@ class _TranslationsAppQrId implements TranslationsAppQrEn {
 	@override String get processing => 'Memproses data aset...';
 }
 
-// Path: app.validation
-class _TranslationsAppValidationId implements TranslationsAppValidationEn {
-	_TranslationsAppValidationId._(this._root);
+// Path: app.dashboard
+class _TranslationsAppDashboardId implements TranslationsAppDashboardEn {
+	_TranslationsAppDashboardId._(this._root);
 
 	final TranslationsId _root; // ignore: unused_field
 
 	// Translations
-	@override String get category_required => 'Kategori laporan harus dipilih';
-	@override String get description_required => 'Deskripsi masalah harus diisi';
-	@override String get description_min_length => 'Deskripsi masalah minimal 20 karakter';
+	@override String get title => 'Dashboard';
+	@override String get ticket_masuk => 'Tiket Masuk';
+	@override String get ticket_masuk_desc => 'tiket yang masuk';
+	@override String get proses => 'Proses';
+	@override String get proses_desc => 'tiket yang sedang diproses';
+	@override String get deadline => 'Deadline';
+	@override String get deadline_desc => 'tiket yang mendekati deadline';
+	@override String get reopen => 'Reopen';
+	@override String get reopen_desc => 'tiket yang dibuka kembali';
+	@override String get pelaporan => 'Pelaporan';
+	@override String get pelayanan => 'Pelayanan';
+	@override String get filter_pCarian => 'Filter pencarian';
+	@override String get kategori => 'Kategori';
+	@override String get jenis => 'Jenis';
+	@override String get bentuk => 'Bentuk';
+	@override String get pengirim => 'Pengirim';
+	@override String get tanggal_masuk => 'Tanggal masuk';
+	@override String get lampiran => 'Lampiran';
+	@override String get aksi => 'Aksi';
+	@override String get showing_data => 'Menampilkan data 1 sampai 10 dari 15 data';
+	@override String get reportTab => 'Pelaporan';
+	@override String get serviceTab => 'Pelayanan';
+	@override String get refresh => 'Muat Ulang';
+	@override String get filterTitle => 'Filter pencarian';
+	@override String get category => 'Kategori';
+	@override String get form => 'Bentuk';
+	@override String get type => 'Jenis';
+	@override String get status => 'Status';
+	@override String get selectCategory => 'Pilih kategori';
+	@override String get selectForm => 'Pilih bentuk';
+	@override String get selectType => 'Pilih jenis';
+	@override String get selectStatus => 'Pilih status';
+	@override String get ticket_category => 'Kategori';
+	@override String get ticket_type => 'Jenis';
+	@override String get ticket_form => 'Bentuk';
+	@override String get ticket_attachment => 'Lampiran';
+	@override String get view => 'Lihat';
+	@override String get edit => 'Edit';
+	@override String get pagination_info => 'Menampilkan data';
+	@override String get to => 'sampai';
+	@override String get of_total => 'dari';
+	@override String get data_label => 'data';
+	@override String get ticket_incoming => 'Tiket Masuk';
+	@override String get ticket_incoming_desc => 'tiket yang masuk';
+	@override String get in_progress => 'Proses';
+	@override String get in_progress_desc => 'tiket yang sedang diproses';
+	@override String get menu_dashboard => 'Dashboard';
+	@override String get menu_my_tickets => 'Tiket Saya';
+	@override String get menu_history => 'Riwayat';
+	@override String get menu_settings => 'Pengaturan';
+	@override String get menu_help => 'Bantuan';
+	@override String get menu_about => 'Tentang';
+	@override String get filter_pencarian => 'Filter pencarian';
+	@override String get menu_knowledge_base => 'Knowledge Base';
+}
+
+// Path: app.rfc
+class _TranslationsAppRfcId implements TranslationsAppRfcEn {
+	_TranslationsAppRfcId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get rfc_title => 'Request for Change';
+	@override String get rfc_add_button => 'Tambah';
+	@override String get rfc_tab_draft => 'Draft';
+	@override String get rfc_tab_submitted => 'Diajukan';
+	@override String get rfc_document => 'Dokumen';
+	@override String get rfc_date_sent => 'Tanggal Kirim';
+	@override String get rfc_status => 'Status';
+	@override String get rfc_action => 'Aksi';
+	@override String get rfc_status_draft => 'Draft';
+	@override String get rfc_status_waiting_review => 'Menunggu Review';
+	@override String get rfc_status_approved => 'Disetujui';
+	@override String get rfc_status_rejected => 'Ditolak';
+	@override String get rfc_pagination_info => 'Menampilkan data {current} sampai {to} dari {total} data';
+	@override String get rfc_document_status_check => 'Panduan Cek Status';
+	@override String get rfc_no_data => 'Belum ada RFC yang tersedia.';
+	@override String get rfc_form_title => 'Form Request for Change';
+	@override String get submission_title => 'Judul Pengajuan';
+	@override String get submission_title_hint => 'Ketik disini';
+	@override String get applicant_name => 'Nama Pemohon';
+	@override String get applicant_name_hint => 'Ketik disini';
+	@override String get phone_number => 'Nomor HP';
+	@override String get phone_number_hint => 'Ketik disini';
+	@override String get asset_category => 'Kategori Aset';
+	@override String get asset_category_hint => 'Pilih Kategori';
+	@override String get asset_name => 'Nama Aset';
+	@override String get asset_name_hint => 'Pilih aset';
+	@override String get description => 'Deskripsi';
+	@override String get description_hint => 'Ketik disini';
+	@override String get change_reason => 'Alasan Perubahan';
+	@override String get change_reason_hint => 'Ketik disini';
+	@override String get start_date => 'Pengerjaan awal';
+	@override String get start_date_hint => '15-09-2025';
+	@override String get end_date => 'Sampai';
+	@override String get end_date_hint => '16-09-2025';
+	@override String get affected_asset => 'Aset Terdampak';
+	@override String get affected_asset_hint => 'Pilih aset';
+	@override String get cost_estimate => 'Estimasi Biaya';
+	@override String get cost_estimate_hint => '';
+	@override String get change_impact => 'Dampak Perubahan';
+	@override String get change_impact_hint => 'Ketik disini';
+	@override String get no_change_impact => 'Dampak Jika Tidak Dilakukan Perubahan';
+	@override String get no_change_impact_hint => 'Ketik disini';
+	@override String get button_cancel => 'Batalkan';
+	@override String get button_save_draft => 'Simpan draft';
+	@override String get button_submit => 'Kirim';
+	@override String get validation_required => 'Field ini wajib diisi';
+	@override String get validation_phone_invalid => 'Nomor HP tidak valid';
+	@override String get validation_category_required => 'Silakan pilih kategori aset';
+	@override String get validation_asset_required => 'Silakan pilih nama aset';
+	@override String get validation_date_required => 'Silakan pilih rentang tanggal';
+	@override String get validation_affected_asset_required => 'Silakan pilih aset terdampak';
+	@override String get message_draft_saved => 'Draft berhasil disimpan';
+	@override String get message_submit_success => 'RFC berhasil dikirim';
+}
+
+// Path: app.rating
+class _TranslationsAppRatingId implements TranslationsAppRatingEn {
+	_TranslationsAppRatingId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get rating_title => 'Rating';
+	@override String get page_title => 'Rating Kepuasan';
+	@override String get refresh => 'Muat Ulang';
+	@override String get detail_title => 'Detail Rating Tiket';
+	@override String get back_button => 'Kembali';
+	@override String get tab_reporting => 'Pelaporan';
+	@override String get tab_service => 'Pelayanan';
+	@override String get filter_search => 'Filter pencarian';
+	@override String get filter_category => 'Kategori';
+	@override String get filter_form => 'Bentuk';
+	@override String get filter_type => 'Jenis';
+	@override String get filter_rating => 'Rating';
+	@override String get no_data => 'Tidak ada data';
+	@override String get pagination_info => 'Menampilkan data {start} sampai {end} dari {total} data';
+}
+
+// Path: app.rating_detail
+class _TranslationsAppRatingDetailId implements TranslationsAppRatingDetailEn {
+	_TranslationsAppRatingDetailId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get page_title => 'Rating';
+	@override String get sender_label => 'Pengirim';
+	@override String get ticket_id_label => 'ID Tiket';
+	@override String get satisfaction_rating_label => 'Rating Kepuasan Pelayanan Kami';
+	@override String get comment_label => 'Komentar';
+	@override String get ease_of_use => 'Kemudahan Penggunaan';
+	@override String get response_speed => 'Kecepatan Penanganan';
+	@override String get solution_quality => 'Kualitas Penyelesaian';
+	@override String get button_cancel => 'Kembali';
 }
 
 /// Flat map(s) containing all translations.
@@ -650,6 +871,57 @@ extension on TranslationsId {
 			case 'app.sending_report': return 'Mengirim laporan...';
 			case 'app.ok': return 'OK';
 			case 'app.status': return 'Status';
+			case 'app.ticket_detail': return 'Detail Tiket';
+			case 'app.ticket_detail_placeholder': return 'Halaman detail tiket (placeholder)';
+			case 'app.ticket_detail_title': return 'Detail Tiket';
+			case 'app.ticket_sender': return 'Pengirim';
+			case 'app.ticket_report_id': return 'ID Laporan';
+			case 'app.ticket_priority': return 'Prioritas';
+			case 'app.ticket_update_status': return 'Perbarui Status';
+			case 'app.ticket_report_title': return 'Judul Pelaporan';
+			case 'app.ticket_asset_category': return 'Kategori Aset';
+			case 'app.ticket_asset_type': return 'Jenis Aset';
+			case 'app.ticket_asset_form': return 'Bentuk Aset';
+			case 'app.ticket_asset_data': return 'Data Aset';
+			case 'app.ticket_incident_location': return 'Lokasi Kejadian';
+			case 'app.ticket_start_date': return 'Tanggal Mulai';
+			case 'app.ticket_end_date': return 'Tanggal Selesai';
+			case 'app.ticket_problem_detail': return 'Rincian Masalah';
+			case 'app.ticket_attachments': return 'Lampiran File';
+			case 'app.ticket_expected_solution': return 'Penyelesaian yang Diharapkan';
+			case 'app.status_draft': return 'Draft';
+			case 'app.status_in_progress': return 'Diproses';
+			case 'app.status_completed': return 'Selesai';
+			case 'app.button_cancel': return 'Batal';
+			case 'app.button_save_draft': return 'Simpan Draft';
+			case 'app.button_update': return 'Perbarui';
+			case 'app.message_draft_saved': return 'Draft berhasil disimpan';
+			case 'app.message_status_updated': return 'Status berhasil diperbarui';
+			case 'app.report_title_label': return 'Judul Pelaporan';
+			case 'app.report_title_hint': return 'Ketik disini';
+			case 'app.category_label': return 'Kategori Pelaporan';
+			case 'app.category_label_service': return 'Kategori Layanan';
+			case 'app.asset_type_label': return 'Jenis Aset';
+			case 'app.asset_form_label': return 'Bentuk Aset';
+			case 'app.asset_data_label': return 'Data Aset';
+			case 'app.location_label': return 'Lokasi Kejadian';
+			case 'app.location_hint': return 'Ketik disini';
+			case 'app.expected_solution_label': return 'Penyelesaian yang Diharapkan';
+			case 'app.expected_solution_hint': return 'Ketik disini...';
+			case 'app.request_title_label': return 'Judul Permintaan';
+			case 'app.request_title_hint': return 'Masukkan judul permintaan layanan';
+			case 'app.problem_label': return 'Rincian Permintaan';
+			case 'app.problem_hint': return 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
+			case 'app.search_opd_hint': return 'Cari nama OPD...';
+			case 'app.validation.title_required': return 'Judul pelaporan wajib diisi';
+			case 'app.validation.asset_type_required': return 'Jenis aset wajib dipilih';
+			case 'app.validation.asset_form_required': return 'Bentuk aset wajib dipilih';
+			case 'app.validation.asset_data_required': return 'Data aset wajib dipilih';
+			case 'app.validation.location_required': return 'Lokasi kejadian wajib diisi';
+			case 'app.validation.expected_solution_required': return 'Penyelesaian yang diharapkan wajib diisi';
+			case 'app.validation.category_required': return 'Kategori laporan harus dipilih';
+			case 'app.validation.description_required': return 'Deskripsi masalah harus diisi';
+			case 'app.validation.description_min_length': return 'Deskripsi masalah minimal 20 karakter';
 			case 'app.errors.invalid_credentials': return 'Email atau kata sandi salah';
 			case 'app.errors.server_error': return 'Terjadi kesalahan server';
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
@@ -667,6 +939,9 @@ extension on TranslationsId {
 			case 'app.dialog.continue_filling': return 'Lanjutkan Mengisi';
 			case 'app.dialog.cancel_report': return 'Batalkan';
 			case 'app.dialog.incomplete_form_title': return 'Form Belum Lengkap';
+			case 'app.dialog.cancel_request_title': return 'Batalkan Permintaan?';
+			case 'app.dialog.cancel_request_message': return 'Anda yakin ingin membatalkan pengisian formulir ini?';
+			case 'app.dialog.cancel_request': return 'Batalkan';
 			case 'app.notifications.title': return 'Notifikasi';
 			case 'app.notifications.search_placeholder': return 'Cari notifikasi...';
 			case 'app.notifications.mark_all_as_read': return 'Tandai semua dibaca';
@@ -716,9 +991,136 @@ extension on TranslationsId {
 			case 'app.qr.create_report_based_on_asset': return 'Buat Laporan Berdasarkan Aset Ini';
 			case 'app.qr.invalid_qr_message': return 'Data QR tidak valid. Silakan pindai kode aset yang benar.';
 			case 'app.qr.processing': return 'Memproses data aset...';
-			case 'app.validation.category_required': return 'Kategori laporan harus dipilih';
-			case 'app.validation.description_required': return 'Deskripsi masalah harus diisi';
-			case 'app.validation.description_min_length': return 'Deskripsi masalah minimal 20 karakter';
+			case 'app.dashboard.title': return 'Dashboard';
+			case 'app.dashboard.ticket_masuk': return 'Tiket Masuk';
+			case 'app.dashboard.ticket_masuk_desc': return 'tiket yang masuk';
+			case 'app.dashboard.proses': return 'Proses';
+			case 'app.dashboard.proses_desc': return 'tiket yang sedang diproses';
+			case 'app.dashboard.deadline': return 'Deadline';
+			case 'app.dashboard.deadline_desc': return 'tiket yang mendekati deadline';
+			case 'app.dashboard.reopen': return 'Reopen';
+			case 'app.dashboard.reopen_desc': return 'tiket yang dibuka kembali';
+			case 'app.dashboard.pelaporan': return 'Pelaporan';
+			case 'app.dashboard.pelayanan': return 'Pelayanan';
+			case 'app.dashboard.filter_pCarian': return 'Filter pencarian';
+			case 'app.dashboard.kategori': return 'Kategori';
+			case 'app.dashboard.jenis': return 'Jenis';
+			case 'app.dashboard.bentuk': return 'Bentuk';
+			case 'app.dashboard.pengirim': return 'Pengirim';
+			case 'app.dashboard.tanggal_masuk': return 'Tanggal masuk';
+			case 'app.dashboard.lampiran': return 'Lampiran';
+			case 'app.dashboard.aksi': return 'Aksi';
+			case 'app.dashboard.showing_data': return 'Menampilkan data 1 sampai 10 dari 15 data';
+			case 'app.dashboard.reportTab': return 'Pelaporan';
+			case 'app.dashboard.serviceTab': return 'Pelayanan';
+			case 'app.dashboard.refresh': return 'Muat Ulang';
+			case 'app.dashboard.filterTitle': return 'Filter pencarian';
+			case 'app.dashboard.category': return 'Kategori';
+			case 'app.dashboard.form': return 'Bentuk';
+			case 'app.dashboard.type': return 'Jenis';
+			case 'app.dashboard.status': return 'Status';
+			case 'app.dashboard.selectCategory': return 'Pilih kategori';
+			case 'app.dashboard.selectForm': return 'Pilih bentuk';
+			case 'app.dashboard.selectType': return 'Pilih jenis';
+			case 'app.dashboard.selectStatus': return 'Pilih status';
+			case 'app.dashboard.ticket_category': return 'Kategori';
+			case 'app.dashboard.ticket_type': return 'Jenis';
+			case 'app.dashboard.ticket_form': return 'Bentuk';
+			case 'app.dashboard.ticket_attachment': return 'Lampiran';
+			case 'app.dashboard.view': return 'Lihat';
+			case 'app.dashboard.edit': return 'Edit';
+			case 'app.dashboard.pagination_info': return 'Menampilkan data';
+			case 'app.dashboard.to': return 'sampai';
+			case 'app.dashboard.of_total': return 'dari';
+			case 'app.dashboard.data_label': return 'data';
+			case 'app.dashboard.ticket_incoming': return 'Tiket Masuk';
+			case 'app.dashboard.ticket_incoming_desc': return 'tiket yang masuk';
+			case 'app.dashboard.in_progress': return 'Proses';
+			case 'app.dashboard.in_progress_desc': return 'tiket yang sedang diproses';
+			case 'app.dashboard.menu_dashboard': return 'Dashboard';
+			case 'app.dashboard.menu_my_tickets': return 'Tiket Saya';
+			case 'app.dashboard.menu_history': return 'Riwayat';
+			case 'app.dashboard.menu_settings': return 'Pengaturan';
+			case 'app.dashboard.menu_help': return 'Bantuan';
+			case 'app.dashboard.menu_about': return 'Tentang';
+			case 'app.dashboard.filter_pencarian': return 'Filter pencarian';
+			case 'app.dashboard.menu_knowledge_base': return 'Knowledge Base';
+			case 'app.rfc.rfc_title': return 'Request for Change';
+			case 'app.rfc.rfc_add_button': return 'Tambah';
+			case 'app.rfc.rfc_tab_draft': return 'Draft';
+			case 'app.rfc.rfc_tab_submitted': return 'Diajukan';
+			case 'app.rfc.rfc_document': return 'Dokumen';
+			case 'app.rfc.rfc_date_sent': return 'Tanggal Kirim';
+			case 'app.rfc.rfc_status': return 'Status';
+			case 'app.rfc.rfc_action': return 'Aksi';
+			case 'app.rfc.rfc_status_draft': return 'Draft';
+			case 'app.rfc.rfc_status_waiting_review': return 'Menunggu Review';
+			case 'app.rfc.rfc_status_approved': return 'Disetujui';
+			case 'app.rfc.rfc_status_rejected': return 'Ditolak';
+			case 'app.rfc.rfc_pagination_info': return 'Menampilkan data {current} sampai {to} dari {total} data';
+			case 'app.rfc.rfc_document_status_check': return 'Panduan Cek Status';
+			case 'app.rfc.rfc_no_data': return 'Belum ada RFC yang tersedia.';
+			case 'app.rfc.rfc_form_title': return 'Form Request for Change';
+			case 'app.rfc.submission_title': return 'Judul Pengajuan';
+			case 'app.rfc.submission_title_hint': return 'Ketik disini';
+			case 'app.rfc.applicant_name': return 'Nama Pemohon';
+			case 'app.rfc.applicant_name_hint': return 'Ketik disini';
+			case 'app.rfc.phone_number': return 'Nomor HP';
+			case 'app.rfc.phone_number_hint': return 'Ketik disini';
+			case 'app.rfc.asset_category': return 'Kategori Aset';
+			case 'app.rfc.asset_category_hint': return 'Pilih Kategori';
+			case 'app.rfc.asset_name': return 'Nama Aset';
+			case 'app.rfc.asset_name_hint': return 'Pilih aset';
+			case 'app.rfc.description': return 'Deskripsi';
+			case 'app.rfc.description_hint': return 'Ketik disini';
+			case 'app.rfc.change_reason': return 'Alasan Perubahan';
+			case 'app.rfc.change_reason_hint': return 'Ketik disini';
+			case 'app.rfc.start_date': return 'Pengerjaan awal';
+			case 'app.rfc.start_date_hint': return '15-09-2025';
+			case 'app.rfc.end_date': return 'Sampai';
+			case 'app.rfc.end_date_hint': return '16-09-2025';
+			case 'app.rfc.affected_asset': return 'Aset Terdampak';
+			case 'app.rfc.affected_asset_hint': return 'Pilih aset';
+			case 'app.rfc.cost_estimate': return 'Estimasi Biaya';
+			case 'app.rfc.cost_estimate_hint': return '';
+			case 'app.rfc.change_impact': return 'Dampak Perubahan';
+			case 'app.rfc.change_impact_hint': return 'Ketik disini';
+			case 'app.rfc.no_change_impact': return 'Dampak Jika Tidak Dilakukan Perubahan';
+			case 'app.rfc.no_change_impact_hint': return 'Ketik disini';
+			case 'app.rfc.button_cancel': return 'Batalkan';
+			case 'app.rfc.button_save_draft': return 'Simpan draft';
+			case 'app.rfc.button_submit': return 'Kirim';
+			case 'app.rfc.validation_required': return 'Field ini wajib diisi';
+			case 'app.rfc.validation_phone_invalid': return 'Nomor HP tidak valid';
+			case 'app.rfc.validation_category_required': return 'Silakan pilih kategori aset';
+			case 'app.rfc.validation_asset_required': return 'Silakan pilih nama aset';
+			case 'app.rfc.validation_date_required': return 'Silakan pilih rentang tanggal';
+			case 'app.rfc.validation_affected_asset_required': return 'Silakan pilih aset terdampak';
+			case 'app.rfc.message_draft_saved': return 'Draft berhasil disimpan';
+			case 'app.rfc.message_submit_success': return 'RFC berhasil dikirim';
+			case 'app.rating.rating_title': return 'Rating';
+			case 'app.rating.page_title': return 'Rating Kepuasan';
+			case 'app.rating.refresh': return 'Muat Ulang';
+			case 'app.rating.detail_title': return 'Detail Rating Tiket';
+			case 'app.rating.back_button': return 'Kembali';
+			case 'app.rating.tab_reporting': return 'Pelaporan';
+			case 'app.rating.tab_service': return 'Pelayanan';
+			case 'app.rating.filter_search': return 'Filter pencarian';
+			case 'app.rating.filter_category': return 'Kategori';
+			case 'app.rating.filter_form': return 'Bentuk';
+			case 'app.rating.filter_type': return 'Jenis';
+			case 'app.rating.filter_rating': return 'Rating';
+			case 'app.rating.no_data': return 'Tidak ada data';
+			case 'app.rating.pagination_info': return 'Menampilkan data {start} sampai {end} dari {total} data';
+			case 'app.rating_detail.page_title': return 'Rating';
+			case 'app.rating_detail.sender_label': return 'Pengirim';
+			case 'app.rating_detail.ticket_id_label': return 'ID Tiket';
+			case 'app.rating_detail.satisfaction_rating_label': return 'Rating Kepuasan Pelayanan Kami';
+			case 'app.rating_detail.comment_label': return 'Komentar';
+			case 'app.rating_detail.ease_of_use': return 'Kemudahan Penggunaan';
+			case 'app.rating_detail.response_speed': return 'Kecepatan Penanganan';
+			case 'app.rating_detail.solution_quality': return 'Kualitas Penyelesaian';
+			case 'app.rating_detail.button_cancel': return 'Kembali';
 			default: return null;
 		}
 	}

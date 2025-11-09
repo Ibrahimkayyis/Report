@@ -282,12 +282,76 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get sending_report => 'Sending report...';
 	@override String get ok => 'OK';
 	@override String get status => 'Status';
+	@override String get ticket_detail => 'Ticket Detail';
+	@override String get ticket_detail_placeholder => 'Ticket detail page (placeholder)';
+	@override String get ticket_detail_title => 'Ticket Detail';
+	@override String get ticket_sender => 'Sender';
+	@override String get ticket_report_id => 'Report ID';
+	@override String get ticket_priority => 'Priority';
+	@override String get ticket_update_status => 'Update Status';
+	@override String get ticket_report_title => 'Report Title';
+	@override String get ticket_asset_category => 'Asset Category';
+	@override String get ticket_asset_type => 'Asset Type';
+	@override String get ticket_asset_form => 'Asset Form';
+	@override String get ticket_asset_data => 'Asset Data';
+	@override String get ticket_incident_location => 'Incident Location';
+	@override String get ticket_start_date => 'Start Date';
+	@override String get ticket_end_date => 'End Date';
+	@override String get ticket_problem_detail => 'Problem Details';
+	@override String get ticket_attachments => 'Attachments';
+	@override String get ticket_expected_solution => 'Expected Resolution';
+	@override String get status_draft => 'Draft';
+	@override String get status_in_progress => 'In Progress';
+	@override String get status_completed => 'Completed';
+	@override String get button_cancel => 'Cancel';
+	@override String get button_save_draft => 'Save Draft';
+	@override String get button_update => 'Update';
+	@override String get message_draft_saved => 'Draft saved successfully';
+	@override String get message_status_updated => 'Status updated successfully';
+	@override String get report_title_label => 'Report Title';
+	@override String get report_title_hint => 'Enter here';
+	@override String get category_label => 'Report Category';
+	@override String get category_label_service => 'Service Category';
+	@override String get asset_type_label => 'Asset Type';
+	@override String get asset_form_label => 'Asset Form';
+	@override String get asset_data_label => 'Asset Data';
+	@override String get location_label => 'Incident Location';
+	@override String get location_hint => 'Enter here';
+	@override String get expected_solution_label => 'Expected Solution';
+	@override String get expected_solution_hint => 'Enter here...';
+	@override String get request_title_label => 'Judul Permintaan';
+	@override String get request_title_hint => 'Masukkan judul permintaan layanan';
+	@override String get problem_label => 'Rincian Permintaan';
+	@override String get problem_hint => 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
+	@override String get search_opd_hint => 'Search OPD name...';
+	@override late final _TranslationsAppValidationEn validation = _TranslationsAppValidationEn._(_root);
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 	@override late final _TranslationsAppDialogEn dialog = _TranslationsAppDialogEn._(_root);
 	@override late final _TranslationsAppNotificationsEn notifications = _TranslationsAppNotificationsEn._(_root);
 	@override late final _TranslationsAppReportActivityEn report_activity = _TranslationsAppReportActivityEn._(_root);
 	@override late final _TranslationsAppQrEn qr = _TranslationsAppQrEn._(_root);
-	@override late final _TranslationsAppValidationEn validation = _TranslationsAppValidationEn._(_root);
+	@override late final _TranslationsAppDashboardEn dashboard = _TranslationsAppDashboardEn._(_root);
+	@override late final _TranslationsAppRfcEn rfc = _TranslationsAppRfcEn._(_root);
+	@override late final _TranslationsAppRatingEn rating = _TranslationsAppRatingEn._(_root);
+	@override late final _TranslationsAppRatingDetailEn rating_detail = _TranslationsAppRatingDetailEn._(_root);
+}
+
+// Path: app.validation
+class _TranslationsAppValidationEn extends TranslationsAppValidationId {
+	_TranslationsAppValidationEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title_required => 'Report title is required';
+	@override String get asset_type_required => 'Asset type is required';
+	@override String get asset_form_required => 'Asset form is required';
+	@override String get asset_data_required => 'Asset data is required';
+	@override String get location_required => 'Incident location is required';
+	@override String get expected_solution_required => 'Expected solution is required';
+	@override String get category_required => 'Report category must be selected';
+	@override String get description_required => 'Problem description is required';
+	@override String get description_min_length => 'Problem description must be at least 20 characters';
 }
 
 // Path: app.errors
@@ -323,6 +387,9 @@ class _TranslationsAppDialogEn extends TranslationsAppDialogId {
 	@override String get continue_filling => 'Continue Filling';
 	@override String get cancel_report => 'Cancel';
 	@override String get incomplete_form_title => 'Incomplete Form';
+	@override String get cancel_request_title => 'Batalkan Permintaan?';
+	@override String get cancel_request_message => 'Anda yakin ingin membatalkan pengisian formulir ini?';
+	@override String get cancel_request => 'Batalkan';
 }
 
 // Path: app.notifications
@@ -401,16 +468,169 @@ class _TranslationsAppQrEn extends TranslationsAppQrId {
 	@override String get processing => 'Processing Asset Data...';
 }
 
-// Path: app.validation
-class _TranslationsAppValidationEn extends TranslationsAppValidationId {
-	_TranslationsAppValidationEn._(TranslationsEn root) : this._root = root, super.internal(root);
+// Path: app.dashboard
+class _TranslationsAppDashboardEn extends TranslationsAppDashboardId {
+	_TranslationsAppDashboardEn._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get category_required => 'Report category must be selected';
-	@override String get description_required => 'Problem description is required';
-	@override String get description_min_length => 'Problem description must be at least 20 characters';
+	@override String get title => 'Dashboard';
+	@override String get ticket_masuk => 'Incoming Tickets';
+	@override String get ticket_masuk_desc => 'incoming tickets';
+	@override String get proses => 'Processing';
+	@override String get proses_desc => 'tickets being processed';
+	@override String get deadline => 'Deadline';
+	@override String get deadline_desc => 'tickets approaching deadline';
+	@override String get reopen => 'Reopen';
+	@override String get reopen_desc => 'reopened tickets';
+	@override String get pelaporan => 'Reporting';
+	@override String get pelayanan => 'Service';
+	@override String get filter_pencarian => 'Search filter';
+	@override String get kategori => 'Category';
+	@override String get jenis => 'Type';
+	@override String get bentuk => 'Form';
+	@override String get pengirim => 'Sender';
+	@override String get tanggal_masuk => 'Entry Date';
+	@override String get lampiran => 'Attachments';
+	@override String get aksi => 'Action';
+	@override String get showing_data => 'Showing data 1 to 10 of 15 data';
+	@override String get reportTab => 'Report';
+	@override String get serviceTab => 'Service';
+	@override String get refresh => 'Refresh';
+	@override String get filterTitle => 'Search Filter';
+	@override String get category => 'Category';
+	@override String get form => 'Form';
+	@override String get type => 'Type';
+	@override String get status => 'Status';
+	@override String get selectCategory => 'Select category';
+	@override String get selectForm => 'Select form';
+	@override String get selectType => 'Select type';
+	@override String get selectStatus => 'Select status';
+	@override String get ticket_category => 'Category';
+	@override String get ticket_type => 'Type';
+	@override String get ticket_form => 'Form';
+	@override String get ticket_attachment => 'Attachment';
+	@override String get view => 'View';
+	@override String get edit => 'Edit';
+	@override String get pagination_info => 'Showing data';
+	@override String get to => 'to';
+	@override String get of_total => 'of';
+	@override String get data_label => 'entries';
+	@override String get ticket_incoming => 'Incoming Tickets';
+	@override String get ticket_incoming_desc => 'Incoming tickets';
+	@override String get in_progress => 'Processing';
+	@override String get in_progress_desc => 'Ticket in process';
+	@override String get menu_dashboard => 'Dashboard';
+	@override String get menu_my_tickets => 'My Tickets';
+	@override String get menu_history => 'History';
+	@override String get menu_settings => 'Settings';
+	@override String get menu_help => 'Help';
+	@override String get menu_about => 'About';
+	@override String get menu_knowledge_base => 'Knowledge Base';
+}
+
+// Path: app.rfc
+class _TranslationsAppRfcEn extends TranslationsAppRfcId {
+	_TranslationsAppRfcEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get rfc_title => 'Request for Change';
+	@override String get rfc_add_button => 'Add';
+	@override String get rfc_tab_draft => 'Draft';
+	@override String get rfc_tab_submitted => 'Submitted';
+	@override String get rfc_document => 'Document';
+	@override String get rfc_date_sent => 'Date Sent';
+	@override String get rfc_status => 'Status';
+	@override String get rfc_action => 'Action';
+	@override String get rfc_status_draft => 'Draft';
+	@override String get rfc_status_waiting_review => 'Waiting Review';
+	@override String get rfc_status_approved => 'Approved';
+	@override String get rfc_status_rejected => 'Rejected';
+	@override String get rfc_pagination_info => 'Showing data {current} to {to} of {total} data';
+	@override String get rfc_document_status_check => 'Status Check Document';
+	@override String get rfc_no_data => 'No RFC documents available.';
+	@override String get rfc_form_title => 'Request for Change Form';
+	@override String get submission_title => 'Submission Title';
+	@override String get submission_title_hint => 'Enter here';
+	@override String get applicant_name => 'Applicant Name';
+	@override String get applicant_name_hint => 'Enter here';
+	@override String get phone_number => 'Phone Number';
+	@override String get phone_number_hint => 'Enter here';
+	@override String get asset_category => 'Asset Category';
+	@override String get asset_category_hint => 'Select category';
+	@override String get asset_name => 'Asset Name';
+	@override String get asset_name_hint => 'Select asset';
+	@override String get description => 'Description';
+	@override String get description_hint => 'Enter here';
+	@override String get change_reason => 'Change Reason';
+	@override String get change_reason_hint => 'Enter here';
+	@override String get start_date => 'Start Date';
+	@override String get start_date_hint => '15-09-2025';
+	@override String get end_date => 'End Date';
+	@override String get end_date_hint => '16-09-2025';
+	@override String get affected_asset => 'Affected Asset';
+	@override String get affected_asset_hint => 'Select asset';
+	@override String get cost_estimate => 'Cost Estimate';
+	@override String get cost_estimate_hint => '';
+	@override String get change_impact => 'Change Impact';
+	@override String get change_impact_hint => 'Enter here';
+	@override String get no_change_impact => 'Impact If Change Not Made';
+	@override String get no_change_impact_hint => 'Enter here';
+	@override String get button_cancel => 'Cancel';
+	@override String get button_save_draft => 'Save Draft';
+	@override String get button_submit => 'Submit';
+	@override String get validation_required => 'This field is required';
+	@override String get validation_phone_invalid => 'Phone number is invalid';
+	@override String get validation_category_required => 'Please select asset category';
+	@override String get validation_asset_required => 'Please select asset name';
+	@override String get validation_date_required => 'Please select date range';
+	@override String get validation_affected_asset_required => 'Please select affected asset';
+	@override String get message_draft_saved => 'Draft saved successfully';
+	@override String get message_submit_success => 'RFC submitted successfully';
+}
+
+// Path: app.rating
+class _TranslationsAppRatingEn extends TranslationsAppRatingId {
+	_TranslationsAppRatingEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get rating_title => 'Rating';
+	@override String get page_title => 'Satisfaction Rating';
+	@override String get detail_title => 'Ticket Rating Detail';
+	@override String get back_button => 'Back';
+	@override String get refresh => 'Refresh';
+	@override String get tab_reporting => 'Reporting';
+	@override String get tab_service => 'Service';
+	@override String get filter_search => 'Search Filter';
+	@override String get filter_category => 'Category';
+	@override String get filter_form => 'Form';
+	@override String get filter_type => 'Type';
+	@override String get filter_rating => 'Rating';
+	@override String get no_data => 'No data available';
+	@override String get pagination_info => 'Showing data {start} to {end} of {total} data';
+}
+
+// Path: app.rating_detail
+class _TranslationsAppRatingDetailEn extends TranslationsAppRatingDetailId {
+	_TranslationsAppRatingDetailEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get page_title => 'Rating';
+	@override String get sender_label => 'Sender';
+	@override String get ticket_id_label => 'Ticket ID';
+	@override String get satisfaction_rating_label => 'Our Service Satisfaction Rating';
+	@override String get comment_label => 'Comment';
+	@override String get ease_of_use => 'Ease of Use';
+	@override String get response_speed => 'Response Speed';
+	@override String get solution_quality => 'Solution Quality';
+	@override String get button_cancel => 'Back';
 }
 
 /// Flat map(s) containing all translations.
@@ -652,6 +872,57 @@ extension on TranslationsEn {
 			case 'app.sending_report': return 'Sending report...';
 			case 'app.ok': return 'OK';
 			case 'app.status': return 'Status';
+			case 'app.ticket_detail': return 'Ticket Detail';
+			case 'app.ticket_detail_placeholder': return 'Ticket detail page (placeholder)';
+			case 'app.ticket_detail_title': return 'Ticket Detail';
+			case 'app.ticket_sender': return 'Sender';
+			case 'app.ticket_report_id': return 'Report ID';
+			case 'app.ticket_priority': return 'Priority';
+			case 'app.ticket_update_status': return 'Update Status';
+			case 'app.ticket_report_title': return 'Report Title';
+			case 'app.ticket_asset_category': return 'Asset Category';
+			case 'app.ticket_asset_type': return 'Asset Type';
+			case 'app.ticket_asset_form': return 'Asset Form';
+			case 'app.ticket_asset_data': return 'Asset Data';
+			case 'app.ticket_incident_location': return 'Incident Location';
+			case 'app.ticket_start_date': return 'Start Date';
+			case 'app.ticket_end_date': return 'End Date';
+			case 'app.ticket_problem_detail': return 'Problem Details';
+			case 'app.ticket_attachments': return 'Attachments';
+			case 'app.ticket_expected_solution': return 'Expected Resolution';
+			case 'app.status_draft': return 'Draft';
+			case 'app.status_in_progress': return 'In Progress';
+			case 'app.status_completed': return 'Completed';
+			case 'app.button_cancel': return 'Cancel';
+			case 'app.button_save_draft': return 'Save Draft';
+			case 'app.button_update': return 'Update';
+			case 'app.message_draft_saved': return 'Draft saved successfully';
+			case 'app.message_status_updated': return 'Status updated successfully';
+			case 'app.report_title_label': return 'Report Title';
+			case 'app.report_title_hint': return 'Enter here';
+			case 'app.category_label': return 'Report Category';
+			case 'app.category_label_service': return 'Service Category';
+			case 'app.asset_type_label': return 'Asset Type';
+			case 'app.asset_form_label': return 'Asset Form';
+			case 'app.asset_data_label': return 'Asset Data';
+			case 'app.location_label': return 'Incident Location';
+			case 'app.location_hint': return 'Enter here';
+			case 'app.expected_solution_label': return 'Expected Solution';
+			case 'app.expected_solution_hint': return 'Enter here...';
+			case 'app.request_title_label': return 'Judul Permintaan';
+			case 'app.request_title_hint': return 'Masukkan judul permintaan layanan';
+			case 'app.problem_label': return 'Rincian Permintaan';
+			case 'app.problem_hint': return 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
+			case 'app.search_opd_hint': return 'Search OPD name...';
+			case 'app.validation.title_required': return 'Report title is required';
+			case 'app.validation.asset_type_required': return 'Asset type is required';
+			case 'app.validation.asset_form_required': return 'Asset form is required';
+			case 'app.validation.asset_data_required': return 'Asset data is required';
+			case 'app.validation.location_required': return 'Incident location is required';
+			case 'app.validation.expected_solution_required': return 'Expected solution is required';
+			case 'app.validation.category_required': return 'Report category must be selected';
+			case 'app.validation.description_required': return 'Problem description is required';
+			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
@@ -669,6 +940,9 @@ extension on TranslationsEn {
 			case 'app.dialog.continue_filling': return 'Continue Filling';
 			case 'app.dialog.cancel_report': return 'Cancel';
 			case 'app.dialog.incomplete_form_title': return 'Incomplete Form';
+			case 'app.dialog.cancel_request_title': return 'Batalkan Permintaan?';
+			case 'app.dialog.cancel_request_message': return 'Anda yakin ingin membatalkan pengisian formulir ini?';
+			case 'app.dialog.cancel_request': return 'Batalkan';
 			case 'app.notifications.title': return 'Notifications';
 			case 'app.notifications.search_placeholder': return 'Search notifications...';
 			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
@@ -718,9 +992,135 @@ extension on TranslationsEn {
 			case 'app.qr.create_report_based_on_asset': return 'Create Report Based on This Asset';
 			case 'app.qr.invalid_qr_message': return 'Invalid QR data. Please scan a valid asset QR code.';
 			case 'app.qr.processing': return 'Processing Asset Data...';
-			case 'app.validation.category_required': return 'Report category must be selected';
-			case 'app.validation.description_required': return 'Problem description is required';
-			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
+			case 'app.dashboard.title': return 'Dashboard';
+			case 'app.dashboard.ticket_masuk': return 'Incoming Tickets';
+			case 'app.dashboard.ticket_masuk_desc': return 'incoming tickets';
+			case 'app.dashboard.proses': return 'Processing';
+			case 'app.dashboard.proses_desc': return 'tickets being processed';
+			case 'app.dashboard.deadline': return 'Deadline';
+			case 'app.dashboard.deadline_desc': return 'tickets approaching deadline';
+			case 'app.dashboard.reopen': return 'Reopen';
+			case 'app.dashboard.reopen_desc': return 'reopened tickets';
+			case 'app.dashboard.pelaporan': return 'Reporting';
+			case 'app.dashboard.pelayanan': return 'Service';
+			case 'app.dashboard.filter_pencarian': return 'Search filter';
+			case 'app.dashboard.kategori': return 'Category';
+			case 'app.dashboard.jenis': return 'Type';
+			case 'app.dashboard.bentuk': return 'Form';
+			case 'app.dashboard.pengirim': return 'Sender';
+			case 'app.dashboard.tanggal_masuk': return 'Entry Date';
+			case 'app.dashboard.lampiran': return 'Attachments';
+			case 'app.dashboard.aksi': return 'Action';
+			case 'app.dashboard.showing_data': return 'Showing data 1 to 10 of 15 data';
+			case 'app.dashboard.reportTab': return 'Report';
+			case 'app.dashboard.serviceTab': return 'Service';
+			case 'app.dashboard.refresh': return 'Refresh';
+			case 'app.dashboard.filterTitle': return 'Search Filter';
+			case 'app.dashboard.category': return 'Category';
+			case 'app.dashboard.form': return 'Form';
+			case 'app.dashboard.type': return 'Type';
+			case 'app.dashboard.status': return 'Status';
+			case 'app.dashboard.selectCategory': return 'Select category';
+			case 'app.dashboard.selectForm': return 'Select form';
+			case 'app.dashboard.selectType': return 'Select type';
+			case 'app.dashboard.selectStatus': return 'Select status';
+			case 'app.dashboard.ticket_category': return 'Category';
+			case 'app.dashboard.ticket_type': return 'Type';
+			case 'app.dashboard.ticket_form': return 'Form';
+			case 'app.dashboard.ticket_attachment': return 'Attachment';
+			case 'app.dashboard.view': return 'View';
+			case 'app.dashboard.edit': return 'Edit';
+			case 'app.dashboard.pagination_info': return 'Showing data';
+			case 'app.dashboard.to': return 'to';
+			case 'app.dashboard.of_total': return 'of';
+			case 'app.dashboard.data_label': return 'entries';
+			case 'app.dashboard.ticket_incoming': return 'Incoming Tickets';
+			case 'app.dashboard.ticket_incoming_desc': return 'Incoming tickets';
+			case 'app.dashboard.in_progress': return 'Processing';
+			case 'app.dashboard.in_progress_desc': return 'Ticket in process';
+			case 'app.dashboard.menu_dashboard': return 'Dashboard';
+			case 'app.dashboard.menu_my_tickets': return 'My Tickets';
+			case 'app.dashboard.menu_history': return 'History';
+			case 'app.dashboard.menu_settings': return 'Settings';
+			case 'app.dashboard.menu_help': return 'Help';
+			case 'app.dashboard.menu_about': return 'About';
+			case 'app.dashboard.menu_knowledge_base': return 'Knowledge Base';
+			case 'app.rfc.rfc_title': return 'Request for Change';
+			case 'app.rfc.rfc_add_button': return 'Add';
+			case 'app.rfc.rfc_tab_draft': return 'Draft';
+			case 'app.rfc.rfc_tab_submitted': return 'Submitted';
+			case 'app.rfc.rfc_document': return 'Document';
+			case 'app.rfc.rfc_date_sent': return 'Date Sent';
+			case 'app.rfc.rfc_status': return 'Status';
+			case 'app.rfc.rfc_action': return 'Action';
+			case 'app.rfc.rfc_status_draft': return 'Draft';
+			case 'app.rfc.rfc_status_waiting_review': return 'Waiting Review';
+			case 'app.rfc.rfc_status_approved': return 'Approved';
+			case 'app.rfc.rfc_status_rejected': return 'Rejected';
+			case 'app.rfc.rfc_pagination_info': return 'Showing data {current} to {to} of {total} data';
+			case 'app.rfc.rfc_document_status_check': return 'Status Check Document';
+			case 'app.rfc.rfc_no_data': return 'No RFC documents available.';
+			case 'app.rfc.rfc_form_title': return 'Request for Change Form';
+			case 'app.rfc.submission_title': return 'Submission Title';
+			case 'app.rfc.submission_title_hint': return 'Enter here';
+			case 'app.rfc.applicant_name': return 'Applicant Name';
+			case 'app.rfc.applicant_name_hint': return 'Enter here';
+			case 'app.rfc.phone_number': return 'Phone Number';
+			case 'app.rfc.phone_number_hint': return 'Enter here';
+			case 'app.rfc.asset_category': return 'Asset Category';
+			case 'app.rfc.asset_category_hint': return 'Select category';
+			case 'app.rfc.asset_name': return 'Asset Name';
+			case 'app.rfc.asset_name_hint': return 'Select asset';
+			case 'app.rfc.description': return 'Description';
+			case 'app.rfc.description_hint': return 'Enter here';
+			case 'app.rfc.change_reason': return 'Change Reason';
+			case 'app.rfc.change_reason_hint': return 'Enter here';
+			case 'app.rfc.start_date': return 'Start Date';
+			case 'app.rfc.start_date_hint': return '15-09-2025';
+			case 'app.rfc.end_date': return 'End Date';
+			case 'app.rfc.end_date_hint': return '16-09-2025';
+			case 'app.rfc.affected_asset': return 'Affected Asset';
+			case 'app.rfc.affected_asset_hint': return 'Select asset';
+			case 'app.rfc.cost_estimate': return 'Cost Estimate';
+			case 'app.rfc.cost_estimate_hint': return '';
+			case 'app.rfc.change_impact': return 'Change Impact';
+			case 'app.rfc.change_impact_hint': return 'Enter here';
+			case 'app.rfc.no_change_impact': return 'Impact If Change Not Made';
+			case 'app.rfc.no_change_impact_hint': return 'Enter here';
+			case 'app.rfc.button_cancel': return 'Cancel';
+			case 'app.rfc.button_save_draft': return 'Save Draft';
+			case 'app.rfc.button_submit': return 'Submit';
+			case 'app.rfc.validation_required': return 'This field is required';
+			case 'app.rfc.validation_phone_invalid': return 'Phone number is invalid';
+			case 'app.rfc.validation_category_required': return 'Please select asset category';
+			case 'app.rfc.validation_asset_required': return 'Please select asset name';
+			case 'app.rfc.validation_date_required': return 'Please select date range';
+			case 'app.rfc.validation_affected_asset_required': return 'Please select affected asset';
+			case 'app.rfc.message_draft_saved': return 'Draft saved successfully';
+			case 'app.rfc.message_submit_success': return 'RFC submitted successfully';
+			case 'app.rating.rating_title': return 'Rating';
+			case 'app.rating.page_title': return 'Satisfaction Rating';
+			case 'app.rating.detail_title': return 'Ticket Rating Detail';
+			case 'app.rating.back_button': return 'Back';
+			case 'app.rating.refresh': return 'Refresh';
+			case 'app.rating.tab_reporting': return 'Reporting';
+			case 'app.rating.tab_service': return 'Service';
+			case 'app.rating.filter_search': return 'Search Filter';
+			case 'app.rating.filter_category': return 'Category';
+			case 'app.rating.filter_form': return 'Form';
+			case 'app.rating.filter_type': return 'Type';
+			case 'app.rating.filter_rating': return 'Rating';
+			case 'app.rating.no_data': return 'No data available';
+			case 'app.rating.pagination_info': return 'Showing data {start} to {end} of {total} data';
+			case 'app.rating_detail.page_title': return 'Rating';
+			case 'app.rating_detail.sender_label': return 'Sender';
+			case 'app.rating_detail.ticket_id_label': return 'Ticket ID';
+			case 'app.rating_detail.satisfaction_rating_label': return 'Our Service Satisfaction Rating';
+			case 'app.rating_detail.comment_label': return 'Comment';
+			case 'app.rating_detail.ease_of_use': return 'Ease of Use';
+			case 'app.rating_detail.response_speed': return 'Response Speed';
+			case 'app.rating_detail.solution_quality': return 'Solution Quality';
+			case 'app.rating_detail.button_cancel': return 'Back';
 			default: return null;
 		}
 	}

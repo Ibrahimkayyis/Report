@@ -2,28 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dio/dio.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
-
 import 'gen/colors.gen.dart';
 import 'gen/i18n/translations.g.dart';
-
 import 'src/core/cubit/app_cubit.dart';
 import 'src/core/cubit/app_state.dart';
 import 'src/core/service_locator/service_locator.dart';
 import 'src/core/router/app_router.dart';
+import 'src/core/network/auth_interceptor.dart';
+import 'src/modules/auth/domain/repositories/auth_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // inisialisasi dependency injection
+  
+  // Inisialisasi dependency injection
   await configureDependencies();
 
-  // register AppCubit secara manual (global singleton)
+  // Setup AuthInterceptor setelah semua dependencies ready
+  _setupAuthInterceptor();
+
+  // Register AppCubit secara manual (global singleton)
   if (!sl.isRegistered<AppCubit>()) {
     sl.registerLazySingleton<AppCubit>(() => AppCubit());
   }
 
   runApp(const ReportApp());
+}
+
+/// Setup AuthInterceptor setelah service locator ready
+/// untuk menghindari circular dependency
+void _setupAuthInterceptor() {
+  try {
+    final dio = sl<Dio>();
+    final authRepository = sl<AuthRepository>();
+    final authCubit = sl<AuthCubit>(); // ← NEW: Get AuthCubit
+
+    // Tambahkan AuthInterceptor setelah interceptor logging
+    // tapi sebelum request dilakukan
+    dio.interceptors.add(
+      AuthInterceptor(
+        authRepository: authRepository,
+        authCubit: authCubit, // ← NEW: Inject AuthCubit
+        dio: dio,
+      ),
+    );
+
+    debugPrint('✅ AuthInterceptor berhasil ditambahkan ke Dio (with AuthCubit)');
+  } catch (e) {
+    debugPrint('❌ Error setup AuthInterceptor: $e');
+  }
 }
 
 class ReportApp extends StatelessWidget {

@@ -31,7 +31,7 @@ class ActivityHeader extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 10.h),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(color: ColorName.black.withOpacity(0.2)),
+                borderSide: BorderSide(color: ColorName.black.withValues(alpha:0.2)),
               ),
               filled: true,
               fillColor: ColorName.white,
@@ -133,7 +133,7 @@ class _DropdownFilterState extends State<_DropdownFilter> {
       decoration: BoxDecoration(
         color: ColorName.white,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: ColorName.black.withOpacity(0.2)),
+        border: Border.all(color: ColorName.black.withValues(alpha:0.2)),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(

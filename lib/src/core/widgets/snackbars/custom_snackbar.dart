@@ -23,7 +23,7 @@ void showCustomSnackbar(
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.1),
+            color: ColorName.black.withValues(alpha:0.1),
             blurRadius: 8.r,
             offset: Offset(0, 4.h),
           ),
