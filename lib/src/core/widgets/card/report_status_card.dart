@@ -57,7 +57,7 @@ class ReportStatusCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.08),
+            color: ColorName.black.withValues(alpha:0.08),
             blurRadius: 12.r,
             offset: Offset(0, 4.h),
           ),
@@ -191,7 +191,7 @@ class ReportStatusCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: ColorName.black.withOpacity(0.08),
+                            color: ColorName.black.withValues(alpha:0.08),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -247,7 +247,7 @@ class ReportStatusCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: ColorName.black.withOpacity(0.08),
+                            color: ColorName.black.withValues(alpha:0.08),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),

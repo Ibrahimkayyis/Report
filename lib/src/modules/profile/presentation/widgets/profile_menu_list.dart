@@ -118,7 +118,7 @@ class ProfileMenuList extends StatelessWidget {
           t.app.confirm_logout_message,
           style: TextStyle(
             fontSize: 14.sp,
-            color: ColorName.textPrimary.withOpacity(0.7),
+            color: ColorName.textPrimary.withValues(alpha:0.7),
           ),
         ),
         actions: [

@@ -69,7 +69,7 @@ class NotificationScreen extends StatelessWidget {
               onMarkAllAsRead: () {},
             ),
 
-            Divider(height: 1.h, color: ColorName.black.withOpacity(0.1)),
+            Divider(height: 1.h, color: ColorName.black.withValues(alpha:0.1)),
 
             /// List notifikasi
             Expanded(

@@ -53,10 +53,21 @@ class _SplashScreenState extends State<SplashScreen>
   void _navigateIfReady() {
     if (_timerDone && _authChecked) {
       if (!mounted) return;
+
       if (_authResult is AuthAuthenticated) {
-        context.router.replaceAll([const MainLayoutRoute()]);
+        final auth = _authResult as AuthAuthenticated;
+
+        // 🔹 Pilih layout sesuai role
+        if (auth.role == 'teknisi') {
+          context.router.replaceAll([const MainLayoutTeknisiRoute()]);
+        } else if (auth.role == 'masyarakat') {
+          context.router.replaceAll([const MainLayoutMasyarakatRoute()]);
+        } else {
+          context.router.replaceAll([const MainLayoutRoute()]);
+        }
       } else {
-        context.router.replaceAll([const RegisterRoute()]); // 🔑 biasanya ke login
+        // 🔸 Belum login → ke Login
+        context.router.replaceAll([const LoginRoute()]);
       }
     }
   }

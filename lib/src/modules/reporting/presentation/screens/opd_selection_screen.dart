@@ -17,8 +17,29 @@ part '../widgets/opd_selection/opd_card.dart';
 part '../widgets/opd_selection/opd_item.dart';
 
 @RoutePage()
-class OpdSelectionScreen extends StatelessWidget {
+class OpdSelectionScreen extends StatefulWidget {
   const OpdSelectionScreen({super.key});
+
+  @override
+  State<OpdSelectionScreen> createState() => _OpdSelectionScreenState();
+}
+
+class _OpdSelectionScreenState extends State<OpdSelectionScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  List _filteredList = [];
+  List _originalList = [];
+
+  void _filterOpd(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredList = List.from(_originalList);
+      } else {
+        _filteredList = _originalList
+            .where((opd) => opd.opdName.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +53,35 @@ class OpdSelectionScreen extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.all(16.w),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AppSectionTitle(title: t.app.select_opd_subtitle),
+              SizedBox(height: 12.h),
+
+              /// 🔍 Search bar
+              AppSearchField(
+                controller: _searchController,
+                hintText: t.app.search_opd_hint,
+                onChanged: _filterOpd,
+              ),
               SizedBox(height: 16.h),
 
+              /// 🔹 Daftar OPD
               Expanded(
                 child: BlocBuilder<OpdCubit, OpdState>(
                   builder: (context, state) {
                     if (state is OpdLoading) {
-                      // 🌟 Tampilan shimmer saat loading
                       return ListView.builder(
-                        itemCount: 20, // jumlah shimmer dummy
+                        itemCount: 8,
                         itemBuilder: (_, __) => const OpdShimmerCard(),
                       );
                     } else if (state is OpdLoaded) {
-                      final opdList = state.opdList;
+                      _originalList = state.opdList;
+                      if (_filteredList.isEmpty && _searchController.text.isEmpty) {
+                        _filteredList = List.from(_originalList);
+                      }
 
-                      if (opdList.isEmpty) {
+                      if (_filteredList.isEmpty) {
                         return Center(
                           child: Text(
                             t.app.no_data_available,
@@ -62,26 +94,24 @@ class OpdSelectionScreen extends StatelessWidget {
                       }
 
                       return ListView.builder(
-                        itemCount: opdList.length,
+                        itemCount: _filteredList.length,
                         itemBuilder: (context, index) {
-                          final opd = opdList[index];
+                          final opd = _filteredList[index];
 
-                          // Icon dan warna dinamis, card tetap ColorName.primary
-                          final icon = _iconByIndex(index);
-                          final iconColor = _colorByIndex(index);
+                          final opdItem = OpdItem(
+                            name: opd.opdName,
+                            color: ColorName.primary,
+                            iconUrl: opd.filePath,
+                          );
 
                           return OpdCard(
-                            opd: OpdItem(
-                              icon: icon,
-                              name: opd.opdName,
-                              color: iconColor,
-                            ),
+                            opd: opdItem,
                             onTap: () => context.router.push(
                               ReportingFormRoute(
                                 opdId: opd.opdId,
                                 opdName: opd.opdName,
-                                opdIcon: icon,
-                                opdColor: iconColor,
+                                opdColor: ColorName.primary,
+                                opdIconUrl: opd.filePath,
                               ),
                             ),
                           );
@@ -105,55 +135,5 @@ class OpdSelectionScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  // 🎨 Warna untuk icon (beragam)
-  Color _colorByIndex(int index) {
-    final colors = [
-      Colors.blue.shade700,
-      Colors.red.shade600,
-      Colors.pink.shade600,
-      Colors.indigo.shade700,
-      Colors.orange.shade700,
-      Colors.green.shade600,
-      Colors.teal.shade700,
-      Colors.cyan.shade700,
-      Colors.blue.shade800,
-      Colors.amber.shade800,
-      Colors.brown.shade600,
-      Colors.deepPurple.shade700,
-      Colors.red.shade700,
-      Colors.deepOrange.shade700,
-      Colors.grey.shade700,
-      Colors.orange.shade800,
-      Colors.lightGreen.shade700,
-      Colors.purple.shade700,
-    ];
-    return colors[index % colors.length];
-  }
-
-  // 🧩 Icon dinamis agar tampil menarik
-  IconData _iconByIndex(int index) {
-    const icons = [
-      Icons.school,
-      Icons.library_books,
-      Icons.local_hospital,
-      Icons.devices,
-      Icons.directions_bus,
-      Icons.eco,
-      Icons.diversity_3,
-      Icons.badge,
-      Icons.water_drop,
-      Icons.business_center,
-      Icons.home_work,
-      Icons.account_balance,
-      Icons.fire_truck,
-      Icons.museum,
-      Icons.factory,
-      Icons.shield,
-      Icons.agriculture,
-      Icons.people,
-    ];
-    return icons[index % icons.length];
   }
 }

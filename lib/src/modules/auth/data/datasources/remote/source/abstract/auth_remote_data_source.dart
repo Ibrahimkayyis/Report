@@ -1,5 +1,3 @@
-// lib/src/modules/data/datasources/remote/source/abstract/auth_remote_data_source.dart
-
 abstract class AuthRemoteDataSource {
   Future<String> register({
     required String email,
@@ -12,8 +10,16 @@ abstract class AuthRemoteDataSource {
     String role,
   });
 
-  Future<Map<String, dynamic>> login({  // ⬅️ return Map
+  Future<Map<String, dynamic>> login({
     required String email,
     required String password,
+  });
+
+  /// Refresh access token menggunakan refresh token
+  /// 
+  /// Endpoint: POST /refresh?refresh_token=xxx
+  /// Returns: String (new access token)
+  Future<String> refreshToken({
+    required String refreshToken,
   });
 }

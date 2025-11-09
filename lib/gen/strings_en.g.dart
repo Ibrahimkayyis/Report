@@ -752,12 +752,178 @@ class TranslationsAppEn {
 	/// en: 'Status'
 	String get status => 'Status';
 
+	/// en: 'Ticket Detail'
+	String get ticket_detail => 'Ticket Detail';
+
+	/// en: 'Ticket detail page (placeholder)'
+	String get ticket_detail_placeholder => 'Ticket detail page (placeholder)';
+
+	/// en: 'Ticket Detail'
+	String get ticket_detail_title => 'Ticket Detail';
+
+	/// en: 'Sender'
+	String get ticket_sender => 'Sender';
+
+	/// en: 'Report ID'
+	String get ticket_report_id => 'Report ID';
+
+	/// en: 'Priority'
+	String get ticket_priority => 'Priority';
+
+	/// en: 'Update Status'
+	String get ticket_update_status => 'Update Status';
+
+	/// en: 'Report Title'
+	String get ticket_report_title => 'Report Title';
+
+	/// en: 'Asset Category'
+	String get ticket_asset_category => 'Asset Category';
+
+	/// en: 'Asset Type'
+	String get ticket_asset_type => 'Asset Type';
+
+	/// en: 'Asset Form'
+	String get ticket_asset_form => 'Asset Form';
+
+	/// en: 'Asset Data'
+	String get ticket_asset_data => 'Asset Data';
+
+	/// en: 'Incident Location'
+	String get ticket_incident_location => 'Incident Location';
+
+	/// en: 'Start Date'
+	String get ticket_start_date => 'Start Date';
+
+	/// en: 'End Date'
+	String get ticket_end_date => 'End Date';
+
+	/// en: 'Problem Details'
+	String get ticket_problem_detail => 'Problem Details';
+
+	/// en: 'Attachments'
+	String get ticket_attachments => 'Attachments';
+
+	/// en: 'Expected Resolution'
+	String get ticket_expected_solution => 'Expected Resolution';
+
+	/// en: 'Draft'
+	String get status_draft => 'Draft';
+
+	/// en: 'In Progress'
+	String get status_in_progress => 'In Progress';
+
+	/// en: 'Completed'
+	String get status_completed => 'Completed';
+
+	/// en: 'Cancel'
+	String get button_cancel => 'Cancel';
+
+	/// en: 'Save Draft'
+	String get button_save_draft => 'Save Draft';
+
+	/// en: 'Update'
+	String get button_update => 'Update';
+
+	/// en: 'Draft saved successfully'
+	String get message_draft_saved => 'Draft saved successfully';
+
+	/// en: 'Status updated successfully'
+	String get message_status_updated => 'Status updated successfully';
+
+	/// en: 'Report Title'
+	String get report_title_label => 'Report Title';
+
+	/// en: 'Enter here'
+	String get report_title_hint => 'Enter here';
+
+	/// en: 'Report Category'
+	String get category_label => 'Report Category';
+
+	/// en: 'Service Category'
+	String get category_label_service => 'Service Category';
+
+	/// en: 'Asset Type'
+	String get asset_type_label => 'Asset Type';
+
+	/// en: 'Asset Form'
+	String get asset_form_label => 'Asset Form';
+
+	/// en: 'Asset Data'
+	String get asset_data_label => 'Asset Data';
+
+	/// en: 'Incident Location'
+	String get location_label => 'Incident Location';
+
+	/// en: 'Enter here'
+	String get location_hint => 'Enter here';
+
+	/// en: 'Expected Solution'
+	String get expected_solution_label => 'Expected Solution';
+
+	/// en: 'Enter here...'
+	String get expected_solution_hint => 'Enter here...';
+
+	/// en: 'Judul Permintaan'
+	String get request_title_label => 'Judul Permintaan';
+
+	/// en: 'Masukkan judul permintaan layanan'
+	String get request_title_hint => 'Masukkan judul permintaan layanan';
+
+	/// en: 'Rincian Permintaan'
+	String get problem_label => 'Rincian Permintaan';
+
+	/// en: 'Jelaskan secara singkat masalah atau kebutuhan Anda...'
+	String get problem_hint => 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
+
+	/// en: 'Search OPD name...'
+	String get search_opd_hint => 'Search OPD name...';
+
+	late final TranslationsAppValidationEn validation = TranslationsAppValidationEn._(_root);
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
 	late final TranslationsAppDialogEn dialog = TranslationsAppDialogEn._(_root);
 	late final TranslationsAppNotificationsEn notifications = TranslationsAppNotificationsEn._(_root);
 	late final TranslationsAppReportActivityEn report_activity = TranslationsAppReportActivityEn._(_root);
 	late final TranslationsAppQrEn qr = TranslationsAppQrEn._(_root);
-	late final TranslationsAppValidationEn validation = TranslationsAppValidationEn._(_root);
+	late final TranslationsAppDashboardEn dashboard = TranslationsAppDashboardEn._(_root);
+	late final TranslationsAppRfcEn rfc = TranslationsAppRfcEn._(_root);
+	late final TranslationsAppRatingEn rating = TranslationsAppRatingEn._(_root);
+	late final TranslationsAppRatingDetailEn rating_detail = TranslationsAppRatingDetailEn._(_root);
+}
+
+// Path: app.validation
+class TranslationsAppValidationEn {
+	TranslationsAppValidationEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Report title is required'
+	String get title_required => 'Report title is required';
+
+	/// en: 'Asset type is required'
+	String get asset_type_required => 'Asset type is required';
+
+	/// en: 'Asset form is required'
+	String get asset_form_required => 'Asset form is required';
+
+	/// en: 'Asset data is required'
+	String get asset_data_required => 'Asset data is required';
+
+	/// en: 'Incident location is required'
+	String get location_required => 'Incident location is required';
+
+	/// en: 'Expected solution is required'
+	String get expected_solution_required => 'Expected solution is required';
+
+	/// en: 'Report category must be selected'
+	String get category_required => 'Report category must be selected';
+
+	/// en: 'Problem description is required'
+	String get description_required => 'Problem description is required';
+
+	/// en: 'Problem description must be at least 20 characters'
+	String get description_min_length => 'Problem description must be at least 20 characters';
 }
 
 // Path: app.errors
@@ -827,6 +993,15 @@ class TranslationsAppDialogEn {
 
 	/// en: 'Incomplete Form'
 	String get incomplete_form_title => 'Incomplete Form';
+
+	/// en: 'Batalkan Permintaan?'
+	String get cancel_request_title => 'Batalkan Permintaan?';
+
+	/// en: 'Anda yakin ingin membatalkan pengisian formulir ini?'
+	String get cancel_request_message => 'Anda yakin ingin membatalkan pengisian formulir ini?';
+
+	/// en: 'Batalkan'
+	String get cancel_request => 'Batalkan';
 }
 
 // Path: app.notifications
@@ -1003,22 +1178,427 @@ class TranslationsAppQrEn {
 	String get processing => 'Processing Asset Data...';
 }
 
-// Path: app.validation
-class TranslationsAppValidationEn {
-	TranslationsAppValidationEn._(this._root);
+// Path: app.dashboard
+class TranslationsAppDashboardEn {
+	TranslationsAppDashboardEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// en: 'Report category must be selected'
-	String get category_required => 'Report category must be selected';
+	/// en: 'Dashboard'
+	String get title => 'Dashboard';
 
-	/// en: 'Problem description is required'
-	String get description_required => 'Problem description is required';
+	/// en: 'Incoming Tickets'
+	String get ticket_masuk => 'Incoming Tickets';
 
-	/// en: 'Problem description must be at least 20 characters'
-	String get description_min_length => 'Problem description must be at least 20 characters';
+	/// en: 'incoming tickets'
+	String get ticket_masuk_desc => 'incoming tickets';
+
+	/// en: 'Processing'
+	String get proses => 'Processing';
+
+	/// en: 'tickets being processed'
+	String get proses_desc => 'tickets being processed';
+
+	/// en: 'Deadline'
+	String get deadline => 'Deadline';
+
+	/// en: 'tickets approaching deadline'
+	String get deadline_desc => 'tickets approaching deadline';
+
+	/// en: 'Reopen'
+	String get reopen => 'Reopen';
+
+	/// en: 'reopened tickets'
+	String get reopen_desc => 'reopened tickets';
+
+	/// en: 'Reporting'
+	String get pelaporan => 'Reporting';
+
+	/// en: 'Service'
+	String get pelayanan => 'Service';
+
+	/// en: 'Search filter'
+	String get filter_pencarian => 'Search filter';
+
+	/// en: 'Category'
+	String get kategori => 'Category';
+
+	/// en: 'Type'
+	String get jenis => 'Type';
+
+	/// en: 'Form'
+	String get bentuk => 'Form';
+
+	/// en: 'Sender'
+	String get pengirim => 'Sender';
+
+	/// en: 'Entry Date'
+	String get tanggal_masuk => 'Entry Date';
+
+	/// en: 'Attachments'
+	String get lampiran => 'Attachments';
+
+	/// en: 'Action'
+	String get aksi => 'Action';
+
+	/// en: 'Showing data 1 to 10 of 15 data'
+	String get showing_data => 'Showing data 1 to 10 of 15 data';
+
+	/// en: 'Report'
+	String get reportTab => 'Report';
+
+	/// en: 'Service'
+	String get serviceTab => 'Service';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
+	/// en: 'Search Filter'
+	String get filterTitle => 'Search Filter';
+
+	/// en: 'Category'
+	String get category => 'Category';
+
+	/// en: 'Form'
+	String get form => 'Form';
+
+	/// en: 'Type'
+	String get type => 'Type';
+
+	/// en: 'Status'
+	String get status => 'Status';
+
+	/// en: 'Select category'
+	String get selectCategory => 'Select category';
+
+	/// en: 'Select form'
+	String get selectForm => 'Select form';
+
+	/// en: 'Select type'
+	String get selectType => 'Select type';
+
+	/// en: 'Select status'
+	String get selectStatus => 'Select status';
+
+	/// en: 'Category'
+	String get ticket_category => 'Category';
+
+	/// en: 'Type'
+	String get ticket_type => 'Type';
+
+	/// en: 'Form'
+	String get ticket_form => 'Form';
+
+	/// en: 'Attachment'
+	String get ticket_attachment => 'Attachment';
+
+	/// en: 'View'
+	String get view => 'View';
+
+	/// en: 'Edit'
+	String get edit => 'Edit';
+
+	/// en: 'Showing data'
+	String get pagination_info => 'Showing data';
+
+	/// en: 'to'
+	String get to => 'to';
+
+	/// en: 'of'
+	String get of_total => 'of';
+
+	/// en: 'entries'
+	String get data_label => 'entries';
+
+	/// en: 'Incoming Tickets'
+	String get ticket_incoming => 'Incoming Tickets';
+
+	/// en: 'Incoming tickets'
+	String get ticket_incoming_desc => 'Incoming tickets';
+
+	/// en: 'Processing'
+	String get in_progress => 'Processing';
+
+	/// en: 'Ticket in process'
+	String get in_progress_desc => 'Ticket in process';
+
+	/// en: 'Dashboard'
+	String get menu_dashboard => 'Dashboard';
+
+	/// en: 'My Tickets'
+	String get menu_my_tickets => 'My Tickets';
+
+	/// en: 'History'
+	String get menu_history => 'History';
+
+	/// en: 'Settings'
+	String get menu_settings => 'Settings';
+
+	/// en: 'Help'
+	String get menu_help => 'Help';
+
+	/// en: 'About'
+	String get menu_about => 'About';
+
+	/// en: 'Knowledge Base'
+	String get menu_knowledge_base => 'Knowledge Base';
+}
+
+// Path: app.rfc
+class TranslationsAppRfcEn {
+	TranslationsAppRfcEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Request for Change'
+	String get rfc_title => 'Request for Change';
+
+	/// en: 'Add'
+	String get rfc_add_button => 'Add';
+
+	/// en: 'Draft'
+	String get rfc_tab_draft => 'Draft';
+
+	/// en: 'Submitted'
+	String get rfc_tab_submitted => 'Submitted';
+
+	/// en: 'Document'
+	String get rfc_document => 'Document';
+
+	/// en: 'Date Sent'
+	String get rfc_date_sent => 'Date Sent';
+
+	/// en: 'Status'
+	String get rfc_status => 'Status';
+
+	/// en: 'Action'
+	String get rfc_action => 'Action';
+
+	/// en: 'Draft'
+	String get rfc_status_draft => 'Draft';
+
+	/// en: 'Waiting Review'
+	String get rfc_status_waiting_review => 'Waiting Review';
+
+	/// en: 'Approved'
+	String get rfc_status_approved => 'Approved';
+
+	/// en: 'Rejected'
+	String get rfc_status_rejected => 'Rejected';
+
+	/// en: 'Showing data {current} to {to} of {total} data'
+	String get rfc_pagination_info => 'Showing data {current} to {to} of {total} data';
+
+	/// en: 'Status Check Document'
+	String get rfc_document_status_check => 'Status Check Document';
+
+	/// en: 'No RFC documents available.'
+	String get rfc_no_data => 'No RFC documents available.';
+
+	/// en: 'Request for Change Form'
+	String get rfc_form_title => 'Request for Change Form';
+
+	/// en: 'Submission Title'
+	String get submission_title => 'Submission Title';
+
+	/// en: 'Enter here'
+	String get submission_title_hint => 'Enter here';
+
+	/// en: 'Applicant Name'
+	String get applicant_name => 'Applicant Name';
+
+	/// en: 'Enter here'
+	String get applicant_name_hint => 'Enter here';
+
+	/// en: 'Phone Number'
+	String get phone_number => 'Phone Number';
+
+	/// en: 'Enter here'
+	String get phone_number_hint => 'Enter here';
+
+	/// en: 'Asset Category'
+	String get asset_category => 'Asset Category';
+
+	/// en: 'Select category'
+	String get asset_category_hint => 'Select category';
+
+	/// en: 'Asset Name'
+	String get asset_name => 'Asset Name';
+
+	/// en: 'Select asset'
+	String get asset_name_hint => 'Select asset';
+
+	/// en: 'Description'
+	String get description => 'Description';
+
+	/// en: 'Enter here'
+	String get description_hint => 'Enter here';
+
+	/// en: 'Change Reason'
+	String get change_reason => 'Change Reason';
+
+	/// en: 'Enter here'
+	String get change_reason_hint => 'Enter here';
+
+	/// en: 'Start Date'
+	String get start_date => 'Start Date';
+
+	/// en: '15-09-2025'
+	String get start_date_hint => '15-09-2025';
+
+	/// en: 'End Date'
+	String get end_date => 'End Date';
+
+	/// en: '16-09-2025'
+	String get end_date_hint => '16-09-2025';
+
+	/// en: 'Affected Asset'
+	String get affected_asset => 'Affected Asset';
+
+	/// en: 'Select asset'
+	String get affected_asset_hint => 'Select asset';
+
+	/// en: 'Cost Estimate'
+	String get cost_estimate => 'Cost Estimate';
+
+	/// en: ''
+	String get cost_estimate_hint => '';
+
+	/// en: 'Change Impact'
+	String get change_impact => 'Change Impact';
+
+	/// en: 'Enter here'
+	String get change_impact_hint => 'Enter here';
+
+	/// en: 'Impact If Change Not Made'
+	String get no_change_impact => 'Impact If Change Not Made';
+
+	/// en: 'Enter here'
+	String get no_change_impact_hint => 'Enter here';
+
+	/// en: 'Cancel'
+	String get button_cancel => 'Cancel';
+
+	/// en: 'Save Draft'
+	String get button_save_draft => 'Save Draft';
+
+	/// en: 'Submit'
+	String get button_submit => 'Submit';
+
+	/// en: 'This field is required'
+	String get validation_required => 'This field is required';
+
+	/// en: 'Phone number is invalid'
+	String get validation_phone_invalid => 'Phone number is invalid';
+
+	/// en: 'Please select asset category'
+	String get validation_category_required => 'Please select asset category';
+
+	/// en: 'Please select asset name'
+	String get validation_asset_required => 'Please select asset name';
+
+	/// en: 'Please select date range'
+	String get validation_date_required => 'Please select date range';
+
+	/// en: 'Please select affected asset'
+	String get validation_affected_asset_required => 'Please select affected asset';
+
+	/// en: 'Draft saved successfully'
+	String get message_draft_saved => 'Draft saved successfully';
+
+	/// en: 'RFC submitted successfully'
+	String get message_submit_success => 'RFC submitted successfully';
+}
+
+// Path: app.rating
+class TranslationsAppRatingEn {
+	TranslationsAppRatingEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Rating'
+	String get rating_title => 'Rating';
+
+	/// en: 'Satisfaction Rating'
+	String get page_title => 'Satisfaction Rating';
+
+	/// en: 'Ticket Rating Detail'
+	String get detail_title => 'Ticket Rating Detail';
+
+	/// en: 'Back'
+	String get back_button => 'Back';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
+	/// en: 'Reporting'
+	String get tab_reporting => 'Reporting';
+
+	/// en: 'Service'
+	String get tab_service => 'Service';
+
+	/// en: 'Search Filter'
+	String get filter_search => 'Search Filter';
+
+	/// en: 'Category'
+	String get filter_category => 'Category';
+
+	/// en: 'Form'
+	String get filter_form => 'Form';
+
+	/// en: 'Type'
+	String get filter_type => 'Type';
+
+	/// en: 'Rating'
+	String get filter_rating => 'Rating';
+
+	/// en: 'No data available'
+	String get no_data => 'No data available';
+
+	/// en: 'Showing data {start} to {end} of {total} data'
+	String get pagination_info => 'Showing data {start} to {end} of {total} data';
+}
+
+// Path: app.rating_detail
+class TranslationsAppRatingDetailEn {
+	TranslationsAppRatingDetailEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Rating'
+	String get page_title => 'Rating';
+
+	/// en: 'Sender'
+	String get sender_label => 'Sender';
+
+	/// en: 'Ticket ID'
+	String get ticket_id_label => 'Ticket ID';
+
+	/// en: 'Our Service Satisfaction Rating'
+	String get satisfaction_rating_label => 'Our Service Satisfaction Rating';
+
+	/// en: 'Comment'
+	String get comment_label => 'Comment';
+
+	/// en: 'Ease of Use'
+	String get ease_of_use => 'Ease of Use';
+
+	/// en: 'Response Speed'
+	String get response_speed => 'Response Speed';
+
+	/// en: 'Solution Quality'
+	String get solution_quality => 'Solution Quality';
+
+	/// en: 'Back'
+	String get button_cancel => 'Back';
 }
 
 /// Flat map(s) containing all translations.
@@ -1260,6 +1840,57 @@ extension on Translations {
 			case 'app.sending_report': return 'Sending report...';
 			case 'app.ok': return 'OK';
 			case 'app.status': return 'Status';
+			case 'app.ticket_detail': return 'Ticket Detail';
+			case 'app.ticket_detail_placeholder': return 'Ticket detail page (placeholder)';
+			case 'app.ticket_detail_title': return 'Ticket Detail';
+			case 'app.ticket_sender': return 'Sender';
+			case 'app.ticket_report_id': return 'Report ID';
+			case 'app.ticket_priority': return 'Priority';
+			case 'app.ticket_update_status': return 'Update Status';
+			case 'app.ticket_report_title': return 'Report Title';
+			case 'app.ticket_asset_category': return 'Asset Category';
+			case 'app.ticket_asset_type': return 'Asset Type';
+			case 'app.ticket_asset_form': return 'Asset Form';
+			case 'app.ticket_asset_data': return 'Asset Data';
+			case 'app.ticket_incident_location': return 'Incident Location';
+			case 'app.ticket_start_date': return 'Start Date';
+			case 'app.ticket_end_date': return 'End Date';
+			case 'app.ticket_problem_detail': return 'Problem Details';
+			case 'app.ticket_attachments': return 'Attachments';
+			case 'app.ticket_expected_solution': return 'Expected Resolution';
+			case 'app.status_draft': return 'Draft';
+			case 'app.status_in_progress': return 'In Progress';
+			case 'app.status_completed': return 'Completed';
+			case 'app.button_cancel': return 'Cancel';
+			case 'app.button_save_draft': return 'Save Draft';
+			case 'app.button_update': return 'Update';
+			case 'app.message_draft_saved': return 'Draft saved successfully';
+			case 'app.message_status_updated': return 'Status updated successfully';
+			case 'app.report_title_label': return 'Report Title';
+			case 'app.report_title_hint': return 'Enter here';
+			case 'app.category_label': return 'Report Category';
+			case 'app.category_label_service': return 'Service Category';
+			case 'app.asset_type_label': return 'Asset Type';
+			case 'app.asset_form_label': return 'Asset Form';
+			case 'app.asset_data_label': return 'Asset Data';
+			case 'app.location_label': return 'Incident Location';
+			case 'app.location_hint': return 'Enter here';
+			case 'app.expected_solution_label': return 'Expected Solution';
+			case 'app.expected_solution_hint': return 'Enter here...';
+			case 'app.request_title_label': return 'Judul Permintaan';
+			case 'app.request_title_hint': return 'Masukkan judul permintaan layanan';
+			case 'app.problem_label': return 'Rincian Permintaan';
+			case 'app.problem_hint': return 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
+			case 'app.search_opd_hint': return 'Search OPD name...';
+			case 'app.validation.title_required': return 'Report title is required';
+			case 'app.validation.asset_type_required': return 'Asset type is required';
+			case 'app.validation.asset_form_required': return 'Asset form is required';
+			case 'app.validation.asset_data_required': return 'Asset data is required';
+			case 'app.validation.location_required': return 'Incident location is required';
+			case 'app.validation.expected_solution_required': return 'Expected solution is required';
+			case 'app.validation.category_required': return 'Report category must be selected';
+			case 'app.validation.description_required': return 'Problem description is required';
+			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
@@ -1277,6 +1908,9 @@ extension on Translations {
 			case 'app.dialog.continue_filling': return 'Continue Filling';
 			case 'app.dialog.cancel_report': return 'Cancel';
 			case 'app.dialog.incomplete_form_title': return 'Incomplete Form';
+			case 'app.dialog.cancel_request_title': return 'Batalkan Permintaan?';
+			case 'app.dialog.cancel_request_message': return 'Anda yakin ingin membatalkan pengisian formulir ini?';
+			case 'app.dialog.cancel_request': return 'Batalkan';
 			case 'app.notifications.title': return 'Notifications';
 			case 'app.notifications.search_placeholder': return 'Search notifications...';
 			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
@@ -1326,9 +1960,135 @@ extension on Translations {
 			case 'app.qr.create_report_based_on_asset': return 'Create Report Based on This Asset';
 			case 'app.qr.invalid_qr_message': return 'Invalid QR data. Please scan a valid asset QR code.';
 			case 'app.qr.processing': return 'Processing Asset Data...';
-			case 'app.validation.category_required': return 'Report category must be selected';
-			case 'app.validation.description_required': return 'Problem description is required';
-			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
+			case 'app.dashboard.title': return 'Dashboard';
+			case 'app.dashboard.ticket_masuk': return 'Incoming Tickets';
+			case 'app.dashboard.ticket_masuk_desc': return 'incoming tickets';
+			case 'app.dashboard.proses': return 'Processing';
+			case 'app.dashboard.proses_desc': return 'tickets being processed';
+			case 'app.dashboard.deadline': return 'Deadline';
+			case 'app.dashboard.deadline_desc': return 'tickets approaching deadline';
+			case 'app.dashboard.reopen': return 'Reopen';
+			case 'app.dashboard.reopen_desc': return 'reopened tickets';
+			case 'app.dashboard.pelaporan': return 'Reporting';
+			case 'app.dashboard.pelayanan': return 'Service';
+			case 'app.dashboard.filter_pencarian': return 'Search filter';
+			case 'app.dashboard.kategori': return 'Category';
+			case 'app.dashboard.jenis': return 'Type';
+			case 'app.dashboard.bentuk': return 'Form';
+			case 'app.dashboard.pengirim': return 'Sender';
+			case 'app.dashboard.tanggal_masuk': return 'Entry Date';
+			case 'app.dashboard.lampiran': return 'Attachments';
+			case 'app.dashboard.aksi': return 'Action';
+			case 'app.dashboard.showing_data': return 'Showing data 1 to 10 of 15 data';
+			case 'app.dashboard.reportTab': return 'Report';
+			case 'app.dashboard.serviceTab': return 'Service';
+			case 'app.dashboard.refresh': return 'Refresh';
+			case 'app.dashboard.filterTitle': return 'Search Filter';
+			case 'app.dashboard.category': return 'Category';
+			case 'app.dashboard.form': return 'Form';
+			case 'app.dashboard.type': return 'Type';
+			case 'app.dashboard.status': return 'Status';
+			case 'app.dashboard.selectCategory': return 'Select category';
+			case 'app.dashboard.selectForm': return 'Select form';
+			case 'app.dashboard.selectType': return 'Select type';
+			case 'app.dashboard.selectStatus': return 'Select status';
+			case 'app.dashboard.ticket_category': return 'Category';
+			case 'app.dashboard.ticket_type': return 'Type';
+			case 'app.dashboard.ticket_form': return 'Form';
+			case 'app.dashboard.ticket_attachment': return 'Attachment';
+			case 'app.dashboard.view': return 'View';
+			case 'app.dashboard.edit': return 'Edit';
+			case 'app.dashboard.pagination_info': return 'Showing data';
+			case 'app.dashboard.to': return 'to';
+			case 'app.dashboard.of_total': return 'of';
+			case 'app.dashboard.data_label': return 'entries';
+			case 'app.dashboard.ticket_incoming': return 'Incoming Tickets';
+			case 'app.dashboard.ticket_incoming_desc': return 'Incoming tickets';
+			case 'app.dashboard.in_progress': return 'Processing';
+			case 'app.dashboard.in_progress_desc': return 'Ticket in process';
+			case 'app.dashboard.menu_dashboard': return 'Dashboard';
+			case 'app.dashboard.menu_my_tickets': return 'My Tickets';
+			case 'app.dashboard.menu_history': return 'History';
+			case 'app.dashboard.menu_settings': return 'Settings';
+			case 'app.dashboard.menu_help': return 'Help';
+			case 'app.dashboard.menu_about': return 'About';
+			case 'app.dashboard.menu_knowledge_base': return 'Knowledge Base';
+			case 'app.rfc.rfc_title': return 'Request for Change';
+			case 'app.rfc.rfc_add_button': return 'Add';
+			case 'app.rfc.rfc_tab_draft': return 'Draft';
+			case 'app.rfc.rfc_tab_submitted': return 'Submitted';
+			case 'app.rfc.rfc_document': return 'Document';
+			case 'app.rfc.rfc_date_sent': return 'Date Sent';
+			case 'app.rfc.rfc_status': return 'Status';
+			case 'app.rfc.rfc_action': return 'Action';
+			case 'app.rfc.rfc_status_draft': return 'Draft';
+			case 'app.rfc.rfc_status_waiting_review': return 'Waiting Review';
+			case 'app.rfc.rfc_status_approved': return 'Approved';
+			case 'app.rfc.rfc_status_rejected': return 'Rejected';
+			case 'app.rfc.rfc_pagination_info': return 'Showing data {current} to {to} of {total} data';
+			case 'app.rfc.rfc_document_status_check': return 'Status Check Document';
+			case 'app.rfc.rfc_no_data': return 'No RFC documents available.';
+			case 'app.rfc.rfc_form_title': return 'Request for Change Form';
+			case 'app.rfc.submission_title': return 'Submission Title';
+			case 'app.rfc.submission_title_hint': return 'Enter here';
+			case 'app.rfc.applicant_name': return 'Applicant Name';
+			case 'app.rfc.applicant_name_hint': return 'Enter here';
+			case 'app.rfc.phone_number': return 'Phone Number';
+			case 'app.rfc.phone_number_hint': return 'Enter here';
+			case 'app.rfc.asset_category': return 'Asset Category';
+			case 'app.rfc.asset_category_hint': return 'Select category';
+			case 'app.rfc.asset_name': return 'Asset Name';
+			case 'app.rfc.asset_name_hint': return 'Select asset';
+			case 'app.rfc.description': return 'Description';
+			case 'app.rfc.description_hint': return 'Enter here';
+			case 'app.rfc.change_reason': return 'Change Reason';
+			case 'app.rfc.change_reason_hint': return 'Enter here';
+			case 'app.rfc.start_date': return 'Start Date';
+			case 'app.rfc.start_date_hint': return '15-09-2025';
+			case 'app.rfc.end_date': return 'End Date';
+			case 'app.rfc.end_date_hint': return '16-09-2025';
+			case 'app.rfc.affected_asset': return 'Affected Asset';
+			case 'app.rfc.affected_asset_hint': return 'Select asset';
+			case 'app.rfc.cost_estimate': return 'Cost Estimate';
+			case 'app.rfc.cost_estimate_hint': return '';
+			case 'app.rfc.change_impact': return 'Change Impact';
+			case 'app.rfc.change_impact_hint': return 'Enter here';
+			case 'app.rfc.no_change_impact': return 'Impact If Change Not Made';
+			case 'app.rfc.no_change_impact_hint': return 'Enter here';
+			case 'app.rfc.button_cancel': return 'Cancel';
+			case 'app.rfc.button_save_draft': return 'Save Draft';
+			case 'app.rfc.button_submit': return 'Submit';
+			case 'app.rfc.validation_required': return 'This field is required';
+			case 'app.rfc.validation_phone_invalid': return 'Phone number is invalid';
+			case 'app.rfc.validation_category_required': return 'Please select asset category';
+			case 'app.rfc.validation_asset_required': return 'Please select asset name';
+			case 'app.rfc.validation_date_required': return 'Please select date range';
+			case 'app.rfc.validation_affected_asset_required': return 'Please select affected asset';
+			case 'app.rfc.message_draft_saved': return 'Draft saved successfully';
+			case 'app.rfc.message_submit_success': return 'RFC submitted successfully';
+			case 'app.rating.rating_title': return 'Rating';
+			case 'app.rating.page_title': return 'Satisfaction Rating';
+			case 'app.rating.detail_title': return 'Ticket Rating Detail';
+			case 'app.rating.back_button': return 'Back';
+			case 'app.rating.refresh': return 'Refresh';
+			case 'app.rating.tab_reporting': return 'Reporting';
+			case 'app.rating.tab_service': return 'Service';
+			case 'app.rating.filter_search': return 'Search Filter';
+			case 'app.rating.filter_category': return 'Category';
+			case 'app.rating.filter_form': return 'Form';
+			case 'app.rating.filter_type': return 'Type';
+			case 'app.rating.filter_rating': return 'Rating';
+			case 'app.rating.no_data': return 'No data available';
+			case 'app.rating.pagination_info': return 'Showing data {start} to {end} of {total} data';
+			case 'app.rating_detail.page_title': return 'Rating';
+			case 'app.rating_detail.sender_label': return 'Sender';
+			case 'app.rating_detail.ticket_id_label': return 'Ticket ID';
+			case 'app.rating_detail.satisfaction_rating_label': return 'Our Service Satisfaction Rating';
+			case 'app.rating_detail.comment_label': return 'Comment';
+			case 'app.rating_detail.ease_of_use': return 'Ease of Use';
+			case 'app.rating_detail.response_speed': return 'Response Speed';
+			case 'app.rating_detail.solution_quality': return 'Solution Quality';
+			case 'app.rating_detail.button_cancel': return 'Back';
 			default: return null;
 		}
 	}

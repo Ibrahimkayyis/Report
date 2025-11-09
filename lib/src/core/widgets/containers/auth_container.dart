@@ -33,7 +33,7 @@ class AuthContainer extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.1),
+            color: ColorName.black.withValues(alpha:0.1),
             blurRadius: elevation ?? 10.r,
             offset: Offset(0, 4.h),
           ),

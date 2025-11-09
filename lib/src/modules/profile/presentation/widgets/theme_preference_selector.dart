@@ -85,7 +85,7 @@ class ThemePreferenceSelector extends StatelessWidget {
                         boxShadow: isSelected
                             ? [
                                 BoxShadow(
-                                  color: ColorName.primary.withOpacity(0.15),
+                                  color: ColorName.primary.withValues(alpha:0.15),
                                   blurRadius: 8,
                                   offset: const Offset(0, 3),
                                 ),

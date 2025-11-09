@@ -2,7 +2,10 @@ import 'dart:typed_data';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:report/src/core/router/auth_guard.dart';
+import 'package:report/src/modules/auth/presentation/cubits/auth/auth_guard.dart';
+import 'package:report/src/modules/masyarakat_home/presentation/screens/home_masyarakat_screen.dart';
+import 'package:report/src/modules/teknisi_home/presentation/screens/home_teknisi_screen.dart';
+import 'package:report/src/modules/teknisi_main_layout/presentation/screens/main_layout_teknisi_screen.dart';
 import 'package:report/src/modules/notification/presentation/screens/notification_screen.dart';
 import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
 import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
@@ -12,6 +15,7 @@ import 'package:report/src/modules/report_activity/presentation/screens/activity
 import 'package:report/src/modules/reporting/presentation/screens/opd_selection_screen.dart';
 import 'package:report/src/modules/reporting/presentation/screens/report_success_screen.dart';
 import 'package:report/src/modules/reporting/presentation/screens/reporting_form_screen.dart';
+import 'package:report/src/modules/test_helper/presentation/screens/test_helper_screen.dart';
 import '../../modules/auth/presentation/screens/splash/splash_screen.dart';
 import '../../modules/auth/presentation/screens/register/register_screen.dart';
 import '../../modules/auth/presentation/screens/login/login_screen.dart';
@@ -27,6 +31,15 @@ import 'package:report/src/modules/helpdesk/presentation/screens/helpdesk_chat_s
 import 'package:report/src/modules/report_activity/presentation/screens/check_report_status_result_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/edit_theme_screen.dart';
+import 'package:report/src/modules/teknisi_ticket_handling/presentation/screens/teknisi_ticket_detail_screen.dart';
+import 'package:report/src/modules/teknisi_rfc/presentation/screens/rfc_screen.dart';
+import 'package:report/src/modules/teknisi_rfc/presentation/screens/rfc_form_screen.dart';
+import 'package:report/src/modules/teknisi_rating/presentation/screens/teknisi_rating_screen.dart';
+import 'package:report/src/modules/teknisi_rating/presentation/screens/teknisi_rating_detail_screen.dart';
+import 'package:report/src/modules/masyarakat_main_layout/presentation/screens/main_layout_masyarakat_screen.dart';
+
+
+
 
 
 
@@ -65,6 +78,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: HomeRoute.page),
     AutoRoute(page: MainLayoutRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: MainLayoutTeknisiRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: MainLayoutMasyarakatRoute.page, guards: [AuthGuard()]),
     AutoRoute(page: OpdSelectionRoute.page),
     AutoRoute(page: ReportingFormRoute.page),
     AutoRoute(page: ReportSuccessRoute.page),
@@ -78,5 +93,11 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: EditProfileRoute.page),
     AutoRoute(page: EditThemeRoute.page),
     AutoRoute(page: QRAssetDetailRoute.page),
+    AutoRoute(page: TeknisiTicketDetailRoute.page),
+    AutoRoute(page: TeknisiRatingRoute.page),
+    AutoRoute(page: TeknisiRatingDetailRoute.page),
+    AutoRoute(page: RFCRoute.page),
+    AutoRoute(page: RFCFormRoute.page),
+    AutoRoute(page: TestHelperRoute.page),
   ];
 }

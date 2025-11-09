@@ -319,7 +319,7 @@ class _UploadFileDialogState extends State<UploadFileDialog> {
                             ),
                           ),
                           child: Text(
-                            'Selesai (${_getCompletedCount()})',
+                            'Selesai',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -547,13 +547,13 @@ class _UploadFileDialogState extends State<UploadFileDialog> {
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
           color: fileModel.status == FileUploadStatus.uploading
-              ? ColorName.primary.withOpacity(0.5)
+              ? ColorName.primary.withValues(alpha:0.5)
               : Colors.transparent,
           width: fileModel.status == FileUploadStatus.uploading ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha:0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -627,7 +627,7 @@ class _UploadFileDialogState extends State<UploadFileDialog> {
                             vertical: 2.h,
                           ),
                           decoration: BoxDecoration(
-                            color: statusColor.withOpacity(0.1),
+                            color: statusColor.withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Row(
@@ -740,10 +740,6 @@ class _UploadFileDialogState extends State<UploadFileDialog> {
         _files.any((f) => f.status == FileUploadStatus.complete);
   }
 
-  // Get completed files count
-  int _getCompletedCount() {
-    return _files.where((f) => f.status == FileUploadStatus.complete).length;
-  }
 
   // Get overall status text
   String _getOverallStatus() {

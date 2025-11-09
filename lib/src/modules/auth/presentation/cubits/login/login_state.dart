@@ -11,12 +11,15 @@ class LoginInitial extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
+/// ✅ Sekarang LoginSuccess membawa token dan role
 class LoginSuccess extends LoginState {
   final String token;
-  const LoginSuccess(this.token);
+  final String role;
+
+  const LoginSuccess(this.token, this.role);
 
   @override
-  List<Object?> get props => [token];
+  List<Object?> get props => [token, role];
 }
 
 class LoginFailure extends LoginState {

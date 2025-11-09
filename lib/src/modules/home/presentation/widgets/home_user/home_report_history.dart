@@ -37,7 +37,7 @@ class HomeReportHistory extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: ColorName.black.withOpacity(0.05),
+                color: ColorName.black.withValues(alpha:0.05),
                 blurRadius: 4.r,
                 offset: Offset(0, 2.h),
               ),

@@ -111,7 +111,7 @@ class _HelpdeskChatScreenState extends State<HelpdeskChatScreen> {
                             ),
                             closedShadow: [
                               BoxShadow(
-                                color: ColorName.black.withOpacity(0.1),
+                                color: ColorName.black.withValues(alpha:0.1),
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
                               ),
@@ -196,7 +196,7 @@ class _HelpdeskChatScreenState extends State<HelpdeskChatScreen> {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: ColorName.black.withOpacity(0.05),
+                                          color: ColorName.black.withValues(alpha:0.05),
                                           blurRadius: 4,
                                           offset: const Offset(0, 2),
                                         ),
@@ -221,7 +221,7 @@ class _HelpdeskChatScreenState extends State<HelpdeskChatScreen> {
                                     child: CircleAvatar(
                                       radius: 16.r,
                                       backgroundColor: ColorName.primary
-                                          .withOpacity(0.2),
+                                          .withValues(alpha:0.2),
                                       backgroundImage: AssetImage(
                                         Assets.images.userAvatar.path,
                                       ),
@@ -249,7 +249,7 @@ class _HelpdeskChatScreenState extends State<HelpdeskChatScreen> {
                         borderRadius: BorderRadius.circular(30.r),
                         boxShadow: [
                           BoxShadow(
-                            color: ColorName.black.withOpacity(0.08),
+                            color: ColorName.black.withValues(alpha:0.08),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

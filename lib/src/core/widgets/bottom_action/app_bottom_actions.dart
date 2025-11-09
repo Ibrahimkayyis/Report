@@ -50,7 +50,7 @@ class AppBottomActions extends StatelessWidget {
         color: ColorName.white,
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.05),
+            color: ColorName.black.withValues(alpha:0.05),
             blurRadius: 8.r,
             offset: Offset(0, -2.h),
           ),

@@ -29,7 +29,7 @@ class NotificationItem extends StatelessWidget {
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
         color:
-            isRead ? ColorName.background : ColorName.primary.withOpacity(0.06),
+            isRead ? ColorName.background : ColorName.primary.withValues(alpha:0.06),
         borderRadius: BorderRadius.circular(12.r),
       ),
       margin: EdgeInsets.only(bottom: 10.h),
@@ -78,7 +78,7 @@ class NotificationItem extends StatelessWidget {
                       t.time_ago.replaceAll('{time}', time),
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: ColorName.textPrimary.withOpacity(0.6),
+                        color: ColorName.textPrimary.withValues(alpha:0.6),
                       ),
                     ),
                   ],
@@ -91,7 +91,7 @@ class NotificationItem extends StatelessWidget {
                   description,
                   style: TextStyle(
                     fontSize: 13.sp,
-                    color: ColorName.textPrimary.withOpacity(0.8),
+                    color: ColorName.textPrimary.withValues(alpha:0.8),
                     height: 1.4,
                   ),
                 ),

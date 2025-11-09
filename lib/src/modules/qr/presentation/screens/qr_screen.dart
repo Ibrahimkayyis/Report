@@ -7,7 +7,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
-import 'package:image/image.dart' as img; 
+import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class QRScreen extends StatefulWidget {
@@ -70,18 +70,43 @@ class _QRScreenState extends State<QRScreen>
     _scanLineController.stop();
 
     // ambil frame terakhir dari kamera
-    final image =
-        capture.image; // MobileScanner 3.x punya field ini (Uint8List)
+    final image = capture.image;
     Uint8List? capturedBytes;
     if (image != null) {
       capturedBytes = image;
     }
 
     // tampilkan animasi loading
+    _showLoadingDialog();
+
+    await Future.delayed(const Duration(seconds: 1, milliseconds: 300));
+    if (!mounted) return;
+
+    Navigator.of(context, rootNavigator: true).pop();
+
+    // navigasi ke detail screen, kirim qrImageBytes
+    await context.pushRoute(
+      QRAssetDetailRoute(
+        qrValue: value,
+        qrImageBytes: capturedBytes,
+      ),
+    );
+
+    if (!mounted) return;
+
+    await _controller.start();
+    _scanLineController
+      ..reset()
+      ..repeat(reverse: true);
+
+    setState(() => _isProcessing = false);
+  }
+
+  void _showLoadingDialog() {
     showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.4),
+      barrierColor: Colors.black.withValues(alpha: 0.4),
       builder: (_) => Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -99,28 +124,109 @@ class _QRScreenState extends State<QRScreen>
         ),
       ),
     );
+  }
 
-    await Future.delayed(const Duration(seconds: 1, milliseconds: 300));
-    if (!mounted) return;
+  Future<void> _pickImageAndScan() async {
+    if (_isProcessing) return;
 
-    Navigator.of(context, rootNavigator: true).pop();
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+      );
 
-    // navigasi ke detail screen, kirim qrImageBytes
-    await context.pushRoute(
-      QRAssetDetailRoute(
-        qrValue: value,
-        qrImageBytes: capturedBytes, // << kirim hasil frame kamera
+      if (image == null) return;
+
+      setState(() => _isProcessing = true);
+
+      // Hentikan kamera sementara
+      await _controller.stop();
+      _scanLineController.stop();
+
+      _showLoadingDialog();
+
+      // Baca file gambar
+      final Uint8List imageBytes = await image.readAsBytes();
+
+      // Scan QR code dari gambar menggunakan mobile_scanner
+      final BarcodeCapture? result = await _controller.analyzeImage(image.path);
+
+      if (!mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (result == null || result.barcodes.isEmpty) {
+        // Tidak ada QR code ditemukan
+        _showErrorDialog('Tidak ada QR code yang ditemukan dalam gambar');
+        
+        // Restart kamera
+        await _controller.start();
+        _scanLineController
+          ..reset()
+          ..repeat(reverse: true);
+        setState(() => _isProcessing = false);
+        return;
+      }
+
+      final barcode = result.barcodes.first;
+      final value = barcode.rawValue;
+
+      if (value == null || value.isEmpty) {
+        _showErrorDialog('QR code tidak valid');
+        
+        await _controller.start();
+        _scanLineController
+          ..reset()
+          ..repeat(reverse: true);
+        setState(() => _isProcessing = false);
+        return;
+      }
+
+      // Navigasi ke detail screen dengan hasil scan
+      await context.pushRoute(
+        QRAssetDetailRoute(
+          qrValue: value,
+          qrImageBytes: imageBytes,
+        ),
+      );
+
+      if (!mounted) return;
+
+      // Restart kamera
+      await _controller.start();
+      _scanLineController
+        ..reset()
+        ..repeat(reverse: true);
+
+      setState(() => _isProcessing = false);
+    } catch (e) {
+      if (!mounted) return;
+      
+      Navigator.of(context, rootNavigator: true).pop();
+      _showErrorDialog('Gagal memproses gambar: ${e.toString()}');
+
+      await _controller.start();
+      _scanLineController
+        ..reset()
+        ..repeat(reverse: true);
+      setState(() => _isProcessing = false);
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
-
-    if (!mounted) return;
-
-    await _controller.start();
-    _scanLineController
-      ..reset()
-      ..repeat(reverse: true);
-
-    setState(() => _isProcessing = false);
   }
 
   @override
@@ -185,7 +291,7 @@ class _QRScreenState extends State<QRScreen>
                 children: [
                   SizedBox(height: 40.h),
                   Text(
-                    t.title ?? 'Scan QR Code',
+                    t.title,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22.sp,
@@ -199,7 +305,7 @@ class _QRScreenState extends State<QRScreen>
                       t.instruction,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         fontSize: 14.sp,
                       ),
                     ),
@@ -235,9 +341,7 @@ class _QRScreenState extends State<QRScreen>
                 SizedBox(width: 60.w),
                 _buildBottomButton(
                   icon: Icon(Icons.image, color: Colors.white, size: 28.sp),
-                  onPressed: () {
-                    // TODO: Implement gallery picker
-                  },
+                  onPressed: _pickImageAndScan,
                 ),
               ],
             ),
@@ -253,7 +357,7 @@ class _QRScreenState extends State<QRScreen>
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.4),
+        color: Colors.black.withValues(alpha: 0.4),
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -282,7 +386,7 @@ class QRScannerOverlayPainter extends CustomPainter {
     final bottom = top + scanAreaSize;
 
     // overlay gelap
-    final overlayPaint = Paint()..color = Colors.black.withOpacity(0.55);
+    final overlayPaint = Paint()..color = Colors.black.withValues(alpha: 0.55);
     canvas.drawPath(
       Path()
         ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
@@ -351,25 +455,31 @@ class ScanLinePainter extends CustomPainter {
     final right = left + scanAreaSize;
     final bottom = top + scanAreaSize;
 
-    // Hitung posisi Y berdasarkan progress (0.0 = top, 1.0 = bottom)
-    final scanY = top + (bottom - top) * progress;
+    // Tinggi gradient effect
+    final gradientHeight = 8.0;
+    
+    // Hitung posisi Y berdasarkan progress dengan padding agar tidak keluar
+    // Tambahkan padding setengah dari gradientHeight di atas dan bawah
+    final padding = gradientHeight / 2;
+    final effectiveTop = top + padding;
+    final effectiveBottom = bottom - padding;
+    final scanY = effectiveTop + (effectiveBottom - effectiveTop) * progress;
 
     // Gradient untuk efek glow yang lebih halus
     final gradient = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        ColorName.primary.withOpacity(0.0),
-        ColorName.primary.withOpacity(0.3),
+        ColorName.primary.withValues(alpha: 0.0),
+        ColorName.primary.withValues(alpha: 0.3),
         ColorName.primary,
-        ColorName.primary.withOpacity(0.3),
-        ColorName.primary.withOpacity(0.0),
+        ColorName.primary.withValues(alpha: 0.3),
+        ColorName.primary.withValues(alpha: 0.0),
       ],
       stops: const [0.0, 0.3, 0.5, 0.7, 1.0],
     );
 
-    // Area untuk gradient (tinggi 8px untuk efek yang lebih smooth)
-    final gradientHeight = 8.0;
+    // Area untuk gradient
     final rect = Rect.fromLTWH(
       left + 8,
       scanY - gradientHeight / 2,
@@ -398,7 +508,7 @@ class ScanLinePainter extends CustomPainter {
 
     // Shadow/glow effect tambahan untuk depth
     final shadowPaint = Paint()
-      ..color = ColorName.primary.withOpacity(0.4)
+      ..color = ColorName.primary.withValues(alpha: 0.4)
       ..strokeWidth = 6.0
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round

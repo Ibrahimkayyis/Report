@@ -54,7 +54,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha:0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -79,7 +79,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                               t.qr_preview_label,
                               style: TextStyle(
                                 fontSize: 13.sp,
-                                color: ColorName.textPrimary.withOpacity(0.7),
+                                color: ColorName.textPrimary.withValues(alpha:0.7),
                               ),
                             ),
                           ],
@@ -97,7 +97,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha:0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
@@ -123,7 +123,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: ColorName.textPrimary.withOpacity(0.7),
+                              color: ColorName.textPrimary.withValues(alpha:0.7),
                             ),
                           ),
                         ),
@@ -203,7 +203,7 @@ class QRAssetDetailScreen extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 13.sp,
-              color: ColorName.textPrimary.withOpacity(0.6),
+              color: ColorName.textPrimary.withValues(alpha:0.6),
             ),
           ),
           SizedBox(height: 4.h),

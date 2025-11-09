@@ -48,7 +48,7 @@ class SuccessCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withOpacity(0.08),
+            color: ColorName.black.withValues(alpha:0.08),
             blurRadius: 12.r,
             offset: Offset(0, 4.h),
           ),

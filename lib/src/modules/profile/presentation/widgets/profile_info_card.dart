@@ -27,7 +27,7 @@ class ProfileInfoCard extends StatelessWidget {
         boxShadow: [
           // Stronger primary shadow for more visible depth
           BoxShadow(
-            color: ColorName.black.withOpacity(0.18),
+            color: ColorName.black.withValues(alpha:0.18),
             blurRadius: 26.r,
             spreadRadius: 1.r,
             offset: Offset(0, 8.h),

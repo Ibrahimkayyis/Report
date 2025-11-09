@@ -22,7 +22,7 @@ class OpdCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.r),
               boxShadow: [
                 BoxShadow(
-                  color: ColorName.primary.withOpacity(0.18),
+                  color: ColorName.primary.withValues(alpha: 0.18),
                   blurRadius: 4.r,
                   offset: Offset(0, 2.h),
                 ),
@@ -38,7 +38,7 @@ class OpdCard extends StatelessWidget {
                     color: opd.color,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: Icon(opd.icon, color: ColorName.white, size: 24.sp),
+                  child: _buildIcon(),
                 ),
                 SizedBox(width: 14.w),
 
@@ -58,7 +58,7 @@ class OpdCard extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 16.sp,
-                  color: ColorName.onPrimary.withOpacity(0.7),
+                  color: ColorName.onPrimary.withValues(alpha: 0.7),
                 ),
               ],
             ),
@@ -67,10 +67,23 @@ class OpdCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildIcon() {
+    if (opd.iconUrl != null && opd.iconUrl!.isNotEmpty) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10.r),
+        child: Image.network(
+          opd.iconUrl!,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => Icon(opd.fallbackIcon, color: ColorName.white, size: 24.sp),
+        ),
+      );
+    }
+    return Icon(opd.fallbackIcon, color: ColorName.white, size: 24.sp);
+  }
 }
 
 // 🌟 SHIMMER VERSION
-// 🌟 SHIMMER VERSION (lebih mirip card asli)
 class OpdShimmerCard extends StatelessWidget {
   const OpdShimmerCard({super.key});
 
@@ -84,12 +97,11 @@ class OpdShimmerCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           decoration: BoxDecoration(
-            color: ColorName.primary.withOpacity(0.15), // agar serupa card
+            color: ColorName.primary.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
             children: [
-              // 🔘 Placeholder icon container (kiri)
               Container(
                 width: 44.w,
                 height: 44.w,
@@ -97,16 +109,8 @@ class OpdShimmerCard extends StatelessWidget {
                   color: Colors.grey.shade400,
                   borderRadius: BorderRadius.circular(10.r),
                 ),
-                child: const Icon(
-                  Icons.apartment,
-                  color: Colors.white70,
-                  size: 24,
-                ),
               ),
-
               SizedBox(width: 14.w),
-
-              // 🔹 Placeholder teks (nama OPD)
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,21 +135,13 @@ class OpdShimmerCard extends StatelessWidget {
                   ],
                 ),
               ),
-
               SizedBox(width: 10.w),
-
-              // 🔸 Placeholder icon panah (kanan)
               Container(
                 width: 16.w,
                 height: 16.w,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade400,
                   borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 10,
-                  color: Colors.white70,
                 ),
               ),
             ],
@@ -155,4 +151,3 @@ class OpdShimmerCard extends StatelessWidget {
     );
   }
 }
-

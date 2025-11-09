@@ -43,7 +43,7 @@ class FontSizeSelector extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha:0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 3),
               ),
@@ -61,7 +61,7 @@ class FontSizeSelector extends StatelessWidget {
                   padding: EdgeInsets.all(isSelected ? 10.w : 8.w),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isSelected ? ColorName.primary.withOpacity(0.1) : Colors.transparent,
+                    color: isSelected ? ColorName.primary.withValues(alpha:0.1) : Colors.transparent,
                   ),
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),

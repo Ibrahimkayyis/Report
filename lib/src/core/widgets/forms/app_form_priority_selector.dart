@@ -65,7 +65,7 @@ class AppFormPrioritySelector extends StatelessWidget {
                       color: isSelected ? color : ColorName.white,
                       borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
-                        color: isSelected ? color : color.withOpacity(0.5),
+                        color: isSelected ? color : color.withValues(alpha:0.5),
                         width: isSelected ? 2.w : 1.w,
                       ),
                     ),

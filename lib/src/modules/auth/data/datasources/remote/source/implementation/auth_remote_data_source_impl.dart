@@ -24,8 +24,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "first_name": firstName,
       "last_name": lastName,
       "password": password,
-      // role mungkin tidak diperlukan dari UI, backend default 'masyarakat'
-      // tambahkan field opsional hanya jika tidak null
     };
 
     if (phoneNumber != null && phoneNumber.isNotEmpty) {
@@ -37,7 +35,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (address != null && address.isNotEmpty) {
       body["address"] = address;
     }
-    // include role only if explicitly provided and non-empty
     if (role.isNotEmpty) {
       body["role"] = role;
     }
@@ -54,6 +51,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       return resp.data.toString();
     }
+
     throw Exception('Register failed: ${resp.statusCode}');
   }
 
@@ -76,6 +74,37 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       throw Exception("Unexpected login response format");
     }
+
     throw Exception('Login failed: ${resp.statusCode}');
+  }
+
+  @override
+  Future<String> refreshToken({
+    required String refreshToken,
+  }) async {
+    final resp = await dio.post(
+      '/refresh',
+      queryParameters: {
+        'refresh_token': refreshToken,
+      },
+    );
+
+    if (resp.statusCode == 200) {
+      // Response adalah string token langsung
+      if (resp.data is String) {
+        return resp.data as String;
+      }
+      
+      // Jika response berupa map dengan field tertentu
+      if (resp.data is Map<String, dynamic>) {
+        if (resp.data['access_token'] != null) {
+          return resp.data['access_token'] as String;
+        }
+      }
+
+      throw Exception("Unexpected refresh token response format");
+    }
+
+    throw Exception('Refresh token failed: ${resp.statusCode}');
   }
 }

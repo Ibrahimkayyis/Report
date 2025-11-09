@@ -10,7 +10,7 @@ abstract class RegisterModule {
   @Named('baseUrl')
   String get baseUrl => "https://service-desk-be-production.up.railway.app";
 
-  /// 🧩 Setup Dio client dengan interceptor Authorization
+  /// 🧩 Setup Dio client tanpa interceptor dulu (untuk menghindari circular dependency)
   @lazySingleton
   Dio dio(@Named('baseUrl') String baseUrl) {
     final dio = Dio(
@@ -22,25 +22,28 @@ abstract class RegisterModule {
       ),
     );
 
-    // 🪄 Interceptor untuk logging (optional)
+    // 🪄 Interceptor untuk logging (optional, untuk debugging)
     dio.interceptors.add(LogInterceptor(
       request: true,
       requestBody: true,
       responseBody: true,
       error: true,
+      logPrint: (obj) {
+        // ignore: avoid_print
+        print(obj);
+      },
     ));
 
-    // 🔐 Interceptor untuk menambahkan Authorization header otomatis
+    // 🔐 Interceptor sederhana untuk menambahkan token
+    // AuthInterceptor akan ditambahkan secara manual setelah service locator ready
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           try {
-            // ambil token dari AuthLocalDataSource
+            // Ambil token dari AuthLocalDataSource
             final token = await sl<AuthLocalDataSource>().getToken();
-
             if (token != null && token.isNotEmpty) {
               options.headers['Authorization'] = 'Bearer $token';
-              // 🧭 log tambahan agar mudah debugging
               // ignore: avoid_print
               print('🟢 Interceptor: Token ditambahkan ke header');
             } else {
@@ -51,7 +54,6 @@ abstract class RegisterModule {
             // ignore: avoid_print
             print('❌ Interceptor error: $e');
           }
-
           return handler.next(options);
         },
       ),

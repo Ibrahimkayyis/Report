@@ -15,11 +15,22 @@ abstract class AuthRepository {
     required String password,
   });
 
+  // Access Token
   Future<String?> getSavedToken();
-  Future<String?> getSavedRole();
-
   Future<void> saveToken(String token);
+
+  // Refresh Token - NEW
+  Future<String?> getSavedRefreshToken();
+  Future<void> saveRefreshToken(String refreshToken);
+
+  // User Role
+  Future<String?> getSavedRole();
   Future<void> saveRole(String role);
-  
+
+  /// Refresh access token menggunakan refresh token yang tersimpan
+  /// Returns: new access token
+  /// Throws: Failure jika refresh gagal (refresh token expired, network error, etc)
+  Future<String> refreshAccessToken();
+
   Future<void> logout();
 }

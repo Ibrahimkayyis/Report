@@ -8,6 +8,7 @@ import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/auth/presentation/painters/login_background_painter.dart';
 import '../../cubits/login/login_cubit.dart';
 import '../../cubits/login/login_state.dart';
 
@@ -34,9 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onLoginPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       context.read<LoginCubit>().login(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
     }
   }
 
@@ -51,142 +52,156 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginFailure) {
             showCustomSnackbar(context, message: state.error, isError: true);
           } else if (state is LoginSuccess) {
-            // ✅ Update global AuthCubit
-            context.read<AuthCubit>().setAuthenticated(state.token);
+            // ✅ Update global AuthCubit dengan token + role
+            context.read<AuthCubit>().setAuthenticated(
+                  state.token,
+                  role: state.role,
+                );
 
-            // ✅ Show success snackbar
-            showCustomSnackbar(
-              context,
-              message: t.app.LOGIN_SUCCESS,
-              isError: false,
-            );
+            if (!context.mounted) return;
 
-            // ✅ Navigate ke Home & clear stack
-            context.router.replaceAll([const MainLayoutRoute()]);
+            // ✅ Navigasi sesuai role
+            if (state.role == 'teknisi') {
+              context.router.replaceAll([const MainLayoutTeknisiRoute()]);
+            } else if (state.role == 'masyarakat') {
+              context.router.replaceAll([const MainLayoutMasyarakatRoute()]);
+            } else {
+              context.router.replaceAll([const MainLayoutRoute()]);
+            }
           }
         },
         child: Scaffold(
           backgroundColor: ColorName.background,
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                children: [
-                  SizedBox(height: 60.h),
-
-                  /// Auth Form Container
-                  AuthContainer(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          /// Logo
-                          const Center(child: LogoWidget()),
-
-                          SizedBox(height: 20.h),
-
-                          /// Title
-                          Center(
-                            child: Text(
-                              t.app.please_login_or_register,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.bold,
-                                color: ColorName.textPrimary,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 8.h),
-
-                          /// Subtitle
-                          Center(
-                            child: Text(
-                              t.app.use_email_to_continue,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: ColorName.textPrimary,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 30.h),
-
-                          /// Email Field
-                          AppTextField(
-                            controller: _emailController,
-                            label: t.app.email,
-                            hint: '',
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return t.app.required_field;
-                              }
-                              if (!value.contains('@')) {
-                                return t.app.invalid_email;
-                              }
-                              return null;
-                            },
-                          ),
-
-                          SizedBox(height: 16.h),
-
-                          /// Password Field
-                          PasswordField(
-                            controller: _passwordController,
-                            label: t.app.password,
-                            hint: '',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return t.app.required_field;
-                              }
-                              if (value.length < 8) {
-                                return t.app.password_too_short;
-                              }
-                              return null;
-                            },
-                            showStrengthMeter: false, // login tidak perlu
-                          ),
-
-                          SizedBox(height: 16.h),
-
-                          /// Don't have account text
-                          Center(
-                            child: LinkText(
-                              leadingText: t.app.dont_have_account,
-                              linkText: t.app.register,
-                              onTap: () =>
-                                  context.router.push(const RegisterRoute()),
-                            ),
-                          ),
-
-                          SizedBox(height: 120.h),
-
-                          /// Login Button
-                          BlocBuilder<LoginCubit, LoginState>(
-                            builder: (context, state) {
-                              final isLoading = state is LoginLoading;
-                              return PrimaryButton(
-                                label: t.app.login,
-                                onPressed: isLoading
-                                    ? null
-                                    : () => _onLoginPressed(context),
-                                isLoading: isLoading,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 40.h),
-                ],
+          body: Stack(
+            children: [
+              // Decorative Background
+              CustomPaint(
+                painter: LoginBackgroundPainter(),
+                size: Size.infinite,
               ),
-            ),
+              // Main Content
+              SafeArea(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 60.h),
+
+                      /// Auth Form Container
+                      AuthContainer(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /// Logo
+                              const Center(child: LogoWidget()),
+
+                              SizedBox(height: 20.h),
+
+                              /// Title
+                              Center(
+                                child: Text(
+                                  t.app.please_login_or_register,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorName.textPrimary,
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(height: 8.h),
+
+                              /// Subtitle
+                              Center(
+                                child: Text(
+                                  t.app.use_email_to_continue,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: ColorName.textPrimary,
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(height: 30.h),
+
+                              /// Email Field
+                              AppTextField(
+                                controller: _emailController,
+                                label: t.app.email,
+                                hint: '',
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return t.app.required_field;
+                                  }
+                                  if (!value.contains('@')) {
+                                    return t.app.invalid_email;
+                                  }
+                                  return null;
+                                },
+                              ),
+
+                              SizedBox(height: 16.h),
+
+                              /// Password Field
+                              PasswordField(
+                                controller: _passwordController,
+                                label: t.app.password,
+                                hint: '',
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return t.app.required_field;
+                                  }
+                                  if (value.length < 8) {
+                                    return t.app.password_too_short;
+                                  }
+                                  return null;
+                                },
+                                showStrengthMeter: false,
+                              ),
+
+                              SizedBox(height: 16.h),
+
+                              /// Don't have account text
+                              Center(
+                                child: LinkText(
+                                  leadingText: t.app.dont_have_account,
+                                  linkText: t.app.register,
+                                  onTap: () =>
+                                      context.router.push(const RegisterRoute()),
+                                ),
+                              ),
+
+                              SizedBox(height: 120.h),
+
+                              /// Login Button
+                              BlocBuilder<LoginCubit, LoginState>(
+                                builder: (context, state) {
+                                  final isLoading = state is LoginLoading;
+                                  return PrimaryButton(
+                                    label: t.app.login,
+                                    onPressed: isLoading
+                                        ? null
+                                        : () => _onLoginPressed(context),
+                                    isLoading: isLoading,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 40.h),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
