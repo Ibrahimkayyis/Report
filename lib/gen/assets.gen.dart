@@ -37,6 +37,9 @@ class $AssetsI18nGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/app_logo.png
+  AssetGenImage get appLogo => const AssetGenImage('assets/icons/app_logo.png');
+
   /// File path: assets/icons/device_request.png
   AssetGenImage get deviceRequest =>
       const AssetGenImage('assets/icons/device_request.png');
@@ -59,6 +62,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+    appLogo,
     deviceRequest,
     knowledgeBase,
     reportStatus,

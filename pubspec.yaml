@@ -61,17 +61,18 @@ dependencies:
   uuid: ^4.4.2
 
 dev_dependencies:
-  auto_route_generator: ^10.2.4 # Upgrade ke versi terbaru
-  build_runner: ^2.7.1 # Upgrade ke versi terbaru
+  auto_route_generator: ^10.2.4
+  build_runner: ^2.7.1
   flutter_gen_runner: ^5.11.0
-  flutter_lints: ^6.0.0 # Upgrade ke versi terbaru
+  flutter_launcher_icons: ^0.14.4
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  freezed: ^3.2.3 # Upgrade ke versi terbaru
-  injectable_generator: ^2.8.1 # Upgrade ke versi terbaru
-  json_serializable: ^6.11.1 # Upgrade ke versi terbaru
+  freezed: ^3.2.3
+  injectable_generator: ^2.8.1
+  json_serializable: ^6.11.1
   mocktail: ^1.0.4
-  retrofit_generator: ^10.0.5 # Upgrade ke versi terbaru
+  retrofit_generator: ^10.0.5
   slang_build_runner: ^4.8.1
 
 flutter_gen:
