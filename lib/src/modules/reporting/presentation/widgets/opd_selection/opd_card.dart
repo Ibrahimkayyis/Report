@@ -4,7 +4,7 @@ class OpdCard extends StatelessWidget {
   final OpdItem opd;
   final VoidCallback? onTap;
 
-  const OpdCard({required this.opd, this.onTap, Key? key}) : super(key: key);
+  const OpdCard({required this.opd, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class OpdCard extends StatelessWidget {
         child: Image.network(
           opd.iconUrl!,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => Icon(opd.fallbackIcon, color: ColorName.white, size: 24.sp),
+          errorBuilder: (_, _, _) => Icon(opd.fallbackIcon, color: ColorName.white, size: 24.sp),
         ),
       );
     }

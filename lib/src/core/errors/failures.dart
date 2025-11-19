@@ -14,12 +14,12 @@ abstract class Failure implements Exception {
 
 /// Error dari sisi server (status code 4xx/5xx).
 class ServerFailure extends Failure {
-  ServerFailure(String? message) : super(message);
+  ServerFailure(super.message);
 }
 
 /// Error jaringan (misal koneksi terputus, timeout, DNS gagal).
 class NetworkFailure extends Failure {
-  NetworkFailure(String? message) : super(message);
+  NetworkFailure(super.message);
 }
 
 /// Error validasi dari backend (contoh: email tidak valid, password kurang panjang).
@@ -27,10 +27,10 @@ class ValidationFailure extends Failure {
   /// Detail error per field (jika ada).
   final Map<String, List<String>>? fieldErrors;
 
-  ValidationFailure(String? message, {this.fieldErrors}) : super(message);
+  ValidationFailure(super.message, {this.fieldErrors});
 }
 
 /// Error tidak diketahui (misalnya parsing gagal, bug internal, dll).
 class UnknownFailure extends Failure {
-  UnknownFailure(String? message) : super(message);
+  UnknownFailure(super.message);
 }

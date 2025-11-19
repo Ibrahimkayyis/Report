@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Envied generated files
+.env
+lib/env/env.g.dart
+

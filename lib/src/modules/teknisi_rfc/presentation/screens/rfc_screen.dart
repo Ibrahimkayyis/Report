@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
-import 'package:report/src/core/widgets/app_bar/app_primary_bar.dart';
 import 'package:report/src/core/widgets/widgets.dart'; // ✅ gunakan path global
 import '../widgets/rfc_card_item.dart';
 
@@ -46,8 +45,8 @@ class _RFCScreenState extends State<RFCScreen>
     super.dispose();
   }
 
-  List<Map<String, dynamic>> get _currentData =>
-      _tabController.index == 0 ? _draftData : _submittedData;
+  // List<Map<String, dynamic>> get _currentData =>
+  //     _tabController.index == 0 ? _draftData : _submittedData;
 
   @override
   Widget build(BuildContext context) {

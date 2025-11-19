@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:report/src/core/errors/failures.dart';
+import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/modules/auth/data/datasources/local/abstract/auth_local_data_source.dart';
 import 'package:report/src/modules/auth/data/datasources/remote/source/abstract/auth_remote_data_source.dart';
 import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart';
@@ -48,24 +48,21 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final response = await remote.login(email: email, password: password);
-      
-      final token = response['access_token'] as String;
-      final refreshToken = response['refresh_token'] as String; // NEW
 
-      // ✅ Ambil role pertama dari daftar roles (default: masyarakat)
+      final token = response['access_token'] as String;
+      final refreshToken = response['refresh_token'] as String;
+
       final user = response['user'];
       final roles = (user?['roles'] as List<dynamic>?) ?? [];
       final role = roles.isNotEmpty ? roles.first.toString() : 'masyarakat';
 
-      debugPrint('✅ Login berhasil:');
-      debugPrint('   Email: $email');
-      debugPrint('   Role terdeteksi: $role');
-      debugPrint('   Access Token: ${token.substring(0, 20)}...');
-      debugPrint('   Refresh Token: ${refreshToken.substring(0, 20)}...'); // NEW
+      AppLogger.i('Login berhasil → email: $email');
+      AppLogger.d('Role: $role');
+      AppLogger.d('AccessToken: ${token.substring(0, 20)}...');
+      AppLogger.d('RefreshToken: ${refreshToken.substring(0, 20)}...');
 
-      // Simpan ke local storage
       await saveToken(token);
-      await saveRefreshToken(refreshToken); // NEW
+      await saveRefreshToken(refreshToken);
       await saveRole(role);
 
       return token;
@@ -81,7 +78,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> saveToken(String token) => local.saveToken(token);
 
-  // ========== Refresh Token - NEW ==========
+  // ========== Refresh Token ==========
   @override
   Future<String?> getSavedRefreshToken() => local.getRefreshToken();
 
@@ -92,41 +89,36 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<String> refreshAccessToken() async {
     try {
-      // Ambil refresh token dari local storage
       final refreshToken = await getSavedRefreshToken();
 
       if (refreshToken == null || refreshToken.isEmpty) {
-        debugPrint('❌ Refresh token tidak ditemukan di local storage');
+        AppLogger.w('Refresh token tidak ditemukan di local storage');
         throw ServerFailure('Refresh token tidak tersedia');
       }
 
-      debugPrint('🔄 Melakukan refresh token...');
-      debugPrint('   Refresh Token: ${refreshToken.substring(0, 20)}...');
+      AppLogger.i('Melakukan refresh token...');
+      AppLogger.d('RefreshToken: ${refreshToken.substring(0, 20)}...');
 
-      // Call API refresh token
-      final newAccessToken = await remote.refreshToken(
-        refreshToken: refreshToken,
-      );
+      final newAccessToken =
+          await remote.refreshToken(refreshToken: refreshToken);
 
-      debugPrint('✅ Refresh token berhasil!');
-      debugPrint('   New Access Token: ${newAccessToken.substring(0, 20)}...');
+      AppLogger.i('Refresh token berhasil');
+      AppLogger.d('NewAccessToken: ${newAccessToken.substring(0, 20)}...');
 
-      // Simpan access token baru
       await saveToken(newAccessToken);
 
       return newAccessToken;
     } on DioException catch (e) {
-      debugPrint('❌ Refresh token gagal: ${e.message}');
-      
-      // Jika refresh token expired (401/403), hapus semua data auth
+      AppLogger.e('Refresh token gagal: ${e.message}', e);
+
       if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
-        debugPrint('⚠️ Refresh token expired, melakukan logout...');
+        AppLogger.w('Refresh token expired → logout()');
         await logout();
       }
-      
+
       throw _mapDioException(e);
-    } catch (e) {
-      debugPrint('❌ Error tidak terduga saat refresh token: $e');
+    } catch (e, st) {
+      AppLogger.e('Error tidak terduga saat refresh token', e, st);
       throw ServerFailure('Gagal memperbarui token');
     }
   }
@@ -142,15 +134,14 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logout() async {
     await local.clear();
-    debugPrint('🚪 Logout berhasil, semua data auth dihapus');
+    AppLogger.i('Logout berhasil → semua data auth dihapus');
   }
 
-  /// 🔑 Centralized error mapping supaya UI dapat pesan yang jelas + translate
+  // ========== Error Mapper ==========
   Failure _mapDioException(DioException e) {
     if (e.response != null) {
       final data = e.response?.data;
-      
-      // Ambil pesan "detail" jika ada
+
       final detailMessage =
           (data is Map<String, dynamic> && data['detail'] != null)
               ? data['detail'].toString()
@@ -165,8 +156,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       if (e.response?.statusCode == 422) {
-        final errorMsg = _extractValidationMessage(data);
-        return ValidationFailure(errorMsg);
+        return ValidationFailure(_extractValidationMessage(data));
       }
 
       if (e.response?.statusCode == 404) {
@@ -179,7 +169,6 @@ class AuthRepositoryImpl implements AuthRepository {
     return NetworkFailure(t.app.errors.network_error);
   }
 
-  /// Helper untuk ambil pesan validasi dari API (misalnya dari FastAPI / DRF).
   String _extractValidationMessage(dynamic data) {
     try {
       if (data is Map<String, dynamic>) {
@@ -190,6 +179,7 @@ class AuthRepositoryImpl implements AuthRepository {
         }
       }
     } catch (_) {}
+
     return t.app.errors.validation_error;
   }
 }

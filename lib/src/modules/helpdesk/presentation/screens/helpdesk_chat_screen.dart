@@ -914,7 +914,7 @@ class _HelpdeskChatScreenState extends State<HelpdeskChatScreen> {
                           fileUrl,
                           width: 200.w,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
+                          errorBuilder: (_, _, _) => Container(
                             width: 200.w,
                             height: 100.h,
                             color: Colors.grey.shade300,
