@@ -484,7 +484,6 @@ class _TranslationsAppDashboardId implements TranslationsAppDashboardEn {
 	@override String get reopen_desc => 'tiket yang dibuka kembali';
 	@override String get pelaporan => 'Pelaporan';
 	@override String get pelayanan => 'Pelayanan';
-	@override String get filter_pCarian => 'Filter pencarian';
 	@override String get kategori => 'Kategori';
 	@override String get jenis => 'Jenis';
 	@override String get bentuk => 'Bentuk';

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
-import 'package:report/src/core/widgets/app_bar/app_primary_bar.dart';
 import 'package:report/src/core/widgets/widgets.dart'; // ✅ gunakan widget global
 import '../widgets/rating_card_item.dart';
 

@@ -1,16 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:report/env/env.dart';
+import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/modules/auth/data/datasources/local/abstract/auth_local_data_source.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 
 @module
 abstract class RegisterModule {
-  /// 🌐 Base URL API utama
-  @Named('baseUrl')
-  String get baseUrl => "https://service-desk-be-production.up.railway.app";
 
-  /// 🧩 Setup Dio client tanpa interceptor dulu (untuk menghindari circular dependency)
+  @Named('baseUrl')
+  String get baseUrl => Env.baseUrl;
+
   @lazySingleton
   Dio dio(@Named('baseUrl') String baseUrl) {
     final dio = Dio(
@@ -22,39 +24,51 @@ abstract class RegisterModule {
       ),
     );
 
-    // 🪄 Interceptor untuk logging (optional, untuk debugging)
-    dio.interceptors.add(LogInterceptor(
-      request: true,
-      requestBody: true,
-      responseBody: true,
-      error: true,
-      logPrint: (obj) {
-        // ignore: avoid_print
-        print(obj);
-      },
-    ));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          AppLogger.i(
+              "➡️ Request: ${options.method} ${options.uri}\n"
+              "Headers: ${options.headers}\n"
+              "Body: ${options.data}"
+          );
+          handler.next(options);
+        },
+        onResponse: (response, handler) {
+          AppLogger.i(
+              "⬅️ Response (${response.statusCode}): ${response.realUri}\n"
+              "Body: ${response.data}"
+          );
+          handler.next(response);
+        },
+        onError: (DioException e, handler) {
+          AppLogger.e(
+            "❌ Error on ${e.requestOptions.method} ${e.requestOptions.uri}",
+            e,
+            e.stackTrace,
+          );
+          handler.next(e);
+        },
+      ),
+    );
 
-    // 🔐 Interceptor sederhana untuk menambahkan token
-    // AuthInterceptor akan ditambahkan secara manual setelah service locator ready
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           try {
-            // Ambil token dari AuthLocalDataSource
             final token = await sl<AuthLocalDataSource>().getToken();
+
             if (token != null && token.isNotEmpty) {
               options.headers['Authorization'] = 'Bearer $token';
-              // ignore: avoid_print
-              print('🟢 Interceptor: Token ditambahkan ke header');
+              AppLogger.d("🔐 Token attached to request");
             } else {
-              // ignore: avoid_print
-              print('⚠️ Interceptor: Token kosong, request tanpa Authorization');
+              AppLogger.w("⚠️ Request without token");
             }
-          } catch (e) {
-            // ignore: avoid_print
-            print('❌ Interceptor error: $e');
+          } catch (e, st) {
+            AppLogger.e("Interceptor error", e, st);
           }
-          return handler.next(options);
+
+          handler.next(options);
         },
       ),
     );
@@ -62,10 +76,8 @@ abstract class RegisterModule {
     return dio;
   }
 
-  /// 📦 SharedPreferences untuk penyimpanan lokal
   @preResolve
   @lazySingleton
-  Future<SharedPreferences> prefs() async {
-    return await SharedPreferences.getInstance();
-  }
+  Future<SharedPreferences> prefs() async =>
+      await SharedPreferences.getInstance();
 }

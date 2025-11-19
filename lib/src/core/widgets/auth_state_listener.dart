@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_state.dart';
 import 'package:report/src/core/router/app_router.dart';
 
 /// Wrapper widget untuk listen auth state changes
 /// dan auto-redirect ke login saat user logout
-/// 
-/// VERSION: Simple & Reliable (Direct Redirect)
 class AuthStateListener extends StatelessWidget {
   final Widget child;
 
   const AuthStateListener({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
-          debugPrint('🔴 [AuthStateListener] User unauthenticated, redirecting to login...');
-          
-          // Direct redirect tanpa dialog (most reliable)
-          // Show SnackBar sebagai notifikasi
+          AppLogger.w('🔴 [AuthStateListener] User unauthenticated → redirecting to login...');
+
           WidgetsBinding.instance.addPostFrameCallback((_) {
             try {
-              // Redirect
+              /// Redirect langsung
               context.router.replaceAll([const RegisterRoute()]);
-              
-              // Show notification
+
+              /// SnackBar notifikasi
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Row(
@@ -55,10 +52,10 @@ class AuthStateListener extends StatelessWidget {
                   ),
                 ),
               );
-              
-              debugPrint('✅ [AuthStateListener] Redirected to login screen');
-            } catch (e) {
-              debugPrint('❌ [AuthStateListener] Error: $e');
+
+              AppLogger.i('✅ [AuthStateListener] Redirected to login screen');
+            } catch (e, st) {
+              AppLogger.e('❌ [AuthStateListener] Error saat redirect', e, st);
             }
           });
         }

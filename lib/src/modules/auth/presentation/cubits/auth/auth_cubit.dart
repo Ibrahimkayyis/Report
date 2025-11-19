@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart';
 import 'auth_state.dart';
 
@@ -9,34 +10,42 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.authRepository) : super(AuthInitial());
 
-  /// Cek status login dari local storage
   Future<void> checkAuthStatus() async {
     emit(AuthLoading());
     try {
+      AppLogger.d("AuthCubit: checking saved token...");
+
       final token = await authRepository.getSavedToken();
+
       if (token != null && token.isNotEmpty) {
         final role = await authRepository.getSavedRole();
+        AppLogger.i("AuthCubit: token ditemukan, role: $role");
+
         emit(AuthAuthenticated(token: token, role: role ?? 'user'));
       } else {
+        AppLogger.w("AuthCubit: token kosong, user belum login");
         emit(AuthUnauthenticated());
       }
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.e("AuthCubit: gagal membaca token", e, st);
       emit(AuthError(e.toString()));
     }
   }
 
-  /// Set user authenticated (dipanggil setelah login sukses)
   Future<void> setAuthenticated(String token, {String role = 'user'}) async {
+    AppLogger.i("AuthCubit: menyimpan token + role $role");
+
     await authRepository.saveToken(token);
     await authRepository.saveRole(role);
+
     emit(AuthAuthenticated(token: token, role: role));
   }
 
-  /// Logout -> hapus token di local
   Future<void> logout() async {
     await authRepository.logout();
-    print("✅ AuthCubit: logout dipanggil");
+    AppLogger.i("🔐 AuthCubit: logout dipanggil");
+
     emit(AuthUnauthenticated());
-    print("✅ AuthCubit: emit AuthUnauthenticated");
+    AppLogger.i("🔐 AuthCubit: emit AuthUnauthenticated");
   }
 }

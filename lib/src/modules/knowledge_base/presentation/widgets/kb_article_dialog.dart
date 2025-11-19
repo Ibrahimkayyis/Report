@@ -112,7 +112,7 @@ class KbArticleDialog extends StatelessWidget {
                         height: 180.h,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
+                        errorBuilder: (_, _, _) => Container(
                           height: 180.h,
                           width: double.infinity,
                           color: Colors.grey.shade300,

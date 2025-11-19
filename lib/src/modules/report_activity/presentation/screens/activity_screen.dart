@@ -73,7 +73,7 @@ class ActivityScreen extends StatelessWidget {
                   : ListView.separated(
                       padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
                       itemCount: activities.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 6.h),
+                      separatorBuilder: (_, _) => SizedBox(height: 6.h),
                       itemBuilder: (context, index) {
                         final a = activities[index];
                         return ActivityItem(

@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/gen/i18n/translations.g.dart'; // ✅ Import translasi
+import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_app_bar.dart';
@@ -11,7 +12,6 @@ import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknis
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_tab_section.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_filter_card.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_ticket_list.dart';
-import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_pagination.dart';
 
 @RoutePage()
 class HomeTeknisiScreen extends StatefulWidget {
@@ -76,22 +76,23 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
 
   void _navigateToDashboard() {
     _toggleSidebar();
-    debugPrint('Navigate to Dashboard');
+    AppLogger.d('Navigate to Dashboard');
+
   }
 
   void _navigateToMyTickets() {
     _toggleSidebar();
-    debugPrint('Navigate to My Tickets');
+    AppLogger.d('Navigate to My Tickets');
   }
 
   void _navigateToHistory() {
     _toggleSidebar();
-    debugPrint('Navigate to History');
+    AppLogger.d('Navigate to History');
   }
 
   void _navigateToSettings() {
     _toggleSidebar();
-    debugPrint('Navigate to Settings');
+    AppLogger.d('Navigate to Settings');
   }
 
   void _navigateToKnowledgeBase() {

@@ -73,7 +73,7 @@ class _OpdSelectionScreenState extends State<OpdSelectionScreen> {
                     if (state is OpdLoading) {
                       return ListView.builder(
                         itemCount: 8,
-                        itemBuilder: (_, __) => const OpdShimmerCard(),
+                        itemBuilder: (_, _) => const OpdShimmerCard(),
                       );
                     } else if (state is OpdLoaded) {
                       _originalList = state.opdList;

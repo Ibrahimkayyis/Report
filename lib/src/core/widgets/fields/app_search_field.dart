@@ -9,12 +9,12 @@ class AppSearchField extends StatelessWidget {
   final VoidCallback? onClear;
 
   const AppSearchField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     this.onChanged,
     this.onClear,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

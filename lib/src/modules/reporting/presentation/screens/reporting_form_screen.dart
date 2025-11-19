@@ -1,5 +1,3 @@
-// lib/src/modules/reporting/presentation/screens/reporting_form_screen.dart
-
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
@@ -207,9 +206,8 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                                           )
                                           .categoryId;
                                     });
-                                    debugPrint(
-                                      'Selected category ID: $_selectedCategoryId',
-                                    );
+                                    AppLogger.d('Selected category ID: $_selectedCategoryId');
+
                                   },
                                 );
                               } else if (state is TicketCategoryError) {
@@ -306,7 +304,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                               setState(() {
                                 _attachedFiles = files;
                               });
-                              debugPrint('Files attached: ${files.length}');
+                              AppLogger.d('Files attached: ${files.length}');
                             },
                           ),
 
@@ -473,7 +471,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
       'timestamp': DateTime.now().toIso8601String(),
     };
 
-    debugPrint('Saving draft: $draft');
+    AppLogger.i('Saving draft: $draft');
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

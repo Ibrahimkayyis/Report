@@ -3,6 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dio/dio.dart';
+
+import 'package:report/src/core/log/app_logger.dart'; // ✅ Tambahkan logger
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'gen/colors.gen.dart';
 import 'gen/i18n/translations.g.dart';
@@ -15,7 +17,7 @@ import 'src/modules/auth/domain/repositories/auth_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await configureDependencies();
 
   _setupAuthInterceptor();
@@ -41,9 +43,9 @@ void _setupAuthInterceptor() {
       ),
     );
 
-    debugPrint('✅ AuthInterceptor berhasil ditambahkan ke Dio (with AuthCubit)');
-  } catch (e) {
-    debugPrint('❌ Error setup AuthInterceptor: $e');
+    AppLogger.i("AuthInterceptor berhasil ditambahkan ke Dio (with AuthCubit)");
+  } catch (e, st) {
+    AppLogger.e("Error setup AuthInterceptor", e, st);
   }
 }
 
