@@ -35,6 +35,22 @@ import 'package:report/src/modules/auth/presentation/cubits/login/login_cubit.da
     as _i531;
 import 'package:report/src/modules/auth/presentation/cubits/register/register_cubit.dart'
     as _i243;
+import 'package:report/src/modules/helpdesk/data/datasources/remote/source/abstract/helpdesk_remote_data_source.dart'
+    as _i417;
+import 'package:report/src/modules/helpdesk/data/datasources/remote/source/implementation/helpdesk_remote_data_source_impl.dart'
+    as _i20;
+import 'package:report/src/modules/helpdesk/data/repositories_impl/helpdesk_repository_impl.dart'
+    as _i734;
+import 'package:report/src/modules/helpdesk/domain/repositories/helpdesk_repository.dart'
+    as _i724;
+import 'package:report/src/modules/helpdesk/domain/usecase/get_chat_history_use_case.dart'
+    as _i70;
+import 'package:report/src/modules/helpdesk/domain/usecase/send_message_use_case.dart'
+    as _i351;
+import 'package:report/src/modules/helpdesk/domain/usecase/send_reply_use_case.dart'
+    as _i112;
+import 'package:report/src/modules/helpdesk/presentation/cubits/helpdesk_chat_cubit.dart'
+    as _i284;
 import 'package:report/src/modules/knowledge_base/data/datasources/remote/source/abstract/knowledge_base_remote_data_source.dart'
     as _i27;
 import 'package:report/src/modules/knowledge_base/data/datasources/remote/source/implementation/knowledge_base_remote_data_source_impl.dart'
@@ -137,6 +153,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i144.OpdRemoteDataSource>(
       () => _i972.OpdRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i417.HelpdeskRemoteDataSource>(
+      () => _i20.HelpdeskRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i429.ProfileRepository>(
       () => _i799.ProfileRepositoryImpl(gh<_i257.ProfileRemoteDataSource>()),
     );
@@ -170,6 +189,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i277.ReportRepository>(
       () => _i533.ReportRepositoryImpl(gh<_i425.ReportRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i724.HelpdeskRepository>(
+      () => _i734.HelpdeskRepositoryImpl(gh<_i417.HelpdeskRemoteDataSource>()),
     );
     gh.lazySingleton<_i813.GetTicketCategoriesUseCase>(
       () => _i813.GetTicketCategoriesUseCase(
@@ -209,11 +231,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i96.RegisterUseCase>(
       () => _i96.RegisterUseCase(gh<_i292.AuthRepository>()),
     );
+    gh.factory<_i70.GetChatHistoryUseCase>(
+      () => _i70.GetChatHistoryUseCase(gh<_i724.HelpdeskRepository>()),
+    );
+    gh.factory<_i351.SendMessageUseCase>(
+      () => _i351.SendMessageUseCase(gh<_i724.HelpdeskRepository>()),
+    );
+    gh.factory<_i112.SendReplyUseCase>(
+      () => _i112.SendReplyUseCase(gh<_i724.HelpdeskRepository>()),
+    );
     gh.factory<_i573.TicketCategoryCubit>(
       () => _i573.TicketCategoryCubit(gh<_i813.GetTicketCategoriesUseCase>()),
     );
     gh.factory<_i988.OpdCubit>(
       () => _i988.OpdCubit(gh<_i166.GetAllOpdUsecase>()),
+    );
+    gh.factory<_i284.HelpdeskChatCubit>(
+      () => _i284.HelpdeskChatCubit(
+        gh<_i351.SendMessageUseCase>(),
+        gh<_i112.SendReplyUseCase>(),
+        gh<_i70.GetChatHistoryUseCase>(),
+      ),
     );
     gh.factory<_i96.ProfileCubit>(
       () => _i96.ProfileCubit(

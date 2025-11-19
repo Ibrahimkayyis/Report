@@ -16,13 +16,10 @@ import 'src/modules/auth/domain/repositories/auth_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Inisialisasi dependency injection
   await configureDependencies();
 
-  // Setup AuthInterceptor setelah semua dependencies ready
   _setupAuthInterceptor();
 
-  // Register AppCubit secara manual (global singleton)
   if (!sl.isRegistered<AppCubit>()) {
     sl.registerLazySingleton<AppCubit>(() => AppCubit());
   }
@@ -30,20 +27,16 @@ void main() async {
   runApp(const ReportApp());
 }
 
-/// Setup AuthInterceptor setelah service locator ready
-/// untuk menghindari circular dependency
 void _setupAuthInterceptor() {
   try {
     final dio = sl<Dio>();
     final authRepository = sl<AuthRepository>();
-    final authCubit = sl<AuthCubit>(); // ← NEW: Get AuthCubit
+    final authCubit = sl<AuthCubit>();
 
-    // Tambahkan AuthInterceptor setelah interceptor logging
-    // tapi sebelum request dilakukan
     dio.interceptors.add(
       AuthInterceptor(
         authRepository: authRepository,
-        authCubit: authCubit, // ← NEW: Inject AuthCubit
+        authCubit: authCubit,
         dio: dio,
       ),
     );
