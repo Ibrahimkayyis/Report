@@ -65,6 +65,20 @@ import 'package:report/src/modules/knowledge_base/domain/usecase/get_all_tags_us
     as _i11;
 import 'package:report/src/modules/knowledge_base/presentation/cubits/knowledge_base_cubit.dart'
     as _i385;
+import 'package:report/src/modules/onboarding/data/datasources/local/abstract/onboarding_local_data_source.dart'
+    as _i156;
+import 'package:report/src/modules/onboarding/data/datasources/local/implementation/onboarding_local_data_source_impl.dart'
+    as _i590;
+import 'package:report/src/modules/onboarding/data/repositories_impl/onboarding_repository_impl.dart'
+    as _i663;
+import 'package:report/src/modules/onboarding/domain/repositories/onboarding_repository.dart'
+    as _i564;
+import 'package:report/src/modules/onboarding/domain/usecase/check_onboarding_status_usecase.dart'
+    as _i1006;
+import 'package:report/src/modules/onboarding/domain/usecase/complete_onboarding_usecase.dart'
+    as _i287;
+import 'package:report/src/modules/onboarding/presentation/cubits/onboarding_cubit.dart'
+    as _i845;
 import 'package:report/src/modules/profile/data/datasources/remote/source/abstract/profile_remote_data_source.dart'
     as _i257;
 import 'package:report/src/modules/profile/data/datasources/remote/source/implementation/profile_remote_data_source_impl.dart'
@@ -134,9 +148,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i344.AuthLocalDataSource>(
       () => _i172.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
+    gh.lazySingleton<_i156.OnboardingLocalDataSource>(
+      () => _i590.OnboardingLocalDataSourceImpl(),
+    );
     gh.factory<String>(() => registerModule.baseUrl, instanceName: 'baseUrl');
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<String>(instanceName: 'baseUrl')),
+    );
+    gh.lazySingleton<_i564.OnboardingRepository>(
+      () =>
+          _i663.OnboardingRepositoryImpl(gh<_i156.OnboardingLocalDataSource>()),
     );
     gh.lazySingleton<_i257.ProfileRemoteDataSource>(
       () => _i741.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -166,6 +187,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i593.TicketCategoryRepositoryImpl(
         gh<_i312.TicketCategoryRemoteDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i1006.CheckOnboardingStatusUseCase>(
+      () =>
+          _i1006.CheckOnboardingStatusUseCase(gh<_i564.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i287.CompleteOnboardingUseCase>(
+      () => _i287.CompleteOnboardingUseCase(gh<_i564.OnboardingRepository>()),
     );
     gh.lazySingleton<_i131.KnowledgeBaseRepository>(
       () => _i840.KnowledgeBaseRepositoryImpl(
@@ -200,6 +228,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i901.CreatePublicReportUsecase>(
       () => _i901.CreatePublicReportUsecase(gh<_i277.ReportRepository>()),
+    );
+    gh.factory<_i845.OnboardingCubit>(
+      () => _i845.OnboardingCubit(
+        checkStatus: gh<_i1006.CheckOnboardingStatusUseCase>(),
+        completeOnboarding: gh<_i287.CompleteOnboardingUseCase>(),
+      ),
     );
     gh.factory<_i963.GetProfileUsecase>(
       () => _i963.GetProfileUsecase(gh<_i429.ProfileRepository>()),

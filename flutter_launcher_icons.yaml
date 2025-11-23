@@ -2,21 +2,14 @@
 # Command: dart run flutter_launcher_icons
 
 flutter_launcher_icons:
-  # ========================================
-  # ANDROID
-  # ========================================
   android: true
   image_path_android: "assets/icons/app_logo.png"
   min_sdk_android: 21
   
-  # Android Adaptive Icon (Android 8.0+)
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/icons/app_logo.png"
-  adaptive_icon_foreground_inset: 16
+  adaptive_icon_foreground_inset: 20  # ← Coba 20 dulu
   
-  # ========================================
-  # iOS
-  # ========================================
   ios: true
   image_path_ios: "assets/icons/app_logo.png"
   remove_alpha_ios: true

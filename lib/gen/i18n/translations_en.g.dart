@@ -334,6 +334,7 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override late final _TranslationsAppRfcEn rfc = _TranslationsAppRfcEn._(_root);
 	@override late final _TranslationsAppRatingEn rating = _TranslationsAppRatingEn._(_root);
 	@override late final _TranslationsAppRatingDetailEn rating_detail = _TranslationsAppRatingDetailEn._(_root);
+	@override late final _TranslationsAppOnboardingEn onboarding = _TranslationsAppOnboardingEn._(_root);
 }
 
 // Path: app.validation
@@ -631,6 +632,53 @@ class _TranslationsAppRatingDetailEn extends TranslationsAppRatingDetailId {
 	@override String get response_speed => 'Response Speed';
 	@override String get solution_quality => 'Solution Quality';
 	@override String get button_cancel => 'Back';
+}
+
+// Path: app.onboarding
+class _TranslationsAppOnboardingEn extends TranslationsAppOnboardingId {
+	_TranslationsAppOnboardingEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get skip => 'Skip';
+	@override String get start => 'Start';
+	@override late final _TranslationsAppOnboardingPage1En page1 = _TranslationsAppOnboardingPage1En._(_root);
+	@override late final _TranslationsAppOnboardingPage2En page2 = _TranslationsAppOnboardingPage2En._(_root);
+	@override late final _TranslationsAppOnboardingPage3En page3 = _TranslationsAppOnboardingPage3En._(_root);
+}
+
+// Path: app.onboarding.page1
+class _TranslationsAppOnboardingPage1En extends TranslationsAppOnboardingPage1Id {
+	_TranslationsAppOnboardingPage1En._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'One App for All Services';
+	@override String get body => 'Manage complaints, service requests, and communicate with agencies through a unified platform.';
+}
+
+// Path: app.onboarding.page2
+class _TranslationsAppOnboardingPage2En extends TranslationsAppOnboardingPage2Id {
+	_TranslationsAppOnboardingPage2En._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Technician Tools';
+	@override String get body => 'Access tickets, update progress, and monitor SLAs directly from the app.';
+}
+
+// Path: app.onboarding.page3
+class _TranslationsAppOnboardingPage3En extends TranslationsAppOnboardingPage3Id {
+	_TranslationsAppOnboardingPage3En._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Faster Helpdesk';
+	@override String get body => 'Use chat to communicate directly with operators and technicians.';
 }
 
 /// Flat map(s) containing all translations.
@@ -1121,6 +1169,14 @@ extension on TranslationsEn {
 			case 'app.rating_detail.response_speed': return 'Response Speed';
 			case 'app.rating_detail.solution_quality': return 'Solution Quality';
 			case 'app.rating_detail.button_cancel': return 'Back';
+			case 'app.onboarding.skip': return 'Skip';
+			case 'app.onboarding.start': return 'Start';
+			case 'app.onboarding.page1.title': return 'One App for All Services';
+			case 'app.onboarding.page1.body': return 'Manage complaints, service requests, and communicate with agencies through a unified platform.';
+			case 'app.onboarding.page2.title': return 'Technician Tools';
+			case 'app.onboarding.page2.body': return 'Access tickets, update progress, and monitor SLAs directly from the app.';
+			case 'app.onboarding.page3.title': return 'Faster Helpdesk';
+			case 'app.onboarding.page3.body': return 'Use chat to communicate directly with operators and technicians.';
 			default: return null;
 		}
 	}

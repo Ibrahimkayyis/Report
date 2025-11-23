@@ -502,6 +502,22 @@
       "response_speed": "Response Speed",
       "solution_quality": "Solution Quality",
       "button_cancel": "Back"
+    },
+    "onboarding": {
+      "skip": "Skip",
+      "start": "Start",
+      "page1": {
+        "title": "One App for All Services",
+        "body": "Manage complaints, service requests, and communicate with agencies through a unified platform."
+      },
+      "page2": {
+        "title": "Technician Tools",
+        "body": "Access tickets, update progress, and monitor SLAs directly from the app."
+      },
+      "page3": {
+        "title": "Faster Helpdesk",
+        "body": "Use chat to communicate directly with operators and technicians."
+      }
     }
   }
 }
