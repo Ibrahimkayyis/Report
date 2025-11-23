@@ -888,6 +888,7 @@ class TranslationsAppId {
 	late final TranslationsAppRfcId rfc = TranslationsAppRfcId.internal(_root);
 	late final TranslationsAppRatingId rating = TranslationsAppRatingId.internal(_root);
 	late final TranslationsAppRatingDetailId rating_detail = TranslationsAppRatingDetailId.internal(_root);
+	late final TranslationsAppOnboardingId onboarding = TranslationsAppOnboardingId.internal(_root);
 }
 
 // Path: app.validation
@@ -1604,6 +1605,70 @@ class TranslationsAppRatingDetailId {
 	String get button_cancel => 'Kembali';
 }
 
+// Path: app.onboarding
+class TranslationsAppOnboardingId {
+	TranslationsAppOnboardingId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Lewati'
+	String get skip => 'Lewati';
+
+	/// id: 'Mulai'
+	String get start => 'Mulai';
+
+	late final TranslationsAppOnboardingPage1Id page1 = TranslationsAppOnboardingPage1Id.internal(_root);
+	late final TranslationsAppOnboardingPage2Id page2 = TranslationsAppOnboardingPage2Id.internal(_root);
+	late final TranslationsAppOnboardingPage3Id page3 = TranslationsAppOnboardingPage3Id.internal(_root);
+}
+
+// Path: app.onboarding.page1
+class TranslationsAppOnboardingPage1Id {
+	TranslationsAppOnboardingPage1Id.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Satu Aplikasi, Semua Layanan'
+	String get title => 'Satu Aplikasi, Semua Layanan';
+
+	/// id: 'Kelola pengaduan, permintaan layanan, dan komunikasi dengan OPD dalam satu platform terpadu.'
+	String get body => 'Kelola pengaduan, permintaan layanan, dan komunikasi dengan OPD dalam satu platform terpadu.';
+}
+
+// Path: app.onboarding.page2
+class TranslationsAppOnboardingPage2Id {
+	TranslationsAppOnboardingPage2Id.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Tools Khusus Teknisi'
+	String get title => 'Tools Khusus Teknisi';
+
+	/// id: 'Akses tiket masuk, update progres, dan monitoring SLA langsung dari aplikasi.'
+	String get body => 'Akses tiket masuk, update progres, dan monitoring SLA langsung dari aplikasi.';
+}
+
+// Path: app.onboarding.page3
+class TranslationsAppOnboardingPage3Id {
+	TranslationsAppOnboardingPage3Id.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Helpdesk Lebih Cepat'
+	String get title => 'Helpdesk Lebih Cepat';
+
+	/// id: 'Gunakan fitur chat untuk berkomunikasi langsung dengan operator dan teknisi.'
+	String get body => 'Gunakan fitur chat untuk berkomunikasi langsung dengan operator dan teknisi.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -2093,6 +2158,14 @@ extension on Translations {
 			case 'app.rating_detail.response_speed': return 'Kecepatan Penanganan';
 			case 'app.rating_detail.solution_quality': return 'Kualitas Penyelesaian';
 			case 'app.rating_detail.button_cancel': return 'Kembali';
+			case 'app.onboarding.skip': return 'Lewati';
+			case 'app.onboarding.start': return 'Mulai';
+			case 'app.onboarding.page1.title': return 'Satu Aplikasi, Semua Layanan';
+			case 'app.onboarding.page1.body': return 'Kelola pengaduan, permintaan layanan, dan komunikasi dengan OPD dalam satu platform terpadu.';
+			case 'app.onboarding.page2.title': return 'Tools Khusus Teknisi';
+			case 'app.onboarding.page2.body': return 'Akses tiket masuk, update progres, dan monitoring SLA langsung dari aplikasi.';
+			case 'app.onboarding.page3.title': return 'Helpdesk Lebih Cepat';
+			case 'app.onboarding.page3.body': return 'Gunakan fitur chat untuk berkomunikasi langsung dengan operator dan teknisi.';
 			default: return null;
 		}
 	}

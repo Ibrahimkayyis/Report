@@ -503,6 +503,22 @@
       "response_speed": "Kecepatan Penanganan",
       "solution_quality": "Kualitas Penyelesaian",
       "button_cancel": "Kembali"
+    },
+    "onboarding": {
+      "skip": "Lewati",
+      "start": "Mulai",
+      "page1": {
+        "title": "Satu Aplikasi, Semua Layanan",
+        "body": "Kelola pengaduan, permintaan layanan, dan komunikasi dengan OPD dalam satu platform terpadu."
+      },
+      "page2": {
+        "title": "Tools Khusus Teknisi",
+        "body": "Akses tiket masuk, update progres, dan monitoring SLA langsung dari aplikasi."
+      },
+      "page3": {
+        "title": "Helpdesk Lebih Cepat",
+        "body": "Gunakan fitur chat untuk berkomunikasi langsung dengan operator dan teknisi."
+      }
     }
   }
 }

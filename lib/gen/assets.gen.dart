@@ -90,6 +90,18 @@ class $AssetsImagesGen {
   AssetGenImage get logoText =>
       const AssetGenImage('assets/images/logo_text.png');
 
+  /// File path: assets/images/onb_chat.png
+  AssetGenImage get onbChat =>
+      const AssetGenImage('assets/images/onb_chat.png');
+
+  /// File path: assets/images/onb_general.jpg
+  AssetGenImage get onbGeneral =>
+      const AssetGenImage('assets/images/onb_general.jpg');
+
+  /// File path: assets/images/onb_teknisi.png
+  AssetGenImage get onbTeknisi =>
+      const AssetGenImage('assets/images/onb_teknisi.png');
+
   /// File path: assets/images/theme_dark.png
   AssetGenImage get themeDark =>
       const AssetGenImage('assets/images/theme_dark.png');
@@ -112,6 +124,9 @@ class $AssetsImagesGen {
     reportText,
     helpdeskAvatar,
     logoText,
+    onbChat,
+    onbGeneral,
+    onbTeknisi,
     themeDark,
     themeLight,
     themeSystem,
