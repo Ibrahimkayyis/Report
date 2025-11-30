@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dio/dio.dart';
-
 import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'gen/colors.gen.dart';

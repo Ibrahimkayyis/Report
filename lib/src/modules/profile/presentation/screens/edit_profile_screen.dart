@@ -1,5 +1,3 @@
-// lib/src/modules/profile/presentation/screens/edit_profile_screen.dart
-
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +16,7 @@ import '../widgets/info_section_card.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatefulWidget {
-  final ProfileCubit profileCubit; // ✅ cubit diteruskan dari parent
-
+  final ProfileCubit profileCubit;
   const EditProfileScreen({super.key, required this.profileCubit});
 
   @override
@@ -31,7 +28,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   File? _selectedImage;
   bool _isUpdatingPhoto = false;
 
-  /// 🔹 Snackbar sukses dengan animasi dan design yang lebih baik
   void _showSuccessSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -92,7 +88,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  /// 🔹 Snackbar error dengan animasi dan design yang lebih baik
   void _showErrorSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -153,7 +148,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  /// 🔹 Dialog pilih sumber gambar (kamera atau galeri)
   Future<void> _showImageSourceDialog(BuildContext context) async {
     final t = context.t;
     showModalBottomSheet(
@@ -198,7 +192,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  /// 🔹 Ambil gambar dari galeri / kamera
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
@@ -210,7 +203,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         _isUpdatingPhoto = true;
       });
 
-      // 🔸 Langsung kirim ke API
       context.read<ProfileCubit>().updateProfile(filePath: pickedFile.path);
     }
   }
@@ -218,11 +210,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String _normalizeDateFormat(String? date) {
     if (date == null || date.isEmpty) return '';
 
-    // Jika sudah format "YYYY-MM-DD" (valid untuk API)
     final isoPattern = RegExp(r'^\d{4}-\d{2}-\d{2}$');
     if (isoPattern.hasMatch(date)) return date;
 
-    // Jika format "DD-MM-YYYY", ubah ke "YYYY-MM-DD"
     final parts = date.split('-');
     if (parts.length == 3) {
       final day = parts[0];
@@ -231,7 +221,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       return '$year-$month-$day';
     }
 
-    return date; // fallback (tidak diubah)
+    return date;
   }
 
   @override

@@ -9,18 +9,14 @@ import 'package:report/src/core/widgets/widgets.dart';
 class TeknisiTicketDetailScreen extends StatefulWidget {
   final String ticketId;
 
-  const TeknisiTicketDetailScreen({
-    super.key,
-    required this.ticketId,
-  });
+  const TeknisiTicketDetailScreen({super.key, required this.ticketId});
 
   @override
   State<TeknisiTicketDetailScreen> createState() =>
       _TeknisiTicketDetailScreenState();
 }
 
-class _TeknisiTicketDetailScreenState
-    extends State<TeknisiTicketDetailScreen> {
+class _TeknisiTicketDetailScreenState extends State<TeknisiTicketDetailScreen> {
   // State untuk status yang bisa diubah
   String _selectedStatus = 'draft'; // draft, diproses, selesai
 
@@ -41,7 +37,7 @@ class _TeknisiTicketDetailScreenState
     'sampai': '18-09-2025',
     'rincianMasalah': 'ROUTER DI RUANG ANU RADA ANU',
     'lampiranFiles': [
-      {'name': 'bukti laporan.pdf', 'url': ''}
+      {'name': 'bukti laporan.pdf', 'url': ''},
     ],
     'penyelesaianDiharapkan': 'POKOK KELAR LAH WKWK',
   };
@@ -196,8 +192,7 @@ class _TeknisiTicketDetailScreenState
                   // Penyelesaian yang Diharapkan
                   _buildSectionTitle(t.app.ticket_expected_solution),
                   SizedBox(height: 8.h),
-                  _buildReadOnlyTextArea(
-                      _ticketData['penyelesaianDiharapkan']),
+                  _buildReadOnlyTextArea(_ticketData['penyelesaianDiharapkan']),
                   SizedBox(height: 24.h),
                 ],
               ),
@@ -260,10 +255,7 @@ class _TeknisiTicketDetailScreenState
       ),
       child: Text(
         value,
-        style: TextStyle(
-          fontSize: 14.sp,
-          color: ColorName.textPrimary,
-        ),
+        style: TextStyle(fontSize: 14.sp, color: ColorName.textPrimary),
       ),
     );
   }
@@ -351,10 +343,7 @@ class _TeknisiTicketDetailScreenState
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
           color: isSelected ? color : ColorName.white,
-          border: Border.all(
-            color: color,
-            width: 2,
-          ),
+          border: Border.all(color: color, width: 2),
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Center(
@@ -383,17 +372,10 @@ class _TeknisiTicketDetailScreenState
           Expanded(
             child: Text(
               date,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: ColorName.textPrimary,
-              ),
+              style: TextStyle(fontSize: 14.sp, color: ColorName.textPrimary),
             ),
           ),
-          Icon(
-            Icons.calendar_today,
-            size: 18.sp,
-            color: ColorName.primary,
-          ),
+          Icon(Icons.calendar_today, size: 18.sp, color: ColorName.primary),
         ],
       ),
     );
@@ -432,11 +414,7 @@ class _TeknisiTicketDetailScreenState
           ),
           child: Row(
             children: [
-              Icon(
-                Icons.description,
-                color: ColorName.primary,
-                size: 24.sp,
-              ),
+              Icon(Icons.description, color: ColorName.primary, size: 24.sp),
               SizedBox(width: 12.w),
               Expanded(
                 child: Text(
@@ -471,7 +449,7 @@ class _TeknisiTicketDetailScreenState
         color: ColorName.white,
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withValues(alpha:0.05),
+            color: ColorName.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -481,9 +459,7 @@ class _TeknisiTicketDetailScreenState
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: _handleCancel,
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.grey.shade700,
                 side: BorderSide(color: Colors.grey.shade400),
@@ -494,10 +470,7 @@ class _TeknisiTicketDetailScreenState
               ),
               child: Text(
                 t.app.button_cancel,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -517,10 +490,7 @@ class _TeknisiTicketDetailScreenState
               ),
               child: Text(
                 t.app.button_save_draft,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -540,16 +510,49 @@ class _TeknisiTicketDetailScreenState
               ),
               child: Text(
                 t.app.button_update,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _initialStatus = 'draft'; // Untuk track perubahan
+
+  @override
+  void initState() {
+    super.initState();
+    _initialStatus = _ticketData['status'];
+    _selectedStatus = _ticketData['status'];
+  }
+
+  bool _hasChanges() {
+    return _selectedStatus != _initialStatus;
+  }
+
+  void _handleCancel() {
+    final t = context.t.app;
+
+    if (_hasChanges()) {
+      showDialog(
+        context: context,
+        builder: (dialogContext) => AppWarningDialog(
+          title: t.dialog.back_confirmation_title,
+          message: t.dialog.back_confirmation_message,
+          confirmText: t.dialog.back_confirmation_confirm,
+          cancelText: t.dialog.back_confirmation_cancel,
+          onConfirm: () {
+            Navigator.of(dialogContext).pop();
+            context.router.maybePop();
+          },
+          onCancel: () => Navigator.of(dialogContext).pop(),
+        ),
+      );
+    } else {
+      context.router.maybePop();
+    }
   }
 
   void _handleSaveDraft() {
@@ -563,13 +566,54 @@ class _TeknisiTicketDetailScreenState
   }
 
   void _handleUpdate() {
-    // TODO: Implement update logic with selected status
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${context.t.app.message_status_updated}: $_selectedStatus',
-        ),
-        backgroundColor: Colors.green,
+    final t = context.t.app;
+
+    // Show confirmation dialog
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AppConfirmationDialog(
+        title: t.dialog.confirm_update_title,
+        message: t.dialog.confirm_update_message,
+        confirmText: t.dialog.confirm_yes,
+        cancelText: t.dialog.cancel,
+        icon: Icons.warning_amber_rounded,
+        onConfirm: () {
+          Navigator.of(dialogContext).pop();
+
+          // TODO: Implement actual update API call
+
+          // Show success dialog
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (successContext) => AppReportSuccessDialog(
+              title: t.dialog.update_success_title,
+              buttonText: t.dialog.report_success_button,
+              onPressed: () {
+                Navigator.of(successContext).pop();
+
+                // Update initial status after successful update
+                setState(() {
+                  _initialStatus = _selectedStatus;
+                });
+
+                context.router.maybePop();
+
+                // Show success snackbar
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${t.message_status_updated}: $_selectedStatus',
+                    ),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+            ),
+          );
+        },
+        onCancel: () => Navigator.of(dialogContext).pop(),
       ),
     );
   }

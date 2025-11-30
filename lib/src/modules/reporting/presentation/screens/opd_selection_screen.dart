@@ -1,5 +1,3 @@
-// lib/src/modules/reporting/presentation/screens/opd_selection_screen.dart
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +7,8 @@ import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
+import 'package:report/src/modules/auth/presentation/cubits/auth/auth_state.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/opd_cubit.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/opd_state.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,7 +35,9 @@ class _OpdSelectionScreenState extends State<OpdSelectionScreen> {
         _filteredList = List.from(_originalList);
       } else {
         _filteredList = _originalList
-            .where((opd) => opd.opdName.toLowerCase().contains(query.toLowerCase()))
+            .where(
+              (opd) => opd.opdName.toLowerCase().contains(query.toLowerCase()),
+            )
             .toList();
       }
     });
@@ -77,7 +79,8 @@ class _OpdSelectionScreenState extends State<OpdSelectionScreen> {
                       );
                     } else if (state is OpdLoaded) {
                       _originalList = state.opdList;
-                      if (_filteredList.isEmpty && _searchController.text.isEmpty) {
+                      if (_filteredList.isEmpty &&
+                          _searchController.text.isEmpty) {
                         _filteredList = List.from(_originalList);
                       }
 
@@ -106,14 +109,39 @@ class _OpdSelectionScreenState extends State<OpdSelectionScreen> {
 
                           return OpdCard(
                             opd: opdItem,
-                            onTap: () => context.router.push(
-                              ReportingFormRoute(
-                                opdId: opd.opdId,
-                                opdName: opd.opdName,
-                                opdColor: ColorName.primary,
-                                opdIconUrl: opd.filePath,
-                              ),
-                            ),
+                            onTap: () {
+                              final authState = context.read<AuthCubit>().state;
+
+                              // Default fallback jika auth belum ter-load
+                              String role = 'masyarakat';
+
+                              if (authState is AuthAuthenticated) {
+                                role = authState.role.toLowerCase();
+                              }
+
+                              // 🔥 Routing berdasarkan role
+                              if (role == 'masyarakat') {
+                                context.router.push(
+                                  // ==== TUJUAN MASYARAKAT ====
+                                  MasyarakatReportingFormRoute(
+                                    opdId: opd.opdId,
+                                    opdName: opd.opdName,
+                                    opdColor: ColorName.primary,
+                                    opdIconUrl: opd.filePath,
+                                  ),
+                                );
+                              } else {
+                                context.router.push(
+                                  // ==== TUJUAN PEGAWAI ====
+                                  ReportingFormRoute(
+                                    opdId: opd.opdId,
+                                    opdName: opd.opdName,
+                                    opdColor: ColorName.primary,
+                                    opdIconUrl: opd.filePath,
+                                  ),
+                                );
+                              }
+                            },
                           );
                         },
                       );
