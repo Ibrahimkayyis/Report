@@ -334,6 +334,90 @@ class MainLayoutTeknisiRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MasyarakatReportingFormScreen]
+class MasyarakatReportingFormRoute
+    extends PageRouteInfo<MasyarakatReportingFormRouteArgs> {
+  MasyarakatReportingFormRoute({
+    Key? key,
+    required String opdId,
+    String? opdName,
+    Color? opdColor,
+    String? opdIconUrl,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MasyarakatReportingFormRoute.name,
+         args: MasyarakatReportingFormRouteArgs(
+           key: key,
+           opdId: opdId,
+           opdName: opdName,
+           opdColor: opdColor,
+           opdIconUrl: opdIconUrl,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'MasyarakatReportingFormRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<MasyarakatReportingFormRouteArgs>();
+      return MasyarakatReportingFormScreen(
+        key: args.key,
+        opdId: args.opdId,
+        opdName: args.opdName,
+        opdColor: args.opdColor,
+        opdIconUrl: args.opdIconUrl,
+      );
+    },
+  );
+}
+
+class MasyarakatReportingFormRouteArgs {
+  const MasyarakatReportingFormRouteArgs({
+    this.key,
+    required this.opdId,
+    this.opdName,
+    this.opdColor,
+    this.opdIconUrl,
+  });
+
+  final Key? key;
+
+  final String opdId;
+
+  final String? opdName;
+
+  final Color? opdColor;
+
+  final String? opdIconUrl;
+
+  @override
+  String toString() {
+    return 'MasyarakatReportingFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdColor: $opdColor, opdIconUrl: $opdIconUrl}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MasyarakatReportingFormRouteArgs) return false;
+    return key == other.key &&
+        opdId == other.opdId &&
+        opdName == other.opdName &&
+        opdColor == other.opdColor &&
+        opdIconUrl == other.opdIconUrl;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      opdId.hashCode ^
+      opdName.hashCode ^
+      opdColor.hashCode ^
+      opdIconUrl.hashCode;
+}
+
+/// generated route for
 /// [NotificationScreen]
 class NotificationRoute extends PageRouteInfo<void> {
   const NotificationRoute({List<PageRouteInfo>? children})

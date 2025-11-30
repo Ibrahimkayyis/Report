@@ -37,6 +37,7 @@ import 'package:report/src/modules/teknisi_rating/presentation/screens/teknisi_r
 import 'package:report/src/modules/teknisi_rating/presentation/screens/teknisi_rating_detail_screen.dart';
 import 'package:report/src/modules/masyarakat_main_layout/presentation/screens/main_layout_masyarakat_screen.dart';
 import 'package:report/src/modules/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/screens/masyarakat_reporting_form_screen.dart';
 
 
 
@@ -101,6 +102,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: RFCFormRoute.page),
     AutoRoute(page: TestHelperRoute.page),
     AutoRoute(page: OnboardingRoute.page),
-
+    AutoRoute(page: MasyarakatReportingFormRoute.page),
   ];
 }

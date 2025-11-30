@@ -319,11 +319,27 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get location_hint => 'Enter here';
 	@override String get expected_solution_label => 'Expected Solution';
 	@override String get expected_solution_hint => 'Enter here...';
-	@override String get request_title_label => 'Judul Permintaan';
-	@override String get request_title_hint => 'Masukkan judul permintaan layanan';
 	@override String get problem_label => 'Rincian Permintaan';
 	@override String get problem_hint => 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
 	@override String get search_opd_hint => 'Search OPD name...';
+	@override String get data_asset_label => 'Data Asset';
+	@override String get serial_number_label => 'Serial Number';
+	@override String get asset_category_label => 'Asset Category';
+	@override String get asset_subcategory_label => 'Sub-Category Asset';
+	@override String get data_asset_hint => 'Select data asset';
+	@override String get serial_number_hint => 'Select serial number';
+	@override String get asset_category_hint => '';
+	@override String get asset_subcategory_hint => '';
+	@override String get asset_type_hint => '';
+	@override String get request_title_label => 'Request Title';
+	@override String get request_title_hint => 'Enter request title';
+	@override String get service_location_label => 'Service Location';
+	@override String get service_location_hint => 'Enter service location';
+	@override String get service_description_label => 'Service Request Details';
+	@override String get service_description_hint => 'Explain your service request in detail so we can better understand your needs!';
+	@override String get photo_updated_success => 'Foto profil berhasil diperbarui';
+	@override String get photo_updated_failed => 'Gagal memperbarui foto profil';
+	@override String get failed => 'Gagal!';
 	@override late final _TranslationsAppValidationEn validation = _TranslationsAppValidationEn._(_root);
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 	@override late final _TranslationsAppDialogEn dialog = _TranslationsAppDialogEn._(_root);
@@ -335,6 +351,7 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override late final _TranslationsAppRatingEn rating = _TranslationsAppRatingEn._(_root);
 	@override late final _TranslationsAppRatingDetailEn rating_detail = _TranslationsAppRatingDetailEn._(_root);
 	@override late final _TranslationsAppOnboardingEn onboarding = _TranslationsAppOnboardingEn._(_root);
+	@override late final _TranslationsAppMasyarakatEn masyarakat = _TranslationsAppMasyarakatEn._(_root);
 }
 
 // Path: app.validation
@@ -353,6 +370,13 @@ class _TranslationsAppValidationEn extends TranslationsAppValidationId {
 	@override String get category_required => 'Report category must be selected';
 	@override String get description_required => 'Problem description is required';
 	@override String get description_min_length => 'Problem description must be at least 20 characters';
+	@override String get data_asset_required => 'Data asset is required';
+	@override String get serial_number_required => 'Serial number is required';
+	@override String get asset_category_required => 'Asset category is required';
+	@override String get asset_subcategory_required => 'Sub-category asset is required';
+	@override String get request_title_required => 'Request title is required';
+	@override String get service_location_required => 'Service location is required';
+	@override String get service_description_required => 'Service request details are required';
 }
 
 // Path: app.errors
@@ -391,6 +415,16 @@ class _TranslationsAppDialogEn extends TranslationsAppDialogId {
 	@override String get cancel_request_title => 'Batalkan Permintaan?';
 	@override String get cancel_request_message => 'Anda yakin ingin membatalkan pengisian formulir ini?';
 	@override String get cancel_request => 'Batalkan';
+	@override String get back_confirmation_title => 'Are you sure you want to go back?';
+	@override String get back_confirmation_message => 'The data you entered will not be saved!';
+	@override String get back_confirmation_confirm => 'Yes, I\'m sure!';
+	@override String get back_confirmation_cancel => 'Cancel';
+	@override String get report_success_title => 'Report successfully submitted!';
+	@override String get report_success_button => 'Okay';
+	@override String get report_error_message => 'Failed to submit: {message}';
+	@override String get confirm_update_title => 'Confirm Update';
+	@override String get confirm_update_message => 'Are you sure you want to update the ticket status?';
+	@override String get update_success_title => 'Update Successful';
 }
 
 // Path: app.notifications
@@ -560,8 +594,6 @@ class _TranslationsAppRfcEn extends TranslationsAppRfcId {
 	@override String get applicant_name_hint => 'Enter here';
 	@override String get phone_number => 'Phone Number';
 	@override String get phone_number_hint => 'Enter here';
-	@override String get asset_category => 'Asset Category';
-	@override String get asset_category_hint => 'Select category';
 	@override String get asset_name => 'Asset Name';
 	@override String get asset_name_hint => 'Select asset';
 	@override String get description => 'Description';
@@ -575,7 +607,6 @@ class _TranslationsAppRfcEn extends TranslationsAppRfcId {
 	@override String get affected_asset => 'Affected Asset';
 	@override String get affected_asset_hint => 'Select asset';
 	@override String get cost_estimate => 'Cost Estimate';
-	@override String get cost_estimate_hint => '';
 	@override String get change_impact => 'Change Impact';
 	@override String get change_impact_hint => 'Enter here';
 	@override String get no_change_impact => 'Impact If Change Not Made';
@@ -585,12 +616,45 @@ class _TranslationsAppRfcEn extends TranslationsAppRfcId {
 	@override String get button_submit => 'Submit';
 	@override String get validation_required => 'This field is required';
 	@override String get validation_phone_invalid => 'Phone number is invalid';
-	@override String get validation_category_required => 'Please select asset category';
 	@override String get validation_asset_required => 'Please select asset name';
 	@override String get validation_date_required => 'Please select date range';
 	@override String get validation_affected_asset_required => 'Please select affected asset';
 	@override String get message_draft_saved => 'Draft saved successfully';
 	@override String get message_submit_success => 'RFC submitted successfully';
+	@override String get opd_origin_label => 'OPD Origin';
+	@override String get opd_origin_hint => 'Select OPD';
+	@override String get data_asset_label => 'Asset Data';
+	@override String get data_asset_hint => 'Select asset data';
+	@override String get serial_number_label => 'Serial Number';
+	@override String get serial_number_hint => 'Select serial number';
+	@override String get asset_category => 'Asset Category';
+	@override String get asset_category_hint => 'Auto-filled';
+	@override String get asset_subcategory_label => 'Asset Sub-Category';
+	@override String get asset_subcategory_hint => 'Auto-filled';
+	@override String get asset_type_label => 'Asset Type';
+	@override String get asset_type_hint => 'Auto-filled';
+	@override String get time_estimate_label => 'Time Estimate';
+	@override String get time_estimate_hint => 'Select time estimate';
+	@override String get cost_estimate_label => 'Cost Estimate';
+	@override String get cost_estimate_hint => 'Select cost estimate';
+	@override String get validation_opd_required => 'OPD origin is required';
+	@override String get validation_data_asset_required => 'Asset data is required';
+	@override String get validation_serial_number_required => 'Serial number is required';
+	@override String get validation_category_required => 'Asset category is required';
+	@override String get validation_subcategory_required => 'Asset sub-category is required';
+	@override String get validation_asset_type_required => 'Asset type is required';
+	@override String get validation_time_estimate_required => 'Time estimate is required';
+	@override String get validation_cost_estimate_required => 'Cost estimate is required';
+	@override String get validation_description_min_length => 'Description must be at least 20';
+	@override String get dialog_cancel_title => 'Cancel RFC Submission?';
+	@override String get dialog_cancel_message => 'Are you sure you want to cancel? All entered data will be lost.';
+	@override String get dialog_continue => 'Continue Filling';
+	@override String get dialog_cancel_confirm => 'Yes, Cancel';
+	@override String get dialog_submit_title => 'Submit RFC?';
+	@override String get dialog_submit_message => 'Are you sure you want to submit this Request for Change?';
+	@override String get dialog_submit_confirm => 'Yes, Submit';
+	@override String get dialog_report_success_title => 'RFC Submitted Successfully';
+	@override String get dialog_report_success_button => 'OK';
 }
 
 // Path: app.rating
@@ -646,6 +710,31 @@ class _TranslationsAppOnboardingEn extends TranslationsAppOnboardingId {
 	@override late final _TranslationsAppOnboardingPage1En page1 = _TranslationsAppOnboardingPage1En._(_root);
 	@override late final _TranslationsAppOnboardingPage2En page2 = _TranslationsAppOnboardingPage2En._(_root);
 	@override late final _TranslationsAppOnboardingPage3En page3 = _TranslationsAppOnboardingPage3En._(_root);
+}
+
+// Path: app.masyarakat
+class _TranslationsAppMasyarakatEn extends TranslationsAppMasyarakatId {
+	_TranslationsAppMasyarakatEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get what_to_report => 'What do you want to report?';
+	@override String get report_hint => 'Describe your issue in detail...';
+	@override String get attach_file_label => 'Attachments (Optional)';
+	@override String get attach_file_subtitle => 'Upload supporting photos or documents (max 2 files)';
+	@override String get name_label => 'Full Name';
+	@override String get nik_label => 'National ID Number';
+	@override String get email_label => 'Email';
+	@override String get validation_description_required => 'Report description is required.';
+	@override String get validation_description_min_length => 'Description must contain at least 20 characters.';
+	@override String get validation_error_message => 'The form is invalid. Please check your inputs.';
+	@override String get submit_success_placeholder => 'Report submitted successfully (placeholder).';
+	@override String get draft_saved_placeholder => 'Draft saved successfully (placeholder).';
+	@override String get cancel_confirmation_title => 'Cancel Report?';
+	@override String get cancel_confirmation_message => 'Unsaved changes will be lost. Are you sure you want to exit?';
+	@override String get cancel_no => 'No';
+	@override String get cancel_yes => 'Yes';
 }
 
 // Path: app.onboarding.page1
@@ -957,11 +1046,27 @@ extension on TranslationsEn {
 			case 'app.location_hint': return 'Enter here';
 			case 'app.expected_solution_label': return 'Expected Solution';
 			case 'app.expected_solution_hint': return 'Enter here...';
-			case 'app.request_title_label': return 'Judul Permintaan';
-			case 'app.request_title_hint': return 'Masukkan judul permintaan layanan';
 			case 'app.problem_label': return 'Rincian Permintaan';
 			case 'app.problem_hint': return 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
 			case 'app.search_opd_hint': return 'Search OPD name...';
+			case 'app.data_asset_label': return 'Data Asset';
+			case 'app.serial_number_label': return 'Serial Number';
+			case 'app.asset_category_label': return 'Asset Category';
+			case 'app.asset_subcategory_label': return 'Sub-Category Asset';
+			case 'app.data_asset_hint': return 'Select data asset';
+			case 'app.serial_number_hint': return 'Select serial number';
+			case 'app.asset_category_hint': return '';
+			case 'app.asset_subcategory_hint': return '';
+			case 'app.asset_type_hint': return '';
+			case 'app.request_title_label': return 'Request Title';
+			case 'app.request_title_hint': return 'Enter request title';
+			case 'app.service_location_label': return 'Service Location';
+			case 'app.service_location_hint': return 'Enter service location';
+			case 'app.service_description_label': return 'Service Request Details';
+			case 'app.service_description_hint': return 'Explain your service request in detail so we can better understand your needs!';
+			case 'app.photo_updated_success': return 'Foto profil berhasil diperbarui';
+			case 'app.photo_updated_failed': return 'Gagal memperbarui foto profil';
+			case 'app.failed': return 'Gagal!';
 			case 'app.validation.title_required': return 'Report title is required';
 			case 'app.validation.asset_type_required': return 'Asset type is required';
 			case 'app.validation.asset_form_required': return 'Asset form is required';
@@ -971,6 +1076,13 @@ extension on TranslationsEn {
 			case 'app.validation.category_required': return 'Report category must be selected';
 			case 'app.validation.description_required': return 'Problem description is required';
 			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
+			case 'app.validation.data_asset_required': return 'Data asset is required';
+			case 'app.validation.serial_number_required': return 'Serial number is required';
+			case 'app.validation.asset_category_required': return 'Asset category is required';
+			case 'app.validation.asset_subcategory_required': return 'Sub-category asset is required';
+			case 'app.validation.request_title_required': return 'Request title is required';
+			case 'app.validation.service_location_required': return 'Service location is required';
+			case 'app.validation.service_description_required': return 'Service request details are required';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
@@ -991,6 +1103,16 @@ extension on TranslationsEn {
 			case 'app.dialog.cancel_request_title': return 'Batalkan Permintaan?';
 			case 'app.dialog.cancel_request_message': return 'Anda yakin ingin membatalkan pengisian formulir ini?';
 			case 'app.dialog.cancel_request': return 'Batalkan';
+			case 'app.dialog.back_confirmation_title': return 'Are you sure you want to go back?';
+			case 'app.dialog.back_confirmation_message': return 'The data you entered will not be saved!';
+			case 'app.dialog.back_confirmation_confirm': return 'Yes, I\'m sure!';
+			case 'app.dialog.back_confirmation_cancel': return 'Cancel';
+			case 'app.dialog.report_success_title': return 'Report successfully submitted!';
+			case 'app.dialog.report_success_button': return 'Okay';
+			case 'app.dialog.report_error_message': return 'Failed to submit: {message}';
+			case 'app.dialog.confirm_update_title': return 'Confirm Update';
+			case 'app.dialog.confirm_update_message': return 'Are you sure you want to update the ticket status?';
+			case 'app.dialog.update_success_title': return 'Update Successful';
 			case 'app.notifications.title': return 'Notifications';
 			case 'app.notifications.search_placeholder': return 'Search notifications...';
 			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
@@ -1115,8 +1237,6 @@ extension on TranslationsEn {
 			case 'app.rfc.applicant_name_hint': return 'Enter here';
 			case 'app.rfc.phone_number': return 'Phone Number';
 			case 'app.rfc.phone_number_hint': return 'Enter here';
-			case 'app.rfc.asset_category': return 'Asset Category';
-			case 'app.rfc.asset_category_hint': return 'Select category';
 			case 'app.rfc.asset_name': return 'Asset Name';
 			case 'app.rfc.asset_name_hint': return 'Select asset';
 			case 'app.rfc.description': return 'Description';
@@ -1130,7 +1250,6 @@ extension on TranslationsEn {
 			case 'app.rfc.affected_asset': return 'Affected Asset';
 			case 'app.rfc.affected_asset_hint': return 'Select asset';
 			case 'app.rfc.cost_estimate': return 'Cost Estimate';
-			case 'app.rfc.cost_estimate_hint': return '';
 			case 'app.rfc.change_impact': return 'Change Impact';
 			case 'app.rfc.change_impact_hint': return 'Enter here';
 			case 'app.rfc.no_change_impact': return 'Impact If Change Not Made';
@@ -1140,12 +1259,45 @@ extension on TranslationsEn {
 			case 'app.rfc.button_submit': return 'Submit';
 			case 'app.rfc.validation_required': return 'This field is required';
 			case 'app.rfc.validation_phone_invalid': return 'Phone number is invalid';
-			case 'app.rfc.validation_category_required': return 'Please select asset category';
 			case 'app.rfc.validation_asset_required': return 'Please select asset name';
 			case 'app.rfc.validation_date_required': return 'Please select date range';
 			case 'app.rfc.validation_affected_asset_required': return 'Please select affected asset';
 			case 'app.rfc.message_draft_saved': return 'Draft saved successfully';
 			case 'app.rfc.message_submit_success': return 'RFC submitted successfully';
+			case 'app.rfc.opd_origin_label': return 'OPD Origin';
+			case 'app.rfc.opd_origin_hint': return 'Select OPD';
+			case 'app.rfc.data_asset_label': return 'Asset Data';
+			case 'app.rfc.data_asset_hint': return 'Select asset data';
+			case 'app.rfc.serial_number_label': return 'Serial Number';
+			case 'app.rfc.serial_number_hint': return 'Select serial number';
+			case 'app.rfc.asset_category': return 'Asset Category';
+			case 'app.rfc.asset_category_hint': return 'Auto-filled';
+			case 'app.rfc.asset_subcategory_label': return 'Asset Sub-Category';
+			case 'app.rfc.asset_subcategory_hint': return 'Auto-filled';
+			case 'app.rfc.asset_type_label': return 'Asset Type';
+			case 'app.rfc.asset_type_hint': return 'Auto-filled';
+			case 'app.rfc.time_estimate_label': return 'Time Estimate';
+			case 'app.rfc.time_estimate_hint': return 'Select time estimate';
+			case 'app.rfc.cost_estimate_label': return 'Cost Estimate';
+			case 'app.rfc.cost_estimate_hint': return 'Select cost estimate';
+			case 'app.rfc.validation_opd_required': return 'OPD origin is required';
+			case 'app.rfc.validation_data_asset_required': return 'Asset data is required';
+			case 'app.rfc.validation_serial_number_required': return 'Serial number is required';
+			case 'app.rfc.validation_category_required': return 'Asset category is required';
+			case 'app.rfc.validation_subcategory_required': return 'Asset sub-category is required';
+			case 'app.rfc.validation_asset_type_required': return 'Asset type is required';
+			case 'app.rfc.validation_time_estimate_required': return 'Time estimate is required';
+			case 'app.rfc.validation_cost_estimate_required': return 'Cost estimate is required';
+			case 'app.rfc.validation_description_min_length': return 'Description must be at least 20';
+			case 'app.rfc.dialog_cancel_title': return 'Cancel RFC Submission?';
+			case 'app.rfc.dialog_cancel_message': return 'Are you sure you want to cancel? All entered data will be lost.';
+			case 'app.rfc.dialog_continue': return 'Continue Filling';
+			case 'app.rfc.dialog_cancel_confirm': return 'Yes, Cancel';
+			case 'app.rfc.dialog_submit_title': return 'Submit RFC?';
+			case 'app.rfc.dialog_submit_message': return 'Are you sure you want to submit this Request for Change?';
+			case 'app.rfc.dialog_submit_confirm': return 'Yes, Submit';
+			case 'app.rfc.dialog_report_success_title': return 'RFC Submitted Successfully';
+			case 'app.rfc.dialog_report_success_button': return 'OK';
 			case 'app.rating.rating_title': return 'Rating';
 			case 'app.rating.page_title': return 'Satisfaction Rating';
 			case 'app.rating.detail_title': return 'Ticket Rating Detail';
@@ -1177,6 +1329,22 @@ extension on TranslationsEn {
 			case 'app.onboarding.page2.body': return 'Access tickets, update progress, and monitor SLAs directly from the app.';
 			case 'app.onboarding.page3.title': return 'Faster Helpdesk';
 			case 'app.onboarding.page3.body': return 'Use chat to communicate directly with operators and technicians.';
+			case 'app.masyarakat.what_to_report': return 'What do you want to report?';
+			case 'app.masyarakat.report_hint': return 'Describe your issue in detail...';
+			case 'app.masyarakat.attach_file_label': return 'Attachments (Optional)';
+			case 'app.masyarakat.attach_file_subtitle': return 'Upload supporting photos or documents (max 2 files)';
+			case 'app.masyarakat.name_label': return 'Full Name';
+			case 'app.masyarakat.nik_label': return 'National ID Number';
+			case 'app.masyarakat.email_label': return 'Email';
+			case 'app.masyarakat.validation_description_required': return 'Report description is required.';
+			case 'app.masyarakat.validation_description_min_length': return 'Description must contain at least 20 characters.';
+			case 'app.masyarakat.validation_error_message': return 'The form is invalid. Please check your inputs.';
+			case 'app.masyarakat.submit_success_placeholder': return 'Report submitted successfully (placeholder).';
+			case 'app.masyarakat.draft_saved_placeholder': return 'Draft saved successfully (placeholder).';
+			case 'app.masyarakat.cancel_confirmation_title': return 'Cancel Report?';
+			case 'app.masyarakat.cancel_confirmation_message': return 'Unsaved changes will be lost. Are you sure you want to exit?';
+			case 'app.masyarakat.cancel_no': return 'No';
+			case 'app.masyarakat.cancel_yes': return 'Yes';
 			default: return null;
 		}
 	}

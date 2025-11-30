@@ -7,15 +7,15 @@ import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/router/app_router.dart';
-import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
+import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
-import 'package:report/src/modules/profile/presentation/cubits/profile_state.dart';
-import 'package:report/src/modules/reporting/domain/models/ticket_category_model.dart';
-import 'package:report/src/modules/reporting/presentation/cubits/ticket_category_cubit.dart';
-import 'package:report/src/modules/reporting/presentation/cubits/ticket_category_state.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/report_cubit.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/report_state.dart';
+import '../../domain/constants/dummy_asset_data.dart';
+import '../widgets/form_sections/asset_info_section.dart';
+import '../widgets/form_sections/reporting_text_field.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/widgets/profile_section.dart';
 
 @RoutePage()
 class ReportingFormScreen extends StatefulWidget {
@@ -37,29 +37,23 @@ class ReportingFormScreen extends StatefulWidget {
 }
 
 class _ReportingFormScreenState extends State<ReportingFormScreen> {
+  // Controllers
   final _titleController = TextEditingController();
   final _problemController = TextEditingController();
   final _locationController = TextEditingController();
   final _expectedSolutionController = TextEditingController();
+  final _assetCategoryController = TextEditingController();
+  final _assetSubcategoryController = TextEditingController();
+  final _assetTypeController = TextEditingController();
+
   final GlobalKey<AppFormAttachFileState> _attachFileKey = GlobalKey();
 
-  String? _selectedCategoryName;
-  String? _selectedCategoryId;
-  String? _selectedAssetType;
-  String? _selectedAssetForm;
-  String? _selectedAssetData;
-  List<TicketCategoryModel> _categories = [];
+  // State Variables
+  String? _selectedDataAsset;
+  String? _selectedSerialNumber;
   List<File> _attachedFiles = [];
-
-  // Dummy options for new fields
-  final List<String> _assetTypeOptions = ['IT', 'Non-IT'];
-  final List<String> _assetFormOptions = ['Fisik', 'Non-Fisik'];
-  final List<String> _assetDataOptions = [
-    'Asset 1',
-    'Asset 2',
-    'Asset 3',
-    'Asset 4',
-  ];
+  bool _hasAttemptedSubmit = false;
+  final Map<String, String?> _errors = {};
 
   @override
   void dispose() {
@@ -67,386 +61,174 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     _problemController.dispose();
     _locationController.dispose();
     _expectedSolutionController.dispose();
+    _assetCategoryController.dispose();
+    _assetSubcategoryController.dispose();
+    _assetTypeController.dispose();
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final t = context.t;
+  // --- Logic Methods ---
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
-        BlocProvider(
-          create: (_) => sl<TicketCategoryCubit>()..fetchCategories(),
-        ),
-        BlocProvider(create: (_) => sl<ReportCubit>()),
-      ],
-      child: Builder(
-        builder: (context) {
-          return BlocListener<ReportCubit, ReportState>(
-            listener: (context, state) {
-              if (state is ReportLoading) {
-                _showLoadingDialog(context);
-              } else if (state is ReportSuccess) {
-                Navigator.of(context, rootNavigator: true).pop();
-                context.router.push(
-                  ReportSuccessRoute(
-                    ticketNumber: state.report.ticketId,
-                    status: state.report.status,
-                    opdName: widget.opdName ?? 'OPD - ${widget.opdId}',
-                  ),
-                );
-              } else if (state is ReportError) {
-                Navigator.of(context, rootNavigator: true).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Gagal mengirim laporan: ${state.message}'),
-                    backgroundColor: Colors.red,
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }
-            },
-            child: Scaffold(
-              backgroundColor: ColorName.background,
-              appBar: AppPrimaryBar(title: t.app.online_reporting_title),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Target OPD Display
-                          AppFormTargetDisplay(
-                            name: widget.opdName ?? 'OPD - ${widget.opdId}',
-                            imageUrl: widget.opdIconUrl,
-                            color: widget.opdColor ?? ColorName.primary,
-                          ),
+  void _onDataAssetChanged(String? value) {
+    setState(() {
+      _selectedDataAsset = value;
+      _selectedSerialNumber = null; // Reset serial number saat aset berubah
 
-                          SizedBox(height: 24.h),
+      // Clear error jika user memilih ulang
+      if (_hasAttemptedSubmit) {
+        _errors['dataAsset'] = null;
+        _errors['serialNumber'] = null;
+      }
 
-                          // User Information
-                          BlocBuilder<ProfileCubit, ProfileState>(
-                            builder: (context, state) {
-                              if (state is ProfileLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else if (state is ProfileLoaded ||
-                                  state is ProfileUpdated) {
-                                final profile = (state is ProfileLoaded)
-                                    ? state.profile
-                                    : (state as ProfileUpdated).profile;
+      // Logic Auto-fill dari Dummy Data
+      if (value != null && DummyAssetData.assetDetails.containsKey(value)) {
+        final details = DummyAssetData.assetDetails[value]!;
+        _assetCategoryController.text = details['category'] ?? '';
+        _assetSubcategoryController.text = details['subcategory'] ?? '';
+        _assetTypeController.text = details['type'] ?? '';
 
-                                final fullName =
-                                    '${profile.firstName} ${profile.lastName}'
-                                        .trim();
+        // Clear related errors
+        if (_hasAttemptedSubmit) {
+          _errors['assetCategory'] = null;
+          _errors['assetSubcategory'] = null;
+          _errors['assetType'] = null;
+        }
+      } else {
+        _assetCategoryController.clear();
+        _assetSubcategoryController.clear();
+        _assetTypeController.clear();
+      }
+    });
+  }
 
-                                return AppFormUserInfo(
-                                  name: fullName.isNotEmpty ? fullName : '-',
-                                  nip: profile.noEmployee.isNotEmpty
-                                      ? profile.noEmployee
-                                      : '-',
-                                  division: profile.division.isNotEmpty
-                                      ? profile.division
-                                      : '-',
-                                );
-                              } else if (state is ProfileError) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                                  child: Text(
-                                    'Gagal memuat profil pengguna: ${state.message}',
-                                    style: const TextStyle(color: Colors.red),
-                                  ),
-                                );
-                              } else {
-                                return const SizedBox.shrink();
-                              }
-                            },
-                          ),
+  void _clearError(String key) {
+    if (_hasAttemptedSubmit && _errors[key] != null) {
+      setState(() => _errors[key] = null);
+    }
+  }
 
-                          SizedBox(height: 24.h),
+  bool _validateForm(BuildContext context) {
+    final t = context.t.app;
 
-                          // Judul Pelaporan
-                          _buildSectionTitle(t.app.report_title_label),
-                          SizedBox(height: 8.h),
-                          _buildTextField(
-                            controller: _titleController,
-                            hint: t.app.report_title_hint,
-                          ),
+    final newErrors = <String, String?>{};
 
-                          SizedBox(height: 24.h),
+    void validate(String key, bool isInvalid, String errorMessage) {
+      if (isInvalid) {
+        newErrors[key] = errorMessage;
+      }
+    }
 
-                          // Category Selector (Dropdown)
-                          BlocBuilder<TicketCategoryCubit, TicketCategoryState>(
-                            builder: (context, state) {
-                              if (state is TicketCategoryLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else if (state is TicketCategoryLoaded) {
-                                _categories = state.categories;
-                                final categoryNames = _categories
-                                    .map((e) => e.categoryName)
-                                    .toList();
+    final title = _titleController.text.trim();
+    final problem = _problemController.text.trim();
 
-                                return AppDropdownField(
-                                  label: t.app.category_label,
-                                  value: _selectedCategoryName,
-                                  items: categoryNames,
-                                  onChanged: (name) {
-                                    setState(() {
-                                      _selectedCategoryName = name;
-                                      _selectedCategoryId = _categories
-                                          .firstWhere(
-                                            (e) => e.categoryName == name,
-                                          )
-                                          .categoryId;
-                                    });
-                                    AppLogger.d('Selected category ID: $_selectedCategoryId');
+    validate('title', title.isEmpty, t.validation.title_required);
+    validate(
+      'dataAsset',
+      _selectedDataAsset?.isEmpty ?? true,
+      t.validation.data_asset_required,
+    );
+    validate(
+      'serialNumber',
+      _selectedSerialNumber?.isEmpty ?? true,
+      t.validation.serial_number_required,
+    );
 
-                                  },
-                                );
-                              } else if (state is TicketCategoryError) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  child: Text(
-                                    'Gagal memuat kategori: ${state.message}',
-                                    style: const TextStyle(color: Colors.red),
-                                  ),
-                                );
-                              } else {
-                                return const SizedBox.shrink();
-                              }
-                            },
-                          ),
+    validate(
+      'assetCategory',
+      _assetCategoryController.text.trim().isEmpty,
+      t.validation.asset_category_required,
+    );
+    validate(
+      'assetSubcategory',
+      _assetSubcategoryController.text.trim().isEmpty,
+      t.validation.asset_subcategory_required,
+    );
+    validate(
+      'assetType',
+      _assetTypeController.text.trim().isEmpty,
+      t.validation.asset_type_required,
+    );
+    validate(
+      'location',
+      _locationController.text.trim().isEmpty,
+      t.validation.location_required,
+    );
+    validate(
+      'expectedSolution',
+      _expectedSolutionController.text.trim().isEmpty,
+      t.validation.expected_solution_required,
+    );
 
-                          SizedBox(height: 24.h),
+    validate('problem', problem.isEmpty, t.validation.description_required);
+    if (problem.isNotEmpty) {
+      validate(
+        'problem',
+        problem.length < 20,
+        t.validation.description_min_length,
+      );
+    }
 
-                          // 2️⃣ Row: Jenis Aset + Bentuk Aset
-                          Row(
-                            children: [
-                              Expanded(
-                                child: AppDropdownField(
-                                  label: t.app.asset_type_label,
-                                  value: _selectedAssetType,
-                                  items: _assetTypeOptions,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedAssetType = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Expanded(
-                                child: AppDropdownField(
-                                  label: t.app.asset_form_label,
-                                  value: _selectedAssetForm,
-                                  items: _assetFormOptions,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedAssetForm = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+    setState(() {
+      _hasAttemptedSubmit = true;
+      _errors.clear();
+      _errors.addAll(newErrors);
+    });
 
-                          SizedBox(height: 24.h),
+    return _errors.isEmpty;
+  }
 
-                          // 3️⃣ Data Aset - Full Width
-                          AppDropdownField(
-                            label: t.app.asset_data_label,
-                            value: _selectedAssetData,
-                            items: _assetDataOptions,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedAssetData = value;
-                              });
-                            },
-                          ),
+  void _handleSubmit(BuildContext context) {
+    final t = context.t.app;
+    if (!_validateForm(context)) return;
 
-                          SizedBox(height: 24.h),
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AppConfirmationDialog(
+        title: t.dialog.confirm_submit_title,
+        message: t.dialog.confirm_submit_message,
+        confirmText: t.dialog.confirm_yes,
+        cancelText: t.dialog.cancel,
+        icon: Icons.warning_amber_rounded,
+        onConfirm: () {
+          Navigator.of(dialogContext).pop();
+          AppLogger.i('Submitting Report...');
 
-                          // 4️⃣ Lokasi Kejadian - Full Width
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildSectionTitle(t.app.location_label),
-                              SizedBox(height: 8.h),
-                              _buildTextField(
-                                controller: _locationController,
-                                hint: t.app.location_hint,
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height: 24.h),
-
-                          // Problem Description (Rincian Masalah)
-                          AppFormProblemDescription(
-                            controller: _problemController,
-                          ),
-
-                          SizedBox(height: 24.h),
-
-                          // File Attachment
-                          AppFormAttachFile(
-                            key: _attachFileKey,
-                            title: t.app.attach_file_label,
-                            uploadUrl: null,
-                            onFilesChanged: (files) {
-                              setState(() {
-                                _attachedFiles = files;
-                              });
-                              AppLogger.d('Files attached: ${files.length}');
-                            },
-                          ),
-
-                          SizedBox(height: 24.h),
-
-                          // Penyelesaian yang Diharapkan
-                          _buildSectionTitle(t.app.expected_solution_label),
-                          SizedBox(height: 8.h),
-                          _buildTextArea(
-                            controller: _expectedSolutionController,
-                            hint: t.app.expected_solution_hint,
-                          ),
-
-                          SizedBox(height: 24.h),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Bottom Action Buttons
-                  AppFormBottomActions(
-                    onCancel: () => _handleCancel(context),
-                    onSaveDraft: () => _handleSaveDraft(context),
-                    onSubmit: () => _handleSubmit(context),
-                  ),
-                ],
-              ),
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Submit logic implemented via Cubit later'),
+              backgroundColor: Colors.orange,
+              behavior: SnackBarBehavior.floating,
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w600,
-        color: ColorName.textPrimary,
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hint,
-  }) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
-        filled: true,
-        fillColor: ColorName.white,
-        contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey.shade400),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey.shade400),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: ColorName.primary, width: 2),
-        ),
-      ),
-      style: TextStyle(fontSize: 14.sp, color: ColorName.textPrimary),
-    );
-  }
-
-  Widget _buildTextArea({
-    required TextEditingController controller,
-    required String hint,
-  }) {
-    return TextField(
-      controller: controller,
-      maxLines: 5,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
-        filled: true,
-        fillColor: ColorName.white,
-        contentPadding: EdgeInsets.all(14.w),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey.shade400),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.grey.shade400),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: ColorName.primary, width: 2),
-        ),
-      ),
-      style: TextStyle(
-        fontSize: 14.sp,
-        color: ColorName.textPrimary,
-        height: 1.5,
+        onCancel: () => Navigator.of(dialogContext).pop(),
       ),
     );
   }
 
   void _handleCancel(BuildContext context) {
+    final t = context.t.app;
     final hasData =
         _titleController.text.isNotEmpty ||
         _problemController.text.isNotEmpty ||
-        _selectedCategoryName != null ||
-        _selectedAssetType != null ||
-        _selectedAssetForm != null ||
-        _selectedAssetData != null ||
+        _selectedDataAsset != null ||
+        _selectedSerialNumber != null ||
         _locationController.text.isNotEmpty ||
         _expectedSolutionController.text.isNotEmpty ||
         _attachedFiles.isNotEmpty;
-
     if (hasData) {
       showDialog(
         context: context,
-        builder: (dialogContext) => AlertDialog(
-          title: Text(t.app.dialog.cancel_report_title),
-          content: Text(t.app.dialog.cancel_report_message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(t.app.dialog.continue_filling),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                context.router.pop();
-              },
-              child: Text(
-                t.app.dialog.cancel_report,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
+        builder: (dialogContext) => AppWarningDialog(
+          title: t.dialog.back_confirmation_title,
+          message: t.dialog.back_confirmation_message,
+          confirmText: t.dialog.back_confirmation_confirm,
+          cancelText: t.dialog.back_confirmation_cancel,
+          onConfirm: () {
+            Navigator.of(dialogContext).pop();
+            context.router.pop();
+          },
+          onCancel: () => Navigator.of(dialogContext).pop(),
         ),
       );
     } else {
@@ -455,189 +237,180 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
   }
 
   void _handleSaveDraft(BuildContext context) {
-    final draft = {
-      'opdId': widget.opdId,
-      'opdName': widget.opdName,
-      'title': _titleController.text,
-      'category': _selectedCategoryName,
-      'categoryId': _selectedCategoryId,
-      'assetType': _selectedAssetType,
-      'assetForm': _selectedAssetForm,
-      'assetData': _selectedAssetData,
-      'location': _locationController.text,
-      'problem': _problemController.text,
-      'expectedSolution': _expectedSolutionController.text,
-      'attachedFilesCount': _attachedFiles.length,
-      'timestamp': DateTime.now().toIso8601String(),
-    };
-
-    AppLogger.i('Saving draft: $draft');
-
+    final t = context.t.app;
+    AppLogger.i('Save draft');
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(t.app.draft_saved),
+        content: Text(t.draft_saved),
         backgroundColor: Colors.blue,
         behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
-  void _handleSubmit(BuildContext context) {
-    final t = context.t;
-
-    if (!_validateForm(context)) {
-      return;
-    }
-
-    final files = _attachFileKey.currentState?.getAttachedFiles() ?? [];
-    final file = files.isNotEmpty ? files.first : null;
-
-    final reportCubit = context.read<ReportCubit>();
-
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AppConfirmationDialog(
-        title: t.app.dialog.confirm_submit_title,
-        message: t.app.dialog.confirm_submit_message,
-        confirmText: t.app.dialog.confirm_yes,
-        cancelText: t.app.dialog.cancel,
-        icon: Icons.warning_amber_rounded,
-        onConfirm: () {
-          Navigator.of(dialogContext).pop();
-
-          // Submit with existing API call (not changed)
-          reportCubit.createPublicReport(
-            opdId: widget.opdId,
-            categoryId: _selectedCategoryId!,
-            description: _problemController.text.trim(),
-            action: "submit",
-            file: file,
-          );
-        },
-        onCancel: () => Navigator.of(dialogContext).pop(),
-      ),
-    );
-  }
-
-  bool _validateForm(BuildContext context) {
-    final t = context.t;
-    final errors = <String>[];
-
-    // 1️⃣ Judul Pelaporan
-    if (_titleController.text.trim().isEmpty) {
-      errors.add(t.app.validation.title_required);
-    }
-
-    // 2️⃣ Kategori Pelaporan
-    if (_selectedCategoryId == null || _selectedCategoryId!.isEmpty) {
-      errors.add(t.app.validation.category_required);
-    }
-
-    // 3️⃣ Jenis Aset
-    if (_selectedAssetType == null || _selectedAssetType!.isEmpty) {
-      errors.add(t.app.validation.asset_type_required);
-    }
-
-    // 4️⃣ Bentuk Aset
-    if (_selectedAssetForm == null || _selectedAssetForm!.isEmpty) {
-      errors.add(t.app.validation.asset_form_required);
-    }
-
-    // 5️⃣ Data Aset
-    if (_selectedAssetData == null || _selectedAssetData!.isEmpty) {
-      errors.add(t.app.validation.asset_data_required);
-    }
-
-    // 6️⃣ Lokasi Kejadian
-    if (_locationController.text.trim().isEmpty) {
-      errors.add(t.app.validation.location_required);
-    }
-
-    // 7️⃣ Rincian Masalah (Deskripsi)
-    if (_problemController.text.trim().isEmpty) {
-      errors.add(t.app.validation.description_required);
-    } else if (_problemController.text.trim().length < 20) {
-      errors.add(t.app.validation.description_min_length);
-    }
-
-    // 8️⃣ Penyelesaian yang Diharapkan
-    if (_expectedSolutionController.text.trim().isEmpty) {
-      errors.add(t.app.validation.expected_solution_required);
-    }
-
-    // ⚠️ Tampilkan pesan error jika ada
-    if (errors.isNotEmpty) {
-      showDialog(
-        context: context,
-        builder: (dialogContext) => AlertDialog(
-          title: Text(t.app.dialog.incomplete_form_title),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: errors
-                .map(
-                  (e) => Padding(
-                    padding: EdgeInsets.only(bottom: 8.h),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 16.sp,
-                          color: Colors.red,
-                        ),
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: Text(e, style: TextStyle(fontSize: 14.sp)),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(t.app.ok),
-            ),
-          ],
-        ),
-      );
-      return false;
-    }
-
-    return true;
-  }
-
   void _showLoadingDialog(BuildContext context) {
+    final t = context.t.app;
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (dialogContext) => PopScope(
+      builder: (_) => PopScope(
         canPop: false,
         child: Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
+          backgroundColor: Colors.white,
+          child: Padding(
             padding: EdgeInsets.all(20.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const CircularProgressIndicator(),
                 SizedBox(height: 16.h),
-                Text(
-                  t.app.sending_report,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                Text(t.sending_report),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t.app;
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
+        BlocProvider(create: (_) => sl<ReportCubit>()),
+      ],
+      child: BlocListener<ReportCubit, ReportState>(
+        listener: (context, state) {
+          if (state is ReportLoading) {
+            _showLoadingDialog(context);
+          } else if (state is ReportSuccess) {
+            Navigator.of(context, rootNavigator: true).pop();
+
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (dialogContext) => AppReportSuccessDialog(
+                title: t.dialog.report_success_title,
+                buttonText: t.dialog.report_success_button,
+                onPressed: () {
+                  Navigator.of(dialogContext).pop();
+                  context.router.push(
+                    ReportSuccessRoute(
+                      ticketNumber: state.report.ticketId,
+                      status: state.report.status,
+                      opdName: widget.opdName ?? 'OPD - ${widget.opdId}',
+                    ),
+                  );
+                },
+              ),
+            );
+          } else if (state is ReportError) {
+            Navigator.of(context, rootNavigator: true).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Gagal mengirim: ${state.message}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        child: Scaffold(
+          backgroundColor: ColorName.background,
+          appBar: AppPrimaryBar(title: t.online_reporting_title),
+          body: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppFormTargetDisplay(
+                        name: widget.opdName ?? 'OPD - ${widget.opdId}',
+                        imageUrl: widget.opdIconUrl,
+                        color: widget.opdColor ?? ColorName.primary,
+                      ),
+                      SizedBox(height: 24.h),
+
+                      const ProfileSection(),
+                      SizedBox(height: 24.h),
+
+                      ReportingTextField(
+                        label: t.report_title_label, // ✅ t.app
+                        hint: t.report_title_hint, // ✅ t.app
+                        controller: _titleController,
+                        errorText: _errors['title'],
+                        onChanged: (_) => _clearError('title'),
+                      ),
+                      SizedBox(height: 24.h),
+
+                      AssetInfoSection(
+                        selectedDataAsset: _selectedDataAsset,
+                        selectedSerialNumber: _selectedSerialNumber,
+                        dataAssetOptions: DummyAssetData.dataAssetOptions,
+                        serialNumberOptions: _selectedDataAsset != null
+                            ? (DummyAssetData
+                                      .serialNumberOptions[_selectedDataAsset!] ??
+                                  [])
+                            : [],
+                        assetCategoryController: _assetCategoryController,
+                        assetSubcategoryController: _assetSubcategoryController,
+                        assetTypeController: _assetTypeController,
+                        onDataAssetChanged: _onDataAssetChanged,
+                        onSerialNumberChanged: (val) {
+                          setState(() => _selectedSerialNumber = val);
+                          _clearError('serialNumber');
+                        },
+                        errors: _errors,
+                      ),
+                      SizedBox(height: 24.h),
+
+                      ReportingTextField(
+                        label: t.location_label, // ✅ t.app
+                        hint: t.location_hint, // ✅ t.app
+                        controller: _locationController,
+                        errorText: _errors['location'],
+                        onChanged: (_) => _clearError('location'),
+                      ),
+                      SizedBox(height: 24.h),
+
+                      AppFormProblemDescription(
+                        controller: _problemController,
+                        errorText: _errors['problem'],
+                        onChanged: (_) => _clearError('problem'),
+                      ),
+                      SizedBox(height: 24.h),
+
+                      AppFormAttachFile(
+                        key: _attachFileKey,
+                        title: t.attach_file_label,
+                        onFilesChanged: (files) =>
+                            setState(() => _attachedFiles = files),
+                      ),
+                      SizedBox(height: 24.h),
+
+                      ReportingTextField(
+                        label: t.expected_solution_label,
+                        hint: t.expected_solution_hint,
+                        controller: _expectedSolutionController,
+                        errorText: _errors['expectedSolution'],
+                        maxLines: 5,
+                        onChanged: (_) => _clearError('expectedSolution'),
+                      ),
+                      SizedBox(height: 24.h),
+                    ],
+                  ),
+                ),
+              ),
+              AppFormBottomActions(
+                onCancel: () => _handleCancel(context),
+                onSaveDraft: () => _handleSaveDraft(context),
+                onSubmit: () => _handleSubmit(context),
+              ),
+            ],
           ),
         ),
       ),

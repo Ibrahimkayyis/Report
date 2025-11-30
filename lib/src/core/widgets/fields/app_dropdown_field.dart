@@ -8,6 +8,7 @@ class AppDropdownField extends StatelessWidget {
   final String? value;
   final List<String> items;
   final ValueChanged<String?> onChanged;
+  final String? errorText; // ✅ NEW PARAMETER
 
   const AppDropdownField({
     super.key,
@@ -15,10 +16,13 @@ class AppDropdownField extends StatelessWidget {
     required this.value,
     required this.items,
     required this.onChanged,
+    this.errorText, // ✅ NEW PARAMETER
   });
 
   @override
   Widget build(BuildContext context) {
+    final hasError = errorText != null && errorText!.isNotEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,13 +42,40 @@ class AppDropdownField extends StatelessWidget {
           onChanged: onChanged,
           decoration: CustomDropdownDecoration(
             closedFillColor: ColorName.white,
-            closedBorder: Border.all(color: Colors.grey.shade400),
+            closedBorder: Border.all(
+              color: hasError ? Colors.red : Colors.grey.shade400, // ✅ Red border on error
+              width: hasError ? 2 : 1, // ✅ Thicker border on error
+            ),
             closedBorderRadius: BorderRadius.circular(8.r),
             expandedBorderRadius: BorderRadius.circular(8.r),
             listItemStyle: TextStyle(fontSize: 14.sp, color: ColorName.black),
             hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
           ),
         ),
+        // ✅ ERROR TEXT
+        if (hasError) ...[
+          SizedBox(height: 6.h),
+          Row(
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 14.sp,
+                color: Colors.red,
+              ),
+              SizedBox(width: 4.w),
+              Expanded(
+                child: Text(
+                  errorText!,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

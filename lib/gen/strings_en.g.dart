@@ -863,12 +863,6 @@ class TranslationsAppEn {
 	/// en: 'Enter here...'
 	String get expected_solution_hint => 'Enter here...';
 
-	/// en: 'Judul Permintaan'
-	String get request_title_label => 'Judul Permintaan';
-
-	/// en: 'Masukkan judul permintaan layanan'
-	String get request_title_hint => 'Masukkan judul permintaan layanan';
-
 	/// en: 'Rincian Permintaan'
 	String get problem_label => 'Rincian Permintaan';
 
@@ -877,6 +871,60 @@ class TranslationsAppEn {
 
 	/// en: 'Search OPD name...'
 	String get search_opd_hint => 'Search OPD name...';
+
+	/// en: 'Data Asset'
+	String get data_asset_label => 'Data Asset';
+
+	/// en: 'Serial Number'
+	String get serial_number_label => 'Serial Number';
+
+	/// en: 'Asset Category'
+	String get asset_category_label => 'Asset Category';
+
+	/// en: 'Sub-Category Asset'
+	String get asset_subcategory_label => 'Sub-Category Asset';
+
+	/// en: 'Select data asset'
+	String get data_asset_hint => 'Select data asset';
+
+	/// en: 'Select serial number'
+	String get serial_number_hint => 'Select serial number';
+
+	/// en: ''
+	String get asset_category_hint => '';
+
+	/// en: ''
+	String get asset_subcategory_hint => '';
+
+	/// en: ''
+	String get asset_type_hint => '';
+
+	/// en: 'Request Title'
+	String get request_title_label => 'Request Title';
+
+	/// en: 'Enter request title'
+	String get request_title_hint => 'Enter request title';
+
+	/// en: 'Service Location'
+	String get service_location_label => 'Service Location';
+
+	/// en: 'Enter service location'
+	String get service_location_hint => 'Enter service location';
+
+	/// en: 'Service Request Details'
+	String get service_description_label => 'Service Request Details';
+
+	/// en: 'Explain your service request in detail so we can better understand your needs!'
+	String get service_description_hint => 'Explain your service request in detail so we can better understand your needs!';
+
+	/// en: 'Foto profil berhasil diperbarui'
+	String get photo_updated_success => 'Foto profil berhasil diperbarui';
+
+	/// en: 'Gagal memperbarui foto profil'
+	String get photo_updated_failed => 'Gagal memperbarui foto profil';
+
+	/// en: 'Gagal!'
+	String get failed => 'Gagal!';
 
 	late final TranslationsAppValidationEn validation = TranslationsAppValidationEn._(_root);
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
@@ -888,6 +936,8 @@ class TranslationsAppEn {
 	late final TranslationsAppRfcEn rfc = TranslationsAppRfcEn._(_root);
 	late final TranslationsAppRatingEn rating = TranslationsAppRatingEn._(_root);
 	late final TranslationsAppRatingDetailEn rating_detail = TranslationsAppRatingDetailEn._(_root);
+	late final TranslationsAppOnboardingEn onboarding = TranslationsAppOnboardingEn._(_root);
+	late final TranslationsAppMasyarakatEn masyarakat = TranslationsAppMasyarakatEn._(_root);
 }
 
 // Path: app.validation
@@ -924,6 +974,27 @@ class TranslationsAppValidationEn {
 
 	/// en: 'Problem description must be at least 20 characters'
 	String get description_min_length => 'Problem description must be at least 20 characters';
+
+	/// en: 'Data asset is required'
+	String get data_asset_required => 'Data asset is required';
+
+	/// en: 'Serial number is required'
+	String get serial_number_required => 'Serial number is required';
+
+	/// en: 'Asset category is required'
+	String get asset_category_required => 'Asset category is required';
+
+	/// en: 'Sub-category asset is required'
+	String get asset_subcategory_required => 'Sub-category asset is required';
+
+	/// en: 'Request title is required'
+	String get request_title_required => 'Request title is required';
+
+	/// en: 'Service location is required'
+	String get service_location_required => 'Service location is required';
+
+	/// en: 'Service request details are required'
+	String get service_description_required => 'Service request details are required';
 }
 
 // Path: app.errors
@@ -1420,12 +1491,6 @@ class TranslationsAppRfcEn {
 	/// en: 'Enter here'
 	String get phone_number_hint => 'Enter here';
 
-	/// en: 'Asset Category'
-	String get asset_category => 'Asset Category';
-
-	/// en: 'Select category'
-	String get asset_category_hint => 'Select category';
-
 	/// en: 'Asset Name'
 	String get asset_name => 'Asset Name';
 
@@ -1465,9 +1530,6 @@ class TranslationsAppRfcEn {
 	/// en: 'Cost Estimate'
 	String get cost_estimate => 'Cost Estimate';
 
-	/// en: ''
-	String get cost_estimate_hint => '';
-
 	/// en: 'Change Impact'
 	String get change_impact => 'Change Impact';
 
@@ -1495,9 +1557,6 @@ class TranslationsAppRfcEn {
 	/// en: 'Phone number is invalid'
 	String get validation_phone_invalid => 'Phone number is invalid';
 
-	/// en: 'Please select asset category'
-	String get validation_category_required => 'Please select asset category';
-
 	/// en: 'Please select asset name'
 	String get validation_asset_required => 'Please select asset name';
 
@@ -1512,6 +1571,102 @@ class TranslationsAppRfcEn {
 
 	/// en: 'RFC submitted successfully'
 	String get message_submit_success => 'RFC submitted successfully';
+
+	/// en: 'OPD Origin'
+	String get opd_origin_label => 'OPD Origin';
+
+	/// en: 'Select OPD'
+	String get opd_origin_hint => 'Select OPD';
+
+	/// en: 'Asset Data'
+	String get data_asset_label => 'Asset Data';
+
+	/// en: 'Select asset data'
+	String get data_asset_hint => 'Select asset data';
+
+	/// en: 'Serial Number'
+	String get serial_number_label => 'Serial Number';
+
+	/// en: 'Select serial number'
+	String get serial_number_hint => 'Select serial number';
+
+	/// en: 'Asset Category'
+	String get asset_category => 'Asset Category';
+
+	/// en: 'Auto-filled'
+	String get asset_category_hint => 'Auto-filled';
+
+	/// en: 'Asset Sub-Category'
+	String get asset_subcategory_label => 'Asset Sub-Category';
+
+	/// en: 'Auto-filled'
+	String get asset_subcategory_hint => 'Auto-filled';
+
+	/// en: 'Asset Type'
+	String get asset_type_label => 'Asset Type';
+
+	/// en: 'Auto-filled'
+	String get asset_type_hint => 'Auto-filled';
+
+	/// en: 'Time Estimate'
+	String get time_estimate_label => 'Time Estimate';
+
+	/// en: 'Select time estimate'
+	String get time_estimate_hint => 'Select time estimate';
+
+	/// en: 'Cost Estimate'
+	String get cost_estimate_label => 'Cost Estimate';
+
+	/// en: 'Select cost estimate'
+	String get cost_estimate_hint => 'Select cost estimate';
+
+	/// en: 'OPD origin is required'
+	String get validation_opd_required => 'OPD origin is required';
+
+	/// en: 'Asset data is required'
+	String get validation_data_asset_required => 'Asset data is required';
+
+	/// en: 'Serial number is required'
+	String get validation_serial_number_required => 'Serial number is required';
+
+	/// en: 'Asset category is required'
+	String get validation_category_required => 'Asset category is required';
+
+	/// en: 'Asset sub-category is required'
+	String get validation_subcategory_required => 'Asset sub-category is required';
+
+	/// en: 'Asset type is required'
+	String get validation_asset_type_required => 'Asset type is required';
+
+	/// en: 'Time estimate is required'
+	String get validation_time_estimate_required => 'Time estimate is required';
+
+	/// en: 'Cost estimate is required'
+	String get validation_cost_estimate_required => 'Cost estimate is required';
+
+	/// en: 'Description must be at least 20'
+	String get validation_description_min_length => 'Description must be at least 20';
+
+	/// en: 'Cancel RFC Submission?'
+	String get dialog_cancel_title => 'Cancel RFC Submission?';
+
+	/// en: 'Are you sure you want to cancel? All entered data will be lost.'
+	String get dialog_cancel_message => 'Are you sure you want to cancel? All entered data will be lost.';
+
+	/// en: 'Continue Filling'
+	String get dialog_continue => 'Continue Filling';
+
+	/// en: 'Yes, Cancel'
+	String get dialog_cancel_confirm => 'Yes, Cancel';
+
+	/// en: 'Submit RFC?'
+	String get dialog_submit_title => 'Submit RFC?';
+
+	/// en: 'Are you sure you want to submit this Request for Change?'
+	String get dialog_submit_message => 'Are you sure you want to submit this Request for Change?';
+
+	/// en: 'Yes, Submit'
+	String get dialog_submit_confirm => 'Yes, Submit';
 }
 
 // Path: app.rating
@@ -1599,6 +1754,127 @@ class TranslationsAppRatingDetailEn {
 
 	/// en: 'Back'
 	String get button_cancel => 'Back';
+}
+
+// Path: app.onboarding
+class TranslationsAppOnboardingEn {
+	TranslationsAppOnboardingEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Skip'
+	String get skip => 'Skip';
+
+	/// en: 'Start'
+	String get start => 'Start';
+
+	late final TranslationsAppOnboardingPage1En page1 = TranslationsAppOnboardingPage1En._(_root);
+	late final TranslationsAppOnboardingPage2En page2 = TranslationsAppOnboardingPage2En._(_root);
+	late final TranslationsAppOnboardingPage3En page3 = TranslationsAppOnboardingPage3En._(_root);
+}
+
+// Path: app.masyarakat
+class TranslationsAppMasyarakatEn {
+	TranslationsAppMasyarakatEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'What do you want to report?'
+	String get what_to_report => 'What do you want to report?';
+
+	/// en: 'Describe your issue in detail...'
+	String get report_hint => 'Describe your issue in detail...';
+
+	/// en: 'Attachments (Optional)'
+	String get attach_file_label => 'Attachments (Optional)';
+
+	/// en: 'Upload supporting photos or documents (max 2 files)'
+	String get attach_file_subtitle => 'Upload supporting photos or documents (max 2 files)';
+
+	/// en: 'Full Name'
+	String get name_label => 'Full Name';
+
+	/// en: 'National ID Number'
+	String get nik_label => 'National ID Number';
+
+	/// en: 'Email'
+	String get email_label => 'Email';
+
+	/// en: 'Report description is required.'
+	String get validation_description_required => 'Report description is required.';
+
+	/// en: 'Description must contain at least 20 characters.'
+	String get validation_description_min_length => 'Description must contain at least 20 characters.';
+
+	/// en: 'The form is invalid. Please check your inputs.'
+	String get validation_error_message => 'The form is invalid. Please check your inputs.';
+
+	/// en: 'Report submitted successfully (placeholder).'
+	String get submit_success_placeholder => 'Report submitted successfully (placeholder).';
+
+	/// en: 'Draft saved successfully (placeholder).'
+	String get draft_saved_placeholder => 'Draft saved successfully (placeholder).';
+
+	/// en: 'Cancel Report?'
+	String get cancel_confirmation_title => 'Cancel Report?';
+
+	/// en: 'Unsaved changes will be lost. Are you sure you want to exit?'
+	String get cancel_confirmation_message => 'Unsaved changes will be lost. Are you sure you want to exit?';
+
+	/// en: 'No'
+	String get cancel_no => 'No';
+
+	/// en: 'Yes'
+	String get cancel_yes => 'Yes';
+}
+
+// Path: app.onboarding.page1
+class TranslationsAppOnboardingPage1En {
+	TranslationsAppOnboardingPage1En._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'One App for All Services'
+	String get title => 'One App for All Services';
+
+	/// en: 'Manage complaints, service requests, and communicate with agencies through a unified platform.'
+	String get body => 'Manage complaints, service requests, and communicate with agencies through a unified platform.';
+}
+
+// Path: app.onboarding.page2
+class TranslationsAppOnboardingPage2En {
+	TranslationsAppOnboardingPage2En._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Technician Tools'
+	String get title => 'Technician Tools';
+
+	/// en: 'Access tickets, update progress, and monitor SLAs directly from the app.'
+	String get body => 'Access tickets, update progress, and monitor SLAs directly from the app.';
+}
+
+// Path: app.onboarding.page3
+class TranslationsAppOnboardingPage3En {
+	TranslationsAppOnboardingPage3En._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Faster Helpdesk'
+	String get title => 'Faster Helpdesk';
+
+	/// en: 'Use chat to communicate directly with operators and technicians.'
+	String get body => 'Use chat to communicate directly with operators and technicians.';
 }
 
 /// Flat map(s) containing all translations.
@@ -1877,11 +2153,27 @@ extension on Translations {
 			case 'app.location_hint': return 'Enter here';
 			case 'app.expected_solution_label': return 'Expected Solution';
 			case 'app.expected_solution_hint': return 'Enter here...';
-			case 'app.request_title_label': return 'Judul Permintaan';
-			case 'app.request_title_hint': return 'Masukkan judul permintaan layanan';
 			case 'app.problem_label': return 'Rincian Permintaan';
 			case 'app.problem_hint': return 'Jelaskan secara singkat masalah atau kebutuhan Anda...';
 			case 'app.search_opd_hint': return 'Search OPD name...';
+			case 'app.data_asset_label': return 'Data Asset';
+			case 'app.serial_number_label': return 'Serial Number';
+			case 'app.asset_category_label': return 'Asset Category';
+			case 'app.asset_subcategory_label': return 'Sub-Category Asset';
+			case 'app.data_asset_hint': return 'Select data asset';
+			case 'app.serial_number_hint': return 'Select serial number';
+			case 'app.asset_category_hint': return '';
+			case 'app.asset_subcategory_hint': return '';
+			case 'app.asset_type_hint': return '';
+			case 'app.request_title_label': return 'Request Title';
+			case 'app.request_title_hint': return 'Enter request title';
+			case 'app.service_location_label': return 'Service Location';
+			case 'app.service_location_hint': return 'Enter service location';
+			case 'app.service_description_label': return 'Service Request Details';
+			case 'app.service_description_hint': return 'Explain your service request in detail so we can better understand your needs!';
+			case 'app.photo_updated_success': return 'Foto profil berhasil diperbarui';
+			case 'app.photo_updated_failed': return 'Gagal memperbarui foto profil';
+			case 'app.failed': return 'Gagal!';
 			case 'app.validation.title_required': return 'Report title is required';
 			case 'app.validation.asset_type_required': return 'Asset type is required';
 			case 'app.validation.asset_form_required': return 'Asset form is required';
@@ -1891,6 +2183,13 @@ extension on Translations {
 			case 'app.validation.category_required': return 'Report category must be selected';
 			case 'app.validation.description_required': return 'Problem description is required';
 			case 'app.validation.description_min_length': return 'Problem description must be at least 20 characters';
+			case 'app.validation.data_asset_required': return 'Data asset is required';
+			case 'app.validation.serial_number_required': return 'Serial number is required';
+			case 'app.validation.asset_category_required': return 'Asset category is required';
+			case 'app.validation.asset_subcategory_required': return 'Sub-category asset is required';
+			case 'app.validation.request_title_required': return 'Request title is required';
+			case 'app.validation.service_location_required': return 'Service location is required';
+			case 'app.validation.service_description_required': return 'Service request details are required';
 			case 'app.errors.invalid_credentials': return 'Invalid email or password';
 			case 'app.errors.server_error': return 'Server error occurred';
 			case 'app.errors.network_error': return 'Network error, please check your connection';
@@ -2035,8 +2334,6 @@ extension on Translations {
 			case 'app.rfc.applicant_name_hint': return 'Enter here';
 			case 'app.rfc.phone_number': return 'Phone Number';
 			case 'app.rfc.phone_number_hint': return 'Enter here';
-			case 'app.rfc.asset_category': return 'Asset Category';
-			case 'app.rfc.asset_category_hint': return 'Select category';
 			case 'app.rfc.asset_name': return 'Asset Name';
 			case 'app.rfc.asset_name_hint': return 'Select asset';
 			case 'app.rfc.description': return 'Description';
@@ -2050,7 +2347,6 @@ extension on Translations {
 			case 'app.rfc.affected_asset': return 'Affected Asset';
 			case 'app.rfc.affected_asset_hint': return 'Select asset';
 			case 'app.rfc.cost_estimate': return 'Cost Estimate';
-			case 'app.rfc.cost_estimate_hint': return '';
 			case 'app.rfc.change_impact': return 'Change Impact';
 			case 'app.rfc.change_impact_hint': return 'Enter here';
 			case 'app.rfc.no_change_impact': return 'Impact If Change Not Made';
@@ -2060,12 +2356,43 @@ extension on Translations {
 			case 'app.rfc.button_submit': return 'Submit';
 			case 'app.rfc.validation_required': return 'This field is required';
 			case 'app.rfc.validation_phone_invalid': return 'Phone number is invalid';
-			case 'app.rfc.validation_category_required': return 'Please select asset category';
 			case 'app.rfc.validation_asset_required': return 'Please select asset name';
 			case 'app.rfc.validation_date_required': return 'Please select date range';
 			case 'app.rfc.validation_affected_asset_required': return 'Please select affected asset';
 			case 'app.rfc.message_draft_saved': return 'Draft saved successfully';
 			case 'app.rfc.message_submit_success': return 'RFC submitted successfully';
+			case 'app.rfc.opd_origin_label': return 'OPD Origin';
+			case 'app.rfc.opd_origin_hint': return 'Select OPD';
+			case 'app.rfc.data_asset_label': return 'Asset Data';
+			case 'app.rfc.data_asset_hint': return 'Select asset data';
+			case 'app.rfc.serial_number_label': return 'Serial Number';
+			case 'app.rfc.serial_number_hint': return 'Select serial number';
+			case 'app.rfc.asset_category': return 'Asset Category';
+			case 'app.rfc.asset_category_hint': return 'Auto-filled';
+			case 'app.rfc.asset_subcategory_label': return 'Asset Sub-Category';
+			case 'app.rfc.asset_subcategory_hint': return 'Auto-filled';
+			case 'app.rfc.asset_type_label': return 'Asset Type';
+			case 'app.rfc.asset_type_hint': return 'Auto-filled';
+			case 'app.rfc.time_estimate_label': return 'Time Estimate';
+			case 'app.rfc.time_estimate_hint': return 'Select time estimate';
+			case 'app.rfc.cost_estimate_label': return 'Cost Estimate';
+			case 'app.rfc.cost_estimate_hint': return 'Select cost estimate';
+			case 'app.rfc.validation_opd_required': return 'OPD origin is required';
+			case 'app.rfc.validation_data_asset_required': return 'Asset data is required';
+			case 'app.rfc.validation_serial_number_required': return 'Serial number is required';
+			case 'app.rfc.validation_category_required': return 'Asset category is required';
+			case 'app.rfc.validation_subcategory_required': return 'Asset sub-category is required';
+			case 'app.rfc.validation_asset_type_required': return 'Asset type is required';
+			case 'app.rfc.validation_time_estimate_required': return 'Time estimate is required';
+			case 'app.rfc.validation_cost_estimate_required': return 'Cost estimate is required';
+			case 'app.rfc.validation_description_min_length': return 'Description must be at least 20';
+			case 'app.rfc.dialog_cancel_title': return 'Cancel RFC Submission?';
+			case 'app.rfc.dialog_cancel_message': return 'Are you sure you want to cancel? All entered data will be lost.';
+			case 'app.rfc.dialog_continue': return 'Continue Filling';
+			case 'app.rfc.dialog_cancel_confirm': return 'Yes, Cancel';
+			case 'app.rfc.dialog_submit_title': return 'Submit RFC?';
+			case 'app.rfc.dialog_submit_message': return 'Are you sure you want to submit this Request for Change?';
+			case 'app.rfc.dialog_submit_confirm': return 'Yes, Submit';
 			case 'app.rating.rating_title': return 'Rating';
 			case 'app.rating.page_title': return 'Satisfaction Rating';
 			case 'app.rating.detail_title': return 'Ticket Rating Detail';
@@ -2089,6 +2416,30 @@ extension on Translations {
 			case 'app.rating_detail.response_speed': return 'Response Speed';
 			case 'app.rating_detail.solution_quality': return 'Solution Quality';
 			case 'app.rating_detail.button_cancel': return 'Back';
+			case 'app.onboarding.skip': return 'Skip';
+			case 'app.onboarding.start': return 'Start';
+			case 'app.onboarding.page1.title': return 'One App for All Services';
+			case 'app.onboarding.page1.body': return 'Manage complaints, service requests, and communicate with agencies through a unified platform.';
+			case 'app.onboarding.page2.title': return 'Technician Tools';
+			case 'app.onboarding.page2.body': return 'Access tickets, update progress, and monitor SLAs directly from the app.';
+			case 'app.onboarding.page3.title': return 'Faster Helpdesk';
+			case 'app.onboarding.page3.body': return 'Use chat to communicate directly with operators and technicians.';
+			case 'app.masyarakat.what_to_report': return 'What do you want to report?';
+			case 'app.masyarakat.report_hint': return 'Describe your issue in detail...';
+			case 'app.masyarakat.attach_file_label': return 'Attachments (Optional)';
+			case 'app.masyarakat.attach_file_subtitle': return 'Upload supporting photos or documents (max 2 files)';
+			case 'app.masyarakat.name_label': return 'Full Name';
+			case 'app.masyarakat.nik_label': return 'National ID Number';
+			case 'app.masyarakat.email_label': return 'Email';
+			case 'app.masyarakat.validation_description_required': return 'Report description is required.';
+			case 'app.masyarakat.validation_description_min_length': return 'Description must contain at least 20 characters.';
+			case 'app.masyarakat.validation_error_message': return 'The form is invalid. Please check your inputs.';
+			case 'app.masyarakat.submit_success_placeholder': return 'Report submitted successfully (placeholder).';
+			case 'app.masyarakat.draft_saved_placeholder': return 'Draft saved successfully (placeholder).';
+			case 'app.masyarakat.cancel_confirmation_title': return 'Cancel Report?';
+			case 'app.masyarakat.cancel_confirmation_message': return 'Unsaved changes will be lost. Are you sure you want to exit?';
+			case 'app.masyarakat.cancel_no': return 'No';
+			case 'app.masyarakat.cancel_yes': return 'Yes';
 			default: return null;
 		}
 	}
