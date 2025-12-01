@@ -917,14 +917,65 @@ class TranslationsAppEn {
 	/// en: 'Explain your service request in detail so we can better understand your needs!'
 	String get service_description_hint => 'Explain your service request in detail so we can better understand your needs!';
 
-	/// en: 'Foto profil berhasil diperbarui'
-	String get photo_updated_success => 'Foto profil berhasil diperbarui';
+	/// en: 'Photo profile updated successfully'
+	String get photo_updated_success => 'Photo profile updated successfully';
 
-	/// en: 'Gagal memperbarui foto profil'
-	String get photo_updated_failed => 'Gagal memperbarui foto profil';
+	/// en: 'Failed to update photo profile'
+	String get photo_updated_failed => 'Failed to update photo profile';
 
-	/// en: 'Gagal!'
-	String get failed => 'Gagal!';
+	/// en: 'Failed!'
+	String get failed => 'Failed!';
+
+	/// en: 'Forgot Password?'
+	String get forgot_password_title => 'Forgot Password?';
+
+	/// en: 'Don't worry! Enter your connected Email address, we will send instructions to reset your password'
+	String get forgot_password_subtitle => 'Don\'t worry! Enter your connected Email address, we will send instructions to reset your password';
+
+	/// en: 'Email address'
+	String get email_address => 'Email address';
+
+	/// en: 'Send'
+	String get send_button => 'Send';
+
+	/// en: 'Check Your Email'
+	String get verify_otp_title => 'Check Your Email';
+
+	/// en: 'We have sent a 4-digit code to '
+	String get verify_otp_subtitle_prefix => 'We have sent a 4-digit code to ';
+
+	/// en: 'Didn't receive the code? '
+	String get otp_not_received => 'Didn\'t receive the code? ';
+
+	/// en: 'Resend'
+	String get resend_otp => 'Resend';
+
+	/// en: 'Verify'
+	String get verify_button => 'Verify';
+
+	/// en: 'OTP code has been resent'
+	String get otp_resent => 'OTP code has been resent';
+
+	/// en: 'Update Password'
+	String get reset_password_title => 'Update Password';
+
+	/// en: 'New password'
+	String get new_password_label => 'New password';
+
+	/// en: 'Confirm password'
+	String get confirm_password_label => 'Confirm password';
+
+	/// en: 'Update Password'
+	String get reset_password_button => 'Update Password';
+
+	/// en: 'Passwords do not match'
+	String get password_mismatch => 'Passwords do not match';
+
+	/// en: 'Password successfully updated!'
+	String get password_reset_success_title => 'Password successfully updated!';
+
+	/// en: 'Please login with your new password'
+	String get password_reset_success_message => 'Please login with your new password';
 
 	late final TranslationsAppValidationEn validation = TranslationsAppValidationEn._(_root);
 	late final TranslationsAppErrorsEn errors = TranslationsAppErrorsEn._(_root);
@@ -1073,6 +1124,36 @@ class TranslationsAppDialogEn {
 
 	/// en: 'Batalkan'
 	String get cancel_request => 'Batalkan';
+
+	/// en: 'Are you sure you want to go back?'
+	String get back_confirmation_title => 'Are you sure you want to go back?';
+
+	/// en: 'The data you entered will not be saved!'
+	String get back_confirmation_message => 'The data you entered will not be saved!';
+
+	/// en: 'Yes, I'm sure!'
+	String get back_confirmation_confirm => 'Yes, I\'m sure!';
+
+	/// en: 'Cancel'
+	String get back_confirmation_cancel => 'Cancel';
+
+	/// en: 'Report successfully submitted!'
+	String get report_success_title => 'Report successfully submitted!';
+
+	/// en: 'Okay'
+	String get report_success_button => 'Okay';
+
+	/// en: 'Failed to submit: {message}'
+	String get report_error_message => 'Failed to submit: {message}';
+
+	/// en: 'Confirm Update'
+	String get confirm_update_title => 'Confirm Update';
+
+	/// en: 'Are you sure you want to update the ticket status?'
+	String get confirm_update_message => 'Are you sure you want to update the ticket status?';
+
+	/// en: 'Update Successful'
+	String get update_success_title => 'Update Successful';
 }
 
 // Path: app.notifications
@@ -1667,6 +1748,12 @@ class TranslationsAppRfcEn {
 
 	/// en: 'Yes, Submit'
 	String get dialog_submit_confirm => 'Yes, Submit';
+
+	/// en: 'RFC Submitted Successfully'
+	String get dialog_report_success_title => 'RFC Submitted Successfully';
+
+	/// en: 'OK'
+	String get dialog_report_success_button => 'OK';
 }
 
 // Path: app.rating
@@ -2171,9 +2258,26 @@ extension on Translations {
 			case 'app.service_location_hint': return 'Enter service location';
 			case 'app.service_description_label': return 'Service Request Details';
 			case 'app.service_description_hint': return 'Explain your service request in detail so we can better understand your needs!';
-			case 'app.photo_updated_success': return 'Foto profil berhasil diperbarui';
-			case 'app.photo_updated_failed': return 'Gagal memperbarui foto profil';
-			case 'app.failed': return 'Gagal!';
+			case 'app.photo_updated_success': return 'Photo profile updated successfully';
+			case 'app.photo_updated_failed': return 'Failed to update photo profile';
+			case 'app.failed': return 'Failed!';
+			case 'app.forgot_password_title': return 'Forgot Password?';
+			case 'app.forgot_password_subtitle': return 'Don\'t worry! Enter your connected Email address, we will send instructions to reset your password';
+			case 'app.email_address': return 'Email address';
+			case 'app.send_button': return 'Send';
+			case 'app.verify_otp_title': return 'Check Your Email';
+			case 'app.verify_otp_subtitle_prefix': return 'We have sent a 4-digit code to ';
+			case 'app.otp_not_received': return 'Didn\'t receive the code? ';
+			case 'app.resend_otp': return 'Resend';
+			case 'app.verify_button': return 'Verify';
+			case 'app.otp_resent': return 'OTP code has been resent';
+			case 'app.reset_password_title': return 'Update Password';
+			case 'app.new_password_label': return 'New password';
+			case 'app.confirm_password_label': return 'Confirm password';
+			case 'app.reset_password_button': return 'Update Password';
+			case 'app.password_mismatch': return 'Passwords do not match';
+			case 'app.password_reset_success_title': return 'Password successfully updated!';
+			case 'app.password_reset_success_message': return 'Please login with your new password';
 			case 'app.validation.title_required': return 'Report title is required';
 			case 'app.validation.asset_type_required': return 'Asset type is required';
 			case 'app.validation.asset_form_required': return 'Asset form is required';
@@ -2210,6 +2314,16 @@ extension on Translations {
 			case 'app.dialog.cancel_request_title': return 'Batalkan Permintaan?';
 			case 'app.dialog.cancel_request_message': return 'Anda yakin ingin membatalkan pengisian formulir ini?';
 			case 'app.dialog.cancel_request': return 'Batalkan';
+			case 'app.dialog.back_confirmation_title': return 'Are you sure you want to go back?';
+			case 'app.dialog.back_confirmation_message': return 'The data you entered will not be saved!';
+			case 'app.dialog.back_confirmation_confirm': return 'Yes, I\'m sure!';
+			case 'app.dialog.back_confirmation_cancel': return 'Cancel';
+			case 'app.dialog.report_success_title': return 'Report successfully submitted!';
+			case 'app.dialog.report_success_button': return 'Okay';
+			case 'app.dialog.report_error_message': return 'Failed to submit: {message}';
+			case 'app.dialog.confirm_update_title': return 'Confirm Update';
+			case 'app.dialog.confirm_update_message': return 'Are you sure you want to update the ticket status?';
+			case 'app.dialog.update_success_title': return 'Update Successful';
 			case 'app.notifications.title': return 'Notifications';
 			case 'app.notifications.search_placeholder': return 'Search notifications...';
 			case 'app.notifications.mark_all_as_read': return 'Mark all as read';
@@ -2393,6 +2507,8 @@ extension on Translations {
 			case 'app.rfc.dialog_submit_title': return 'Submit RFC?';
 			case 'app.rfc.dialog_submit_message': return 'Are you sure you want to submit this Request for Change?';
 			case 'app.rfc.dialog_submit_confirm': return 'Yes, Submit';
+			case 'app.rfc.dialog_report_success_title': return 'RFC Submitted Successfully';
+			case 'app.rfc.dialog_report_success_button': return 'OK';
 			case 'app.rating.rating_title': return 'Rating';
 			case 'app.rating.page_title': return 'Satisfaction Rating';
 			case 'app.rating.detail_title': return 'Ticket Rating Detail';

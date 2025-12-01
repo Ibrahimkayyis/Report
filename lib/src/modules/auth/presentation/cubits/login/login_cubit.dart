@@ -11,7 +11,6 @@ class LoginCubit extends Cubit<LoginState> {
   final AuthRepository authRepository;
 
   LoginCubit(this.loginUseCase, this.authRepository) : super(LoginInitial());
-
   Future<void> login({
     required String email,
     required String password,
@@ -19,15 +18,12 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
 
     try {
-      // 🔹 Jalankan use case login (akan return token)
       final token = await loginUseCase(
         LoginParams(email: email, password: password),
       );
 
-      // 🔹 Ambil role yang disimpan (karena repository menyimpannya di login)
       final role = await authRepository.getSavedRole() ?? 'masyarakat';
 
-      // 🔹 Emit LoginSuccess dengan token + role
       emit(LoginSuccess(token, role));
     } catch (e) {
       emit(LoginFailure(mapFailureToMessage(e)));

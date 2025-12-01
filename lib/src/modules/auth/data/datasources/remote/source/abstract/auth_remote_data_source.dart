@@ -1,3 +1,5 @@
+import 'package:report/src/modules/auth/domain/enums/user_type.dart';
+
 abstract class AuthRemoteDataSource {
   Future<String> register({
     required String email,
@@ -13,12 +15,9 @@ abstract class AuthRemoteDataSource {
   Future<Map<String, dynamic>> login({
     required String email,
     required String password,
+    required UserType type,
   });
 
-  /// Refresh access token menggunakan refresh token
-  /// 
-  /// Endpoint: POST /refresh?refresh_token=xxx
-  /// Returns: String (new access token)
   Future<String> refreshToken({
     required String refreshToken,
   });

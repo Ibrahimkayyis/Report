@@ -926,6 +926,57 @@ class TranslationsAppId {
 	/// id: 'Gagal!'
 	String get failed => 'Gagal!';
 
+	/// id: 'Lupa Password?'
+	String get forgot_password_title => 'Lupa Password?';
+
+	/// id: 'Tenang saja! Masukkan alamat Email yang terhubung, kami akan mengirimkan intruksi untuk reset password'
+	String get forgot_password_subtitle => 'Tenang saja! Masukkan alamat Email yang terhubung, kami akan mengirimkan intruksi untuk reset password';
+
+	/// id: 'Alamat email'
+	String get email_address => 'Alamat email';
+
+	/// id: 'Kirim'
+	String get send_button => 'Kirim';
+
+	/// id: 'Cek Emailmu'
+	String get verify_otp_title => 'Cek Emailmu';
+
+	/// id: 'Kami telah mengirimkan 4 digit kode ke '
+	String get verify_otp_subtitle_prefix => 'Kami telah mengirimkan 4 digit kode ke ';
+
+	/// id: 'Tidak menerima Kode? '
+	String get otp_not_received => 'Tidak menerima Kode? ';
+
+	/// id: 'Kirim ulang'
+	String get resend_otp => 'Kirim ulang';
+
+	/// id: 'Verifikasi'
+	String get verify_button => 'Verifikasi';
+
+	/// id: 'Kode OTP telah dikirim ulang'
+	String get otp_resent => 'Kode OTP telah dikirim ulang';
+
+	/// id: 'Perbarui Kata Sandi'
+	String get reset_password_title => 'Perbarui Kata Sandi';
+
+	/// id: 'Kata sandi baru'
+	String get new_password_label => 'Kata sandi baru';
+
+	/// id: 'Kata sandi konfirmasi'
+	String get confirm_password_label => 'Kata sandi konfirmasi';
+
+	/// id: 'Perbarui Kata Sandi'
+	String get reset_password_button => 'Perbarui Kata Sandi';
+
+	/// id: 'Kata sandi tidak cocok'
+	String get password_mismatch => 'Kata sandi tidak cocok';
+
+	/// id: 'Kata sandi berhasil diperbarui!'
+	String get password_reset_success_title => 'Kata sandi berhasil diperbarui!';
+
+	/// id: 'Silakan login dengan kata sandi baru Anda'
+	String get password_reset_success_message => 'Silakan login dengan kata sandi baru Anda';
+
 	late final TranslationsAppValidationId validation = TranslationsAppValidationId.internal(_root);
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 	late final TranslationsAppDialogId dialog = TranslationsAppDialogId.internal(_root);
@@ -2261,6 +2312,23 @@ extension on Translations {
 			case 'app.photo_updated_success': return 'Foto profil berhasil diperbarui';
 			case 'app.photo_updated_failed': return 'Gagal memperbarui foto profil';
 			case 'app.failed': return 'Gagal!';
+			case 'app.forgot_password_title': return 'Lupa Password?';
+			case 'app.forgot_password_subtitle': return 'Tenang saja! Masukkan alamat Email yang terhubung, kami akan mengirimkan intruksi untuk reset password';
+			case 'app.email_address': return 'Alamat email';
+			case 'app.send_button': return 'Kirim';
+			case 'app.verify_otp_title': return 'Cek Emailmu';
+			case 'app.verify_otp_subtitle_prefix': return 'Kami telah mengirimkan 4 digit kode ke ';
+			case 'app.otp_not_received': return 'Tidak menerima Kode? ';
+			case 'app.resend_otp': return 'Kirim ulang';
+			case 'app.verify_button': return 'Verifikasi';
+			case 'app.otp_resent': return 'Kode OTP telah dikirim ulang';
+			case 'app.reset_password_title': return 'Perbarui Kata Sandi';
+			case 'app.new_password_label': return 'Kata sandi baru';
+			case 'app.confirm_password_label': return 'Kata sandi konfirmasi';
+			case 'app.reset_password_button': return 'Perbarui Kata Sandi';
+			case 'app.password_mismatch': return 'Kata sandi tidak cocok';
+			case 'app.password_reset_success_title': return 'Kata sandi berhasil diperbarui!';
+			case 'app.password_reset_success_message': return 'Silakan login dengan kata sandi baru Anda';
 			case 'app.validation.title_required': return 'Judul pelaporan wajib diisi';
 			case 'app.validation.asset_type_required': return 'Jenis aset wajib dipilih';
 			case 'app.validation.asset_form_required': return 'Bentuk aset wajib dipilih';

@@ -1,12 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:report/src/modules/auth/domain/enums/user_type.dart';
 import '../abstract/auth_remote_data_source.dart';
 
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final Dio dio;
+  final Dio dio;      // Untuk Masyarakat (Service Desk)
+  final Dio ariseDio; // Untuk Pegawai/Teknisi (Arise App) - RENAME
 
-  AuthRemoteDataSourceImpl(this.dio);
+  // Inject ariseDio
+  AuthRemoteDataSourceImpl(
+    this.dio,
+    @Named('ariseDio') this.ariseDio, // Update @Named
+  );
 
   @override
   Future<String> register({
@@ -59,14 +65,33 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Map<String, dynamic>> login({
     required String email,
     required String password,
+    required UserType type,
   }) async {
-    final resp = await dio.post(
-      '/login',
-      data: {
-        "email": email,
-        "password": password,
-      },
-    );
+    Response resp;
+
+    if (type == UserType.employee) {
+      // ==========================================================
+      // FLOW PEGAWAI / ARISE APP
+      // ==========================================================
+      resp = await ariseDio.post( // Panggil ariseDio
+        '/api/login',
+        data: {
+          "login": email, 
+          "password": password,
+        },
+      );
+    } else {
+      // ==========================================================
+      // FLOW MASYARAKAT / SERVICE DESK
+      // ==========================================================
+      resp = await dio.post(
+        '/login/masyarakat',
+        data: {
+          "email": email,
+          "password": password,
+        },
+      );
+    }
 
     if (resp.statusCode == 200) {
       if (resp.data is Map<String, dynamic>) {
@@ -90,21 +115,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     if (resp.statusCode == 200) {
-      // Response adalah string token langsung
       if (resp.data is String) {
         return resp.data as String;
       }
-      
-      // Jika response berupa map dengan field tertentu
       if (resp.data is Map<String, dynamic>) {
         if (resp.data['access_token'] != null) {
           return resp.data['access_token'] as String;
         }
       }
-
       throw Exception("Unexpected refresh token response format");
     }
-
     throw Exception('Refresh token failed: ${resp.statusCode}');
   }
 }

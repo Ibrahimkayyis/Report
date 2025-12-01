@@ -52,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginFailure) {
             showCustomSnackbar(context, message: state.error, isError: true);
           } else if (state is LoginSuccess) {
-            // ✅ Update global AuthCubit dengan token + role
             context.read<AuthCubit>().setAuthenticated(
                   state.token,
                   role: state.role,
@@ -60,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if (!context.mounted) return;
 
-            // ✅ Navigasi sesuai role
             if (state.role == 'teknisi') {
               context.router.replaceAll([const MainLayoutTeknisiRoute()]);
             } else if (state.role == 'masyarakat') {
@@ -74,12 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: ColorName.background,
           body: Stack(
             children: [
-              // Decorative Background
               CustomPaint(
                 painter: LoginBackgroundPainter(),
                 size: Size.infinite,
               ),
-              // Main Content
               SafeArea(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -87,19 +83,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       SizedBox(height: 60.h),
 
-                      /// Auth Form Container
                       AuthContainer(
                         child: Form(
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              /// Logo
                               const Center(child: LogoWidget()),
-
                               SizedBox(height: 20.h),
 
-                              /// Title
                               Center(
                                 child: Text(
                                   t.app.please_login_or_register,
@@ -114,7 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               SizedBox(height: 8.h),
 
-                              /// Subtitle
                               Center(
                                 child: Text(
                                   t.app.use_email_to_continue,
@@ -128,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               SizedBox(height: 30.h),
 
-                              /// Email Field
                               AppTextField(
                                 controller: _emailController,
                                 label: t.app.email,
@@ -147,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               SizedBox(height: 16.h),
 
-                              /// Password Field
                               PasswordField(
                                 controller: _passwordController,
                                 label: t.app.password,
@@ -164,21 +153,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                 showStrengthMeter: false,
                               ),
 
-                              SizedBox(height: 16.h),
+                              SizedBox(height: 8.h),
 
-                              /// Don't have account text
-                              Center(
-                                child: LinkText(
-                                  leadingText: t.app.dont_have_account,
-                                  linkText: t.app.register,
-                                  onTap: () =>
-                                      context.router.push(const RegisterRoute()),
+                              // Forgot Password Link
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: GestureDetector(
+                                  onTap: () => context.router.push(const ForgotPasswordRoute()),
+                                  child: Text(
+                                    t.app.forgot_password,
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: ColorName.primary,
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
                                 ),
                               ),
 
-                              SizedBox(height: 120.h),
+                              SizedBox(height: 100.h),
 
-                              /// Login Button
                               BlocBuilder<LoginCubit, LoginState>(
                                 builder: (context, state) {
                                   final isLoading = state is LoginLoading;
@@ -190,6 +185,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     isLoading: isLoading,
                                   );
                                 },
+                              ),
+
+                              SizedBox(height: 16.h),
+
+                              // Don't have account (moved to bottom)
+                              Center(
+                                child: LinkText(
+                                  leadingText: t.app.dont_have_account,
+                                  linkText: t.app.register,
+                                  onTap: () =>
+                                      context.router.push(const RegisterRoute()),
+                                ),
                               ),
                             ],
                           ),
