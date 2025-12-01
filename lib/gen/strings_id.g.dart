@@ -338,6 +338,23 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override String get photo_updated_success => 'Foto profil berhasil diperbarui';
 	@override String get photo_updated_failed => 'Gagal memperbarui foto profil';
 	@override String get failed => 'Gagal!';
+	@override String get forgot_password_title => 'Lupa Password?';
+	@override String get forgot_password_subtitle => 'Tenang saja! Masukkan alamat Email yang terhubung, kami akan mengirimkan intruksi untuk reset password';
+	@override String get email_address => 'Alamat email';
+	@override String get send_button => 'Kirim';
+	@override String get verify_otp_title => 'Cek Emailmu';
+	@override String get verify_otp_subtitle_prefix => 'Kami telah mengirimkan 4 digit kode ke ';
+	@override String get otp_not_received => 'Tidak menerima Kode? ';
+	@override String get resend_otp => 'Kirim ulang';
+	@override String get verify_button => 'Verifikasi';
+	@override String get otp_resent => 'Kode OTP telah dikirim ulang';
+	@override String get reset_password_title => 'Perbarui Kata Sandi';
+	@override String get new_password_label => 'Kata sandi baru';
+	@override String get confirm_password_label => 'Kata sandi konfirmasi';
+	@override String get reset_password_button => 'Perbarui Kata Sandi';
+	@override String get password_mismatch => 'Kata sandi tidak cocok';
+	@override String get password_reset_success_title => 'Kata sandi berhasil diperbarui!';
+	@override String get password_reset_success_message => 'Silakan login dengan kata sandi baru Anda';
 	@override late final _TranslationsAppValidationId validation = _TranslationsAppValidationId._(_root);
 	@override late final _TranslationsAppErrorsId errors = _TranslationsAppErrorsId._(_root);
 	@override late final _TranslationsAppDialogId dialog = _TranslationsAppDialogId._(_root);
@@ -429,6 +446,16 @@ class _TranslationsAppDialogId implements TranslationsAppDialogEn {
 	@override String get cancel_request_title => 'Batalkan Permintaan?';
 	@override String get cancel_request_message => 'Anda yakin ingin membatalkan pengisian formulir ini?';
 	@override String get cancel_request => 'Batalkan';
+	@override String get back_confirmation_title => 'Apakah Anda yakin ingin kembali?';
+	@override String get back_confirmation_message => 'Data yang Anda inputkan tidak akan tersimpan!';
+	@override String get back_confirmation_confirm => 'Ya, saya yakin!';
+	@override String get back_confirmation_cancel => 'Batalkan';
+	@override String get report_success_title => 'Laporan berhasil terkirim!';
+	@override String get report_success_button => 'Oke';
+	@override String get report_error_message => 'Gagal mengirim: {message}';
+	@override String get confirm_update_title => 'Konfirmasi Pembaruan';
+	@override String get confirm_update_message => 'Apakah Anda yakin ingin memperbarui status tiket?';
+	@override String get update_success_title => 'Pembaruan Berhasil';
 }
 
 // Path: app.notifications
@@ -658,6 +685,8 @@ class _TranslationsAppRfcId implements TranslationsAppRfcEn {
 	@override String get dialog_submit_title => 'Kirim RFC?';
 	@override String get dialog_submit_message => 'Apakah Anda yakin ingin mengirim Request for Change ini?';
 	@override String get dialog_submit_confirm => 'Ya, Kirim';
+	@override String get dialog_report_success_title => 'RFC Submitted Successfully';
+	@override String get dialog_report_success_button => 'OK';
 }
 
 // Path: app.rating
@@ -1070,6 +1099,23 @@ extension on TranslationsId {
 			case 'app.photo_updated_success': return 'Foto profil berhasil diperbarui';
 			case 'app.photo_updated_failed': return 'Gagal memperbarui foto profil';
 			case 'app.failed': return 'Gagal!';
+			case 'app.forgot_password_title': return 'Lupa Password?';
+			case 'app.forgot_password_subtitle': return 'Tenang saja! Masukkan alamat Email yang terhubung, kami akan mengirimkan intruksi untuk reset password';
+			case 'app.email_address': return 'Alamat email';
+			case 'app.send_button': return 'Kirim';
+			case 'app.verify_otp_title': return 'Cek Emailmu';
+			case 'app.verify_otp_subtitle_prefix': return 'Kami telah mengirimkan 4 digit kode ke ';
+			case 'app.otp_not_received': return 'Tidak menerima Kode? ';
+			case 'app.resend_otp': return 'Kirim ulang';
+			case 'app.verify_button': return 'Verifikasi';
+			case 'app.otp_resent': return 'Kode OTP telah dikirim ulang';
+			case 'app.reset_password_title': return 'Perbarui Kata Sandi';
+			case 'app.new_password_label': return 'Kata sandi baru';
+			case 'app.confirm_password_label': return 'Kata sandi konfirmasi';
+			case 'app.reset_password_button': return 'Perbarui Kata Sandi';
+			case 'app.password_mismatch': return 'Kata sandi tidak cocok';
+			case 'app.password_reset_success_title': return 'Kata sandi berhasil diperbarui!';
+			case 'app.password_reset_success_message': return 'Silakan login dengan kata sandi baru Anda';
 			case 'app.validation.title_required': return 'Judul pelaporan wajib diisi';
 			case 'app.validation.asset_type_required': return 'Jenis aset wajib dipilih';
 			case 'app.validation.asset_form_required': return 'Bentuk aset wajib dipilih';
@@ -1122,6 +1168,16 @@ extension on TranslationsId {
 			case 'app.dialog.cancel_request_title': return 'Batalkan Permintaan?';
 			case 'app.dialog.cancel_request_message': return 'Anda yakin ingin membatalkan pengisian formulir ini?';
 			case 'app.dialog.cancel_request': return 'Batalkan';
+			case 'app.dialog.back_confirmation_title': return 'Apakah Anda yakin ingin kembali?';
+			case 'app.dialog.back_confirmation_message': return 'Data yang Anda inputkan tidak akan tersimpan!';
+			case 'app.dialog.back_confirmation_confirm': return 'Ya, saya yakin!';
+			case 'app.dialog.back_confirmation_cancel': return 'Batalkan';
+			case 'app.dialog.report_success_title': return 'Laporan berhasil terkirim!';
+			case 'app.dialog.report_success_button': return 'Oke';
+			case 'app.dialog.report_error_message': return 'Gagal mengirim: {message}';
+			case 'app.dialog.confirm_update_title': return 'Konfirmasi Pembaruan';
+			case 'app.dialog.confirm_update_message': return 'Apakah Anda yakin ingin memperbarui status tiket?';
+			case 'app.dialog.update_success_title': return 'Pembaruan Berhasil';
 			case 'app.notifications.title': return 'Notifikasi';
 			case 'app.notifications.search_placeholder': return 'Cari notifikasi...';
 			case 'app.notifications.mark_all_as_read': return 'Tandai semua dibaca';
@@ -1306,6 +1362,8 @@ extension on TranslationsId {
 			case 'app.rfc.dialog_submit_title': return 'Kirim RFC?';
 			case 'app.rfc.dialog_submit_message': return 'Apakah Anda yakin ingin mengirim Request for Change ini?';
 			case 'app.rfc.dialog_submit_confirm': return 'Ya, Kirim';
+			case 'app.rfc.dialog_report_success_title': return 'RFC Submitted Successfully';
+			case 'app.rfc.dialog_report_success_button': return 'OK';
 			case 'app.rating.rating_title': return 'Rating';
 			case 'app.rating.page_title': return 'Rating Kepuasan';
 			case 'app.rating.refresh': return 'Muat Ulang';

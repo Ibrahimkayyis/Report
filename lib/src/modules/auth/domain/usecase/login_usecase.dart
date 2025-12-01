@@ -4,6 +4,7 @@ import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart
 class LoginParams {
   final String email;
   final String password;
+  // Hapus UserType dari sini
 
   LoginParams({required this.email, required this.password});
 }

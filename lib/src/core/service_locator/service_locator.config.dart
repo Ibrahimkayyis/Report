@@ -152,41 +152,41 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i590.OnboardingLocalDataSourceImpl(),
     );
     gh.factory<String>(() => registerModule.baseUrl, instanceName: 'baseUrl');
-    gh.lazySingleton<_i361.Dio>(
-      () => registerModule.dio(gh<String>(instanceName: 'baseUrl')),
+    gh.factory<String>(
+      () => registerModule.ariseBaseUrl,
+      instanceName: 'ariseBaseUrl',
     );
     gh.lazySingleton<_i564.OnboardingRepository>(
       () =>
           _i663.OnboardingRepositoryImpl(gh<_i156.OnboardingLocalDataSource>()),
     );
-    gh.lazySingleton<_i257.ProfileRemoteDataSource>(
-      () => _i741.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i27.KnowledgeBaseRemoteDataSource>(
-      () => _i757.KnowledgeBaseRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i312.TicketCategoryRemoteDataSource>(
-      () => _i774.TicketCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i425.ReportRemoteDataSource>(
-      () => _i715.ReportRemoteDataSourceImpl(gh<_i361.Dio>()),
+    gh.lazySingleton<_i361.Dio>(
+      () => registerModule.dio(
+        gh<String>(instanceName: 'baseUrl'),
+        gh<String>(instanceName: 'ariseBaseUrl'),
+      ),
     );
     gh.lazySingleton<_i144.OpdRemoteDataSource>(
       () => _i972.OpdRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i417.HelpdeskRemoteDataSource>(
-      () => _i20.HelpdeskRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i429.ProfileRepository>(
-      () => _i799.ProfileRepositoryImpl(gh<_i257.ProfileRemoteDataSource>()),
+    gh.lazySingleton<_i361.Dio>(
+      () => registerModule.ariseDio(gh<String>(instanceName: 'ariseBaseUrl')),
+      instanceName: 'ariseDio',
     );
     gh.lazySingleton<_i260.AuthRemoteDataSource>(
-      () => _i1028.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i514.TicketCategoryRepository>(
-      () => _i593.TicketCategoryRepositoryImpl(
-        gh<_i312.TicketCategoryRemoteDataSource>(),
+      () => _i1028.AuthRemoteDataSourceImpl(
+        gh<_i361.Dio>(),
+        gh<_i361.Dio>(instanceName: 'ariseDio'),
       ),
+    );
+    gh.lazySingleton<_i292.AuthRepository>(
+      () => _i138.AuthRepositoryImpl(
+        remote: gh<_i260.AuthRemoteDataSource>(),
+        local: gh<_i344.AuthLocalDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i417.HelpdeskRemoteDataSource>(
+      () => _i20.HelpdeskRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i1006.CheckOnboardingStatusUseCase>(
       () =>
@@ -195,39 +195,35 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i287.CompleteOnboardingUseCase>(
       () => _i287.CompleteOnboardingUseCase(gh<_i564.OnboardingRepository>()),
     );
-    gh.lazySingleton<_i131.KnowledgeBaseRepository>(
-      () => _i840.KnowledgeBaseRepositoryImpl(
-        gh<_i27.KnowledgeBaseRemoteDataSource>(),
-      ),
+    gh.lazySingleton<_i428.AuthCubit>(
+      () => _i428.AuthCubit(gh<_i292.AuthRepository>()),
     );
-    gh.lazySingleton<_i12.GetAllArticlesUseCase>(
-      () => _i12.GetAllArticlesUseCase(gh<_i131.KnowledgeBaseRepository>()),
-    );
-    gh.lazySingleton<_i11.GetAllTagsUseCase>(
-      () => _i11.GetAllTagsUseCase(gh<_i131.KnowledgeBaseRepository>()),
+    gh.factory<_i876.TestHelperCubit>(
+      () => _i876.TestHelperCubit(gh<_i292.AuthRepository>()),
     );
     gh.lazySingleton<_i189.OpdRepository>(
       () => _i235.OpdRepositoryImpl(gh<_i144.OpdRemoteDataSource>()),
     );
-    gh.factory<_i385.KnowledgeBaseCubit>(
-      () => _i385.KnowledgeBaseCubit(
-        gh<_i12.GetAllArticlesUseCase>(),
-        gh<_i11.GetAllTagsUseCase>(),
-      ),
+    gh.factory<_i95.LoginUseCase>(
+      () => _i95.LoginUseCase(gh<_i292.AuthRepository>()),
     );
-    gh.lazySingleton<_i277.ReportRepository>(
-      () => _i533.ReportRepositoryImpl(gh<_i425.ReportRemoteDataSource>()),
+    gh.factory<_i96.RegisterUseCase>(
+      () => _i96.RegisterUseCase(gh<_i292.AuthRepository>()),
+    );
+    gh.lazySingleton<_i257.ProfileRemoteDataSource>(
+      () => _i741.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i27.KnowledgeBaseRemoteDataSource>(
+      () => _i757.KnowledgeBaseRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i724.HelpdeskRepository>(
       () => _i734.HelpdeskRepositoryImpl(gh<_i417.HelpdeskRemoteDataSource>()),
     );
-    gh.lazySingleton<_i813.GetTicketCategoriesUseCase>(
-      () => _i813.GetTicketCategoriesUseCase(
-        gh<_i514.TicketCategoryRepository>(),
-      ),
+    gh.lazySingleton<_i312.TicketCategoryRemoteDataSource>(
+      () => _i774.TicketCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.factory<_i901.CreatePublicReportUsecase>(
-      () => _i901.CreatePublicReportUsecase(gh<_i277.ReportRepository>()),
+    gh.lazySingleton<_i425.ReportRemoteDataSource>(
+      () => _i715.ReportRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i845.OnboardingCubit>(
       () => _i845.OnboardingCubit(
@@ -235,35 +231,34 @@ extension GetItInjectableX on _i174.GetIt {
         completeOnboarding: gh<_i287.CompleteOnboardingUseCase>(),
       ),
     );
-    gh.factory<_i963.GetProfileUsecase>(
-      () => _i963.GetProfileUsecase(gh<_i429.ProfileRepository>()),
+    gh.factory<_i531.LoginCubit>(
+      () =>
+          _i531.LoginCubit(gh<_i95.LoginUseCase>(), gh<_i292.AuthRepository>()),
     );
-    gh.factory<_i40.UpdateProfileUsecase>(
-      () => _i40.UpdateProfileUsecase(gh<_i429.ProfileRepository>()),
-    );
-    gh.lazySingleton<_i292.AuthRepository>(
-      () => _i138.AuthRepositoryImpl(
-        remote: gh<_i260.AuthRemoteDataSource>(),
-        local: gh<_i344.AuthLocalDataSource>(),
-      ),
+    gh.lazySingleton<_i429.ProfileRepository>(
+      () => _i799.ProfileRepositoryImpl(gh<_i257.ProfileRemoteDataSource>()),
     );
     gh.factory<_i166.GetAllOpdUsecase>(
       () => _i166.GetAllOpdUsecase(gh<_i189.OpdRepository>()),
     );
-    gh.lazySingleton<_i428.AuthCubit>(
-      () => _i428.AuthCubit(gh<_i292.AuthRepository>()),
+    gh.lazySingleton<_i514.TicketCategoryRepository>(
+      () => _i593.TicketCategoryRepositoryImpl(
+        gh<_i312.TicketCategoryRemoteDataSource>(),
+      ),
     );
-    gh.factory<_i876.TestHelperCubit>(
-      () => _i876.TestHelperCubit(gh<_i292.AuthRepository>()),
+    gh.lazySingleton<_i131.KnowledgeBaseRepository>(
+      () => _i840.KnowledgeBaseRepositoryImpl(
+        gh<_i27.KnowledgeBaseRemoteDataSource>(),
+      ),
     );
-    gh.factory<_i377.ReportCubit>(
-      () => _i377.ReportCubit(gh<_i901.CreatePublicReportUsecase>()),
+    gh.factory<_i243.RegisterCubit>(
+      () => _i243.RegisterCubit(gh<_i96.RegisterUseCase>()),
     );
-    gh.factory<_i95.LoginUseCase>(
-      () => _i95.LoginUseCase(gh<_i292.AuthRepository>()),
+    gh.lazySingleton<_i12.GetAllArticlesUseCase>(
+      () => _i12.GetAllArticlesUseCase(gh<_i131.KnowledgeBaseRepository>()),
     );
-    gh.factory<_i96.RegisterUseCase>(
-      () => _i96.RegisterUseCase(gh<_i292.AuthRepository>()),
+    gh.lazySingleton<_i11.GetAllTagsUseCase>(
+      () => _i11.GetAllTagsUseCase(gh<_i131.KnowledgeBaseRepository>()),
     );
     gh.factory<_i70.GetChatHistoryUseCase>(
       () => _i70.GetChatHistoryUseCase(gh<_i724.HelpdeskRepository>()),
@@ -274,11 +269,25 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i112.SendReplyUseCase>(
       () => _i112.SendReplyUseCase(gh<_i724.HelpdeskRepository>()),
     );
-    gh.factory<_i573.TicketCategoryCubit>(
-      () => _i573.TicketCategoryCubit(gh<_i813.GetTicketCategoriesUseCase>()),
+    gh.factory<_i385.KnowledgeBaseCubit>(
+      () => _i385.KnowledgeBaseCubit(
+        gh<_i12.GetAllArticlesUseCase>(),
+        gh<_i11.GetAllTagsUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i277.ReportRepository>(
+      () => _i533.ReportRepositoryImpl(gh<_i425.ReportRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i813.GetTicketCategoriesUseCase>(
+      () => _i813.GetTicketCategoriesUseCase(
+        gh<_i514.TicketCategoryRepository>(),
+      ),
     );
     gh.factory<_i988.OpdCubit>(
       () => _i988.OpdCubit(gh<_i166.GetAllOpdUsecase>()),
+    );
+    gh.factory<_i901.CreatePublicReportUsecase>(
+      () => _i901.CreatePublicReportUsecase(gh<_i277.ReportRepository>()),
     );
     gh.factory<_i284.HelpdeskChatCubit>(
       () => _i284.HelpdeskChatCubit(
@@ -287,18 +296,23 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i70.GetChatHistoryUseCase>(),
       ),
     );
+    gh.factory<_i963.GetProfileUsecase>(
+      () => _i963.GetProfileUsecase(gh<_i429.ProfileRepository>()),
+    );
+    gh.factory<_i40.UpdateProfileUsecase>(
+      () => _i40.UpdateProfileUsecase(gh<_i429.ProfileRepository>()),
+    );
+    gh.factory<_i377.ReportCubit>(
+      () => _i377.ReportCubit(gh<_i901.CreatePublicReportUsecase>()),
+    );
+    gh.factory<_i573.TicketCategoryCubit>(
+      () => _i573.TicketCategoryCubit(gh<_i813.GetTicketCategoriesUseCase>()),
+    );
     gh.factory<_i96.ProfileCubit>(
       () => _i96.ProfileCubit(
         gh<_i963.GetProfileUsecase>(),
         gh<_i40.UpdateProfileUsecase>(),
       ),
-    );
-    gh.factory<_i531.LoginCubit>(
-      () =>
-          _i531.LoginCubit(gh<_i95.LoginUseCase>(), gh<_i292.AuthRepository>()),
-    );
-    gh.factory<_i243.RegisterCubit>(
-      () => _i243.RegisterCubit(gh<_i96.RegisterUseCase>()),
     );
     return this;
   }

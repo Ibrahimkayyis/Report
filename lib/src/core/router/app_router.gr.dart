@@ -190,6 +190,22 @@ class EditThemeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ForgotPasswordScreen]
+class ForgotPasswordRoute extends PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<PageRouteInfo>? children})
+    : super(ForgotPasswordRoute.name, initialChildren: children);
+
+  static const String name = 'ForgotPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ForgotPasswordScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HelpdeskChatScreen]
 class HelpdeskChatRoute extends PageRouteInfo<void> {
   const HelpdeskChatRoute({List<PageRouteInfo>? children})
@@ -765,6 +781,64 @@ class ReportingFormRouteArgs {
 }
 
 /// generated route for
+/// [ResetPasswordScreen]
+class ResetPasswordRoute extends PageRouteInfo<ResetPasswordRouteArgs> {
+  ResetPasswordRoute({
+    Key? key,
+    required String email,
+    required String otpCode,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ResetPasswordRoute.name,
+         args: ResetPasswordRouteArgs(key: key, email: email, otpCode: otpCode),
+         initialChildren: children,
+       );
+
+  static const String name = 'ResetPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ResetPasswordRouteArgs>();
+      return ResetPasswordScreen(
+        key: args.key,
+        email: args.email,
+        otpCode: args.otpCode,
+      );
+    },
+  );
+}
+
+class ResetPasswordRouteArgs {
+  const ResetPasswordRouteArgs({
+    this.key,
+    required this.email,
+    required this.otpCode,
+  });
+
+  final Key? key;
+
+  final String email;
+
+  final String otpCode;
+
+  @override
+  String toString() {
+    return 'ResetPasswordRouteArgs{key: $key, email: $email, otpCode: $otpCode}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ResetPasswordRouteArgs) return false;
+    return key == other.key && email == other.email && otpCode == other.otpCode;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ email.hashCode ^ otpCode.hashCode;
+}
+
+/// generated route for
 /// [ServiceRequestFormScreen]
 class ServiceRequestFormRoute
     extends PageRouteInfo<ServiceRequestFormRouteArgs> {
@@ -1174,4 +1248,51 @@ class TestHelperRoute extends PageRouteInfo<void> {
       return const TestHelperScreen();
     },
   );
+}
+
+/// generated route for
+/// [VerifyOtpScreen]
+class VerifyOtpRoute extends PageRouteInfo<VerifyOtpRouteArgs> {
+  VerifyOtpRoute({
+    Key? key,
+    required String email,
+    List<PageRouteInfo>? children,
+  }) : super(
+         VerifyOtpRoute.name,
+         args: VerifyOtpRouteArgs(key: key, email: email),
+         initialChildren: children,
+       );
+
+  static const String name = 'VerifyOtpRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<VerifyOtpRouteArgs>();
+      return VerifyOtpScreen(key: args.key, email: args.email);
+    },
+  );
+}
+
+class VerifyOtpRouteArgs {
+  const VerifyOtpRouteArgs({this.key, required this.email});
+
+  final Key? key;
+
+  final String email;
+
+  @override
+  String toString() {
+    return 'VerifyOtpRouteArgs{key: $key, email: $email}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! VerifyOtpRouteArgs) return false;
+    return key == other.key && email == other.email;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ email.hashCode;
 }
