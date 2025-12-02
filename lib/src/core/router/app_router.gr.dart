@@ -434,6 +434,54 @@ class MasyarakatReportingFormRouteArgs {
 }
 
 /// generated route for
+/// [NotificationDetailScreen]
+class NotificationDetailRoute
+    extends PageRouteInfo<NotificationDetailRouteArgs> {
+  NotificationDetailRoute({
+    Key? key,
+    required int id,
+    List<PageRouteInfo>? children,
+  }) : super(
+         NotificationDetailRoute.name,
+         args: NotificationDetailRouteArgs(key: key, id: id),
+         initialChildren: children,
+       );
+
+  static const String name = 'NotificationDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<NotificationDetailRouteArgs>();
+      return NotificationDetailScreen(key: args.key, id: args.id);
+    },
+  );
+}
+
+class NotificationDetailRouteArgs {
+  const NotificationDetailRouteArgs({this.key, required this.id});
+
+  final Key? key;
+
+  final int id;
+
+  @override
+  String toString() {
+    return 'NotificationDetailRouteArgs{key: $key, id: $id}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! NotificationDetailRouteArgs) return false;
+    return key == other.key && id == other.id;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ id.hashCode;
+}
+
+/// generated route for
 /// [NotificationScreen]
 class NotificationRoute extends PageRouteInfo<void> {
   const NotificationRoute({List<PageRouteInfo>? children})

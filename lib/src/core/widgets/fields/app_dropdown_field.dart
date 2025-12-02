@@ -8,7 +8,8 @@ class AppDropdownField extends StatelessWidget {
   final String? value;
   final List<String> items;
   final ValueChanged<String?> onChanged;
-  final String? errorText; // ✅ NEW PARAMETER
+  final String? errorText;
+  final bool showLabelAbove; // ✅ NEW PARAMETER
 
   const AppDropdownField({
     super.key,
@@ -16,7 +17,8 @@ class AppDropdownField extends StatelessWidget {
     required this.value,
     required this.items,
     required this.onChanged,
-    this.errorText, // ✅ NEW PARAMETER
+    this.errorText,
+    this.showLabelAbove = true, // Default tetap muncul diatas (agar tidak merusak screen lain)
   });
 
   @override
@@ -26,51 +28,48 @@ class AppDropdownField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: ColorName.textPrimary,
+        // ✅ Logic untuk menyembunyikan label di atas
+        if (showLabelAbove) ...[
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+              color: ColorName.textPrimary,
+            ),
           ),
-        ),
-        SizedBox(height: 6.h),
+          SizedBox(height: 6.h),
+        ],
+        
         CustomDropdown<String>(
-          hintText: label,
+          hintText: label, // Label akan muncul di sini sebagai hint
           items: items,
           initialItem: value,
           onChanged: onChanged,
           decoration: CustomDropdownDecoration(
             closedFillColor: ColorName.white,
             closedBorder: Border.all(
-              color: hasError ? Colors.red : Colors.grey.shade400, // ✅ Red border on error
-              width: hasError ? 2 : 1, // ✅ Thicker border on error
+              color: hasError ? Colors.red : ColorName.black.withValues(alpha: 0.2),
+              width: hasError ? 2 : 1,
             ),
-            closedBorderRadius: BorderRadius.circular(8.r),
-            expandedBorderRadius: BorderRadius.circular(8.r),
+            closedBorderRadius: BorderRadius.circular(10.r), // Menyesuaikan style header sebelumnya
+            expandedBorderRadius: BorderRadius.circular(10.r),
             listItemStyle: TextStyle(fontSize: 14.sp, color: ColorName.black),
-            hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
+            hintStyle: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600), // Font size disesuaikan header
+            headerStyle: TextStyle(fontSize: 12.sp, color: ColorName.textPrimary),
           ),
         ),
-        // ✅ ERROR TEXT
+        
         if (hasError) ...[
           SizedBox(height: 6.h),
           Row(
             children: [
-              Icon(
-                Icons.error_outline,
-                size: 14.sp,
-                color: Colors.red,
-              ),
+              Icon(Icons.error_outline, size: 14.sp, color: Colors.red),
               SizedBox(width: 4.w),
               Expanded(
                 child: Text(
                   errorText!,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.red,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TextStyle(fontSize: 12.sp, color: Colors.red, fontWeight: FontWeight.w500),
                 ),
               ),
             ],

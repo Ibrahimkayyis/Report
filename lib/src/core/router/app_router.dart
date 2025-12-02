@@ -41,6 +41,7 @@ import 'package:report/src/modules/masyarakat_reporting/presentation/screens/mas
 import 'package:report/src/modules/auth/presentation/screens/forget_password/forgot_password_screen.dart';
 import 'package:report/src/modules/auth/presentation/screens/forget_password/verify_otp_screen.dart';
 import 'package:report/src/modules/auth/presentation/screens/forget_password/reset_password_screen.dart';
+import 'package:report/src/modules/notification/presentation/screens/notification_detail_screen.dart';
 
 
 
@@ -109,5 +110,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ForgotPasswordRoute.page),
     AutoRoute(page: VerifyOtpRoute.page),
     AutoRoute(page: ResetPasswordRoute.page),
+    AutoRoute(page: NotificationDetailRoute.page),
   ];
 }

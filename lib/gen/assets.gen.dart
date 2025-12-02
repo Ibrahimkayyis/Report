@@ -82,6 +82,18 @@ class $AssetsImagesGen {
   AssetGenImage get reportText =>
       const AssetGenImage('assets/images/REPORT_TEXT.png');
 
+  /// File path: assets/images/empty_list.png
+  AssetGenImage get emptyList =>
+      const AssetGenImage('assets/images/empty_list.png');
+
+  /// File path: assets/images/empty_notification.png
+  AssetGenImage get emptyNotification =>
+      const AssetGenImage('assets/images/empty_notification.png');
+
+  /// File path: assets/images/general_error.png
+  AssetGenImage get generalError =>
+      const AssetGenImage('assets/images/general_error.png');
+
   /// File path: assets/images/helpdesk_avatar.png
   AssetGenImage get helpdeskAvatar =>
       const AssetGenImage('assets/images/helpdesk_avatar.png');
@@ -89,6 +101,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo_text.png
   AssetGenImage get logoText =>
       const AssetGenImage('assets/images/logo_text.png');
+
+  /// File path: assets/images/network_error.png
+  AssetGenImage get networkError =>
+      const AssetGenImage('assets/images/network_error.png');
 
   /// File path: assets/images/onb_chat.png
   AssetGenImage get onbChat =>
@@ -101,6 +117,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/onb_teknisi.png
   AssetGenImage get onbTeknisi =>
       const AssetGenImage('assets/images/onb_teknisi.png');
+
+  /// File path: assets/images/search_not_found.png
+  AssetGenImage get searchNotFound =>
+      const AssetGenImage('assets/images/search_not_found.png');
+
+  /// File path: assets/images/server_error.png
+  AssetGenImage get serverError =>
+      const AssetGenImage('assets/images/server_error.png');
 
   /// File path: assets/images/theme_dark.png
   AssetGenImage get themeDark =>
@@ -122,11 +146,17 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
     reportLogo,
     reportText,
+    emptyList,
+    emptyNotification,
+    generalError,
     helpdeskAvatar,
     logoText,
+    networkError,
     onbChat,
     onbGeneral,
     onbTeknisi,
+    searchNotFound,
+    serverError,
     themeDark,
     themeLight,
     themeSystem,
