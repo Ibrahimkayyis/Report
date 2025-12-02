@@ -40,6 +40,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsAppEn app = TranslationsAppEn._(_root);
+	late final TranslationsWidgetsEn widgets = TranslationsWidgetsEn._(_root);
 }
 
 // Path: app
@@ -991,6 +992,17 @@ class TranslationsAppEn {
 	late final TranslationsAppMasyarakatEn masyarakat = TranslationsAppMasyarakatEn._(_root);
 }
 
+// Path: widgets
+class TranslationsWidgetsEn {
+	TranslationsWidgetsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsWidgetsErrorEn error = TranslationsWidgetsErrorEn._(_root);
+	late final TranslationsWidgetsEmptyEn empty = TranslationsWidgetsEmptyEn._(_root);
+}
+
 // Path: app.validation
 class TranslationsAppValidationEn {
 	TranslationsAppValidationEn._(this._root);
@@ -1919,6 +1931,66 @@ class TranslationsAppMasyarakatEn {
 	String get cancel_yes => 'Yes';
 }
 
+// Path: widgets.error
+class TranslationsWidgetsErrorEn {
+	TranslationsWidgetsErrorEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Connection Lost'
+	String get network_title => 'Connection Lost';
+
+	/// en: 'Please check your internet connection.'
+	String get network_message => 'Please check your internet connection.';
+
+	/// en: 'Server Error'
+	String get server_title => 'Server Error';
+
+	/// en: 'The server is busy or down.'
+	String get server_message => 'The server is busy or down.';
+
+	/// en: 'Something Went Wrong'
+	String get general_title => 'Something Went Wrong';
+
+	/// en: 'An unexpected error occurred.'
+	String get general_message => 'An unexpected error occurred.';
+
+	/// en: 'Try Again'
+	String get retry => 'Try Again';
+}
+
+// Path: widgets.empty
+class TranslationsWidgetsEmptyEn {
+	TranslationsWidgetsEmptyEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'No Data'
+	String get list_title => 'No Data';
+
+	/// en: 'No data available at the moment.'
+	String get list_message => 'No data available at the moment.';
+
+	/// en: 'Not Found'
+	String get search_title => 'Not Found';
+
+	/// en: 'No results found for your keyword.'
+	String get search_message => 'No results found for your keyword.';
+
+	/// en: 'Empty'
+	String get notification_title => 'Empty';
+
+	/// en: 'You have no notifications.'
+	String get notification_message => 'You have no notifications.';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+}
+
 // Path: app.onboarding.page1
 class TranslationsAppOnboardingPage1En {
 	TranslationsAppOnboardingPage1En._(this._root);
@@ -2556,6 +2628,20 @@ extension on Translations {
 			case 'app.masyarakat.cancel_confirmation_message': return 'Unsaved changes will be lost. Are you sure you want to exit?';
 			case 'app.masyarakat.cancel_no': return 'No';
 			case 'app.masyarakat.cancel_yes': return 'Yes';
+			case 'widgets.error.network_title': return 'Connection Lost';
+			case 'widgets.error.network_message': return 'Please check your internet connection.';
+			case 'widgets.error.server_title': return 'Server Error';
+			case 'widgets.error.server_message': return 'The server is busy or down.';
+			case 'widgets.error.general_title': return 'Something Went Wrong';
+			case 'widgets.error.general_message': return 'An unexpected error occurred.';
+			case 'widgets.error.retry': return 'Try Again';
+			case 'widgets.empty.list_title': return 'No Data';
+			case 'widgets.empty.list_message': return 'No data available at the moment.';
+			case 'widgets.empty.search_title': return 'Not Found';
+			case 'widgets.empty.search_message': return 'No results found for your keyword.';
+			case 'widgets.empty.notification_title': return 'Empty';
+			case 'widgets.empty.notification_message': return 'You have no notifications.';
+			case 'widgets.empty.refresh': return 'Refresh';
 			default: return null;
 		}
 	}

@@ -39,6 +39,7 @@ class TranslationsEn extends Translations {
 
 	// Translations
 	@override late final _TranslationsAppEn app = _TranslationsAppEn._(_root);
+	@override late final _TranslationsWidgetsEn widgets = _TranslationsWidgetsEn._(_root);
 }
 
 // Path: app
@@ -369,6 +370,17 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override late final _TranslationsAppRatingDetailEn rating_detail = _TranslationsAppRatingDetailEn._(_root);
 	@override late final _TranslationsAppOnboardingEn onboarding = _TranslationsAppOnboardingEn._(_root);
 	@override late final _TranslationsAppMasyarakatEn masyarakat = _TranslationsAppMasyarakatEn._(_root);
+}
+
+// Path: widgets
+class _TranslationsWidgetsEn extends TranslationsWidgetsId {
+	_TranslationsWidgetsEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsWidgetsErrorEn error = _TranslationsWidgetsErrorEn._(_root);
+	@override late final _TranslationsWidgetsEmptyEn empty = _TranslationsWidgetsEmptyEn._(_root);
 }
 
 // Path: app.validation
@@ -752,6 +764,38 @@ class _TranslationsAppMasyarakatEn extends TranslationsAppMasyarakatId {
 	@override String get cancel_confirmation_message => 'Unsaved changes will be lost. Are you sure you want to exit?';
 	@override String get cancel_no => 'No';
 	@override String get cancel_yes => 'Yes';
+}
+
+// Path: widgets.error
+class _TranslationsWidgetsErrorEn extends TranslationsWidgetsErrorId {
+	_TranslationsWidgetsErrorEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get network_title => 'Connection Lost';
+	@override String get network_message => 'Please check your internet connection.';
+	@override String get server_title => 'Server Error';
+	@override String get server_message => 'The server is busy or down.';
+	@override String get general_title => 'Something Went Wrong';
+	@override String get general_message => 'An unexpected error occurred.';
+	@override String get retry => 'Try Again';
+}
+
+// Path: widgets.empty
+class _TranslationsWidgetsEmptyEn extends TranslationsWidgetsEmptyId {
+	_TranslationsWidgetsEmptyEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get list_title => 'No Data';
+	@override String get list_message => 'No data available at the moment.';
+	@override String get search_title => 'Not Found';
+	@override String get search_message => 'No results found for your keyword.';
+	@override String get notification_title => 'Empty';
+	@override String get notification_message => 'You have no notifications.';
+	@override String get refresh => 'Refresh';
 }
 
 // Path: app.onboarding.page1
@@ -1379,6 +1423,20 @@ extension on TranslationsEn {
 			case 'app.masyarakat.cancel_confirmation_message': return 'Unsaved changes will be lost. Are you sure you want to exit?';
 			case 'app.masyarakat.cancel_no': return 'No';
 			case 'app.masyarakat.cancel_yes': return 'Yes';
+			case 'widgets.error.network_title': return 'Connection Lost';
+			case 'widgets.error.network_message': return 'Please check your internet connection.';
+			case 'widgets.error.server_title': return 'Server Error';
+			case 'widgets.error.server_message': return 'The server is busy or down.';
+			case 'widgets.error.general_title': return 'Something Went Wrong';
+			case 'widgets.error.general_message': return 'An unexpected error occurred.';
+			case 'widgets.error.retry': return 'Try Again';
+			case 'widgets.empty.list_title': return 'No Data';
+			case 'widgets.empty.list_message': return 'No data available at the moment.';
+			case 'widgets.empty.search_title': return 'Not Found';
+			case 'widgets.empty.search_message': return 'No results found for your keyword.';
+			case 'widgets.empty.notification_title': return 'Empty';
+			case 'widgets.empty.notification_message': return 'You have no notifications.';
+			case 'widgets.empty.refresh': return 'Refresh';
 			default: return null;
 		}
 	}

@@ -617,5 +617,25 @@
       "cancel_no": "No",
       "cancel_yes": "Yes"
     }
+  },
+  "widgets": {
+    "error": {
+      "network_title": "Connection Lost",
+      "network_message": "Please check your internet connection.",
+      "server_title": "Server Error",
+      "server_message": "The server is busy or down.",
+      "general_title": "Something Went Wrong",
+      "general_message": "An unexpected error occurred.",
+      "retry": "Try Again"
+    },
+    "empty": {
+      "list_title": "No Data",
+      "list_message": "No data available at the moment.",
+      "search_title": "Not Found",
+      "search_message": "No results found for your keyword.",
+      "notification_title": "Empty",
+      "notification_message": "You have no notifications.",
+      "refresh": "Refresh"
+    }
   }
 }

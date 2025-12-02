@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/core/widgets/fields/app_dropdown_field.dart';
 
 class NotificationHeader extends StatelessWidget {
-  final VoidCallback? onMarkAllAsRead;
+  final VoidCallback onRefresh;
+  final VoidCallback onDeleteMode;
+  final ValueChanged<String?> onFilterChanged;
+  final ValueChanged<String?> onTypeChanged;
 
-  const NotificationHeader({super.key, this.onMarkAllAsRead});
+  const NotificationHeader({
+    super.key,
+    required this.onRefresh,
+    required this.onDeleteMode,
+    required this.onFilterChanged,
+    required this.onTypeChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +35,11 @@ class NotificationHeader extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 10.h),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(color: ColorName.black.withValues(alpha:0.2)),
+                borderSide: BorderSide(color: ColorName.black.withValues(alpha: 0.2)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: BorderSide(color: ColorName.black.withValues(alpha: 0.1)),
               ),
               filled: true,
               fillColor: ColorName.white,
@@ -34,61 +48,81 @@ class NotificationHeader extends StatelessWidget {
 
           SizedBox(height: 12.h),
 
-          /// Row of filters + menu
           Row(
             children: [
-              /// Filter Dropdown
+              /// Filter Dropdown (Status)
               Expanded(
                 flex: 2,
-                child: _DropdownFilter(
-                  icon: Icons.filter_list,
-                  hint: t.filter,
-                  items: [
-                    t.filter_all,
-                    t.filter_unread,
-                    t.filter_read,
+                child: AppDropdownField(
+                  label: "Status", // Label sebagai hint
+                  showLabelAbove: false, // ✅ Tidak muncul di atas
+                  value: null,
+                  onChanged: onFilterChanged,
+                  items: const [
+                    "Semua",
+                    "Belum Dibaca",
+                    "Sudah Dibaca"
                   ],
                 ),
               ),
 
               SizedBox(width: 10.w),
 
-              /// Type Dropdown
+              /// Type Dropdown (Jenis)
               Expanded(
                 flex: 2,
-                child: _DropdownFilter(
-                  icon: Icons.category_outlined,
-                  hint: t.type,
-                  items: [
-                    t.type_all,
-                    t.type_ticket,
-                    t.type_message,
-                    t.type_update,
+                child: AppDropdownField(
+                  label: "Tipe", // Label sebagai hint
+                  showLabelAbove: false, // ✅ Tidak muncul di atas
+                  value: null,
+                  onChanged: onTypeChanged,
+                  items: const [
+                    "Semua",
+                    "Tiket",
+                    "Status",
+                    "Pengumuman"
                   ],
                 ),
               ),
 
               SizedBox(width: 10.w),
 
-              /// ⋮ Menu button (mark all as read)
+              /// ⋮ Menu button (Refresh & Hapus)
               Container(
-                height: 42.h,
-                width: 42.h,
+                height: 48.h, // Sesuaikan tinggi dropdown default
+                width: 42.w,
                 decoration: BoxDecoration(
                   color: ColorName.primary,
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: PopupMenuButton<String>(
                   onSelected: (value) {
-                    if (value == 'mark_all') onMarkAllAsRead?.call();
+                    if (value == 'refresh') onRefresh();
+                    if (value == 'delete') onDeleteMode();
                   },
                   icon: Icon(Icons.more_vert, color: ColorName.white, size: 22.sp),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r)
+                  ),
                   itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 'mark_all',
-                      child: Text(
-                        t.mark_all_as_read,
-                        style: TextStyle(fontSize: 12.sp, color: ColorName.textPrimary),
+                    const PopupMenuItem(
+                      value: 'refresh',
+                      child: Row(
+                        children: [
+                          Icon(Icons.refresh, size: 18, color: Colors.black54),
+                          SizedBox(width: 8),
+                          Text("Refresh"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 'delete',
+                      child: Row(
+                        children: [
+                          Icon(Icons.delete_outline, size: 18, color: Colors.red),
+                          SizedBox(width: 8),
+                          Text("Hapus", style: TextStyle(color: Colors.red)),
+                        ],
                       ),
                     ),
                   ],
@@ -97,67 +131,6 @@ class NotificationHeader extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// 🔽 Dropdown reusable widget
-class _DropdownFilter extends StatefulWidget {
-  final IconData icon;
-  final String hint;
-  final List<String> items;
-
-  const _DropdownFilter({
-    required this.icon,
-    required this.hint,
-    required this.items,
-  });
-
-  @override
-  State<_DropdownFilter> createState() => _DropdownFilterState();
-}
-
-class _DropdownFilterState extends State<_DropdownFilter> {
-  String? selectedValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 42.h,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      decoration: BoxDecoration(
-        color: ColorName.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: ColorName.black.withValues(alpha:0.2)),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          isExpanded: true,
-          value: selectedValue,
-          hint: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(widget.icon, size: 18.sp, color: ColorName.primary),
-              SizedBox(width: 6.w),
-              Text(
-                widget.hint,
-                style: TextStyle(fontSize: 12.sp, color: ColorName.textPrimary),
-              ),
-            ],
-          ),
-          icon: Icon(Icons.arrow_drop_down, size: 22.sp, color: ColorName.primary),
-          items: widget.items
-              .map((value) => DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(fontSize: 12.sp, color: ColorName.textPrimary),
-                    ),
-                  ))
-              .toList(),
-          onChanged: (value) => setState(() => selectedValue = value),
-        ),
       ),
     );
   }

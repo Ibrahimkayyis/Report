@@ -634,5 +634,25 @@
       "cancel_no": "Tidak",
       "cancel_yes": "Ya"
     }
+  },
+  "widgets": {
+    "error": {
+      "network_title": "Koneksi Terputus",
+      "network_message": "Periksa koneksi internet Anda dan coba lagi.",
+      "server_title": "Gangguan Server",
+      "server_message": "Server sedang sibuk atau bermasalah.",
+      "general_title": "Terjadi Kesalahan",
+      "general_message": "Terjadi kesalahan yang tidak terduga.",
+      "retry": "Coba Lagi"
+    },
+    "empty": {
+      "list_title": "Belum Ada Data",
+      "list_message": "Saat ini belum ada data untuk ditampilkan.",
+      "search_title": "Pencarian Tidak Ditemukan",
+      "search_message": "Tidak ada hasil untuk kata kunci tersebut.",
+      "notification_title": "Tidak Ada Notifikasi",
+      "notification_message": "Anda belum memiliki notifikasi.",
+      "refresh": "Muat Ulang"
+    }
   }
 }

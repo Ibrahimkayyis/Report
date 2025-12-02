@@ -40,6 +40,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsAppId app = TranslationsAppId.internal(_root);
+	late final TranslationsWidgetsId widgets = TranslationsWidgetsId.internal(_root);
 }
 
 // Path: app
@@ -989,6 +990,17 @@ class TranslationsAppId {
 	late final TranslationsAppRatingDetailId rating_detail = TranslationsAppRatingDetailId.internal(_root);
 	late final TranslationsAppOnboardingId onboarding = TranslationsAppOnboardingId.internal(_root);
 	late final TranslationsAppMasyarakatId masyarakat = TranslationsAppMasyarakatId.internal(_root);
+}
+
+// Path: widgets
+class TranslationsWidgetsId {
+	TranslationsWidgetsId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsWidgetsErrorId error = TranslationsWidgetsErrorId.internal(_root);
+	late final TranslationsWidgetsEmptyId empty = TranslationsWidgetsEmptyId.internal(_root);
 }
 
 // Path: app.validation
@@ -1970,6 +1982,66 @@ class TranslationsAppMasyarakatId {
 	String get cancel_yes => 'Ya';
 }
 
+// Path: widgets.error
+class TranslationsWidgetsErrorId {
+	TranslationsWidgetsErrorId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Koneksi Terputus'
+	String get network_title => 'Koneksi Terputus';
+
+	/// id: 'Periksa koneksi internet Anda dan coba lagi.'
+	String get network_message => 'Periksa koneksi internet Anda dan coba lagi.';
+
+	/// id: 'Gangguan Server'
+	String get server_title => 'Gangguan Server';
+
+	/// id: 'Server sedang sibuk atau bermasalah.'
+	String get server_message => 'Server sedang sibuk atau bermasalah.';
+
+	/// id: 'Terjadi Kesalahan'
+	String get general_title => 'Terjadi Kesalahan';
+
+	/// id: 'Terjadi kesalahan yang tidak terduga.'
+	String get general_message => 'Terjadi kesalahan yang tidak terduga.';
+
+	/// id: 'Coba Lagi'
+	String get retry => 'Coba Lagi';
+}
+
+// Path: widgets.empty
+class TranslationsWidgetsEmptyId {
+	TranslationsWidgetsEmptyId.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// id: 'Belum Ada Data'
+	String get list_title => 'Belum Ada Data';
+
+	/// id: 'Saat ini belum ada data untuk ditampilkan.'
+	String get list_message => 'Saat ini belum ada data untuk ditampilkan.';
+
+	/// id: 'Pencarian Tidak Ditemukan'
+	String get search_title => 'Pencarian Tidak Ditemukan';
+
+	/// id: 'Tidak ada hasil untuk kata kunci tersebut.'
+	String get search_message => 'Tidak ada hasil untuk kata kunci tersebut.';
+
+	/// id: 'Tidak Ada Notifikasi'
+	String get notification_title => 'Tidak Ada Notifikasi';
+
+	/// id: 'Anda belum memiliki notifikasi.'
+	String get notification_message => 'Anda belum memiliki notifikasi.';
+
+	/// id: 'Muat Ulang'
+	String get refresh => 'Muat Ulang';
+}
+
 // Path: app.onboarding.page1
 class TranslationsAppOnboardingPage1Id {
 	TranslationsAppOnboardingPage1Id.internal(this._root);
@@ -2624,6 +2696,20 @@ extension on Translations {
 			case 'app.masyarakat.cancel_confirmation_message': return 'Perubahan yang belum disimpan akan hilang. Anda yakin ingin keluar?';
 			case 'app.masyarakat.cancel_no': return 'Tidak';
 			case 'app.masyarakat.cancel_yes': return 'Ya';
+			case 'widgets.error.network_title': return 'Koneksi Terputus';
+			case 'widgets.error.network_message': return 'Periksa koneksi internet Anda dan coba lagi.';
+			case 'widgets.error.server_title': return 'Gangguan Server';
+			case 'widgets.error.server_message': return 'Server sedang sibuk atau bermasalah.';
+			case 'widgets.error.general_title': return 'Terjadi Kesalahan';
+			case 'widgets.error.general_message': return 'Terjadi kesalahan yang tidak terduga.';
+			case 'widgets.error.retry': return 'Coba Lagi';
+			case 'widgets.empty.list_title': return 'Belum Ada Data';
+			case 'widgets.empty.list_message': return 'Saat ini belum ada data untuk ditampilkan.';
+			case 'widgets.empty.search_title': return 'Pencarian Tidak Ditemukan';
+			case 'widgets.empty.search_message': return 'Tidak ada hasil untuk kata kunci tersebut.';
+			case 'widgets.empty.notification_title': return 'Tidak Ada Notifikasi';
+			case 'widgets.empty.notification_message': return 'Anda belum memiliki notifikasi.';
+			case 'widgets.empty.refresh': return 'Muat Ulang';
 			default: return null;
 		}
 	}

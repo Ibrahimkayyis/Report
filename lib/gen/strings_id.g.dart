@@ -37,6 +37,7 @@ class TranslationsId implements Translations {
 
 	// Translations
 	@override late final _TranslationsAppId app = _TranslationsAppId._(_root);
+	@override late final _TranslationsWidgetsId widgets = _TranslationsWidgetsId._(_root);
 }
 
 // Path: app
@@ -367,6 +368,17 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override late final _TranslationsAppRatingDetailId rating_detail = _TranslationsAppRatingDetailId._(_root);
 	@override late final _TranslationsAppOnboardingId onboarding = _TranslationsAppOnboardingId._(_root);
 	@override late final _TranslationsAppMasyarakatId masyarakat = _TranslationsAppMasyarakatId._(_root);
+}
+
+// Path: widgets
+class _TranslationsWidgetsId implements TranslationsWidgetsEn {
+	_TranslationsWidgetsId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsWidgetsErrorId error = _TranslationsWidgetsErrorId._(_root);
+	@override late final _TranslationsWidgetsEmptyId empty = _TranslationsWidgetsEmptyId._(_root);
 }
 
 // Path: app.validation
@@ -767,6 +779,38 @@ class _TranslationsAppMasyarakatId implements TranslationsAppMasyarakatEn {
 	@override String get cancel_confirmation_message => 'Perubahan yang belum disimpan akan hilang. Anda yakin ingin keluar?';
 	@override String get cancel_no => 'Tidak';
 	@override String get cancel_yes => 'Ya';
+}
+
+// Path: widgets.error
+class _TranslationsWidgetsErrorId implements TranslationsWidgetsErrorEn {
+	_TranslationsWidgetsErrorId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get network_title => 'Koneksi Terputus';
+	@override String get network_message => 'Periksa koneksi internet Anda dan coba lagi.';
+	@override String get server_title => 'Gangguan Server';
+	@override String get server_message => 'Server sedang sibuk atau bermasalah.';
+	@override String get general_title => 'Terjadi Kesalahan';
+	@override String get general_message => 'Terjadi kesalahan yang tidak terduga.';
+	@override String get retry => 'Coba Lagi';
+}
+
+// Path: widgets.empty
+class _TranslationsWidgetsEmptyId implements TranslationsWidgetsEmptyEn {
+	_TranslationsWidgetsEmptyId._(this._root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get list_title => 'Belum Ada Data';
+	@override String get list_message => 'Saat ini belum ada data untuk ditampilkan.';
+	@override String get search_title => 'Pencarian Tidak Ditemukan';
+	@override String get search_message => 'Tidak ada hasil untuk kata kunci tersebut.';
+	@override String get notification_title => 'Tidak Ada Notifikasi';
+	@override String get notification_message => 'Anda belum memiliki notifikasi.';
+	@override String get refresh => 'Muat Ulang';
 }
 
 // Path: app.onboarding.page1
@@ -1411,6 +1455,20 @@ extension on TranslationsId {
 			case 'app.masyarakat.cancel_confirmation_message': return 'Perubahan yang belum disimpan akan hilang. Anda yakin ingin keluar?';
 			case 'app.masyarakat.cancel_no': return 'Tidak';
 			case 'app.masyarakat.cancel_yes': return 'Ya';
+			case 'widgets.error.network_title': return 'Koneksi Terputus';
+			case 'widgets.error.network_message': return 'Periksa koneksi internet Anda dan coba lagi.';
+			case 'widgets.error.server_title': return 'Gangguan Server';
+			case 'widgets.error.server_message': return 'Server sedang sibuk atau bermasalah.';
+			case 'widgets.error.general_title': return 'Terjadi Kesalahan';
+			case 'widgets.error.general_message': return 'Terjadi kesalahan yang tidak terduga.';
+			case 'widgets.error.retry': return 'Coba Lagi';
+			case 'widgets.empty.list_title': return 'Belum Ada Data';
+			case 'widgets.empty.list_message': return 'Saat ini belum ada data untuk ditampilkan.';
+			case 'widgets.empty.search_title': return 'Pencarian Tidak Ditemukan';
+			case 'widgets.empty.search_message': return 'Tidak ada hasil untuk kata kunci tersebut.';
+			case 'widgets.empty.notification_title': return 'Tidak Ada Notifikasi';
+			case 'widgets.empty.notification_message': return 'Anda belum memiliki notifikasi.';
+			case 'widgets.empty.refresh': return 'Muat Ulang';
 			default: return null;
 		}
 	}
