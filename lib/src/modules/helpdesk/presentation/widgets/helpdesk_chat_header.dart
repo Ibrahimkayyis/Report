@@ -2,7 +2,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/src/modules/reporting/domain/models/opd_model.dart';
+import 'package:report/src/modules/masyarakat_reporting/domain/models/opd_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HelpdeskChatHeader extends StatelessWidget {

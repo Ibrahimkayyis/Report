@@ -50,7 +50,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (dialogContext) => AppReportSuccessDialog(
+        builder: (dialogContext) => AppGlobalSuccessDialog(
           title: context.t.app.password_reset_success_title,
           message: context.t.app.password_reset_success_message,
           buttonText: context.t.app.login,

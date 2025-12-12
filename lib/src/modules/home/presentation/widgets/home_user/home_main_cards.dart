@@ -20,7 +20,7 @@ class HomeMainCards extends StatelessWidget {
             title: t.app.online_reporting,
             subtitle: t.app.online_reporting_subtitle,
             buttonText: t.app.create_report,
-            onTap: () => context.pushRoute(const OpdSelectionRoute()),
+            onTap: () => context.pushRoute(ReportingFormRoute()),
           ),
         ),
         SizedBox(width: 16.w),
@@ -30,7 +30,8 @@ class HomeMainCards extends StatelessWidget {
             title: t.app.service_request,
             subtitle: t.app.service_request_subtitle,
             buttonText: t.app.create_request,
-            onTap: () => context.pushRoute(const ServiceRequestSelectionRoute()),
+            // ✅ FIX: Langsung ke Form Screen (Parameter opdId opsional)
+            onTap: () => context.pushRoute(ServiceRequestFormRoute()), 
           ),
         ),
       ],
@@ -62,7 +63,7 @@ class _MainCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 8.r,
             offset: Offset(0, 4.h),
           ),
@@ -71,7 +72,7 @@ class _MainCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          /// 🌊 Wave Background (custom painter)
+          /// 🌊 Wave Background
           const Positioned.fill(child: _WaveBackground()),
 
           /// 📄 Card Content
@@ -94,7 +95,7 @@ class _MainCard extends StatelessWidget {
                     subtitle,
                     style: TextStyle(
                       fontSize: 11.sp,
-                      color: Colors.white.withValues(alpha: 0.9),
+                      color: Colors.white.withOpacity(0.9),
                       height: 1.4,
                     ),
                     maxLines: 3,
@@ -141,7 +142,6 @@ class _MainCard extends StatelessWidget {
   }
 }
 
-/// 🎨 Reusable Wave Painter (same as masyarakat version)
 class _WaveBackground extends StatelessWidget {
   const _WaveBackground();
 
@@ -157,7 +157,7 @@ class _WavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.08)
+      ..color = Colors.white.withOpacity(0.08)
       ..style = PaintingStyle.fill;
 
     final Path path = Path()
@@ -181,7 +181,7 @@ class _WavePainter extends CustomPainter {
     canvas.drawPath(path, paint);
 
     final Paint paint2 = Paint()
-      ..color = Colors.white.withValues(alpha: 0.05)
+      ..color = Colors.white.withOpacity(0.05)
       ..style = PaintingStyle.fill;
 
     final Path path2 = Path()

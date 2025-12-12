@@ -5,57 +5,41 @@ import '../abstract/auth_remote_data_source.dart';
 
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final Dio dio;      // Untuk Masyarakat (Service Desk)
-  final Dio ariseDio; // Untuk Pegawai/Teknisi (Arise App) - RENAME
+  final Dio dio;
 
-  // Inject ariseDio
-  AuthRemoteDataSourceImpl(
-    this.dio,
-    @Named('ariseDio') this.ariseDio, // Update @Named
-  );
+  // Hapus 'ariseDio'
+  AuthRemoteDataSourceImpl(this.dio);
 
   @override
   Future<String> register({
     required String email,
-    required String firstName,
-    required String lastName,
     required String password,
-    String? phoneNumber,
-    String? birthDate,
-    String? address,
-    String role = 'masyarakat',
+    required String fullName,
+    required String phoneNumber,
+    required String nik,
+    required String address,
   }) async {
     final Map<String, dynamic> body = {
       "email": email,
-      "first_name": firstName,
-      "last_name": lastName,
       "password": password,
+      "full_name": fullName,
+      "phone_number": phoneNumber,
+      "nik": nik,
+      "address": address,
     };
 
-    if (phoneNumber != null && phoneNumber.isNotEmpty) {
-      body["phone_number"] = phoneNumber;
-    }
-    if (birthDate != null && birthDate.isNotEmpty) {
-      body["birth_date"] = birthDate;
-    }
-    if (address != null && address.isNotEmpty) {
-      body["address"] = address;
-    }
-    if (role.isNotEmpty) {
-      body["role"] = role;
-    }
-
+    // Endpoint sesuai dokumentasi: /register/masyarakat
     final resp = await dio.post(
-      '/register',
+      '/register/masyarakat',
       data: body,
     );
 
     if (resp.statusCode == 200) {
-      if (resp.data is String) return resp.data;
-      if (resp.data is Map && resp.data['message'] != null) {
-        return resp.data['message'];
+      // Backend mengembalikan token langsung
+      if (resp.data is Map && resp.data['access_token'] != null) {
+        return resp.data['access_token'];
       }
-      return resp.data.toString();
+      return "Registration Successful";
     }
 
     throw Exception('Register failed: ${resp.statusCode}');
@@ -70,20 +54,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     Response resp;
 
     if (type == UserType.employee) {
-      // ==========================================================
-      // FLOW PEGAWAI / ARISE APP
-      // ==========================================================
-      resp = await ariseDio.post( // Panggil ariseDio
-        '/api/login',
+      // Endpoint SSO (Pegawai/Teknisi)
+      // Body param: "login"
+      resp = await dio.post(
+        '/login/sso',
         data: {
           "login": email, 
           "password": password,
         },
       );
     } else {
-      // ==========================================================
-      // FLOW MASYARAKAT / SERVICE DESK
-      // ==========================================================
+      // Endpoint Masyarakat
+      // Body param: "email"
       resp = await dio.post(
         '/login/masyarakat',
         data: {
@@ -115,9 +97,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     if (resp.statusCode == 200) {
-      if (resp.data is String) {
-        return resp.data as String;
-      }
+      if (resp.data is String) return resp.data as String;
       if (resp.data is Map<String, dynamic>) {
         if (resp.data['access_token'] != null) {
           return resp.data['access_token'] as String;

@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/router/app_router.dart';
+import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/teknisi_home/presentation/cubits/teknisi_home_cubit.dart';
+import 'package:report/src/modules/teknisi_home/presentation/cubits/teknisi_home_state.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_app_bar.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_sidebar.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_stats_cards.dart';
@@ -23,15 +27,15 @@ class HomeTeknisiScreen extends StatefulWidget {
 
 class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
     with SingleTickerProviderStateMixin {
+  
+  // Local State untuk UI Filter
   int _selectedTabIndex = 0;
-  String? _selectedKategori;
-  String? _selectedBentuk;
-  String? _selectedJenis;
-  String? _selectedStatus;
+  String? _selectedSubKategori;
+  String? _selectedPriority; // ✅ Ganti Bentuk/Jenis
+  String? _selectedStatusTeknisi;
 
   int _currentPage = 1;
-  final int _totalPages = 2;
-  final int _totalData = 15;
+  final int _totalPages = 1; 
 
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
@@ -48,13 +52,11 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    _slideAnimation =
-        Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeInOut,
-          ),
-        );
+    _slideAnimation = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero)
+        .animate(CurvedAnimation(
+          parent: _animationController,
+          curve: Curves.easeInOut,
+        ));
   }
 
   @override
@@ -74,10 +76,10 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
     });
   }
 
+  // --- Navigation Methods ---
   void _navigateToDashboard() {
     _toggleSidebar();
     AppLogger.d('Navigate to Dashboard');
-
   }
 
   void _navigateToMyTickets() {
@@ -114,51 +116,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
   Widget build(BuildContext context) {
     final t = Translations.of(context);
 
-    final stats = [
-      TeknisiStatData(
-        icon: Icons.check_circle_outline,
-        title: t.app.dashboard.ticket_incoming,
-        value: '15',
-        subtitle: t.app.dashboard.ticket_incoming_desc,
-        color: ColorName.primary,
-      ),
-      TeknisiStatData(
-        icon: Icons.autorenew,
-        title: t.app.dashboard.in_progress,
-        value: '10',
-        subtitle: t.app.dashboard.in_progress_desc,
-        color: Colors.blue.shade700,
-      ),
-      TeknisiStatData(
-        icon: Icons.access_time,
-        title: t.app.dashboard.deadline,
-        value: '1',
-        subtitle: t.app.dashboard.deadline_desc,
-        color: Colors.orange.shade700,
-      ),
-      TeknisiStatData(
-        icon: Icons.refresh,
-        title: t.app.dashboard.reopen,
-        value: '0',
-        subtitle: t.app.dashboard.reopen_desc,
-        color: Colors.green.shade700,
-      ),
-    ];
-
-    final tickets = List.generate(10, (i) {
-      return {
-        'id': 'TCKT-${i + 1}',
-        'userName': i == 0 ? 'Doni Ridho' : 'Rio Widoro',
-        'date': '18/09/2024',
-        'status': i.isEven ? 'Diproses' : 'Draft',
-        'kategori': i.isEven ? 'Sistem Operasi' : 'Jaringan',
-        'jenis': 'IT',
-        'bentuk': 'Non-Fisik',
-        'lampiranCount': (i % 3) + 1,
-        'isDraft': i.isOdd,
-      };
-    });
-
     final menuItems = [
       TeknisiMenuItem(
         icon: Icons.dashboard,
@@ -185,7 +142,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
         title: 'Rating',
         onTap: _navigateToRating,
       ),
-
       TeknisiMenuItem(
         icon: Icons.change_circle_outlined,
         title: t.app.rfc.rfc_title,
@@ -198,90 +154,175 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
       ),
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: TeknisiAppBar(onMenuPressed: _toggleSidebar),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 80.h),
-            child: Column(
-              children: [
-                TeknisiStatsCards(stats: stats),
-                SizedBox(height: 16.h),
-                TeknisiTabSection(
-                  selectedTabIndex: _selectedTabIndex,
-                  onTabSelected: (index) {
-                    setState(() => _selectedTabIndex = index);
-                  },
-                  onRefresh: () => debugPrint('Refresh data...'),
-                  filterCard: TeknisiFilterCard(
-                    selectedKategori: _selectedKategori,
-                    selectedBentuk: _selectedBentuk,
-                    selectedJenis: _selectedJenis,
-                    selectedStatus: _selectedStatus,
-                    onKategoriChanged: (v) =>
-                        setState(() => _selectedKategori = v),
-                    onBentukChanged: (v) => setState(() => _selectedBentuk = v),
-                    onJenisChanged: (v) => setState(() => _selectedJenis = v),
-                    onStatusChanged: (v) => setState(() => _selectedStatus = v),
-                  ),
-                  ticketList: TeknisiTicketList(tickets: tickets),
+    return BlocProvider(
+      create: (_) => sl<TeknisiHomeCubit>()..fetchTickets(),
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        appBar: TeknisiAppBar(onMenuPressed: _toggleSidebar),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: 80.h),
+              child: BlocBuilder<TeknisiHomeCubit, TeknisiHomeState>(
+                builder: (context, state) {
+                  final cubit = context.read<TeknisiHomeCubit>();
 
-                  // 🔽 Ganti bagian pagination-nya dengan ini
-                  pagination: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 16.h,
+                  // Statistik Dinamis
+                  final totalIncoming = state.allTickets.length;
+                  final totalInProgress = state.allTickets
+                      .where((t) => t.statusTeknisi.toLowerCase() != 'draft')
+                      .length;
+                  
+                  final stats = [
+                    TeknisiStatData(
+                      icon: Icons.check_circle_outline,
+                      title: t.app.dashboard.ticket_incoming,
+                      value: '$totalIncoming',
+                      subtitle: t.app.dashboard.ticket_incoming_desc,
+                      color: ColorName.primary,
                     ),
-                    decoration: BoxDecoration(
-                      color: ColorName.white,
-                      border: Border(
-                        top: BorderSide(color: Colors.grey.shade200, width: 1),
+                    TeknisiStatData(
+                      icon: Icons.autorenew,
+                      title: t.app.dashboard.in_progress,
+                      value: '$totalInProgress',
+                      subtitle: t.app.dashboard.in_progress_desc,
+                      color: Colors.blue.shade700,
+                    ),
+                    TeknisiStatData(
+                      icon: Icons.access_time,
+                      title: t.app.dashboard.deadline,
+                      value: '0', 
+                      subtitle: t.app.dashboard.deadline_desc,
+                      color: Colors.orange.shade700,
+                    ),
+                    TeknisiStatData(
+                      icon: Icons.refresh,
+                      title: t.app.dashboard.reopen,
+                      value: '0', 
+                      subtitle: t.app.dashboard.reopen_desc,
+                      color: Colors.green.shade700,
+                    ),
+                  ];
+
+                  return Column(
+                    children: [
+                      TeknisiStatsCards(stats: stats),
+                      
+                      SizedBox(height: 16.h),
+                      
+                      TeknisiTabSection(
+                        selectedTabIndex: _selectedTabIndex,
+                        onTabSelected: (index) {
+                          setState(() => _selectedTabIndex = index);
+                          cubit.updateFilter(tabIndex: index);
+                        },
+                        onRefresh: () => cubit.fetchTickets(),
+                        
+                        // ✅ Filter Card Updated
+                        filterCard: TeknisiFilterCard(
+                          selectedSubKategori: _selectedSubKategori,
+                          selectedPriority: _selectedPriority,
+                          selectedStatusTeknisi: _selectedStatusTeknisi,
+                          
+                          onSubKategoriChanged: (v) {
+                            setState(() => _selectedSubKategori = v);
+                            cubit.updateFilter(subKategori: v);
+                          },
+                          onPriorityChanged: (v) {
+                            setState(() => _selectedPriority = v);
+                            cubit.updateFilter(priority: v);
+                          },
+                          onStatusTeknisiChanged: (v) {
+                            setState(() => _selectedStatusTeknisi = v);
+                            cubit.updateFilter(statusTeknisi: v);
+                          },
+                        ),
+                        
+                        // List & Loading
+                        ticketList: Builder(
+                          builder: (context) {
+                            if (state.status == TeknisiHomeStatus.loading) {
+                              return Container(
+                                height: 300.h,
+                                alignment: Alignment.center,
+                                child: const CircularProgressIndicator(),
+                              );
+                            }
+                            
+                            if (state.status == TeknisiHomeStatus.failure) {
+                              return Container(
+                                height: 300.h,
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.error_outline, color: Colors.red, size: 40),
+                                    SizedBox(height: 8.h),
+                                    Text(state.errorMessage ?? "Terjadi Kesalahan"),
+                                    TextButton(
+                                      onPressed: () => cubit.fetchTickets(),
+                                      child: const Text("Coba Lagi"),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+
+                            return TeknisiTicketList(tickets: state.filteredTickets);
+                          },
+                        ),
+
+                        // Pagination (UI Only)
+                        pagination: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: ColorName.white,
+                            border: Border(
+                              top: BorderSide(color: Colors.grey.shade200, width: 1),
+                            ),
+                          ),
+                          child: AppPagination(
+                            currentPage: _currentPage,
+                            totalPages: _totalPages,
+                            totalData: state.filteredTickets.length,
+                            startData: state.filteredTickets.isEmpty ? 0 : 1,
+                            endData: state.filteredTickets.length,
+                            onPrevious: null,
+                            onNext: null,
+                            onPageSelected: (page) {},
+                          ),
+                        ),
                       ),
-                    ),
-                    child: AppPagination(
-                      currentPage: _currentPage,
-                      totalPages: _totalPages,
-                      totalData: _totalData,
-                      startData: ((_currentPage - 1) * 10) + 1,
-                      endData: _currentPage * 10 > _totalData
-                          ? _totalData
-                          : _currentPage * 10,
-                      onPrevious: _currentPage > 1
-                          ? () => setState(() => _currentPage--)
-                          : null,
-                      onNext: _currentPage < _totalPages
-                          ? () => setState(() => _currentPage++)
-                          : null,
-                      onPageSelected: (page) {
-                        setState(() => _currentPage = page);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (_isSidebarVisible)
-            GestureDetector(
-              onTap: _toggleSidebar,
-              child: Container(color: Colors.black.withValues(alpha: 0.5)),
-            ),
-          SlideTransition(
-            position: _slideAnimation,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TeknisiSidebar(
-                onClose: _toggleSidebar,
-                userName: _userName,
-                userEmail: _userEmail,
-                userAvatarUrl: _userAvatarUrl,
-                menuItems: menuItems,
+                    ],
+                  );
+                },
               ),
             ),
-          ),
-        ],
+            
+            if (_isSidebarVisible)
+              GestureDetector(
+                onTap: _toggleSidebar,
+                child: Container(color: Colors.black.withValues(alpha: 0.5)),
+              ),
+            
+            SlideTransition(
+              position: _slideAnimation,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TeknisiSidebar(
+                  onClose: _toggleSidebar,
+                  userName: _userName,
+                  userEmail: _userEmail,
+                  userAvatarUrl: _userAvatarUrl,
+                  menuItems: menuItems,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -13,12 +13,12 @@ class ReportInitial extends ReportState {}
 class ReportLoading extends ReportState {}
 
 class ReportSuccess extends ReportState {
-  final ReportResponseModel report;
+  final ReportResponseModel data; // Membawa data respon API
 
-  const ReportSuccess(this.report);
+  const ReportSuccess(this.data);
 
   @override
-  List<Object?> get props => [report];
+  List<Object?> get props => [data];
 }
 
 class ReportError extends ReportState {

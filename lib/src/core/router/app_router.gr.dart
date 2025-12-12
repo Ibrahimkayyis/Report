@@ -350,6 +350,114 @@ class MainLayoutTeknisiRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MasyarakatReopenTicketScreen]
+class MasyarakatReopenTicketRoute
+    extends PageRouteInfo<MasyarakatReopenTicketRouteArgs> {
+  MasyarakatReopenTicketRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MasyarakatReopenTicketRoute.name,
+         args: MasyarakatReopenTicketRouteArgs(key: key, ticketId: ticketId),
+         initialChildren: children,
+       );
+
+  static const String name = 'MasyarakatReopenTicketRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<MasyarakatReopenTicketRouteArgs>();
+      return MasyarakatReopenTicketScreen(
+        key: args.key,
+        ticketId: args.ticketId,
+      );
+    },
+  );
+}
+
+class MasyarakatReopenTicketRouteArgs {
+  const MasyarakatReopenTicketRouteArgs({this.key, required this.ticketId});
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'MasyarakatReopenTicketRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MasyarakatReopenTicketRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
+}
+
+/// generated route for
+/// [MasyarakatReportActivityDetailScreen]
+class MasyarakatReportActivityDetailRoute
+    extends PageRouteInfo<MasyarakatReportActivityDetailRouteArgs> {
+  MasyarakatReportActivityDetailRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MasyarakatReportActivityDetailRoute.name,
+         args: MasyarakatReportActivityDetailRouteArgs(
+           key: key,
+           ticketId: ticketId,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'MasyarakatReportActivityDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<MasyarakatReportActivityDetailRouteArgs>();
+      return MasyarakatReportActivityDetailScreen(
+        key: args.key,
+        ticketId: args.ticketId,
+      );
+    },
+  );
+}
+
+class MasyarakatReportActivityDetailRouteArgs {
+  const MasyarakatReportActivityDetailRouteArgs({
+    this.key,
+    required this.ticketId,
+  });
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'MasyarakatReportActivityDetailRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MasyarakatReportActivityDetailRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
+}
+
+/// generated route for
 /// [MasyarakatReportingFormScreen]
 class MasyarakatReportingFormRoute
     extends PageRouteInfo<MasyarakatReportingFormRouteArgs> {
@@ -439,7 +547,7 @@ class NotificationDetailRoute
     extends PageRouteInfo<NotificationDetailRouteArgs> {
   NotificationDetailRoute({
     Key? key,
-    required int id,
+    required String id,
     List<PageRouteInfo>? children,
   }) : super(
          NotificationDetailRoute.name,
@@ -463,7 +571,7 @@ class NotificationDetailRouteArgs {
 
   final Key? key;
 
-  final int id;
+  final String id;
 
   @override
   String toString() {
@@ -674,22 +782,110 @@ class RegisterRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ReopenTicketScreen]
+class ReopenTicketRoute extends PageRouteInfo<ReopenTicketRouteArgs> {
+  ReopenTicketRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ReopenTicketRoute.name,
+         args: ReopenTicketRouteArgs(key: key, ticketId: ticketId),
+         initialChildren: children,
+       );
+
+  static const String name = 'ReopenTicketRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ReopenTicketRouteArgs>();
+      return ReopenTicketScreen(key: args.key, ticketId: args.ticketId);
+    },
+  );
+}
+
+class ReopenTicketRouteArgs {
+  const ReopenTicketRouteArgs({this.key, required this.ticketId});
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'ReopenTicketRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ReopenTicketRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
+}
+
+/// generated route for
+/// [ReportActivityDetailScreen]
+class ReportActivityDetailRoute
+    extends PageRouteInfo<ReportActivityDetailRouteArgs> {
+  ReportActivityDetailRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ReportActivityDetailRoute.name,
+         args: ReportActivityDetailRouteArgs(key: key, ticketId: ticketId),
+         initialChildren: children,
+       );
+
+  static const String name = 'ReportActivityDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ReportActivityDetailRouteArgs>();
+      return ReportActivityDetailScreen(key: args.key, ticketId: args.ticketId);
+    },
+  );
+}
+
+class ReportActivityDetailRouteArgs {
+  const ReportActivityDetailRouteArgs({this.key, required this.ticketId});
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'ReportActivityDetailRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ReportActivityDetailRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
+}
+
+/// generated route for
 /// [ReportSuccessScreen]
 class ReportSuccessRoute extends PageRouteInfo<ReportSuccessRouteArgs> {
   ReportSuccessRoute({
     Key? key,
-    required String ticketNumber,
-    required String status,
-    required String opdName,
+    required dynamic data,
     List<PageRouteInfo>? children,
   }) : super(
          ReportSuccessRoute.name,
-         args: ReportSuccessRouteArgs(
-           key: key,
-           ticketNumber: ticketNumber,
-           status: status,
-           opdName: opdName,
-         ),
+         args: ReportSuccessRouteArgs(key: key, data: data),
          initialChildren: children,
        );
 
@@ -699,50 +895,32 @@ class ReportSuccessRoute extends PageRouteInfo<ReportSuccessRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<ReportSuccessRouteArgs>();
-      return ReportSuccessScreen(
-        key: args.key,
-        ticketNumber: args.ticketNumber,
-        status: args.status,
-        opdName: args.opdName,
-      );
+      return ReportSuccessScreen(key: args.key, data: args.data);
     },
   );
 }
 
 class ReportSuccessRouteArgs {
-  const ReportSuccessRouteArgs({
-    this.key,
-    required this.ticketNumber,
-    required this.status,
-    required this.opdName,
-  });
+  const ReportSuccessRouteArgs({this.key, required this.data});
 
   final Key? key;
 
-  final String ticketNumber;
-
-  final String status;
-
-  final String opdName;
+  final dynamic data;
 
   @override
   String toString() {
-    return 'ReportSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, status: $status, opdName: $opdName}';
+    return 'ReportSuccessRouteArgs{key: $key, data: $data}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ReportSuccessRouteArgs) return false;
-    return key == other.key &&
-        ticketNumber == other.ticketNumber &&
-        status == other.status &&
-        opdName == other.opdName;
+    return key == other.key && data == other.data;
   }
 
   @override
-  int get hashCode =>
-      key.hashCode ^ ticketNumber.hashCode ^ status.hashCode ^ opdName.hashCode;
+  int get hashCode => key.hashCode ^ data.hashCode;
 }
 
 /// generated route for
@@ -750,7 +928,7 @@ class ReportSuccessRouteArgs {
 class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
   ReportingFormRoute({
     Key? key,
-    required String opdId,
+    String? opdId,
     String? opdName,
     String? opdIconUrl,
     Color? opdColor,
@@ -772,7 +950,9 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<ReportingFormRouteArgs>();
+      final args = data.argsAs<ReportingFormRouteArgs>(
+        orElse: () => const ReportingFormRouteArgs(),
+      );
       return ReportingFormScreen(
         key: args.key,
         opdId: args.opdId,
@@ -787,7 +967,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
 class ReportingFormRouteArgs {
   const ReportingFormRouteArgs({
     this.key,
-    required this.opdId,
+    this.opdId,
     this.opdName,
     this.opdIconUrl,
     this.opdColor,
@@ -795,7 +975,7 @@ class ReportingFormRouteArgs {
 
   final Key? key;
 
-  final String opdId;
+  final String? opdId;
 
   final String? opdName;
 
@@ -892,7 +1072,7 @@ class ServiceRequestFormRoute
     extends PageRouteInfo<ServiceRequestFormRouteArgs> {
   ServiceRequestFormRoute({
     Key? key,
-    required String opdId,
+    String? opdId,
     String? opdName,
     String? opdIconUrl,
     Color? opdColor,
@@ -914,7 +1094,9 @@ class ServiceRequestFormRoute
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<ServiceRequestFormRouteArgs>();
+      final args = data.argsAs<ServiceRequestFormRouteArgs>(
+        orElse: () => const ServiceRequestFormRouteArgs(),
+      );
       return ServiceRequestFormScreen(
         key: args.key,
         opdId: args.opdId,
@@ -929,7 +1111,7 @@ class ServiceRequestFormRoute
 class ServiceRequestFormRouteArgs {
   const ServiceRequestFormRouteArgs({
     this.key,
-    required this.opdId,
+    this.opdId,
     this.opdName,
     this.opdIconUrl,
     this.opdColor,
@@ -937,7 +1119,7 @@ class ServiceRequestFormRouteArgs {
 
   final Key? key;
 
-  final String opdId;
+  final String? opdId;
 
   final String? opdName;
 
@@ -992,18 +1174,11 @@ class ServiceRequestSuccessRoute
     extends PageRouteInfo<ServiceRequestSuccessRouteArgs> {
   ServiceRequestSuccessRoute({
     Key? key,
-    required String ticketNumber,
-    required String status,
-    required String requestType,
+    required ServiceRequestResponseModel data,
     List<PageRouteInfo>? children,
   }) : super(
          ServiceRequestSuccessRoute.name,
-         args: ServiceRequestSuccessRouteArgs(
-           key: key,
-           ticketNumber: ticketNumber,
-           status: status,
-           requestType: requestType,
-         ),
+         args: ServiceRequestSuccessRouteArgs(key: key, data: data),
          initialChildren: children,
        );
 
@@ -1013,53 +1188,32 @@ class ServiceRequestSuccessRoute
     name,
     builder: (data) {
       final args = data.argsAs<ServiceRequestSuccessRouteArgs>();
-      return ServiceRequestSuccessScreen(
-        key: args.key,
-        ticketNumber: args.ticketNumber,
-        status: args.status,
-        requestType: args.requestType,
-      );
+      return ServiceRequestSuccessScreen(key: args.key, data: args.data);
     },
   );
 }
 
 class ServiceRequestSuccessRouteArgs {
-  const ServiceRequestSuccessRouteArgs({
-    this.key,
-    required this.ticketNumber,
-    required this.status,
-    required this.requestType,
-  });
+  const ServiceRequestSuccessRouteArgs({this.key, required this.data});
 
   final Key? key;
 
-  final String ticketNumber;
-
-  final String status;
-
-  final String requestType;
+  final ServiceRequestResponseModel data;
 
   @override
   String toString() {
-    return 'ServiceRequestSuccessRouteArgs{key: $key, ticketNumber: $ticketNumber, status: $status, requestType: $requestType}';
+    return 'ServiceRequestSuccessRouteArgs{key: $key, data: $data}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ServiceRequestSuccessRouteArgs) return false;
-    return key == other.key &&
-        ticketNumber == other.ticketNumber &&
-        status == other.status &&
-        requestType == other.requestType;
+    return key == other.key && data == other.data;
   }
 
   @override
-  int get hashCode =>
-      key.hashCode ^
-      ticketNumber.hashCode ^
-      status.hashCode ^
-      requestType.hashCode;
+  int get hashCode => key.hashCode ^ data.hashCode;
 }
 
 /// generated route for
@@ -1084,34 +1238,11 @@ class TeknisiRatingDetailRoute
     extends PageRouteInfo<TeknisiRatingDetailRouteArgs> {
   TeknisiRatingDetailRoute({
     Key? key,
-    required String senderName,
-    String? senderAvatar,
-    String? ticketId,
-    required String category,
-    required String type,
-    required String form,
-    required int rating,
-    String? comment,
-    int? easeOfUse,
-    int? responseSpeed,
-    int? solutionQuality,
+    required String ticketId,
     List<PageRouteInfo>? children,
   }) : super(
          TeknisiRatingDetailRoute.name,
-         args: TeknisiRatingDetailRouteArgs(
-           key: key,
-           senderName: senderName,
-           senderAvatar: senderAvatar,
-           ticketId: ticketId,
-           category: category,
-           type: type,
-           form: form,
-           rating: rating,
-           comment: comment,
-           easeOfUse: easeOfUse,
-           responseSpeed: responseSpeed,
-           solutionQuality: solutionQuality,
-         ),
+         args: TeknisiRatingDetailRouteArgs(key: key, ticketId: ticketId),
          initialChildren: children,
        );
 
@@ -1121,101 +1252,32 @@ class TeknisiRatingDetailRoute
     name,
     builder: (data) {
       final args = data.argsAs<TeknisiRatingDetailRouteArgs>();
-      return TeknisiRatingDetailScreen(
-        key: args.key,
-        senderName: args.senderName,
-        senderAvatar: args.senderAvatar,
-        ticketId: args.ticketId,
-        category: args.category,
-        type: args.type,
-        form: args.form,
-        rating: args.rating,
-        comment: args.comment,
-        easeOfUse: args.easeOfUse,
-        responseSpeed: args.responseSpeed,
-        solutionQuality: args.solutionQuality,
-      );
+      return TeknisiRatingDetailScreen(key: args.key, ticketId: args.ticketId);
     },
   );
 }
 
 class TeknisiRatingDetailRouteArgs {
-  const TeknisiRatingDetailRouteArgs({
-    this.key,
-    required this.senderName,
-    this.senderAvatar,
-    this.ticketId,
-    required this.category,
-    required this.type,
-    required this.form,
-    required this.rating,
-    this.comment,
-    this.easeOfUse,
-    this.responseSpeed,
-    this.solutionQuality,
-  });
+  const TeknisiRatingDetailRouteArgs({this.key, required this.ticketId});
 
   final Key? key;
 
-  final String senderName;
-
-  final String? senderAvatar;
-
-  final String? ticketId;
-
-  final String category;
-
-  final String type;
-
-  final String form;
-
-  final int rating;
-
-  final String? comment;
-
-  final int? easeOfUse;
-
-  final int? responseSpeed;
-
-  final int? solutionQuality;
+  final String ticketId;
 
   @override
   String toString() {
-    return 'TeknisiRatingDetailRouteArgs{key: $key, senderName: $senderName, senderAvatar: $senderAvatar, ticketId: $ticketId, category: $category, type: $type, form: $form, rating: $rating, comment: $comment, easeOfUse: $easeOfUse, responseSpeed: $responseSpeed, solutionQuality: $solutionQuality}';
+    return 'TeknisiRatingDetailRouteArgs{key: $key, ticketId: $ticketId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! TeknisiRatingDetailRouteArgs) return false;
-    return key == other.key &&
-        senderName == other.senderName &&
-        senderAvatar == other.senderAvatar &&
-        ticketId == other.ticketId &&
-        category == other.category &&
-        type == other.type &&
-        form == other.form &&
-        rating == other.rating &&
-        comment == other.comment &&
-        easeOfUse == other.easeOfUse &&
-        responseSpeed == other.responseSpeed &&
-        solutionQuality == other.solutionQuality;
+    return key == other.key && ticketId == other.ticketId;
   }
 
   @override
-  int get hashCode =>
-      key.hashCode ^
-      senderName.hashCode ^
-      senderAvatar.hashCode ^
-      ticketId.hashCode ^
-      category.hashCode ^
-      type.hashCode ^
-      form.hashCode ^
-      rating.hashCode ^
-      comment.hashCode ^
-      easeOfUse.hashCode ^
-      responseSpeed.hashCode ^
-      solutionQuality.hashCode;
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
 }
 
 /// generated route for
@@ -1296,6 +1358,53 @@ class TestHelperRoute extends PageRouteInfo<void> {
       return const TestHelperScreen();
     },
   );
+}
+
+/// generated route for
+/// [TicketRatingScreen]
+class TicketRatingRoute extends PageRouteInfo<TicketRatingRouteArgs> {
+  TicketRatingRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         TicketRatingRoute.name,
+         args: TicketRatingRouteArgs(key: key, ticketId: ticketId),
+         initialChildren: children,
+       );
+
+  static const String name = 'TicketRatingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TicketRatingRouteArgs>();
+      return TicketRatingScreen(key: args.key, ticketId: args.ticketId);
+    },
+  );
+}
+
+class TicketRatingRouteArgs {
+  const TicketRatingRouteArgs({this.key, required this.ticketId});
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'TicketRatingRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TicketRatingRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
 }
 
 /// generated route for

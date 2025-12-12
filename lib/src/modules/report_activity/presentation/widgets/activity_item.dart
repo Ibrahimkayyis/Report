@@ -1,28 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
+import 'package:report/src/modules/report_activity/domain/models/activity_model.dart';
 
 class ActivityItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String completionDate;
-  // Opsi Aksi (bisa null jika tidak tersedia untuk item tersebut)
-  final VoidCallback? onViewHistory;
-  final VoidCallback? onRate;
-  final VoidCallback? onReopen;
+  final ActivityModel activity;
+  final VoidCallback onViewHistory;
+  final VoidCallback? onRate;   // Nullable
+  final VoidCallback? onReopen; // Nullable
 
   const ActivityItem({
     super.key,
-    required this.id,
-    required this.title,
-    required this.completionDate,
-    this.onViewHistory,
+    required this.activity,
+    required this.onViewHistory,
     this.onRate,
     this.onReopen,
   });
 
+  String _formatDate(String dateString) {
+    try {
+      if (dateString.contains('T')) {
+        return dateString.split('T').first;
+      }
+      return dateString;
+    } catch (_) {
+      return dateString;
+    }
+  }
+
+  Color _getStatusColor(String status) {
+    final s = status.toLowerCase();
+    if (s == 'selesai') return Colors.green;
+    if (s.contains('tolak') || s == 'rejected') return Colors.red;
+    if (s.contains('reopen')) return Colors.orange;
+    return ColorName.primary;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final statusColor = _getStatusColor(activity.status);
+    // Cek apakah data rating ada di model
+    final isRated = activity.rating != null;
+
+    final displayId = activity.ticketCode.isNotEmpty 
+        ? activity.ticketCode 
+        : "ID: ${activity.id.substring(0, 8)}...";
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       padding: EdgeInsets.all(16.w),
@@ -41,33 +64,42 @@ class ActivityItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. Baris Atas: ID & Tanggal Selesai
+          // 1. Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "ID: $id",
+                displayId,
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                "Selesai: $completionDate",
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Colors.grey.shade600,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(6.r),
+                  border: Border.all(color: statusColor.withOpacity(0.2)),
+                ),
+                child: Text(
+                  activity.status.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.bold,
+                    color: statusColor,
+                  ),
                 ),
               ),
             ],
           ),
           
-          SizedBox(height: 8.h),
+          SizedBox(height: 12.h),
 
-          // 2. Judul Laporan (Bold)
+          // 2. Judul
           Text(
-            title,
+            activity.title,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
@@ -77,49 +109,80 @@ class ActivityItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
 
-          SizedBox(height: 12.h),
+          SizedBox(height: 4.h),
 
-          // 3. Lampiran (Icon Placeholder sesuai gambar)
-          Row(
-            children: [
-              Text(
-                "Lampiran: ",
-                style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade700),
+          // 3. Tanggal
+          if (activity.workEndDate != null)
+            Text(
+              "Selesai: ${_formatDate(activity.workEndDate!)}",
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Colors.grey.shade500,
               ),
-              Icon(Icons.description, size: 18.sp, color: ColorName.primary),
-              SizedBox(width: 4.w),
-              Icon(Icons.description, size: 18.sp, color: ColorName.primary),
-            ],
-          ),
+            ),
 
           SizedBox(height: 16.h),
           Divider(height: 1.h, color: Colors.grey.shade200),
           SizedBox(height: 12.h),
 
-          // 4. Tombol Aksi (Wrap / Row)
-          // Menggunakan strategi Icon Button agar muat di mobile
+          // 4. Action Buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // Tombol Lihat Riwayat (Selalu ada)
-              if (onViewHistory != null)
-                _buildActionButton(
-                  label: "Lihat Riwayat",
-                  icon: Icons.visibility,
-                  color: ColorName.primary,
-                  onTap: onViewHistory!,
-                  isFilled: true,
-                ),
+              // Detail (Always Show)
+              _buildActionButton(
+                label: "Detail",
+                icon: Icons.visibility_outlined,
+                color: Colors.grey.shade700,
+                onTap: onViewHistory,
+              ),
 
-              // Tombol Edit / Opsi Lain (Pecah jadi 2 opsi via Modal)
-              if (onRate != null || onReopen != null) ...[
+              // Reopen (Jika Valid)
+              if (onReopen != null) ...[
                 SizedBox(width: 8.w),
                 _buildActionButton(
-                  label: "Opsi",
-                  icon: Icons.edit_note, // Ikon pensil/edit
+                  label: "Ajukan Lagi",
+                  icon: Icons.refresh,
                   color: Colors.orange,
-                  isFilled: false,
-                  onTap: () => _showOptionsModal(context),
+                  onTap: onReopen!,
+                ),
+              ],
+
+              // Rating (Jika Valid)
+              if (onRate != null) ...[
+                SizedBox(width: 8.w),
+                _buildActionButton(
+                  label: "Nilai",
+                  icon: Icons.star_border,
+                  color: ColorName.primary,
+                  onTap: onRate!,
+                  isPrimary: true,
+                ),
+              ] 
+              // Jika sudah rating (data ada di model), tampilkan indikator
+              else if (isRated) ...[
+                SizedBox(width: 8.w),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.amber, size: 16.sp),
+                      SizedBox(width: 4.w),
+                      Text(
+                        "${activity.rating!.rating}/5",
+                        style: TextStyle(
+                          fontSize: 12.sp, 
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber.shade900
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ],
@@ -129,75 +192,43 @@ class ActivityItem extends StatelessWidget {
     );
   }
 
-  void _showOptionsModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              if (onReopen != null)
-                ListTile(
-                  leading: const Icon(Icons.refresh, color: Colors.red),
-                  title: const Text("Ajukan Kembali"),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onReopen?.call();
-                  },
-                ),
-              if (onRate != null)
-                ListTile(
-                  leading: const Icon(Icons.star_outline, color: Colors.amber),
-                  title: const Text("Beri Rating"),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onRate?.call();
-                  },
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildActionButton({
     required String label,
     required IconData icon,
     required Color color,
     required VoidCallback onTap,
-    bool isFilled = false,
+    bool isPrimary = false,
   }) {
-    return InkWell(
-      onTap: onTap,
+    return Material(
+      color: isPrimary ? color : Colors.transparent,
       borderRadius: BorderRadius.circular(8.r),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-        decoration: BoxDecoration(
-          color: isFilled ? color : Colors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(color: color),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 16.sp,
-              color: isFilled ? Colors.white : color,
-            ),
-            SizedBox(width: 6.w),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-                color: isFilled ? Colors.white : color,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8.r),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+          decoration: BoxDecoration(
+            border: isPrimary ? null : Border.all(color: color.withOpacity(0.5)),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 16.sp,
+                color: isPrimary ? Colors.white : color,
               ),
-            ),
-          ],
+              SizedBox(width: 6.w),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: isPrimary ? Colors.white : color,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

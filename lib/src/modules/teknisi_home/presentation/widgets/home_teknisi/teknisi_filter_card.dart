@@ -2,36 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
-import 'package:report/src/core/widgets/widgets.dart'; // ✅ pakai dropdown global
+import 'package:report/src/core/widgets/widgets.dart';
 
-/// Filter Card untuk HomeTeknisi
-/// Hanya menampilkan UI dropdown — value & handler tetap dikendalikan parent.
 class TeknisiFilterCard extends StatelessWidget {
-  final String? selectedKategori;
-  final String? selectedBentuk;
-  final String? selectedJenis;
-  final String? selectedStatus;
+  final String? selectedSubKategori;
+  final String? selectedPriority;
+  final String? selectedStatusTeknisi;
 
-  final ValueChanged<String?> onKategoriChanged;
-  final ValueChanged<String?> onBentukChanged;
-  final ValueChanged<String?> onJenisChanged;
-  final ValueChanged<String?> onStatusChanged;
+  final ValueChanged<String?> onSubKategoriChanged;
+  final ValueChanged<String?> onPriorityChanged;
+  final ValueChanged<String?> onStatusTeknisiChanged;
 
   const TeknisiFilterCard({
     super.key,
-    required this.selectedKategori,
-    required this.selectedBentuk,
-    required this.selectedJenis,
-    required this.selectedStatus,
-    required this.onKategoriChanged,
-    required this.onBentukChanged,
-    required this.onJenisChanged,
-    required this.onStatusChanged,
+    required this.selectedSubKategori,
+    required this.selectedPriority,
+    required this.selectedStatusTeknisi,
+    required this.onSubKategoriChanged,
+    required this.onPriorityChanged,
+    required this.onStatusTeknisiChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
+
+    // List Sub Kategori
+    const subKategoriItems = [
+      'Semua',
+      'Server', 'Komputer Desktop', 'Laptop', 'Printer', 'Monitor',
+      'Keyboard', 'Mouse', 'Router', 'Switch', 'Kamera CCTV',
+      'Meja Kerja', 'Kursi Kerja', 'Lemari', 'AC', 'Telepon',
+      'Proyektor', 'UPS', 'Kendaraan Dinas', 'Mesin Fotocopy', 'Scanner'
+    ];
 
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -44,7 +47,7 @@ class TeknisiFilterCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            t.app.dashboard.filterTitle, // "Filter pencarian"
+            t.app.dashboard.filterTitle,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
@@ -53,48 +56,42 @@ class TeknisiFilterCard extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
 
-          /// 🔹 Baris pertama
+          /// 🔹 Baris 1: Prioritas & Status Teknisi
           Row(
             children: [
               Expanded(
                 child: AppDropdownField(
-                  label: t.app.dashboard.category, // "Kategori"
-                  value: selectedKategori,
-                  items: const ['Jaringan', 'Sistem Operasi', 'Aplikasi'], // contoh dummy
-                  onChanged: onKategoriChanged,
+                  label: "Prioritas",
+                  value: selectedPriority,
+                  // ✅ FIX: Tambahkan 'Critical'
+                  items: const ['Semua', 'Low', 'Medium', 'High', 'Critical'],
+                  onChanged: onPriorityChanged,
                 ),
               ),
               SizedBox(width: 12.w),
               Expanded(
                 child: AppDropdownField(
-                  label: t.app.dashboard.form, // "Bentuk"
-                  value: selectedBentuk,
-                  items: const ['Fisik', 'Non-Fisik'], // contoh dummy
-                  onChanged: onBentukChanged,
+                  label: "Status",
+                  value: selectedStatusTeknisi,
+                  // ✅ FIX: Hapus 'Selesai' (Hanya Draft & Diproses)
+                  items: const ['Semua', 'Draft', 'Diproses'], 
+                  onChanged: onStatusTeknisiChanged,
                 ),
               ),
             ],
           ),
+          
           SizedBox(height: 12.h),
 
-          /// 🔹 Baris kedua
+          /// 🔹 Baris 2: Sub Kategori (Full Width)
           Row(
             children: [
               Expanded(
                 child: AppDropdownField(
-                  label: t.app.dashboard.type, // "Jenis"
-                  value: selectedJenis,
-                  items: const ['IT', 'Non-IT'], // contoh dummy
-                  onChanged: onJenisChanged,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdownField(
-                  label: t.app.dashboard.status, // "Status"
-                  value: selectedStatus,
-                  items: const ['Diproses', 'Selesai', 'Draft'], // contoh dummy
-                  onChanged: onStatusChanged,
+                  label: "Sub Kategori Aset",
+                  value: selectedSubKategori,
+                  items: subKategoriItems, 
+                  onChanged: onSubKategoriChanged,
                 ),
               ),
             ],

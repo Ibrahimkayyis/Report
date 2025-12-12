@@ -19,6 +19,9 @@ class SuccessCard extends StatelessWidget {
   final String destinationLabel;
   final String downloadLabel;
 
+  /// ✅ ADDED: Detail Fields (Optional) untuk data dinamis di card
+  final Map<String, String>? detailFields;
+
   final VoidCallback? onDownload;
 
   const SuccessCard({
@@ -35,6 +38,7 @@ class SuccessCard extends StatelessWidget {
     required this.serviceTypeValue,
     required this.destinationLabel,
     required this.downloadLabel,
+    this.detailFields, // ✅
     this.onDownload,
   });
 
@@ -48,7 +52,7 @@ class SuccessCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withValues(alpha:0.08),
+            color: ColorName.black.withOpacity(0.08),
             blurRadius: 12.r,
             offset: Offset(0, 4.h),
           ),
@@ -60,7 +64,7 @@ class SuccessCard extends StatelessWidget {
           Container(
             width: 80.w,
             height: 80.w,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: ColorName.primary,
               shape: BoxShape.circle,
             ),
@@ -150,64 +154,71 @@ class SuccessCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Service Type
-          Row(
-            children: [
-              Icon(Icons.description, size: 20.sp, color: ColorName.primary),
-              SizedBox(width: 8.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    serviceTypeLabel,
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
-                  ),
-                  Text(
-                    serviceTypeValue,
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: ColorName.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          _buildDetailRow(
+            icon: Icons.description,
+            label: serviceTypeLabel,
+            value: serviceTypeValue,
           ),
+          
           SizedBox(height: 12.h),
           Divider(color: Colors.grey.shade300),
           SizedBox(height: 12.h),
 
           // OPD
-          Row(
+          _buildDetailRow(
+            icon: Icons.send,
+            label: destinationLabel,
+            value: opdName,
+          ),
+
+          // ✅ RENDER DETAIL FIELDS TAMBAHAN DISINI
+          if (detailFields != null && detailFields!.isNotEmpty) ...[
+             SizedBox(height: 12.h),
+             Divider(color: Colors.grey.shade300),
+             SizedBox(height: 12.h),
+             
+             ...detailFields!.entries.map((e) => Padding(
+               padding: EdgeInsets.only(bottom: 12.h),
+               child: _buildDetailRow(
+                 icon: Icons.info_outline, // Icon generik untuk detail
+                 label: e.key,
+                 value: e.value,
+               ),
+             )),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailRow({required IconData icon, required String label, required String value}) {
+    return Row(
+      children: [
+        Icon(icon, size: 20.sp, color: ColorName.primary),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.send, size: 20.sp, color: ColorName.primary),
-              SizedBox(width: 8.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      destinationLabel,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                    Text(
-                      opdName,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                        color: ColorName.textPrimary,
-                      ),
-                    ),
-                  ],
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                  color: ColorName.textPrimary,
                 ),
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

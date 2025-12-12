@@ -1,38 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
-import 'package:report/src/core/widgets/widgets.dart'; // Import AppDropdownField dari core
+import 'package:report/src/modules/reporting/domain/models/asset_model.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/asset/asset_cubit.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/asset/asset_state.dart';
+import 'custom_asset_dropdown.dart';
 import 'reporting_text_field.dart';
 
 class AssetInfoSection extends StatelessWidget {
-  final String? selectedDataAsset;
-  final String? selectedSerialNumber;
-  final List<String> dataAssetOptions;
-  final List<String> serialNumberOptions;
-
-  // Controllers
+  final AssetModel? selectedDataAsset;
+  final TextEditingController serialNumberController;
   final TextEditingController assetCategoryController;
   final TextEditingController assetSubcategoryController;
   final TextEditingController assetTypeController;
-
-  // Callbacks
-  final ValueChanged<String?> onDataAssetChanged;
-  final ValueChanged<String?> onSerialNumberChanged;
-
-  // Errors
+  final ValueChanged<AssetModel?> onDataAssetChanged;
   final Map<String, String?> errors;
 
   const AssetInfoSection({
     super.key,
     required this.selectedDataAsset,
-    required this.selectedSerialNumber,
-    required this.dataAssetOptions,
-    required this.serialNumberOptions,
+    required this.serialNumberController,
     required this.assetCategoryController,
     required this.assetSubcategoryController,
     required this.assetTypeController,
     required this.onDataAssetChanged,
-    required this.onSerialNumberChanged,
     required this.errors,
   });
 
@@ -43,49 +36,68 @@ class AssetInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Row: Data Aset + Nomor Seri
-        Row(
-          children: [
-            Expanded(
-              child: AppDropdownField(
-                label: t.data_asset_label,
-                value: selectedDataAsset,
-                items: dataAssetOptions,
-                onChanged: onDataAssetChanged,
-                errorText: errors['dataAsset'],
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: AppDropdownField(
-                label: t.serial_number_label,
-                value: selectedSerialNumber,
-                items: serialNumberOptions,
-                onChanged: onSerialNumberChanged,
-                errorText: errors['serialNumber'],
-              ),
-            ),
-          ],
+        Text(
+          t.validation.data_asset_label,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: ColorName.textPrimary,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        
+        // ✅ Custom Dropdown dengan Initial Items dan Handle Loading
+        BlocBuilder<AssetCubit, AssetState>(
+          builder: (context, state) {
+            if (state is AssetLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final initialItems = state is AssetLoaded ? state.assets : <AssetModel>[];
+            final assetCubit = context.read<AssetCubit>();
+
+            return CustomAssetDropdown(
+              selectedAsset: selectedDataAsset,
+              initialItems: initialItems,
+              hintText: 'Pilih Aset (Ketik untuk mencari)',
+              errorText: errors['dataAsset'],
+              onSearch: (query) async {
+                if (query.isEmpty) {
+                  return initialItems;
+                }
+                return await assetCubit.searchAssets(query);
+              },
+              onChanged: onDataAssetChanged,
+            );
+          },
+        ),
+        
+        SizedBox(height: 24.h),
+        
+        // ReadOnly Fields
+        ReportingTextField(
+          label: t.validation.serial_number_label,
+          hint: "Nomor Seri Otomatis",
+          controller: serialNumberController,
+          errorText: errors['serialNumber'],
+          readOnly: true,
         ),
         SizedBox(height: 24.h),
-
-        // Kategori Aset (ReadOnly)
         ReportingTextField(
-          label: t.asset_category_label,
-          hint: t.asset_category_hint,
+          label: t.validation.asset_category,
+          hint: "-",
           controller: assetCategoryController,
           errorText: errors['assetCategory'],
           readOnly: true,
         ),
         SizedBox(height: 24.h),
-
-        // Row: Sub-Kategori + Jenis (ReadOnly)
         Row(
           children: [
             Expanded(
               child: ReportingTextField(
-                label: t.asset_subcategory_label,
-                hint: t.asset_subcategory_hint,
+                label: t.validation.asset_subcategory_label,
+                hint: "-",
                 controller: assetSubcategoryController,
                 errorText: errors['assetSubcategory'],
                 readOnly: true,
@@ -94,8 +106,8 @@ class AssetInfoSection extends StatelessWidget {
             SizedBox(width: 12.w),
             Expanded(
               child: ReportingTextField(
-                label: t.asset_type_label,
-                hint: t.asset_type_hint,
+                label: t.validation.asset_type_label,
+                hint: "-",
                 controller: assetTypeController,
                 errorText: errors['assetType'],
                 readOnly: true,

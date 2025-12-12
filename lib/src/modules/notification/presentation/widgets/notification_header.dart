@@ -1,136 +1,159 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/gen/i18n/translations.g.dart';
-import 'package:report/src/core/widgets/fields/app_dropdown_field.dart';
 
 class NotificationHeader extends StatelessWidget {
   final VoidCallback onRefresh;
   final VoidCallback onDeleteMode;
-  final ValueChanged<String?> onFilterChanged;
-  final ValueChanged<String?> onTypeChanged;
+  final VoidCallback onMarkAllRead;
+  final ValueChanged<String> onFilterChanged;
+  final String currentFilter;
 
   const NotificationHeader({
     super.key,
     required this.onRefresh,
     required this.onDeleteMode,
+    required this.onMarkAllRead,
     required this.onFilterChanged,
-    required this.onTypeChanged,
+    required this.currentFilter,
   });
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t.app.notifications;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          /// 🔍 Search Field
-          TextField(
-            decoration: InputDecoration(
-              hintText: t.search_placeholder,
-              prefixIcon: const Icon(Icons.search, size: 20),
-              contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(color: ColorName.black.withValues(alpha: 0.2)),
+          // --- FILTER CHIPS SECTION ---
+          Expanded(
+            // ✅ FittedBox memastikan semua chip muat dalam satu baris
+            // Jika layar sempit, dia akan mengecilkan ukuran chip sedikit
+            child: FittedBox(
+              fit: BoxFit.scaleDown, 
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: [
+                  _buildFilterChip("Semua", "all"),
+                  SizedBox(width: 6.w), // Jarak diperkecil sedikit
+                  _buildFilterChip("Belum Dibaca", "unread"),
+                  SizedBox(width: 6.w),
+                  _buildFilterChip("Sudah Dibaca", "read"),
+                ],
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(color: ColorName.black.withValues(alpha: 0.1)),
-              ),
-              filled: true,
-              fillColor: ColorName.white,
             ),
           ),
 
-          SizedBox(height: 12.h),
+          // Spacer agar tombol menu tidak terlalu mepet
+          SizedBox(width: 8.w),
 
-          Row(
-            children: [
-              /// Filter Dropdown (Status)
-              Expanded(
-                flex: 2,
-                child: AppDropdownField(
-                  label: "Status", // Label sebagai hint
-                  showLabelAbove: false, // ✅ Tidak muncul di atas
-                  value: null,
-                  onChanged: onFilterChanged,
-                  items: const [
-                    "Semua",
-                    "Belum Dibaca",
-                    "Sudah Dibaca"
-                  ],
+          // --- MENU BUTTON ---
+          Container(
+            height: 36.w,
+            width: 36.w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: Colors.grey.shade300),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
                 ),
-              ),
-
-              SizedBox(width: 10.w),
-
-              /// Type Dropdown (Jenis)
-              Expanded(
-                flex: 2,
-                child: AppDropdownField(
-                  label: "Tipe", // Label sebagai hint
-                  showLabelAbove: false, // ✅ Tidak muncul di atas
-                  value: null,
-                  onChanged: onTypeChanged,
-                  items: const [
-                    "Semua",
-                    "Tiket",
-                    "Status",
-                    "Pengumuman"
-                  ],
-                ),
-              ),
-
-              SizedBox(width: 10.w),
-
-              /// ⋮ Menu button (Refresh & Hapus)
-              Container(
-                height: 48.h, // Sesuaikan tinggi dropdown default
-                width: 42.w,
-                decoration: BoxDecoration(
-                  color: ColorName.primary,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == 'refresh') onRefresh();
-                    if (value == 'delete') onDeleteMode();
-                  },
-                  icon: Icon(Icons.more_vert, color: ColorName.white, size: 22.sp),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r)
+              ],
+            ),
+            child: PopupMenuButton<String>(
+              padding: EdgeInsets.zero,
+              tooltip: "Opsi Lain",
+              offset: const Offset(0, 40),
+              onSelected: (value) {
+                if (value == 'refresh') onRefresh();
+                if (value == 'mark_all') onMarkAllRead();
+                if (value == 'delete') onDeleteMode();
+              },
+              icon: Icon(Icons.more_vert, color: Colors.grey.shade700, size: 20.sp),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r)),
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'refresh',
+                  child: Row(
+                    children: [
+                      Icon(Icons.refresh, size: 18, color: Colors.black54),
+                      SizedBox(width: 8),
+                      Text("Refresh"),
+                    ],
                   ),
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: 'refresh',
-                      child: Row(
-                        children: [
-                          Icon(Icons.refresh, size: 18, color: Colors.black54),
-                          SizedBox(width: 8),
-                          Text("Refresh"),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem(
-                      value: 'delete',
-                      child: Row(
-                        children: [
-                          Icon(Icons.delete_outline, size: 18, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text("Hapus", style: TextStyle(color: Colors.red)),
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-            ],
+                const PopupMenuItem(
+                  value: 'mark_all',
+                  child: Row(
+                    children: [
+                      Icon(Icons.done_all, size: 18, color: Colors.black54),
+                      SizedBox(width: 8),
+                      Text("Tandai Dibaca"),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_outline, size: 18, color: Colors.red),
+                      SizedBox(width: 8),
+                      Text("Hapus", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String label, String value) {
+    final bool isActive = currentFilter == value;
+
+    return GestureDetector(
+      onTap: () => onFilterChanged(value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        // ✅ Padding diperkecil agar lebih hemat tempat
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: isActive ? ColorName.primary : Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: isActive ? ColorName.primary : Colors.grey.shade300,
+            width: 1,
+          ),
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: ColorName.primary.withOpacity(0.3),
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  )
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.03),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  )
+                ],
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12.sp,
+            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+            color: isActive ? Colors.white : Colors.grey.shade700,
+          ),
+        ),
       ),
     );
   }

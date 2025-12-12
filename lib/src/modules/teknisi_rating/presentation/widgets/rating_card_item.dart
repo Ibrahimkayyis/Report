@@ -4,7 +4,7 @@ import 'package:report/gen/colors.gen.dart';
 
 class RatingCardItem extends StatelessWidget {
   final String senderName;
-  final String senderAvatar;
+  final String? senderAvatar; // ✅ UBAH JADI NULLABLE (String?)
   final String dateIn;
   final String dateOut;
   final String category;
@@ -16,7 +16,7 @@ class RatingCardItem extends StatelessWidget {
   const RatingCardItem({
     super.key,
     required this.senderName,
-    required this.senderAvatar,
+    this.senderAvatar, // ✅ Tidak required lagi
     required this.dateIn,
     required this.dateOut,
     required this.category,
@@ -28,6 +28,9 @@ class RatingCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Cek validitas URL
+    final bool hasAvatar = senderAvatar != null && senderAvatar!.isNotEmpty;
+
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
@@ -39,7 +42,7 @@ class RatingCardItem extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withOpacity(0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -56,8 +59,13 @@ class RatingCardItem extends StatelessWidget {
                 /// Avatar
                 CircleAvatar(
                   radius: 24.r,
-                  backgroundImage: NetworkImage(senderAvatar),
-                  backgroundColor: Colors.grey.shade200,
+                  backgroundColor: hasAvatar ? Colors.transparent : ColorName.primary.withOpacity(0.1),
+                  // ✅ FIX: Hanya load NetworkImage jika URL valid
+                  backgroundImage: hasAvatar ? NetworkImage(senderAvatar!) : null,
+                  // ✅ FIX: Tampilkan Icon jika tidak ada gambar
+                  child: hasAvatar 
+                      ? null 
+                      : Icon(Icons.person, color: ColorName.primary, size: 24.sp),
                 ),
                 SizedBox(width: 12.w),
 
@@ -78,32 +86,22 @@ class RatingCardItem extends StatelessWidget {
               ],
             ),
 
+            // ... (Sisa kode ke bawah SAMA, tidak perlu diubah) ...
             SizedBox(height: 16.h),
-
-            /// Info Rows
             _buildInfoRow(Icons.login, 'Masuk', dateIn),
             SizedBox(height: 8.h),
             _buildInfoRow(Icons.logout, 'Selesai', dateOut),
             SizedBox(height: 8.h),
             _buildInfoRow(Icons.category_outlined, 'Kategori', category),
             SizedBox(height: 8.h),
-
-            /// Jenis & Bentuk in Row
             Row(
               children: [
-                Expanded(
-                  child: _buildInfoChip('Jenis', type),
-                ),
+                Expanded(child: _buildInfoChip('Jenis', type)),
                 SizedBox(width: 8.w),
-                Expanded(
-                  child: _buildInfoChip('Bentuk', form),
-                ),
+                Expanded(child: _buildInfoChip('Bentuk', form)),
               ],
             ),
-
             SizedBox(height: 12.h),
-
-            /// Action Button
             if (onViewPressed != null)
               Align(
                 alignment: Alignment.centerRight,
@@ -111,26 +109,16 @@ class RatingCardItem extends StatelessWidget {
                   onTap: onViewPressed,
                   borderRadius: BorderRadius.circular(8.r),
                   child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: ColorName.primary.withValues(alpha: 0.1),
+                      color: ColorName.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(
-                        color: ColorName.primary,
-                        width: 1,
-                      ),
+                      border: Border.all(color: ColorName.primary, width: 1),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.visibility_outlined,
-                          color: ColorName.primary,
-                          size: 18.sp,
-                        ),
+                        Icon(Icons.visibility_outlined, color: ColorName.primary, size: 18.sp),
                         SizedBox(width: 6.w),
                         Text(
                           'Lihat',
@@ -151,6 +139,7 @@ class RatingCardItem extends StatelessWidget {
     );
   }
 
+  // ... (Helper methods _buildStarRating, _buildInfoRow, _buildInfoChip SAMA) ...
   Widget _buildStarRating(int rating) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -167,11 +156,7 @@ class RatingCardItem extends StatelessWidget {
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 16.sp,
-          color: Colors.grey.shade600,
-        ),
+        Icon(icon, size: 16.sp, color: Colors.grey.shade600),
         SizedBox(width: 8.w),
         Text(
           '$label: ',
@@ -197,26 +182,18 @@ class RatingCardItem extends StatelessWidget {
 
   Widget _buildInfoChip(String label, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 12.w,
-        vertical: 8.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(
-          color: Colors.grey.shade300,
-        ),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 11.sp,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade600),
           ),
           SizedBox(height: 2.h),
           Text(

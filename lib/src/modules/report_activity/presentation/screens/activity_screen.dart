@@ -1,9 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/src/core/widgets/app_bar/app_secondary_bar.dart';
-import 'package:report/src/core/widgets/pagination/app_pagination.dart';
+import 'package:report/src/core/router/app_router.dart';
+import 'package:report/src/core/service_locator/service_locator.dart';
+import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart';
+import 'package:report/src/modules/report_activity/domain/models/activity_model.dart';
+import 'package:report/src/modules/report_activity/presentation/cubits/report_activity_cubit.dart';
+import 'package:report/src/modules/report_activity/presentation/cubits/report_activity_state.dart';
 import '../widgets/activity_item.dart';
 
 @RoutePage()
@@ -15,109 +21,31 @@ class ActivityScreen extends StatefulWidget {
 }
 
 class _ActivityScreenState extends State<ActivityScreen> {
-  // ✅ STATE PAGINATION
   int _currentPage = 1;
   final int _itemsPerPage = 5;
-  
-  // 📋 Dummy Data Lengkap (Semua item sekarang bisa diajukan kembali)
-  final List<Map<String, dynamic>> _allActivities = [
-    // Page 1
-    {
-      'id': 'LPR321336', 
-      'title': 'Gangguan Router', 
-      'date': '17-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': true
-    },
-    {
-      'id': 'LPR328129', 
-      'title': 'Gangguan Printer', 
-      'date': '17-07-2025', 
-      'canReopen': true, // ✅ Ubah jadi true
-      'canRate': true
-    },
-    {
-      'id': 'LYN643758', 
-      'title': 'Permintaan File Bulanan', 
-      'date': '17-07-2025', 
-      'canReopen': true, // ✅ Ubah jadi true
-      'canRate': true
-    },
-    {
-      'id': 'LYN912822', 
-      'title': 'Permintaan Printer', 
-      'date': '17-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': true
-    },
-    {
-      'id': 'LPR823471', 
-      'title': 'Gangguan WiFi', 
-      'date': '17-07-2025', 
-      'canReopen': true, // ✅ Ubah jadi true
-      'canRate': true
-    },
-    // Page 2
-    {
-      'id': 'LPR888888', 
-      'title': 'Monitor Mati', 
-      'date': '16-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': false
-    },
-    {
-      'id': 'LPR777777', 
-      'title': 'Kabel LAN Putus', 
-      'date': '16-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': true
-    },
-    {
-      'id': 'LPR666666', 
-      'title': 'Server Down', 
-      'date': '15-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': false
-    },
-    {
-      'id': 'LPR555555', 
-      'title': 'Lupa Password', 
-      'date': '15-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': true
-    },
-    {
-      'id': 'LPR444444', 
-      'title': 'Update Antivirus', 
-      'date': '14-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': true
-    },
-    // Page 3
-    {
-      'id': 'LPR333333', 
-      'title': 'Install Office', 
-      'date': '13-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': true
-    },
-    {
-      'id': 'LPR222222', 
-      'title': 'Mouse Rusak', 
-      'date': '13-07-2025', 
-      'canReopen': true, // ✅
-      'canRate': false
-    },
-  ];
+  String? _userRole;
 
-  // Logic untuk memotong list sesuai halaman
-  List<Map<String, dynamic>> get _currentActivities {
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserRole();
+  }
+
+  Future<void> _fetchUserRole() async {
+    final role = await sl<AuthRepository>().getSavedRole();
+    setState(() {
+      _userRole = role?.toLowerCase();
+    });
+  }
+
+  List<ActivityModel> _getPaginatedData(List<ActivityModel> allData) {
     final startIndex = (_currentPage - 1) * _itemsPerPage;
     final endIndex = startIndex + _itemsPerPage;
-    if (startIndex >= _allActivities.length) return [];
-    return _allActivities.sublist(
-      startIndex, 
-      endIndex > _allActivities.length ? _allActivities.length : endIndex
+    if (startIndex >= allData.length) return [];
+
+    return allData.sublist(
+      startIndex,
+      endIndex > allData.length ? allData.length : endIndex,
     );
   }
 
@@ -127,98 +55,136 @@ class _ActivityScreenState extends State<ActivityScreen> {
     });
   }
 
+  Future<void> _navigateToDetail(String ticketId) async {
+    if (!mounted) return;
+    if (_userRole == 'masyarakat') {
+      context.router.push(MasyarakatReportActivityDetailRoute(ticketId: ticketId));
+    } else {
+      context.router.push(ReportActivityDetailRoute(ticketId: ticketId));
+    }
+  }
+
+  Future<void> _navigateToReopen(BuildContext context, String ticketId) async {
+    final result = await (_userRole == 'masyarakat'
+        ? context.router.push(MasyarakatReopenTicketRoute(ticketId: ticketId))
+        : context.router.push(ReopenTicketRoute(ticketId: ticketId)));
+    
+    if (result == true) {
+      if (context.mounted) {
+        context.read<ReportActivityCubit>().getActivities();
+      }
+    }
+  }
+
+  Future<void> _navigateToRating(BuildContext context, String ticketId) async {
+    final result = await context.router.push(TicketRatingRoute(ticketId: ticketId));
+    
+    if (result == true) {
+      if (context.mounted) {
+        context.read<ReportActivityCubit>().getActivities();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final t = context.t.app.report_activity; 
-    final totalPages = (_allActivities.length / _itemsPerPage).ceil();
-    final startData = ((_currentPage - 1) * _itemsPerPage) + 1;
-    final endData = (_currentPage * _itemsPerPage) > _allActivities.length 
-        ? _allActivities.length 
-        : (_currentPage * _itemsPerPage);
+    return BlocProvider(
+      create: (_) => sl<ReportActivityCubit>()..getActivities(),
+      child: Scaffold(
+        backgroundColor: ColorName.background,
+        appBar: const AppSecondaryBar(title: "Riwayat Laporan"),
+        body: SafeArea(
+          child: BlocBuilder<ReportActivityCubit, ReportActivityState>(
+            builder: (context, state) {
+              if (state is ReportActivityLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ReportActivityError) {
+                return AppErrorState.general(
+                  context: context,
+                  message: state.message,
+                  onRetry: () => context.read<ReportActivityCubit>().getActivities(),
+                );
+              } else if (state is ReportActivityEmpty) {
+                return AppEmptyState.list(
+                  context: context,
+                  message: "Belum ada riwayat laporan yang selesai.",
+                  onRefresh: () => context.read<ReportActivityCubit>().getActivities(),
+                );
+              } else if (state is ReportActivityLoaded) {
+                final allActivities = state.activities;
+                final currentActivities = _getPaginatedData(allActivities);
+                final totalPages = (allActivities.length / _itemsPerPage).ceil();
+                final startData = ((_currentPage - 1) * _itemsPerPage) + 1;
+                final endData = (_currentPage * _itemsPerPage) > allActivities.length
+                    ? allActivities.length
+                    : (_currentPage * _itemsPerPage);
 
-    return Scaffold(
-      backgroundColor: ColorName.background,
-      appBar: const AppSecondaryBar(title: "Riwayat Laporan"),
-      
-      body: SafeArea(
-        child: Column(
-          children: [
-            /// 🔍 Header (Search Bar Fixed)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Cari riwayat...",
-                  hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
-                  prefixIcon: const Icon(Icons.search, size: 20),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: BorderSide(color: ColorName.black.withValues(alpha: 0.2)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: BorderSide(color: ColorName.black.withValues(alpha: 0.1)),
-                  ),
-                  filled: true,
-                  fillColor: ColorName.white,
-                ),
-              ),
-            ),
+                return Column(
+                  children: [
+                    // Content List - Expanded untuk mengisi ruang tersisa
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          await context.read<ReportActivityCubit>().getActivities();
+                          if (mounted) _onPageChanged(1);
+                        },
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: currentActivities.length,
+                          itemBuilder: (context, index) {
+                            final activity = currentActivities[index];
 
-            Divider(height: 1.h, color: ColorName.black.withValues(alpha: 0.1)),
+                            // Logic UX
+                            final statusLower = activity.status.toLowerCase();
+                            final isFinished = statusLower == 'selesai';
+                            final canReopen = isFinished;
+                            final hasRated = activity.rating != null;
+                            final canRate = isFinished && !hasRated;
 
-            /// 📋 Activity List + Pagination
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
-                itemCount: _currentActivities.length + 1, 
-                itemBuilder: (context, index) {
-                  
-                  // ✅ Render Pagination di Item Terakhir
-                  if (index == _currentActivities.length) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 24.h),
-                      child: AppPagination(
-                        currentPage: _currentPage,
-                        totalPages: totalPages,
-                        totalData: _allActivities.length,
-                        startData: startData,
-                        endData: endData,
-                        onPageSelected: _onPageChanged,
-                        onNext: _currentPage < totalPages 
-                            ? () => _onPageChanged(_currentPage + 1) 
-                            : null,
-                        onPrevious: _currentPage > 1 
-                            ? () => _onPageChanged(_currentPage - 1) 
-                            : null,
+                            return ActivityItem(
+                              activity: activity,
+                              onViewHistory: () => _navigateToDetail(activity.id),
+                              onReopen: canReopen 
+                                  ? () => _navigateToReopen(context, activity.id) 
+                                  : null,
+                              onRate: canRate 
+                                  ? () => _navigateToRating(context, activity.id) 
+                                  : null,
+                            );
+                          },
+                        ),
                       ),
-                    );
-                  }
+                    ),
 
-                  // ✅ Render Activity Item
-                  final a = _currentActivities[index];
-                  return ActivityItem(
-                    id: a['id'] as String,
-                    title: a['title'] as String,
-                    completionDate: a['date'] as String,
-                    
-                    // Callback Aksi
-                    onViewHistory: () {
-                      print("Lihat Riwayat ${a['id']}");
-                    },
-                    // Sekarang semua item bisa direopen
-                    onReopen: (a['canReopen'] as bool) 
-                        ? () => print("Ajukan Kembali ${a['id']}") 
-                        : null,
-                    onRate: (a['canRate'] as bool) 
-                        ? () => print("Beri Rating ${a['id']}") 
-                        : null,
-                  );
-                },
-              ),
-            ),
-          ],
+                    // Pagination - Selalu di bawah
+                    if (allActivities.isNotEmpty) ...[
+                      Divider(height: 1.h, color: ColorName.black.withOpacity(0.1)),
+                      Container(
+                        color: ColorName.white,
+                        padding: EdgeInsets.symmetric(vertical: 16.h),
+                        child: AppPagination(
+                          currentPage: _currentPage,
+                          totalPages: totalPages,
+                          totalData: allActivities.length,
+                          startData: startData,
+                          endData: endData,
+                          onPageSelected: _onPageChanged,
+                          onNext: _currentPage < totalPages 
+                              ? () => _onPageChanged(_currentPage + 1) 
+                              : null,
+                          onPrevious: _currentPage > 1 
+                              ? () => _onPageChanged(_currentPage - 1) 
+                              : null,
+                        ),
+                      ),
+                    ],
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );

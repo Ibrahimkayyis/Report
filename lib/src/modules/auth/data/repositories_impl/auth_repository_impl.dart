@@ -18,52 +18,61 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<String> register({
     required String email,
-    required String firstName,
-    required String lastName,
     required String password,
-    String? phoneNumber,
-    String? birthDate,
-    String? address,
-    String role = 'masyarakat',
+    required String fullName,
+    required String phoneNumber,
+    required String nik,
+    required String address,
   }) async {
     try {
-      return await remote.register(
+      // 1. Panggil Remote Register
+      // Method ini akan return token atau message sukses
+      final result = await remote.register(
         email: email,
-        firstName: firstName,
-        lastName: lastName,
         password: password,
+        fullName: fullName,
         phoneNumber: phoneNumber,
-        birthDate: birthDate,
+        nik: nik,
         address: address,
-        role: role,
       );
+      
+      // ✅ HAPUS LOGIC AUTO LOGIN (Save Token)
+      // Kita hanya mengembalikan result agar UI tahu proses sukses
+      
+      return result;
     } on DioException catch (e) {
       throw _mapDioException(e);
     }
   }
 
+  // ===========================================================================
+  // SMART LOGIN IMPLEMENTATION (Single Base URL)
+  // ===========================================================================
   @override
   Future<String> login({
     required String email,
     required String password,
   }) async {
+    // 1. Percobaan Pertama: Login Masyarakat
     try {
-      AppLogger.i("🔄 [SmartLogin] Mencoba login sebagai Masyarakat...");
+      AppLogger.i("🔄 [SmartLogin] Mencoba endpoint Masyarakat...");
       return await _attemptLogin(email, password, UserType.masyarakat);
     } catch (eMasyarakat) {
       
+      // Filter error koneksi
       if (eMasyarakat is DioException && 
           (eMasyarakat.type == DioExceptionType.connectionError || 
            eMasyarakat.type == DioExceptionType.connectionTimeout)) {
           throw _mapDioException(eMasyarakat);
       }
 
-      AppLogger.w("⚠️ [SmartLogin] Gagal di Masyarakat, mencoba Pegawai/Teknisi...");
+      AppLogger.w("⚠️ [SmartLogin] Gagal di Masyarakat, mencoba Endpoint Pegawai/SSO...");
 
+      // 2. Percobaan Kedua: Endpoint SSO (Pegawai)
       try {
         return await _attemptLogin(email, password, UserType.employee);
       } catch (ePegawai) {
-        AppLogger.e("❌ [SmartLogin] Gagal di kedua server.");
+        AppLogger.e("❌ [SmartLogin] Gagal di kedua endpoint.");
         
         if (ePegawai is DioException) {
           throw _mapDioException(ePegawai);
@@ -73,6 +82,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     }
   }
+
   Future<String> _attemptLogin(String email, String password, UserType type) async {
     final response = await remote.login(
       email: email, 
@@ -85,53 +95,39 @@ class AuthRepositoryImpl implements AuthRepository {
     String role;
 
     if (type == UserType.employee) {
+      // --- SSO ---
       token = response['access_token'] as String;
-      
       if (response['refresh_token'] != null) {
         refreshToken = response['refresh_token'] as String;
       }
 
       final user = response['user'];
       
-      if (user != null && user['role_id'] != null) {
-          final roleId = int.tryParse(user['role_id'].toString()) ?? 0;
-
-          switch (roleId) {
-            case 6:
-              role = 'teknisi';
-              break;
-            case 1:
-              role = 'diskominfo'; 
-              break;
-            case 2:
-              role = 'opd'; 
-              break;
-            case 5:
-              role = 'admin_dinas'; 
-              break;
-            case 7:
-              role = 'bidang';
-              break;
-            case 8:
-              role = 'seksi';
-              break;
-            case 3:
-              role = 'verifikator';
-              break;
-            case 4:
-              role = 'auditor';
-              break;
-            default:
-              role = 'pegawai'; // Default
-              break;
+      if (user != null) {
+          if (user['role_id'] != null) {
+              final roleId = int.tryParse(user['role_id'].toString()) ?? 0;
+              switch (roleId) {
+                case 6: role = 'teknisi'; break;
+                case 1: role = 'diskominfo'; break;
+                case 2: role = 'opd'; break;
+                case 5: role = 'admin_dinas'; break;
+                case 7: role = 'bidang'; break;
+                case 8: role = 'seksi'; break;
+                case 3: role = 'verifikator'; break;
+                case 4: role = 'auditor'; break;
+                default: role = 'pegawai'; break;
+              }
+          } else if (user['role'] != null) {
+             role = user['role'].toString().toLowerCase();
+          } else {
+             role = 'pegawai';
           }
       } else {
           role = 'pegawai';
       }
 
     } else {
-      // --- FLOW MASYARAKAT (SERVICE DESK) ---
-      // Endpoint login masyarakat terbaru tidak mengembalikan object user/role
+      // --- MASYARAKAT ---
       token = response['access_token'] as String;
       if (response['refresh_token'] != null) {
          refreshToken = response['refresh_token'] as String;
@@ -148,34 +144,27 @@ class AuthRepositoryImpl implements AuthRepository {
     return token;
   }
 
-  // ========== Access Token ==========
+  // ========== Method Lainnya ==========
   @override
   Future<String?> getSavedToken() => local.getToken();
 
   @override
   Future<void> saveToken(String token) => local.saveToken(token);
 
-  // ========== Refresh Token ==========
   @override
   Future<String?> getSavedRefreshToken() => local.getRefreshToken();
 
   @override
-  Future<void> saveRefreshToken(String refreshToken) =>
-      local.saveRefreshToken(refreshToken);
+  Future<void> saveRefreshToken(String refreshToken) => local.saveRefreshToken(refreshToken);
 
   @override
   Future<String> refreshAccessToken() async {
     try {
       final refreshToken = await getSavedRefreshToken();
-
       if (refreshToken == null || refreshToken.isEmpty) {
-        AppLogger.w('Refresh token tidak ditemukan di local storage');
         throw ServerFailure('Refresh token tidak tersedia');
       }
-      
-      final newAccessToken =
-          await remote.refreshToken(refreshToken: refreshToken);
-
+      final newAccessToken = await remote.refreshToken(refreshToken: refreshToken);
       await saveToken(newAccessToken);
       return newAccessToken;
     } on DioException catch (e) {
@@ -188,32 +177,25 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  // ========== User Role ==========
   @override
   Future<String?> getSavedRole() => local.getRole();
 
   @override
   Future<void> saveRole(String role) => local.saveRole(role);
 
-  // ========== Logout ==========
   @override
   Future<void> logout() async {
     await local.clear();
   }
 
-  // ========== Error Mapper ==========
   Failure _mapDioException(DioException e) {
     if (e.response != null) {
       final data = e.response?.data;
-      final detailMessage = (data is Map<String, dynamic> && data['detail'] != null)
-              ? data['detail'].toString() : null;
-
       if (e.response?.statusCode == 401) return ServerFailure(t.app.errors.invalid_credentials);
       if (e.response?.statusCode == 403) return ServerFailure('Token tidak valid');
       if (e.response?.statusCode == 422) return ValidationFailure(_extractValidationMessage(data));
       if (e.response?.statusCode == 404) return ServerFailure(t.app.errors.not_found);
-
-      return ServerFailure(detailMessage ?? t.app.errors.server_error);
+      return ServerFailure(data['message']?.toString() ?? t.app.errors.server_error);
     }
     return NetworkFailure(t.app.errors.network_error);
   }
@@ -221,22 +203,15 @@ class AuthRepositoryImpl implements AuthRepository {
   String _extractValidationMessage(dynamic data) {
     try {
       if (data is Map<String, dynamic>) {
-        // Cek Service Desk Format: detail is List
         final details = data['detail'];
-        if (details is List && details.isNotEmpty) {
-           return details.first['msg'] ?? t.app.errors.validation_error;
-        }
-
-        // Cek Arise Format: errors is Map { field: [msg] }
+        if (details is List && details.isNotEmpty) return details.first['msg'];
+        
         final errors = data['errors'];
         if (errors is Map) {
            final firstKey = errors.keys.first;
            final firstErrorList = errors[firstKey];
-           if (firstErrorList is List && firstErrorList.isNotEmpty) {
-              return firstErrorList.first.toString();
-           }
+           if (firstErrorList is List && firstErrorList.isNotEmpty) return firstErrorList.first.toString();
         }
-        
         if (data['message'] != null) return data['message'].toString();
       }
     } catch (_) {}

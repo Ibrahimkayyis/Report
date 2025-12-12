@@ -1,16 +1,14 @@
 import 'package:report/src/modules/profile/domain/models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
-  /// 🔹 Ambil data profil user yang sedang login (GET /profile)
+  /// 🔹 Ambil data profil user yang sedang login
   Future<ProfileModel> getProfile();
 
-  /// 🔹 Update profil user (PUT /profile)
+  /// 🔹 Update profil user (PUT /me/masyarakat)
   Future<ProfileModel> updateProfile({
-    String? firstName,
-    String? lastName,
+    String? fullName,    // API meminta full_name
     String? phoneNumber,
-    String? birthDate,
     String? address,
-    String? filePath, // opsional, untuk upload foto profil
+    String? filePath,    // foto profil
   });
 }
