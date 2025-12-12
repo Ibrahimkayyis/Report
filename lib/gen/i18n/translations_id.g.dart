@@ -54,6 +54,12 @@ class TranslationsAppId {
 	/// id: 'REPORT'
 	String get title => 'REPORT';
 
+	/// id: 'JUdul Tiket'
+	String get ticket_title => 'JUdul Tiket';
+
+	/// id: 'Deskripsi Tiket'
+	String get ticket_description => 'Deskripsi Tiket';
+
 	/// id: 'Selamat datang'
 	String get welcome => 'Selamat datang';
 
@@ -978,6 +984,87 @@ class TranslationsAppId {
 	/// id: 'Silakan login dengan kata sandi baru Anda'
 	String get password_reset_success_message => 'Silakan login dengan kata sandi baru Anda';
 
+	/// id: 'Foto profil berhasil diperbarui!'
+	String get profile_photo_updated_success => 'Foto profil berhasil diperbarui!';
+
+	/// id: 'Info pribadi berhasil diperbarui!'
+	String get profile_info_updated_success => 'Info pribadi berhasil diperbarui!';
+
+	/// id: 'Gagal memperbarui foto profil'
+	String get profile_photo_update_failed => 'Gagal memperbarui foto profil';
+
+	/// id: 'Gagal memperbarui info pribadi'
+	String get profile_info_update_failed => 'Gagal memperbarui info pribadi';
+
+	/// id: 'Detail Laporan'
+	String get report_detail_title => 'Detail Laporan';
+
+	/// id: 'Judul Laporan'
+	String get reported_title_label => 'Judul Laporan';
+
+	/// id: 'Data Aset'
+	String get reported_asset_label => 'Data Aset';
+
+	/// id: 'Nomor Seri'
+	String get reported_serial_number_label => 'Nomor Seri';
+
+	/// id: 'Kategori Aset'
+	String get reported_asset_category_label => 'Kategori Aset';
+
+	/// id: 'Sub Kategori Aset'
+	String get reported_asset_subcategory_label => 'Sub Kategori Aset';
+
+	/// id: 'Jenis Aset'
+	String get reported_asset_type_label => 'Jenis Aset';
+
+	/// id: 'Lokasi Kejadian'
+	String get reported_location_label => 'Lokasi Kejadian';
+
+	/// id: 'Rincian Masalah yang Dilaporkan'
+	String get reported_problem_label => 'Rincian Masalah yang Dilaporkan';
+
+	/// id: 'Penyelesaian yang Diharapkan'
+	String get reported_expected_solution_label => 'Penyelesaian yang Diharapkan';
+
+	/// id: 'Lampiran File'
+	String get reported_attachments_label => 'Lampiran File';
+
+	/// id: 'Tidak ada lampiran'
+	String get no_attachments => 'Tidak ada lampiran';
+
+	/// id: 'Ajukan Kembali Laporan'
+	String get reopen_ticket_title => 'Ajukan Kembali Laporan';
+
+	/// id: 'Form Pengajuan Kembali'
+	String get reopen_section_title => 'Form Pengajuan Kembali';
+
+	/// id: 'Alasan Pengajuan Kembali'
+	String get reopen_reason_label => 'Alasan Pengajuan Kembali';
+
+	/// id: 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)'
+	String get reopen_reason_hint => 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+
+	/// id: 'Alasan pengajuan kembali wajib diisi'
+	String get reopen_reason_required => 'Alasan pengajuan kembali wajib diisi';
+
+	/// id: 'Kirim'
+	String get submit_button => 'Kirim';
+
+	/// id: 'Rating'
+	String get rating_title => 'Rating';
+
+	/// id: 'Pengirim'
+	String get rating_sender_label => 'Pengirim';
+
+	/// id: 'ID Tiket'
+	String get rating_ticket_id_label => 'ID Tiket';
+
+	/// id: 'Rating Kepuasan Pelayanan Kami'
+	String get rating_satisfaction_label => 'Rating Kepuasan Pelayanan Kami';
+
+	/// id: 'Komentar'
+	String get rating_comment_label => 'Komentar';
+
 	late final TranslationsAppValidationId validation = TranslationsAppValidationId.internal(_root);
 	late final TranslationsAppErrorsId errors = TranslationsAppErrorsId.internal(_root);
 	late final TranslationsAppDialogId dialog = TranslationsAppDialogId.internal(_root);
@@ -1139,6 +1226,24 @@ class TranslationsAppDialogId {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// id: 'Konfirmasi Rating'
+	String get confirm_rating_title => 'Konfirmasi Rating';
+
+	/// id: 'Apakah Anda yakin ingin mengirim rating ini?'
+	String get confirm_rating_message => 'Apakah Anda yakin ingin mengirim rating ini?';
+
+	/// id: 'Rating berhasil dikirim!'
+	String get rating_success_title => 'Rating berhasil dikirim!';
+
+	/// id: 'Konfirmasi Pengajuan Kembali'
+	String get confirm_reopen_title => 'Konfirmasi Pengajuan Kembali';
+
+	/// id: 'Apakah Anda yakin ingin mengajukan kembali laporan ini?'
+	String get confirm_reopen_message => 'Apakah Anda yakin ingin mengajukan kembali laporan ini?';
+
+	/// id: 'Laporan berhasil diajukan kembali!'
+	String get reopen_success_title => 'Laporan berhasil diajukan kembali!';
 
 	/// id: 'Apakah Anda yakin ingin mengirim?'
 	String get confirm_submit_title => 'Apakah Anda yakin ingin mengirim?';
@@ -1933,6 +2038,18 @@ class TranslationsAppMasyarakatId {
 
 	// Translations
 
+	/// id: 'Alasan Pengajuan Kembali'
+	String get reopen_reason_label => 'Alasan Pengajuan Kembali';
+
+	/// id: 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)'
+	String get reopen_reason_hint => 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+
+	/// id: 'Deskripsi Laporan'
+	String get reported_description_label => 'Deskripsi Laporan';
+
+	/// id: 'Lampiran File'
+	String get reported_attachments_label => 'Lampiran File';
+
 	/// id: 'Apa yang ingin Anda laporkan?'
 	String get what_to_report => 'Apa yang ingin Anda laporkan?';
 
@@ -1953,6 +2070,9 @@ class TranslationsAppMasyarakatId {
 
 	/// id: 'Email'
 	String get email_label => 'Email';
+
+	/// id: 'Judul laporan wajib diisi.'
+	String get validation_title_required => 'Judul laporan wajib diisi.';
 
 	/// id: 'Deskripsi laporan wajib diisi.'
 	String get validation_description_required => 'Deskripsi laporan wajib diisi.';
@@ -2093,6 +2213,8 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'app.title': return 'REPORT';
+			case 'app.ticket_title': return 'JUdul Tiket';
+			case 'app.ticket_description': return 'Deskripsi Tiket';
 			case 'app.welcome': return 'Selamat datang';
 			case 'app.login': return 'Masuk';
 			case 'app.logout': return 'Keluar';
@@ -2401,6 +2523,33 @@ extension on Translations {
 			case 'app.password_mismatch': return 'Kata sandi tidak cocok';
 			case 'app.password_reset_success_title': return 'Kata sandi berhasil diperbarui!';
 			case 'app.password_reset_success_message': return 'Silakan login dengan kata sandi baru Anda';
+			case 'app.profile_photo_updated_success': return 'Foto profil berhasil diperbarui!';
+			case 'app.profile_info_updated_success': return 'Info pribadi berhasil diperbarui!';
+			case 'app.profile_photo_update_failed': return 'Gagal memperbarui foto profil';
+			case 'app.profile_info_update_failed': return 'Gagal memperbarui info pribadi';
+			case 'app.report_detail_title': return 'Detail Laporan';
+			case 'app.reported_title_label': return 'Judul Laporan';
+			case 'app.reported_asset_label': return 'Data Aset';
+			case 'app.reported_serial_number_label': return 'Nomor Seri';
+			case 'app.reported_asset_category_label': return 'Kategori Aset';
+			case 'app.reported_asset_subcategory_label': return 'Sub Kategori Aset';
+			case 'app.reported_asset_type_label': return 'Jenis Aset';
+			case 'app.reported_location_label': return 'Lokasi Kejadian';
+			case 'app.reported_problem_label': return 'Rincian Masalah yang Dilaporkan';
+			case 'app.reported_expected_solution_label': return 'Penyelesaian yang Diharapkan';
+			case 'app.reported_attachments_label': return 'Lampiran File';
+			case 'app.no_attachments': return 'Tidak ada lampiran';
+			case 'app.reopen_ticket_title': return 'Ajukan Kembali Laporan';
+			case 'app.reopen_section_title': return 'Form Pengajuan Kembali';
+			case 'app.reopen_reason_label': return 'Alasan Pengajuan Kembali';
+			case 'app.reopen_reason_hint': return 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+			case 'app.reopen_reason_required': return 'Alasan pengajuan kembali wajib diisi';
+			case 'app.submit_button': return 'Kirim';
+			case 'app.rating_title': return 'Rating';
+			case 'app.rating_sender_label': return 'Pengirim';
+			case 'app.rating_ticket_id_label': return 'ID Tiket';
+			case 'app.rating_satisfaction_label': return 'Rating Kepuasan Pelayanan Kami';
+			case 'app.rating_comment_label': return 'Komentar';
 			case 'app.validation.title_required': return 'Judul pelaporan wajib diisi';
 			case 'app.validation.asset_type_required': return 'Jenis aset wajib dipilih';
 			case 'app.validation.asset_form_required': return 'Bentuk aset wajib dipilih';
@@ -2438,6 +2587,12 @@ extension on Translations {
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
 			case 'app.errors.validation_error': return 'Kesalahan validasi';
 			case 'app.errors.not_found': return 'Endpoint tidak ditemukan atau server sedang offline';
+			case 'app.dialog.confirm_rating_title': return 'Konfirmasi Rating';
+			case 'app.dialog.confirm_rating_message': return 'Apakah Anda yakin ingin mengirim rating ini?';
+			case 'app.dialog.rating_success_title': return 'Rating berhasil dikirim!';
+			case 'app.dialog.confirm_reopen_title': return 'Konfirmasi Pengajuan Kembali';
+			case 'app.dialog.confirm_reopen_message': return 'Apakah Anda yakin ingin mengajukan kembali laporan ini?';
+			case 'app.dialog.reopen_success_title': return 'Laporan berhasil diajukan kembali!';
 			case 'app.dialog.confirm_submit_title': return 'Apakah Anda yakin ingin mengirim?';
 			case 'app.dialog.confirm_submit_message': return 'Cek kembali inputan Anda sebelum mengirim!';
 			case 'app.dialog.confirm_yes': return 'Ya, saya yakin!';
@@ -2680,6 +2835,10 @@ extension on Translations {
 			case 'app.onboarding.page2.body': return 'Akses tiket masuk, update progres, dan monitoring SLA langsung dari aplikasi.';
 			case 'app.onboarding.page3.title': return 'Helpdesk Lebih Cepat';
 			case 'app.onboarding.page3.body': return 'Gunakan fitur chat untuk berkomunikasi langsung dengan operator dan teknisi.';
+			case 'app.masyarakat.reopen_reason_label': return 'Alasan Pengajuan Kembali';
+			case 'app.masyarakat.reopen_reason_hint': return 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+			case 'app.masyarakat.reported_description_label': return 'Deskripsi Laporan';
+			case 'app.masyarakat.reported_attachments_label': return 'Lampiran File';
 			case 'app.masyarakat.what_to_report': return 'Apa yang ingin Anda laporkan?';
 			case 'app.masyarakat.report_hint': return 'Tuliskan deskripsi lengkap mengenai permasalahan Anda...';
 			case 'app.masyarakat.attach_file_label': return 'Lampiran (Opsional)';
@@ -2687,6 +2846,7 @@ extension on Translations {
 			case 'app.masyarakat.name_label': return 'Nama Lengkap';
 			case 'app.masyarakat.nik_label': return 'NIK';
 			case 'app.masyarakat.email_label': return 'Email';
+			case 'app.masyarakat.validation_title_required': return 'Judul laporan wajib diisi.';
 			case 'app.masyarakat.validation_description_required': return 'Deskripsi laporan wajib diisi.';
 			case 'app.masyarakat.validation_description_min_length': return 'Deskripsi harus terdiri dari minimal 20 karakter.';
 			case 'app.masyarakat.validation_error_message': return 'Form tidak valid, periksa kembali input Anda.';

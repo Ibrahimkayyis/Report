@@ -12,12 +12,11 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   Future<void> register({
     required String email,
-    required String firstName,
-    required String lastName,
     required String password,
-    String? phoneNumber,
-    String? birthDate,
-    String? address,
+    required String fullName,    // Update
+    required String phoneNumber, // Update
+    required String nik,         // Update
+    required String address,     // Update
   }) async {
     emit(RegisterLoading());
 
@@ -25,13 +24,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       final result = await registerUseCase(
         RegisterParams(
           email: email,
-          firstName: firstName,
-          lastName: lastName,
           password: password,
+          fullName: fullName,
           phoneNumber: phoneNumber,
-          birthDate: birthDate,
+          nik: nik,
           address: address,
-          // role left to default 'masyarakat'
         ),
       );
       emit(RegisterSuccess(result));

@@ -6,24 +6,30 @@ import 'package:report/src/modules/reporting/domain/repositories/report_reposito
 
 @LazySingleton(as: ReportRepository)
 class ReportRepositoryImpl implements ReportRepository {
-  final ReportRemoteDataSource _remoteDataSource;
+  final ReportRemoteDataSource remoteDataSource;
 
-  ReportRepositoryImpl(this._remoteDataSource);
+  ReportRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<ReportResponseModel> createPublicReport({
-    required String opdId,
-    required String categoryId,
+  Future<ReportResponseModel> createReport({
+    required int assetId,
+    required String title,
     required String description,
-    String? action,
-    File? file,
-  }) {
-    return _remoteDataSource.createPublicReport(
-      opdId: opdId,
-      categoryId: categoryId,
-      description: description,
-      action: action,
-      file: file,
-    );
+    required String location,
+    required String expectedResolution,
+    required List<File> files,
+  }) async {
+    try {
+      return await remoteDataSource.createReport(
+        assetId: assetId,
+        title: title,
+        description: description,
+        location: location,
+        expectedResolution: expectedResolution,
+        files: files,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 }

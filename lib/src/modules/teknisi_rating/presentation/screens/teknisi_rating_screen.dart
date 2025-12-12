@@ -1,10 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
-import 'package:report/src/core/widgets/widgets.dart'; // ✅ gunakan widget global
+import 'package:report/src/core/service_locator/service_locator.dart';
+import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/teknisi_rating/domain/models/teknisi_rating_model.dart';
+import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_rating_cubit.dart';
+import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_rating_state.dart';
 import '../widgets/rating_card_item.dart';
 
 @RoutePage()
@@ -17,9 +22,15 @@ class TeknisiRatingScreen extends StatefulWidget {
 
 class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
     with SingleTickerProviderStateMixin {
+  
+  // Instance Cubit di State agar bisa diakses di listener TabController
+  late TeknisiRatingCubit _cubit;
+  
   late TabController _tabController;
   final ScrollController _scrollController = ScrollController();
+
   int _currentPage = 1;
+  final int _totalPages = 1;
 
   // Filter values
   String? _selectedKategori;
@@ -27,84 +38,42 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
   String? _selectedJenis;
   String? _selectedRating;
 
-  // Filter options
-  final List<String> _kategoriOptions = [
-    'Sistem Operasi',
-    'Jaringan',
-    'Aplikasi',
-    'Email',
-  ];
-  final List<String> _bentukOptions = ['Fisik', 'Non-Fisik'];
-  final List<String> _jenisOptions = ['IT', 'Non-IT'];
-  final List<String> _ratingOptions = ['1 ⭐', '2 ⭐', '3 ⭐', '4 ⭐', '5 ⭐'];
-
-  // Dummy data (Pelaporan dan Pelayanan)
-  final List<Map<String, dynamic>> _pelaporanData = [
-    {
-      'senderName': 'Doni Ridho',
-      'senderAvatar': 'https://i.pravatar.cc/150?img=1',
-      'dateIn': '18/09/2024',
-      'dateOut': '18/09/2024',
-      'category': 'Sistem Operasi',
-      'type': 'IT',
-      'form': 'Non-Fisik',
-      'rating': 4,
-    },
-    {
-      'senderName': 'Rio Widoro',
-      'senderAvatar': 'https://i.pravatar.cc/150?img=2',
-      'dateIn': '18/09/2024',
-      'dateOut': '18/09/2024',
-      'category': 'Jaringan',
-      'type': 'IT',
-      'form': 'Non-Fisik',
-      'rating': 4,
-    },
-    {
-      'senderName': 'Lia Yustia',
-      'senderAvatar': 'https://i.pravatar.cc/150?img=5',
-      'dateIn': '17/09/2024',
-      'dateOut': '17/09/2024',
-      'category': 'Aplikasi',
-      'type': 'Non-IT',
-      'form': 'Fisik',
-      'rating': 5,
-    },
-  ];
-
-  final List<Map<String, dynamic>> _pelayananData = [
-    {
-      'senderName': 'Ahmad Zaki',
-      'senderAvatar': 'https://i.pravatar.cc/150?img=12',
-      'dateIn': '18/09/2024',
-      'dateOut': '18/09/2024',
-      'category': 'Jaringan',
-      'type': 'IT',
-      'form': 'Fisik',
-      'rating': 5,
-    },
-    {
-      'senderName': 'Siti Nurhaliza',
-      'senderAvatar': 'https://i.pravatar.cc/150?img=13',
-      'dateIn': '17/09/2024',
-      'dateOut': '17/09/2024',
-      'category': 'Aplikasi',
-      'type': 'IT',
-      'form': 'Non-Fisik',
-      'rating': 4,
-    },
-  ];
+  // ✅ FILTER OPTIONS (Disesuaikan dengan Data API)
+  final List<String> _kategoriOptions = ['Semua', 'ti', 'non-ti'];
+  
+  final List<String> _bentukOptions = [
+    'Semua', 
+    'Server', 'Komputer Desktop', 'Laptop', 'Printer', 
+    'Monitor', 'Keyboard', 'Mouse', 'Router', 'Switch',
+    'Kamera CCTV', 'Meja Kerja', 'Kursi Kerja', 'AC'
+  ]; // Sesuai Sub-Kategori
+  
+  final List<String> _jenisOptions = ['Semua', 'barang', 'jasa'];
+  
+  final List<String> _ratingOptions = ['Semua', '1 ⭐', '2 ⭐', '3 ⭐', '4 ⭐', '5 ⭐'];
 
   @override
   void initState() {
     super.initState();
+    
+    // Init Cubit & Fetch Data
+    _cubit = sl<TeknisiRatingCubit>()..fetchRatings();
+
     _tabController = TabController(length: 2, vsync: this);
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        // Update filter tab di cubit saat tab berubah
+        _cubit.updateFilter(tabIndex: _tabController.index);
+      }
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     _scrollController.dispose();
+    _cubit.close(); // Close manual karena init manual
     super.dispose();
   }
 
@@ -112,52 +81,89 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
   Widget build(BuildContext context) {
     final t = context.t;
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      appBar: AppPrimaryBar(title: t.app.rating.page_title, centerTitle: true),
-      body: Column(
-        children: [
-          /// Tab bar section
-          Container(
-            color: ColorName.white,
-            child: TabBar(
-              controller: _tabController,
-              onTap: (index) => setState(() {}),
-              labelColor: ColorName.primary,
-              unselectedLabelColor: Colors.grey.shade600,
-              labelStyle: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
-              unselectedLabelStyle:
-                  TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
-              indicatorColor: ColorName.primary,
-              indicatorWeight: 3,
-              tabs: [
-                Tab(text: t.app.rating.tab_reporting),
-                Tab(text: t.app.rating.tab_service),
-              ],
-            ),
-          ),
-
-          /// Filter section
-          _buildFilterSection(t),
-
-          SizedBox(height: 8.h),
-
-          /// Content area
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
+    // Gunakan BlocProvider.value karena instance cubit dibuat di initState
+    return BlocProvider.value(
+      value: _cubit,
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        appBar: AppPrimaryBar(
+          title: t.app.rating.page_title,
+          centerTitle: true,
+        ),
+        body: BlocBuilder<TeknisiRatingCubit, TeknisiRatingState>(
+          builder: (context, state) {
+            return Column(
               children: [
-                _buildListView(_pelaporanData, t),
-                _buildListView(_pelayananData, t),
+                /// Tab bar section
+                Container(
+                  color: ColorName.white,
+                  child: TabBar(
+                    controller: _tabController,
+                    onTap: (index) {
+                      _cubit.updateFilter(tabIndex: index);
+                    },
+                    labelColor: ColorName.primary,
+                    unselectedLabelColor: Colors.grey.shade600,
+                    labelStyle: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    unselectedLabelStyle: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    indicatorColor: ColorName.primary,
+                    indicatorWeight: 3,
+                    tabs: [
+                      Tab(text: t.app.rating.tab_reporting),
+                      Tab(text: t.app.rating.tab_service),
+                    ],
+                  ),
+                ),
+
+                /// Filter section
+                _buildFilterSection(t, _cubit),
+
+                SizedBox(height: 8.h),
+
+                /// Content area (List)
+                Expanded(
+                  child: Builder(
+                    builder: (context) {
+                      if (state.status == TeknisiRatingStatus.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (state.status == TeknisiRatingStatus.failure) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.error_outline, color: Colors.red, size: 40),
+                              SizedBox(height: 8.h),
+                              Text(state.errorMessage ?? "Gagal memuat data"),
+                              TextButton(
+                                onPressed: () => _cubit.fetchRatings(),
+                                child: const Text("Coba Lagi"),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      return _buildListView(state.filteredRatings, t);
+                    },
+                  ),
+                ),
               ],
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildFilterSection(Translations t) {
+  Widget _buildFilterSection(Translations t, TeknisiRatingCubit cubit) {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
@@ -170,7 +176,6 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Filter title + Refresh button
           Row(
             children: [
               Expanded(
@@ -184,30 +189,24 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () => cubit.fetchRatings(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorName.primary,
                   foregroundColor: ColorName.white,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                 ),
                 icon: Icon(Icons.refresh, size: 18.sp),
                 label: Text(
                   t.app.rating.refresh,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
                 ),
               ),
             ],
           ),
           SizedBox(height: 16.h),
-
-          /// Filter Row 1
+          
+          /// Baris 1: Kategori & Bentuk (Sub-Kategori)
           Row(
             children: [
               Expanded(
@@ -215,23 +214,29 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                   label: t.app.rating.filter_category,
                   value: _selectedKategori,
                   items: _kategoriOptions,
-                  onChanged: (v) => setState(() => _selectedKategori = v),
+                  onChanged: (v) {
+                    setState(() => _selectedKategori = v);
+                    cubit.updateFilter(kategori: v);
+                  },
                 ),
               ),
               SizedBox(width: 12.w),
               Expanded(
                 child: AppDropdownField(
-                  label: t.app.rating.filter_form,
+                  label: t.app.rating.filter_form, // UI Label: Bentuk
                   value: _selectedBentuk,
-                  items: _bentukOptions,
-                  onChanged: (v) => setState(() => _selectedBentuk = v),
+                  items: _bentukOptions, // Data: Sub-Kategori
+                  onChanged: (v) {
+                    setState(() => _selectedBentuk = v);
+                    cubit.updateFilter(bentuk: v);
+                  },
                 ),
               ),
             ],
           ),
           SizedBox(height: 16.h),
 
-          /// Filter Row 2
+          /// Baris 2: Jenis & Rating
           Row(
             children: [
               Expanded(
@@ -239,7 +244,10 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                   label: t.app.rating.filter_type,
                   value: _selectedJenis,
                   items: _jenisOptions,
-                  onChanged: (v) => setState(() => _selectedJenis = v),
+                  onChanged: (v) {
+                    setState(() => _selectedJenis = v);
+                    cubit.updateFilter(jenis: v);
+                  },
                 ),
               ),
               SizedBox(width: 12.w),
@@ -248,7 +256,10 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                   label: t.app.rating.filter_rating,
                   value: _selectedRating,
                   items: _ratingOptions,
-                  onChanged: (v) => setState(() => _selectedRating = v),
+                  onChanged: (v) {
+                    setState(() => _selectedRating = v);
+                    cubit.updateFilter(rating: v);
+                  },
                 ),
               ),
             ],
@@ -258,15 +269,13 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
     );
   }
 
-  Widget _buildListView(List<Map<String, dynamic>> data, Translations t) {
+  Widget _buildListView(List<TeknisiRatingModel> data, Translations t) {
     final totalData = data.length;
-    final startIndex = 1;
-    final endIndex = totalData > 10 ? 10 : totalData;
-    const totalPages = 3; // Dummy value
+    final startIndex = data.isEmpty ? 0 : 1;
+    final endIndex = totalData;
 
     return Column(
       children: [
-        /// List of Rating cards
         Expanded(
           child: data.isEmpty
               ? Center(
@@ -288,27 +297,32 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                       top: 16.h,
                       bottom: 16.h,
                     ),
-                    itemCount: data.length > 10 ? 10 : data.length,
+                    itemCount: data.length,
                     itemBuilder: (context, index) {
                       final item = data[index];
                       return RatingCardItem(
-                        senderName: item['senderName'],
-                        senderAvatar: item['senderAvatar'],
-                        dateIn: item['dateIn'],
-                        dateOut: item['dateOut'],
-                        category: item['category'],
-                        type: item['type'],
-                        form: item['form'],
-                        rating: item['rating'],
+                        senderName: item.creator.fullName,
+                        
+                        // Handle avatar null & empty
+                        senderAvatar: (item.creator.profileUrl != null && item.creator.profileUrl!.isNotEmpty)
+                            ? item.creator.profileUrl
+                            : null,
+
+                        // Handle date safety
+                        dateIn: item.pengerjaanAwal.isNotEmpty
+                            ? item.pengerjaanAwal.split('T')[0]
+                            : '-',
+                        dateOut: item.pengerjaanAkhir.isNotEmpty
+                            ? item.pengerjaanAkhir.split('T')[0]
+                            : '-',
+                            
+                        category: item.asset?.kategori ?? '-',
+                        type: item.asset?.jenisAsset ?? '-',
+                        form: item.asset?.subkategoriNama ?? '-',
+                        rating: item.rating,
                         onViewPressed: () {
                           context.router.push(
-                            TeknisiRatingDetailRoute(
-                              senderName: item['senderName'],
-                              category: item['category'],
-                              type: item['type'],
-                              form: item['form'],
-                              rating: item['rating'],
-                            ),
+                            TeknisiRatingDetailRoute(ticketId: item.id),
                           );
                         },
                       );
@@ -316,22 +330,16 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                   ),
                 ),
         ),
-
-        /// ✅ Global Pagination
         if (data.isNotEmpty)
           AppPagination(
             currentPage: _currentPage,
-            totalPages: totalPages,
+            totalPages: _totalPages,
             totalData: totalData,
             startData: startIndex,
             endData: endIndex,
-            onPrevious: _currentPage > 1
-                ? () => setState(() => _currentPage--)
-                : null,
-            onNext: _currentPage < totalPages
-                ? () => setState(() => _currentPage++)
-                : null,
-            onPageSelected: (page) => setState(() => _currentPage = page),
+            onPrevious: null,
+            onNext: null,
+            onPageSelected: (page) {},
           ),
       ],
     );

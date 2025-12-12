@@ -3,23 +3,19 @@ import 'package:report/src/modules/auth/domain/repositories/auth_repository.dart
 
 class RegisterParams {
   final String email;
-  final String firstName;
-  final String lastName;
   final String password;
-  final String role;
-  final String? phoneNumber;
-  final String? birthDate;
-  final String? address;
+  final String fullName;
+  final String phoneNumber;
+  final String nik;
+  final String address;
 
   RegisterParams({
     required this.email,
-    required this.firstName,
-    required this.lastName,
     required this.password,
-    this.role = 'masyarakat',
-    this.phoneNumber,
-    this.birthDate,
-    this.address,
+    required this.fullName,
+    required this.phoneNumber,
+    required this.nik,
+    required this.address,
   });
 }
 
@@ -32,13 +28,11 @@ class RegisterUseCase {
   Future<String> call(RegisterParams params) {
     return repository.register(
       email: params.email,
-      firstName: params.firstName,
-      lastName: params.lastName,
       password: params.password,
+      fullName: params.fullName,
       phoneNumber: params.phoneNumber,
-      birthDate: params.birthDate,
+      nik: params.nik,
       address: params.address,
-      role: params.role,
     );
   }
 }

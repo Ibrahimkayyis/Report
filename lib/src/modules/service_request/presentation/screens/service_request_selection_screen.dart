@@ -9,9 +9,9 @@ import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
-import 'package:report/src/modules/reporting/presentation/cubits/opd_cubit.dart';
-import 'package:report/src/modules/reporting/presentation/cubits/opd_state.dart';
-import 'package:report/src/modules/reporting/presentation/screens/opd_selection_screen.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/cubits/opd_cubit.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/cubits/opd_state.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/screens/opd_selection_screen.dart';
 
 
 @RoutePage()

@@ -356,6 +356,33 @@ class _TranslationsAppId implements TranslationsAppEn {
 	@override String get password_mismatch => 'Kata sandi tidak cocok';
 	@override String get password_reset_success_title => 'Kata sandi berhasil diperbarui!';
 	@override String get password_reset_success_message => 'Silakan login dengan kata sandi baru Anda';
+	@override String get profile_photo_updated_success => 'Foto profil berhasil diperbarui!';
+	@override String get profile_info_updated_success => 'Info pribadi berhasil diperbarui!';
+	@override String get profile_photo_update_failed => 'Gagal memperbarui foto profil';
+	@override String get profile_info_update_failed => 'Gagal memperbarui info pribadi';
+	@override String get report_detail_title => 'Detail Laporan';
+	@override String get reported_title_label => 'Judul Laporan';
+	@override String get reported_asset_label => 'Data Aset';
+	@override String get reported_serial_number_label => 'Nomor Seri';
+	@override String get reported_asset_category_label => 'Kategori Aset';
+	@override String get reported_asset_subcategory_label => 'Sub Kategori Aset';
+	@override String get reported_asset_type_label => 'Jenis Aset';
+	@override String get reported_location_label => 'Lokasi Kejadian';
+	@override String get reported_problem_label => 'Rincian Masalah yang Dilaporkan';
+	@override String get reported_expected_solution_label => 'Penyelesaian yang Diharapkan';
+	@override String get reported_attachments_label => 'Lampiran File';
+	@override String get no_attachments => 'Tidak ada lampiran';
+	@override String get reopen_ticket_title => 'Ajukan Kembali Laporan';
+	@override String get reopen_section_title => 'Form Pengajuan Kembali';
+	@override String get reopen_reason_label => 'Alasan Pengajuan Kembali';
+	@override String get reopen_reason_hint => 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+	@override String get reopen_reason_required => 'Alasan pengajuan kembali wajib diisi';
+	@override String get submit_button => 'Kirim';
+	@override String get rating_title => 'Rating';
+	@override String get rating_sender_label => 'Pengirim';
+	@override String get rating_ticket_id_label => 'ID Tiket';
+	@override String get rating_satisfaction_label => 'Rating Kepuasan Pelayanan Kami';
+	@override String get rating_comment_label => 'Komentar';
 	@override late final _TranslationsAppValidationId validation = _TranslationsAppValidationId._(_root);
 	@override late final _TranslationsAppErrorsId errors = _TranslationsAppErrorsId._(_root);
 	@override late final _TranslationsAppDialogId dialog = _TranslationsAppDialogId._(_root);
@@ -443,6 +470,12 @@ class _TranslationsAppDialogId implements TranslationsAppDialogEn {
 	final TranslationsId _root; // ignore: unused_field
 
 	// Translations
+	@override String get confirm_rating_title => 'Konfirmasi Rating';
+	@override String get confirm_rating_message => 'Apakah Anda yakin ingin mengirim rating ini?';
+	@override String get rating_success_title => 'Rating berhasil dikirim!';
+	@override String get confirm_reopen_title => 'Konfirmasi Pengajuan Kembali';
+	@override String get confirm_reopen_message => 'Apakah Anda yakin ingin mengajukan kembali laporan ini?';
+	@override String get reopen_success_title => 'Laporan berhasil diajukan kembali!';
 	@override String get confirm_submit_title => 'Apakah Anda yakin ingin mengirim?';
 	@override String get confirm_submit_message => 'Cek kembali inputan Anda sebelum mengirim!';
 	@override String get confirm_yes => 'Ya, saya yakin!';
@@ -763,6 +796,10 @@ class _TranslationsAppMasyarakatId implements TranslationsAppMasyarakatEn {
 	final TranslationsId _root; // ignore: unused_field
 
 	// Translations
+	@override String get reopen_reason_label => 'Alasan Pengajuan Kembali';
+	@override String get reopen_reason_hint => 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+	@override String get reported_description_label => 'Deskripsi Laporan';
+	@override String get reported_attachments_label => 'Lampiran File';
 	@override String get what_to_report => 'Apa yang ingin Anda laporkan?';
 	@override String get report_hint => 'Tuliskan deskripsi lengkap mengenai permasalahan Anda...';
 	@override String get attach_file_label => 'Lampiran (Opsional)';
@@ -770,6 +807,7 @@ class _TranslationsAppMasyarakatId implements TranslationsAppMasyarakatEn {
 	@override String get name_label => 'Nama Lengkap';
 	@override String get nik_label => 'NIK';
 	@override String get email_label => 'Email';
+	@override String get validation_title_required => 'Judul laporan wajib diisi.';
 	@override String get validation_description_required => 'Deskripsi laporan wajib diisi.';
 	@override String get validation_description_min_length => 'Deskripsi harus terdiri dari minimal 20 karakter.';
 	@override String get validation_error_message => 'Form tidak valid, periksa kembali input Anda.';
@@ -1160,6 +1198,33 @@ extension on TranslationsId {
 			case 'app.password_mismatch': return 'Kata sandi tidak cocok';
 			case 'app.password_reset_success_title': return 'Kata sandi berhasil diperbarui!';
 			case 'app.password_reset_success_message': return 'Silakan login dengan kata sandi baru Anda';
+			case 'app.profile_photo_updated_success': return 'Foto profil berhasil diperbarui!';
+			case 'app.profile_info_updated_success': return 'Info pribadi berhasil diperbarui!';
+			case 'app.profile_photo_update_failed': return 'Gagal memperbarui foto profil';
+			case 'app.profile_info_update_failed': return 'Gagal memperbarui info pribadi';
+			case 'app.report_detail_title': return 'Detail Laporan';
+			case 'app.reported_title_label': return 'Judul Laporan';
+			case 'app.reported_asset_label': return 'Data Aset';
+			case 'app.reported_serial_number_label': return 'Nomor Seri';
+			case 'app.reported_asset_category_label': return 'Kategori Aset';
+			case 'app.reported_asset_subcategory_label': return 'Sub Kategori Aset';
+			case 'app.reported_asset_type_label': return 'Jenis Aset';
+			case 'app.reported_location_label': return 'Lokasi Kejadian';
+			case 'app.reported_problem_label': return 'Rincian Masalah yang Dilaporkan';
+			case 'app.reported_expected_solution_label': return 'Penyelesaian yang Diharapkan';
+			case 'app.reported_attachments_label': return 'Lampiran File';
+			case 'app.no_attachments': return 'Tidak ada lampiran';
+			case 'app.reopen_ticket_title': return 'Ajukan Kembali Laporan';
+			case 'app.reopen_section_title': return 'Form Pengajuan Kembali';
+			case 'app.reopen_reason_label': return 'Alasan Pengajuan Kembali';
+			case 'app.reopen_reason_hint': return 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+			case 'app.reopen_reason_required': return 'Alasan pengajuan kembali wajib diisi';
+			case 'app.submit_button': return 'Kirim';
+			case 'app.rating_title': return 'Rating';
+			case 'app.rating_sender_label': return 'Pengirim';
+			case 'app.rating_ticket_id_label': return 'ID Tiket';
+			case 'app.rating_satisfaction_label': return 'Rating Kepuasan Pelayanan Kami';
+			case 'app.rating_comment_label': return 'Komentar';
 			case 'app.validation.title_required': return 'Judul pelaporan wajib diisi';
 			case 'app.validation.asset_type_required': return 'Jenis aset wajib dipilih';
 			case 'app.validation.asset_form_required': return 'Bentuk aset wajib dipilih';
@@ -1197,6 +1262,12 @@ extension on TranslationsId {
 			case 'app.errors.network_error': return 'Jaringan bermasalah, periksa koneksi Anda';
 			case 'app.errors.validation_error': return 'Kesalahan validasi';
 			case 'app.errors.not_found': return 'Endpoint tidak ditemukan atau server sedang offline';
+			case 'app.dialog.confirm_rating_title': return 'Konfirmasi Rating';
+			case 'app.dialog.confirm_rating_message': return 'Apakah Anda yakin ingin mengirim rating ini?';
+			case 'app.dialog.rating_success_title': return 'Rating berhasil dikirim!';
+			case 'app.dialog.confirm_reopen_title': return 'Konfirmasi Pengajuan Kembali';
+			case 'app.dialog.confirm_reopen_message': return 'Apakah Anda yakin ingin mengajukan kembali laporan ini?';
+			case 'app.dialog.reopen_success_title': return 'Laporan berhasil diajukan kembali!';
 			case 'app.dialog.confirm_submit_title': return 'Apakah Anda yakin ingin mengirim?';
 			case 'app.dialog.confirm_submit_message': return 'Cek kembali inputan Anda sebelum mengirim!';
 			case 'app.dialog.confirm_yes': return 'Ya, saya yakin!';
@@ -1439,6 +1510,10 @@ extension on TranslationsId {
 			case 'app.onboarding.page2.body': return 'Akses tiket masuk, update progres, dan monitoring SLA langsung dari aplikasi.';
 			case 'app.onboarding.page3.title': return 'Helpdesk Lebih Cepat';
 			case 'app.onboarding.page3.body': return 'Gunakan fitur chat untuk berkomunikasi langsung dengan operator dan teknisi.';
+			case 'app.masyarakat.reopen_reason_label': return 'Alasan Pengajuan Kembali';
+			case 'app.masyarakat.reopen_reason_hint': return 'Jelaskan alasan mengapa laporan ini diajukan kembali (minimal 20 karakter)';
+			case 'app.masyarakat.reported_description_label': return 'Deskripsi Laporan';
+			case 'app.masyarakat.reported_attachments_label': return 'Lampiran File';
 			case 'app.masyarakat.what_to_report': return 'Apa yang ingin Anda laporkan?';
 			case 'app.masyarakat.report_hint': return 'Tuliskan deskripsi lengkap mengenai permasalahan Anda...';
 			case 'app.masyarakat.attach_file_label': return 'Lampiran (Opsional)';
@@ -1446,6 +1521,7 @@ extension on TranslationsId {
 			case 'app.masyarakat.name_label': return 'Nama Lengkap';
 			case 'app.masyarakat.nik_label': return 'NIK';
 			case 'app.masyarakat.email_label': return 'Email';
+			case 'app.masyarakat.validation_title_required': return 'Judul laporan wajib diisi.';
 			case 'app.masyarakat.validation_description_required': return 'Deskripsi laporan wajib diisi.';
 			case 'app.masyarakat.validation_description_min_length': return 'Deskripsi harus terdiri dari minimal 20 karakter.';
 			case 'app.masyarakat.validation_error_message': return 'Form tidak valid, periksa kembali input Anda.';

@@ -9,8 +9,8 @@ import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/reporting/domain/constants/dummy_asset_data.dart';
-import 'package:report/src/modules/reporting/presentation/cubits/opd_cubit.dart';
-import 'package:report/src/modules/reporting/presentation/cubits/opd_state.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/cubits/opd_cubit.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/cubits/opd_state.dart';
 import 'package:report/src/modules/reporting/presentation/widgets/form_sections/reporting_text_field.dart';
 import '../widgets/opd_dropdown_section.dart';
 
@@ -241,7 +241,7 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (successContext) => AppReportSuccessDialog(
+            builder: (successContext) => AppGlobalSuccessDialog(
               title: t.dialog_report_success_title,
               buttonText: t.dialog_report_success_button,
               onPressed: () {

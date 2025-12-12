@@ -5,28 +5,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
-import 'package:report/src/core/log/app_logger.dart';
-import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
+import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/profile/domain/models/profile_model.dart';
 import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_state.dart';
+import 'package:report/src/modules/reporting/domain/models/asset_model.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/asset/asset_cubit.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/report_cubit.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/report_state.dart';
-import '../../domain/constants/dummy_asset_data.dart';
 import '../widgets/form_sections/asset_info_section.dart';
 import '../widgets/form_sections/reporting_text_field.dart';
-import 'package:report/src/modules/masyarakat_reporting/presentation/widgets/profile_section.dart';
 
 @RoutePage()
 class ReportingFormScreen extends StatefulWidget {
-  final String opdId;
+  final String? opdId;
   final String? opdName;
   final String? opdIconUrl;
   final Color? opdColor;
 
   const ReportingFormScreen({
     super.key,
-    required this.opdId,
+    this.opdId,
     this.opdName,
     this.opdIconUrl,
     this.opdColor,
@@ -42,6 +43,9 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
   final _problemController = TextEditingController();
   final _locationController = TextEditingController();
   final _expectedSolutionController = TextEditingController();
+
+  // Asset Controllers (Read Only)
+  final _serialNumberController = TextEditingController();
   final _assetCategoryController = TextEditingController();
   final _assetSubcategoryController = TextEditingController();
   final _assetTypeController = TextEditingController();
@@ -49,11 +53,13 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
   final GlobalKey<AppFormAttachFileState> _attachFileKey = GlobalKey();
 
   // State Variables
-  String? _selectedDataAsset;
-  String? _selectedSerialNumber;
+  AssetModel? _selectedDataAsset;
   List<File> _attachedFiles = [];
   bool _hasAttemptedSubmit = false;
   final Map<String, String?> _errors = {};
+
+  // User OPD ID
+  String? _userOpdId;
 
   @override
   void dispose() {
@@ -61,6 +67,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     _problemController.dispose();
     _locationController.dispose();
     _expectedSolutionController.dispose();
+    _serialNumberController.dispose();
     _assetCategoryController.dispose();
     _assetSubcategoryController.dispose();
     _assetTypeController.dispose();
@@ -69,34 +76,37 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
   // --- Logic Methods ---
 
-  void _onDataAssetChanged(String? value) {
+  void _onDataAssetChanged(AssetModel? asset) {
     setState(() {
-      _selectedDataAsset = value;
-      _selectedSerialNumber = null; // Reset serial number saat aset berubah
+      _selectedDataAsset = asset;
 
-      // Clear error jika user memilih ulang
       if (_hasAttemptedSubmit) {
         _errors['dataAsset'] = null;
-        _errors['serialNumber'] = null;
       }
 
-      // Logic Auto-fill dari Dummy Data
-      if (value != null && DummyAssetData.assetDetails.containsKey(value)) {
-        final details = DummyAssetData.assetDetails[value]!;
-        _assetCategoryController.text = details['category'] ?? '';
-        _assetSubcategoryController.text = details['subcategory'] ?? '';
-        _assetTypeController.text = details['type'] ?? '';
+      if (asset != null) {
+        _serialNumberController.text = asset.nomorSeri ?? '-';
+        _assetCategoryController.text = asset.kategori;
+        _assetSubcategoryController.text =
+            asset.assetBarang?.subKategori?.nama ?? '-';
+        _assetTypeController.text = asset.jenis;
 
-        // Clear related errors
+        if (asset.assetBarang?.lokasi?.nama != null) {
+          _locationController.text = asset.assetBarang!.lokasi!.nama;
+        }
+
         if (_hasAttemptedSubmit) {
+          _errors['serialNumber'] = null;
           _errors['assetCategory'] = null;
           _errors['assetSubcategory'] = null;
           _errors['assetType'] = null;
         }
       } else {
+        _serialNumberController.clear();
         _assetCategoryController.clear();
         _assetSubcategoryController.clear();
         _assetTypeController.clear();
+        _locationController.clear();
       }
     });
   }
@@ -109,54 +119,27 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
   bool _validateForm(BuildContext context) {
     final t = context.t.app;
-
     final newErrors = <String, String?>{};
 
     void validate(String key, bool isInvalid, String errorMessage) {
-      if (isInvalid) {
-        newErrors[key] = errorMessage;
-      }
+      if (isInvalid) newErrors[key] = errorMessage;
     }
 
     final title = _titleController.text.trim();
     final problem = _problemController.text.trim();
 
     validate('title', title.isEmpty, t.validation.title_required);
-    validate(
-      'dataAsset',
-      _selectedDataAsset?.isEmpty ?? true,
-      t.validation.data_asset_required,
-    );
-    validate(
-      'serialNumber',
-      _selectedSerialNumber?.isEmpty ?? true,
-      t.validation.serial_number_required,
-    );
 
     validate(
-      'assetCategory',
-      _assetCategoryController.text.trim().isEmpty,
-      t.validation.asset_category_required,
+      'dataAsset',
+      _selectedDataAsset == null,
+      t.validation.data_asset_required,
     );
-    validate(
-      'assetSubcategory',
-      _assetSubcategoryController.text.trim().isEmpty,
-      t.validation.asset_subcategory_required,
-    );
-    validate(
-      'assetType',
-      _assetTypeController.text.trim().isEmpty,
-      t.validation.asset_type_required,
-    );
+
     validate(
       'location',
       _locationController.text.trim().isEmpty,
       t.validation.location_required,
-    );
-    validate(
-      'expectedSolution',
-      _expectedSolutionController.text.trim().isEmpty,
-      t.validation.expected_solution_required,
     );
 
     validate('problem', problem.isEmpty, t.validation.description_required);
@@ -190,16 +173,22 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
         cancelText: t.dialog.cancel,
         icon: Icons.warning_amber_rounded,
         onConfirm: () {
-          Navigator.of(dialogContext).pop();
-          AppLogger.i('Submitting Report...');
+          Navigator.of(dialogContext).pop(); 
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Submit logic implemented via Cubit later'),
-              backgroundColor: Colors.orange,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          if (_selectedDataAsset?.id != null) {
+            context.read<ReportCubit>().submitReport(
+              assetId: _selectedDataAsset!.id,
+              title: _titleController.text.trim(),
+              description: _problemController.text.trim(),
+              location: _locationController.text.trim(),
+              expectedResolution: _expectedSolutionController.text.trim(),
+              files: _attachedFiles,
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("ID Aset tidak valid")),
+            );
+          }
         },
         onCancel: () => Navigator.of(dialogContext).pop(),
       ),
@@ -212,10 +201,9 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
         _titleController.text.isNotEmpty ||
         _problemController.text.isNotEmpty ||
         _selectedDataAsset != null ||
-        _selectedSerialNumber != null ||
         _locationController.text.isNotEmpty ||
-        _expectedSolutionController.text.isNotEmpty ||
         _attachedFiles.isNotEmpty;
+
     if (hasData) {
       showDialog(
         context: context,
@@ -238,13 +226,8 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
   void _handleSaveDraft(BuildContext context) {
     final t = context.t.app;
-    AppLogger.i('Save draft');
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(t.draft_saved),
-        backgroundColor: Colors.blue,
-        behavior: SnackBarBehavior.floating,
-      ),
+      SnackBar(content: Text(t.draft_saved), backgroundColor: Colors.blue),
     );
   }
 
@@ -273,14 +256,75 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     );
   }
 
+  // --- Widget Builders ---
+
+  Widget _buildProfileSection(ProfileModel? profile) {
+    final name = profile?.fullName ?? '-';
+    final email = profile?.email ?? '-';
+    final divisi = profile?.unitKerja ?? profile?.dinasName ?? '-';
+
+    if (profile?.dinasId != null && _userOpdId != profile!.dinasId) {
+      _userOpdId = profile.dinasId;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInfoRow("Nama", name),
+        SizedBox(height: 16.h),
+        _buildInfoRow("Email", email),
+        SizedBox(height: 16.h),
+        _buildInfoRow("Divisi", divisi),
+      ],
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 80.w,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w600,
+              color: ColorName.textPrimary,
+            ),
+          ),
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Container(
+            height: 40.h,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE0E0E0),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 13.sp, color: Colors.black87),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = context.t.app;
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
         BlocProvider(create: (_) => sl<ReportCubit>()),
+        BlocProvider(create: (_) => sl<AssetCubit>()..fetchAssets()),
+        BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
       ],
       child: BlocListener<ReportCubit, ReportState>(
         listener: (context, state) {
@@ -289,23 +333,9 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
           } else if (state is ReportSuccess) {
             Navigator.of(context, rootNavigator: true).pop();
 
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (dialogContext) => AppReportSuccessDialog(
-                title: t.dialog.report_success_title,
-                buttonText: t.dialog.report_success_button,
-                onPressed: () {
-                  Navigator.of(dialogContext).pop();
-                  context.router.push(
-                    ReportSuccessRoute(
-                      ticketNumber: state.report.ticketId,
-                      status: state.report.status,
-                      opdName: widget.opdName ?? 'OPD - ${widget.opdId}',
-                    ),
-                  );
-                },
-              ),
+            // ✅ Pass data dari response API
+            context.router.push(
+              ReportSuccessRoute(data: state.data),
             );
           } else if (state is ReportError) {
             Navigator.of(context, rootNavigator: true).pop();
@@ -317,101 +347,116 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
             );
           }
         },
-        child: Scaffold(
-          backgroundColor: ColorName.background,
-          appBar: AppPrimaryBar(title: t.online_reporting_title),
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppFormTargetDisplay(
-                        name: widget.opdName ?? 'OPD - ${widget.opdId}',
-                        imageUrl: widget.opdIconUrl,
-                        color: widget.opdColor ?? ColorName.primary,
-                      ),
-                      SizedBox(height: 24.h),
+        child: Builder(
+          builder: (context) {
+            return Scaffold(
+              backgroundColor: ColorName.background,
+              appBar: AppPrimaryBar(title: t.online_reporting_title),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(16.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BlocBuilder<ProfileCubit, ProfileState>(
+                            builder: (context, state) {
+                              ProfileModel? profile;
+                              if (state is ProfileLoaded) {
+                                profile = state.profile;
+                              }
 
-                      const ProfileSection(),
-                      SizedBox(height: 24.h),
+                              final displayOpdName =
+                                  profile?.dinasName ??
+                                  widget.opdName ??
+                                  "Dinas Komunikasi dan Informatika";
 
-                      ReportingTextField(
-                        label: t.report_title_label, // ✅ t.app
-                        hint: t.report_title_hint, // ✅ t.app
-                        controller: _titleController,
-                        errorText: _errors['title'],
-                        onChanged: (_) => _clearError('title'),
-                      ),
-                      SizedBox(height: 24.h),
+                              return Column(
+                                children: [
+                                  AppFormTargetDisplay(
+                                    name: displayOpdName,
+                                    imageUrl: widget.opdIconUrl,
+                                    color: widget.opdColor ?? ColorName.primary,
+                                  ),
+                                  SizedBox(height: 24.h),
 
-                      AssetInfoSection(
-                        selectedDataAsset: _selectedDataAsset,
-                        selectedSerialNumber: _selectedSerialNumber,
-                        dataAssetOptions: DummyAssetData.dataAssetOptions,
-                        serialNumberOptions: _selectedDataAsset != null
-                            ? (DummyAssetData
-                                      .serialNumberOptions[_selectedDataAsset!] ??
-                                  [])
-                            : [],
-                        assetCategoryController: _assetCategoryController,
-                        assetSubcategoryController: _assetSubcategoryController,
-                        assetTypeController: _assetTypeController,
-                        onDataAssetChanged: _onDataAssetChanged,
-                        onSerialNumberChanged: (val) {
-                          setState(() => _selectedSerialNumber = val);
-                          _clearError('serialNumber');
-                        },
-                        errors: _errors,
-                      ),
-                      SizedBox(height: 24.h),
+                                  _buildProfileSection(profile),
+                                ],
+                              );
+                            },
+                          ),
 
-                      ReportingTextField(
-                        label: t.location_label, // ✅ t.app
-                        hint: t.location_hint, // ✅ t.app
-                        controller: _locationController,
-                        errorText: _errors['location'],
-                        onChanged: (_) => _clearError('location'),
-                      ),
-                      SizedBox(height: 24.h),
+                          SizedBox(height: 24.h),
 
-                      AppFormProblemDescription(
-                        controller: _problemController,
-                        errorText: _errors['problem'],
-                        onChanged: (_) => _clearError('problem'),
-                      ),
-                      SizedBox(height: 24.h),
+                          ReportingTextField(
+                            label: t.report_title_label,
+                            hint: t.report_title_hint,
+                            controller: _titleController,
+                            errorText: _errors['title'],
+                            onChanged: (_) => _clearError('title'),
+                          ),
+                          SizedBox(height: 24.h),
 
-                      AppFormAttachFile(
-                        key: _attachFileKey,
-                        title: t.attach_file_label,
-                        onFilesChanged: (files) =>
-                            setState(() => _attachedFiles = files),
-                      ),
-                      SizedBox(height: 24.h),
+                          AssetInfoSection(
+                            selectedDataAsset: _selectedDataAsset,
+                            serialNumberController: _serialNumberController,
+                            assetCategoryController: _assetCategoryController,
+                            assetSubcategoryController:
+                                _assetSubcategoryController,
+                            assetTypeController: _assetTypeController,
+                            onDataAssetChanged: _onDataAssetChanged,
+                            errors: _errors,
+                          ),
 
-                      ReportingTextField(
-                        label: t.expected_solution_label,
-                        hint: t.expected_solution_hint,
-                        controller: _expectedSolutionController,
-                        errorText: _errors['expectedSolution'],
-                        maxLines: 5,
-                        onChanged: (_) => _clearError('expectedSolution'),
+                          SizedBox(height: 24.h),
+
+                          ReportingTextField(
+                            label: t.location_label,
+                            hint: t.location_hint,
+                            controller: _locationController,
+                            errorText: _errors['location'],
+                            onChanged: (_) => _clearError('location'),
+                          ),
+                          SizedBox(height: 24.h),
+
+                          AppFormProblemDescription(
+                            controller: _problemController,
+                            errorText: _errors['problem'],
+                            onChanged: (_) => _clearError('problem'),
+                          ),
+                          SizedBox(height: 24.h),
+
+                          AppFormAttachFile(
+                            key: _attachFileKey,
+                            title: t.attach_file_label,
+                            onFilesChanged: (files) =>
+                                setState(() => _attachedFiles = files),
+                          ),
+                          SizedBox(height: 24.h),
+
+                          ReportingTextField(
+                            label: t.expected_solution_label,
+                            hint: t.expected_solution_hint,
+                            controller: _expectedSolutionController,
+                            errorText: _errors['expectedSolution'],
+                            maxLines: 5,
+                            onChanged: (_) => _clearError('expectedSolution'),
+                          ),
+                          SizedBox(height: 24.h),
+                        ],
                       ),
-                      SizedBox(height: 24.h),
-                    ],
+                    ),
                   ),
-                ),
+                  AppFormBottomActions(
+                    onCancel: () => _handleCancel(context),
+                    onSaveDraft: () => _handleSaveDraft(context),
+                    onSubmit: () => _handleSubmit(context),
+                  ),
+                ],
               ),
-              AppFormBottomActions(
-                onCancel: () => _handleCancel(context),
-                onSaveDraft: () => _handleSaveDraft(context),
-                onSubmit: () => _handleSubmit(context),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

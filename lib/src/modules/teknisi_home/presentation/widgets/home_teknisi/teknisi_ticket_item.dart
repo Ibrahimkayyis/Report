@@ -2,34 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
+import 'package:report/src/modules/teknisi_home/domain/models/teknisi_ticket_model.dart';
 
 class TeknisiTicketItem extends StatelessWidget {
-  final String userName;
-  final String date;
-  final String status;
-  final String kategori;
-  final String jenis;
-  final String bentuk;
-  final int lampiranCount;
-  final bool isDraft;
-  final VoidCallback? onEditPressed; // ✅ hanya edit
+  final TeknisiTicketModel ticket;
+  final VoidCallback? onEditPressed;
 
   const TeknisiTicketItem({
     super.key,
-    required this.userName,
-    required this.date,
-    required this.status,
-    required this.kategori,
-    required this.jenis,
-    required this.bentuk,
-    required this.lampiranCount,
-    required this.isDraft,
+    required this.ticket,
     this.onEditPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
+    final isDraft = ticket.statusTeknisi.toLowerCase() == 'draft';
 
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
@@ -40,7 +28,7 @@ class TeknisiTicketItem extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withValues(alpha: 0.03),
+            color: ColorName.black.withOpacity(0.03),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -49,13 +37,15 @@ class TeknisiTicketItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔹 Header
+          /// 🔹 Header (User Info & Status)
           Row(
             children: [
               CircleAvatar(
                 radius: 20.r,
-                backgroundImage:
-                    NetworkImage('https://i.pravatar.cc/150?u=$userName'),
+                backgroundImage: ticket.creator.profileUrl != null
+                    ? NetworkImage(ticket.creator.profileUrl!)
+                    : NetworkImage(
+                        'https://ui-avatars.com/api/?name=${Uri.encodeComponent(ticket.creator.fullName)}&background=random'),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -63,16 +53,19 @@ class TeknisiTicketItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userName,
+                      ticket.creator.fullName,
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: ColorName.textPrimary,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      date,
+                      // Format tanggal sederhana, bisa gunakan intl package jika mau lebih rapi
+                      ticket.createdAt.split('T')[0], 
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: Colors.grey.shade600,
@@ -88,7 +81,7 @@ class TeknisiTicketItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6.r),
                 ),
                 child: Text(
-                  status,
+                  ticket.statusTeknisi,
                   style: TextStyle(
                     fontSize: 11.sp,
                     fontWeight: FontWeight.w600,
@@ -106,12 +99,23 @@ class TeknisiTicketItem extends StatelessWidget {
             spacing: 8.w,
             runSpacing: 8.h,
             children: [
-              _buildInfoChip(t.app.dashboard.ticket_category, kategori),
-              _buildInfoChip(t.app.dashboard.ticket_type, jenis),
-              _buildInfoChip(t.app.dashboard.ticket_form, bentuk),
+              _buildInfoChip(
+                t.app.dashboard.ticket_category,
+                ticket.asset?.kategori ?? '-',
+              ),
+              _buildInfoChip(
+                t.app.dashboard.ticket_type,
+                ticket.asset?.jenisAsset ?? '-',
+              ),
+              // Field 'bentuk' tidak ada di API teknisi, mungkin perlu logic tambahan atau dihapus
+              // Untuk sementara kita pakai priority atau source sebagai pengganti visual
+              _buildInfoChip(
+                "Prioritas",
+                ticket.priority,
+              ),
               _buildInfoChip(
                 t.app.dashboard.ticket_attachment,
-                '$lampiranCount',
+                '${ticket.files.length}',
                 icon: Icons.description_outlined,
               ),
             ],
@@ -119,7 +123,7 @@ class TeknisiTicketItem extends StatelessWidget {
 
           SizedBox(height: 12.h),
 
-          /// 🔹 Button Edit Saja
+          /// 🔹 Button Edit
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton.icon(

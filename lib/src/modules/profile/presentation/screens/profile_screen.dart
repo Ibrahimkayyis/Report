@@ -33,6 +33,9 @@ class ProfileScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Column(
                     children: [
+                      // =======================================================
+                      // BAGIAN 1: HEADER (Dynamic State)
+                      // =======================================================
                       BlocBuilder<ProfileCubit, ProfileState>(
                         builder: (context, state) {
                           if (state is ProfileLoading) {
@@ -40,12 +43,25 @@ class ProfileScreen extends StatelessWidget {
                           } 
                           
                           else if (state is ProfileLoaded) {
+                            final profile = state.profile;
+                            
+                            // Safe Name
+                            final fullName = profile.fullName.trim().isNotEmpty 
+                                ? profile.fullName 
+                                : (profile.firstName ?? '') + ' ' + (profile.lastName ?? '');
+                                
+                            // Safe Image
+                            final hasImage = profile.profileUrl != null && 
+                                             profile.profileUrl!.isNotEmpty;
+
                             return ProfileHeader(
-                              name: '${state.profile.firstName} ${state.profile.lastName}'.trim(),
-                              email: state.profile.email,
-                              imageAsset: state.profile.profileUrl.isNotEmpty
-                                  ? state.profile.profileUrl
-                                  : null,
+                              name: fullName.trim().isNotEmpty ? fullName : 'User',
+                              email: profile.email,
+                              imageAsset: hasImage ? profile.profileUrl : null,
+                              
+                              // ✅ Pass New Fields
+                              dinas: profile.dinasName,
+                              unitKerja: profile.unitKerja,
                             );
                           } 
                           
@@ -54,18 +70,23 @@ class ProfileScreen extends StatelessWidget {
                               margin: EdgeInsets.only(top: 20.h, bottom: 20.h),
                               child: AppErrorState.general(
                                 context: context,
-                                message: state.message, // Pesan dari API
+                                message: state.message,
                                 onRetry: () {
                                   context.read<ProfileCubit>().fetchProfile();
                                 },
                               ),
                             );
                           }
-                                                    return const SizedBox.shrink();
+                          
+                          return const SizedBox.shrink();
                         },
                       ),
 
                       SizedBox(height: 8.h),
+
+                      // =======================================================
+                      // BAGIAN 2: MENU LIST
+                      // =======================================================
                       ProfileMenuList(
                         profileCubit: context.read<ProfileCubit>(),
                       ),

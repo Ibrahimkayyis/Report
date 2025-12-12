@@ -11,56 +11,78 @@ class UserInfoDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t.app.masyarakat;    
-    final fullName = '${profile.firstName} ${profile.lastName}'.trim();
-    final displayName = fullName.isNotEmpty ? fullName : '-';
-    final displayNik = profile.noEmployee.isNotEmpty ? profile.noEmployee : '-';
-    final displayEmail = profile.email.isNotEmpty ? profile.email : '-';
+    final t = context.t.app.masyarakat;
+
+    final displayName = profile.fullName;
+
+    final displayNik = profile.nik?.isNotEmpty == true
+        ? profile.nik!
+        : "-";
+
+    final displayDivisi = profile.roleName?.isNotEmpty == true
+        ? profile.roleName!
+        : "-";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _ReadOnlyField(label: t.name_label, value: displayName),
+        _InfoRow(label: t.name_label, value: displayName),
         SizedBox(height: 16.h),
-        _ReadOnlyField(label: t.nik_label, value: displayNik),
+
+        _InfoRow(label: t.nik_label, value: displayNik),
         SizedBox(height: 16.h),
-        _ReadOnlyField(label: t.email_label, value: displayEmail),
+
+        _InfoRow(label: "Divisi", value: displayDivisi),
       ],
     );
   }
 }
 
-class _ReadOnlyField extends StatelessWidget {
+class _InfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _ReadOnlyField({required this.label, required this.value});
+  const _InfoRow({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: ColorName.textPrimary,
+        // Label kiri
+        SizedBox(
+          width: 80.w, // supaya rapi seperti gambar
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: ColorName.textPrimary,
+            ),
           ),
         ),
-        SizedBox(height: 6.h),
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 14.sp, color: ColorName.textPrimary),
+
+        SizedBox(width: 12.w),
+
+        // Box abu kanan
+        Expanded(
+          child: Container(
+            height: 40.h,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE0E0E0),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: Colors.black87,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ],

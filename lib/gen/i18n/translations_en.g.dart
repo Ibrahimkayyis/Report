@@ -50,6 +50,8 @@ class _TranslationsAppEn extends TranslationsAppId {
 
 	// Translations
 	@override String get title => 'REPORT';
+	@override String get ticket_title => 'Ticket Title';
+	@override String get ticket_description => 'Ticket Description';
 	@override String get login => 'Login';
 	@override String get logout => 'Logout';
 	@override String get welcome => 'Welcome';
@@ -358,6 +360,33 @@ class _TranslationsAppEn extends TranslationsAppId {
 	@override String get password_mismatch => 'Passwords do not match';
 	@override String get password_reset_success_title => 'Password successfully updated!';
 	@override String get password_reset_success_message => 'Please login with your new password';
+	@override String get profile_photo_updated_success => 'Profile photo successfully updated!';
+	@override String get profile_info_updated_success => 'Personal info successfully updated!';
+	@override String get profile_photo_update_failed => 'Failed to update profile photo';
+	@override String get profile_info_update_failed => 'Failed to update personal info';
+	@override String get report_detail_title => 'Report Details';
+	@override String get reported_title_label => 'Report Title';
+	@override String get reported_asset_label => 'Asset Data';
+	@override String get reported_serial_number_label => 'Serial Number';
+	@override String get reported_asset_category_label => 'Asset Category';
+	@override String get reported_asset_subcategory_label => 'Asset Subcategory';
+	@override String get reported_asset_type_label => 'Asset Type';
+	@override String get reported_location_label => 'Incident Location';
+	@override String get reported_problem_label => 'Reported Problem Details';
+	@override String get reported_expected_solution_label => 'Expected Solution';
+	@override String get reported_attachments_label => 'File Attachments';
+	@override String get no_attachments => 'No attachments';
+	@override String get reopen_ticket_title => 'Resubmit Report';
+	@override String get reopen_section_title => 'Resubmission Form';
+	@override String get reopen_reason_label => 'Reason for Resubmission';
+	@override String get reopen_reason_hint => 'Explain why this report is being resubmitted (minimum 20 characters)';
+	@override String get reopen_reason_required => 'Reason for resubmission is required';
+	@override String get submit_button => 'Submit';
+	@override String get rating_title => 'Rating';
+	@override String get rating_sender_label => 'Sender';
+	@override String get rating_ticket_id_label => 'Ticket ID';
+	@override String get rating_satisfaction_label => 'Service Satisfaction Rating';
+	@override String get rating_comment_label => 'Comment';
 	@override late final _TranslationsAppValidationEn validation = _TranslationsAppValidationEn._(_root);
 	@override late final _TranslationsAppErrorsEn errors = _TranslationsAppErrorsEn._(_root);
 	@override late final _TranslationsAppDialogEn dialog = _TranslationsAppDialogEn._(_root);
@@ -429,6 +458,12 @@ class _TranslationsAppDialogEn extends TranslationsAppDialogId {
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get confirm_rating_title => 'Confirm Rating';
+	@override String get confirm_rating_message => 'Are you sure you want to submit this rating?';
+	@override String get rating_success_title => 'Rating successfully submitted!';
+	@override String get confirm_reopen_title => 'Confirm Resubmission';
+	@override String get confirm_reopen_message => 'Are you sure you want to resubmit this report?';
+	@override String get reopen_success_title => 'Report successfully resubmitted!';
 	@override String get confirm_submit_title => 'Are you sure you want to submit?';
 	@override String get confirm_submit_message => 'Please double-check your input before submitting!';
 	@override String get confirm_yes => 'Yes, I\'m sure!';
@@ -748,6 +783,10 @@ class _TranslationsAppMasyarakatEn extends TranslationsAppMasyarakatId {
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get reopen_reason_label => 'Reason for Resubmission';
+	@override String get reopen_reason_hint => 'Explain why this report is being resubmitted (minimum 20 characters)';
+	@override String get reported_description_label => 'Report Description';
+	@override String get reported_attachments_label => 'File Attachments';
 	@override String get what_to_report => 'What do you want to report?';
 	@override String get report_hint => 'Describe your issue in detail...';
 	@override String get attach_file_label => 'Attachments (Optional)';
@@ -758,6 +797,7 @@ class _TranslationsAppMasyarakatEn extends TranslationsAppMasyarakatId {
 	@override String get validation_description_required => 'Report description is required.';
 	@override String get validation_description_min_length => 'Description must contain at least 20 characters.';
 	@override String get validation_error_message => 'The form is invalid. Please check your inputs.';
+	@override String get validation_title_required => 'Report title is required.';
 	@override String get submit_success_placeholder => 'Report submitted successfully (placeholder).';
 	@override String get draft_saved_placeholder => 'Draft saved successfully (placeholder).';
 	@override String get cancel_confirmation_title => 'Cancel Report?';
@@ -837,6 +877,8 @@ extension on TranslationsEn {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'app.title': return 'REPORT';
+			case 'app.ticket_title': return 'Ticket Title';
+			case 'app.ticket_description': return 'Ticket Description';
 			case 'app.login': return 'Login';
 			case 'app.logout': return 'Logout';
 			case 'app.welcome': return 'Welcome';
@@ -1145,6 +1187,33 @@ extension on TranslationsEn {
 			case 'app.password_mismatch': return 'Passwords do not match';
 			case 'app.password_reset_success_title': return 'Password successfully updated!';
 			case 'app.password_reset_success_message': return 'Please login with your new password';
+			case 'app.profile_photo_updated_success': return 'Profile photo successfully updated!';
+			case 'app.profile_info_updated_success': return 'Personal info successfully updated!';
+			case 'app.profile_photo_update_failed': return 'Failed to update profile photo';
+			case 'app.profile_info_update_failed': return 'Failed to update personal info';
+			case 'app.report_detail_title': return 'Report Details';
+			case 'app.reported_title_label': return 'Report Title';
+			case 'app.reported_asset_label': return 'Asset Data';
+			case 'app.reported_serial_number_label': return 'Serial Number';
+			case 'app.reported_asset_category_label': return 'Asset Category';
+			case 'app.reported_asset_subcategory_label': return 'Asset Subcategory';
+			case 'app.reported_asset_type_label': return 'Asset Type';
+			case 'app.reported_location_label': return 'Incident Location';
+			case 'app.reported_problem_label': return 'Reported Problem Details';
+			case 'app.reported_expected_solution_label': return 'Expected Solution';
+			case 'app.reported_attachments_label': return 'File Attachments';
+			case 'app.no_attachments': return 'No attachments';
+			case 'app.reopen_ticket_title': return 'Resubmit Report';
+			case 'app.reopen_section_title': return 'Resubmission Form';
+			case 'app.reopen_reason_label': return 'Reason for Resubmission';
+			case 'app.reopen_reason_hint': return 'Explain why this report is being resubmitted (minimum 20 characters)';
+			case 'app.reopen_reason_required': return 'Reason for resubmission is required';
+			case 'app.submit_button': return 'Submit';
+			case 'app.rating_title': return 'Rating';
+			case 'app.rating_sender_label': return 'Sender';
+			case 'app.rating_ticket_id_label': return 'Ticket ID';
+			case 'app.rating_satisfaction_label': return 'Service Satisfaction Rating';
+			case 'app.rating_comment_label': return 'Comment';
 			case 'app.validation.title_required': return 'Report title is required';
 			case 'app.validation.asset_type_required': return 'Asset type is required';
 			case 'app.validation.asset_form_required': return 'Asset form is required';
@@ -1166,6 +1235,12 @@ extension on TranslationsEn {
 			case 'app.errors.network_error': return 'Network error, please check your connection';
 			case 'app.errors.validation_error': return 'Validation error';
 			case 'app.errors.not_found': return 'Endpoint not found or server is offline';
+			case 'app.dialog.confirm_rating_title': return 'Confirm Rating';
+			case 'app.dialog.confirm_rating_message': return 'Are you sure you want to submit this rating?';
+			case 'app.dialog.rating_success_title': return 'Rating successfully submitted!';
+			case 'app.dialog.confirm_reopen_title': return 'Confirm Resubmission';
+			case 'app.dialog.confirm_reopen_message': return 'Are you sure you want to resubmit this report?';
+			case 'app.dialog.reopen_success_title': return 'Report successfully resubmitted!';
 			case 'app.dialog.confirm_submit_title': return 'Are you sure you want to submit?';
 			case 'app.dialog.confirm_submit_message': return 'Please double-check your input before submitting!';
 			case 'app.dialog.confirm_yes': return 'Yes, I\'m sure!';
@@ -1407,6 +1482,10 @@ extension on TranslationsEn {
 			case 'app.onboarding.page2.body': return 'Access tickets, update progress, and monitor SLAs directly from the app.';
 			case 'app.onboarding.page3.title': return 'Faster Helpdesk';
 			case 'app.onboarding.page3.body': return 'Use chat to communicate directly with operators and technicians.';
+			case 'app.masyarakat.reopen_reason_label': return 'Reason for Resubmission';
+			case 'app.masyarakat.reopen_reason_hint': return 'Explain why this report is being resubmitted (minimum 20 characters)';
+			case 'app.masyarakat.reported_description_label': return 'Report Description';
+			case 'app.masyarakat.reported_attachments_label': return 'File Attachments';
 			case 'app.masyarakat.what_to_report': return 'What do you want to report?';
 			case 'app.masyarakat.report_hint': return 'Describe your issue in detail...';
 			case 'app.masyarakat.attach_file_label': return 'Attachments (Optional)';
@@ -1417,6 +1496,7 @@ extension on TranslationsEn {
 			case 'app.masyarakat.validation_description_required': return 'Report description is required.';
 			case 'app.masyarakat.validation_description_min_length': return 'Description must contain at least 20 characters.';
 			case 'app.masyarakat.validation_error_message': return 'The form is invalid. Please check your inputs.';
+			case 'app.masyarakat.validation_title_required': return 'Report title is required.';
 			case 'app.masyarakat.submit_success_placeholder': return 'Report submitted successfully (placeholder).';
 			case 'app.masyarakat.draft_saved_placeholder': return 'Draft saved successfully (placeholder).';
 			case 'app.masyarakat.cancel_confirmation_title': return 'Cancel Report?';

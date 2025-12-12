@@ -3,9 +3,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
+import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/modules/masyarakat_home/presentation/screens/home_masyarakat_screen.dart';
-import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
 import 'package:report/src/modules/notification/presentation/screens/notification_screen.dart';
+import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/activity_screen.dart';
 
 @RoutePage()
 class MainLayoutMasyarakatScreen extends StatefulWidget {
@@ -26,6 +28,7 @@ class _MainLayoutMasyarakatScreenState extends State<MainLayoutMasyarakatScreen>
     super.initState();
     _screens = const [
       HomeMasyarakatScreen(),
+      ActivityScreen(),
       NotificationScreen(),
       ProfileScreen(),
     ];
@@ -35,6 +38,7 @@ class _MainLayoutMasyarakatScreenState extends State<MainLayoutMasyarakatScreen>
   Widget build(BuildContext context) {
     final items = <Widget>[
       Icon(Icons.home, size: 28.sp, color: ColorName.white),
+      Icon(Icons.assignment, size: 28.sp, color: ColorName.white),
       Icon(Icons.notifications, size: 28.sp, color: ColorName.white),
       Icon(Icons.person, size: 28.sp, color: ColorName.white),
     ];
@@ -42,7 +46,19 @@ class _MainLayoutMasyarakatScreenState extends State<MainLayoutMasyarakatScreen>
     return Scaffold(
       extendBody: true,
       body: IndexedStack(index: _currentIndex, children: _screens),
-
+      floatingActionButton: _currentIndex == 0
+          ? Padding(
+              padding: EdgeInsets.only(bottom: 60.h),
+              child: FloatingActionButton(
+                backgroundColor: ColorName.primary,
+                onPressed: () {
+                  context.router.push(const HelpdeskChatRoute());
+                },
+                child: const Icon(Icons.support_agent, color: ColorName.onPrimary),
+              ),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavKey,
         index: _currentIndex,

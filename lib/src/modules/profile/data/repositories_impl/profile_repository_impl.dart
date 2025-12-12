@@ -23,18 +23,23 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String? firstName,
     String? lastName,
     String? phoneNumber,
-    String? birthDate,
+    String? birthDate, // API tidak support update birthDate, tapi kita terima paramnya (ignore)
     String? address,
     String? filePath,
   }) async {
     try {
+      // Gabungkan Name
+      String? fullName;
+      if (firstName != null || lastName != null) {
+         fullName = "${firstName ?? ''} ${lastName ?? ''}".trim();
+      }
+
       return await remoteDataSource.updateProfile(
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         phoneNumber: phoneNumber,
-        birthDate: birthDate,
         address: address,
         filePath: filePath,
+        // birthDate diabaikan karena tidak ada param-nya di API Update Masyarakat
       );
     } catch (e) {
       throw Exception('Gagal memperbarui profil: $e');

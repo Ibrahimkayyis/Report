@@ -3,25 +3,27 @@ import 'package:injectable/injectable.dart';
 import 'package:report/src/modules/reporting/domain/models/report_response_model.dart';
 import 'package:report/src/modules/reporting/domain/repositories/report_repository.dart';
 
-@injectable
-class CreatePublicReportUsecase {
+@lazySingleton
+class CreatePublicReportUseCase {
   final ReportRepository repository;
 
-  CreatePublicReportUsecase(this.repository);
+  CreatePublicReportUseCase(this.repository);
 
   Future<ReportResponseModel> call({
-    required String opdId,
-    required String categoryId,
+    required int assetId,
+    required String title,
     required String description,
-    String? action,
-    File? file,
+    required String location,
+    required String expectedResolution,
+    required List<File> files,
   }) {
-    return repository.createPublicReport(
-      opdId: opdId,
-      categoryId: categoryId,
+    return repository.createReport(
+      assetId: assetId,
+      title: title,
       description: description,
-      action: action,
-      file: file,
+      location: location,
+      expectedResolution: expectedResolution,
+      files: files,
     );
   }
 }

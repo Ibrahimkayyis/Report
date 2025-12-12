@@ -1,32 +1,35 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:report/src/modules/reporting/domain/models/report_response_model.dart';
 import 'package:report/src/modules/reporting/domain/usecase/create_public_report_usecase.dart';
 import 'report_state.dart';
 
 @injectable
 class ReportCubit extends Cubit<ReportState> {
-  final CreatePublicReportUsecase _createPublicReportUsecase;
+  final CreatePublicReportUseCase _createPublicReportUseCase;
 
-  ReportCubit(this._createPublicReportUsecase) : super(ReportInitial());
+  ReportCubit(this._createPublicReportUseCase) : super(ReportInitial());
 
-  Future<void> createPublicReport({
-    required String opdId,
-    required String categoryId,
+  Future<void> submitReport({
+    required int assetId,
+    required String title,
     required String description,
-    String? action,
-    File? file,
+    required String location,
+    required String expectedResolution,
+    required List<File> files,
   }) async {
     emit(ReportLoading());
+
     try {
-      final ReportResponseModel result = await _createPublicReportUsecase(
-        opdId: opdId,
-        categoryId: categoryId,
+      final result = await _createPublicReportUseCase(
+        assetId: assetId,
+        title: title,
         description: description,
-        action: action,
-        file: file,
+        location: location,
+        expectedResolution: expectedResolution,
+        files: files,
       );
+
       emit(ReportSuccess(result));
     } catch (e) {
       emit(ReportError(e.toString()));

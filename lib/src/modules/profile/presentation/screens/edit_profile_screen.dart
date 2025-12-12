@@ -26,124 +26,18 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   File? _selectedImage;
+  
   bool _isUpdatingPhoto = false;
-
-  void _showSuccessSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(8.w),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha:0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.check_circle_rounded,
-                  color: Colors.white,
-                  size: 24.sp,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Berhasil!',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      message,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.white.withValues(alpha:0.9),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: const Color(0xFF4CAF50),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        margin: EdgeInsets.all(16.w),
-        elevation: 6,
-        duration: const Duration(seconds: 3),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      ),
-    );
-  }
+  bool _isUpdatingInfo = false;
 
   void _showErrorSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(8.w),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha:0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.error_rounded,
-                  color: Colors.white,
-                  size: 24.sp,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Gagal!',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      message,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.white.withValues(alpha:0.9),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
         backgroundColor: const Color(0xFFE53935),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.r),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
         margin: EdgeInsets.all(16.w),
-        elevation: 6,
-        duration: const Duration(seconds: 4),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       ),
     );
   }
@@ -163,10 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               alignment: WrapAlignment.center,
               children: [
                 ListTile(
-                  leading: const Icon(
-                    Icons.photo_library,
-                    color: ColorName.primary,
-                  ),
+                  leading: const Icon(Icons.photo_library, color: ColorName.primary),
                   title: Text(t.app.gallery),
                   onTap: () async {
                     Navigator.pop(context);
@@ -174,10 +65,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(
-                    Icons.camera_alt,
-                    color: ColorName.primary,
-                  ),
+                  leading: const Icon(Icons.camera_alt, color: ColorName.primary),
                   title: Text(t.app.camera),
                   onTap: () async {
                     Navigator.pop(context);
@@ -193,42 +81,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
-      imageQuality: 85,
-    );
+    final pickedFile = await _picker.pickImage(source: source, imageQuality: 85);
     if (pickedFile != null && mounted) {
       setState(() {
         _selectedImage = File(pickedFile.path);
         _isUpdatingPhoto = true;
+        _isUpdatingInfo = false;
       });
 
-      context.read<ProfileCubit>().updateProfile(filePath: pickedFile.path);
+      widget.profileCubit.updateProfile(filePath: pickedFile.path);
     }
-  }
-
-  String _normalizeDateFormat(String? date) {
-    if (date == null || date.isEmpty) return '';
-
-    final isoPattern = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-    if (isoPattern.hasMatch(date)) return date;
-
-    final parts = date.split('-');
-    if (parts.length == 3) {
-      final day = parts[0];
-      final month = parts[1];
-      final year = parts[2];
-      return '$year-$month-$day';
-    }
-
-    return date;
   }
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
 
-    // ✅ gunakan BlocProvider.value agar cubit dari parent tetap digunakan
     return BlocProvider.value(
       value: widget.profileCubit,
       child: Scaffold(
@@ -237,26 +105,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {
             if (state is ProfileUpdated) {
+              String successMessage;
               if (_isUpdatingPhoto) {
-                _showSuccessSnackbar('Foto profil berhasil diperbarui');
+                successMessage = t.app.profile_photo_updated_success;
+              } else if (_isUpdatingInfo) {
+                successMessage = t.app.profile_info_updated_success;
               } else {
-                _showSuccessSnackbar(t.app.profile_updated_success);
+                successMessage = t.app.profile_updated_success;
               }
 
-              context.read<ProfileCubit>().fetchProfile();
-              setState(() {
-                _selectedImage = null;
-                _isUpdatingPhoto = false;
-              });
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (dialogContext) => AppGlobalSuccessDialog(
+                  title: successMessage,
+                  buttonText: t.app.dialog.report_success_button,
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    
+                    widget.profileCubit.fetchProfile();
+                    
+                    setState(() {
+                      _selectedImage = null;
+                      _isUpdatingPhoto = false;
+                      _isUpdatingInfo = false;
+                    });
+                  },
+                ),
+              );
             } else if (state is ProfileError) {
               if (_isUpdatingPhoto) {
-                _showErrorSnackbar('Gagal memperbarui foto profil');
+                _showErrorSnackbar(t.app.profile_photo_update_failed);
+              } else if (_isUpdatingInfo) {
+                _showErrorSnackbar(t.app.profile_info_update_failed);
               } else {
                 _showErrorSnackbar(state.message);
               }
-
+              
               setState(() {
                 _isUpdatingPhoto = false;
+                _isUpdatingInfo = false;
               });
             }
           },
@@ -265,6 +153,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               padding: EdgeInsets.all(16.w),
               child: Column(
                 children: [
+                  // 1. HEADER - Profile Photo Section
                   if (state is ProfileLoading)
                     const ProfileInfoCardShimmer()
                   else if (state is ProfileLoaded)
@@ -272,50 +161,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       alignment: Alignment.bottomRight,
                       children: [
                         ProfileInfoCard(
-                          name:
-                              '${state.profile.firstName} ${state.profile.lastName}'
-                                  .trim()
-                                  .isEmpty
-                              ? t.app.unknown_user
-                              : '${state.profile.firstName} ${state.profile.lastName}'
-                                    .trim(),
-                          role:
-                              (state.profile.roles.isNotEmpty
-                                      ? state.profile.roles.first
-                                      : t.app.employee)
-                                  .toUpperCase(),
+                          name: state.profile.fullName.isNotEmpty 
+                              ? state.profile.fullName 
+                              : t.app.unknown_user,
+                          role: (state.profile.roleName ?? t.app.employee).toUpperCase(),
                           imageAsset: _selectedImage != null
                               ? _selectedImage!.path
-                              : (state.profile.profileUrl.isNotEmpty
-                                    ? state.profile.profileUrl
-                                    : null),
+                              : (state.profile.profileUrl?.isNotEmpty ?? false
+                                  ? state.profile.profileUrl
+                                  : null),
                         ),
-                        Positioned(
-                          bottom: 10.h,
-                          right: 20.w,
-                          child: GestureDetector(
-                            onTap: () => _showImageSourceDialog(context),
-                            child: Container(
-                              padding: EdgeInsets.all(8.w),
-                              decoration: BoxDecoration(
-                                color: ColorName.primary,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ColorName.primary.withValues(alpha:0.3),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: 20.sp,
+                        
+                        // Camera Button (Only for Masyarakat)
+                        // Pegawai/Teknisi data foto dari server pusat (Read Only)
+                        if (state.profile.roleName?.toLowerCase() == 'masyarakat')
+                          Positioned(
+                            bottom: 10.h,
+                            right: 20.w,
+                            child: GestureDetector(
+                              onTap: () => _showImageSourceDialog(context),
+                              child: Container(
+                                padding: EdgeInsets.all(8.w),
+                                decoration: const BoxDecoration(
+                                  color: ColorName.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       ],
                     )
                   else if (state is ProfileError)
@@ -329,68 +207,66 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   SizedBox(height: 16.h),
 
+                  // 2. INFO SECTION - Data Diri
                   if (state is ProfileLoading)
                     const InfoSectionCardShimmer()
                   else if (state is ProfileLoaded)
-                    InfoSectionCard(
-                      title: t.app.personal_info,
-                      fields: {
-                        t.app.first_name: state.profile.firstName.isEmpty
-                            ? '-'
-                            : state.profile.firstName,
-                        t.app.last_name: state.profile.lastName.isEmpty
-                            ? '-'
-                            : state.profile.lastName,
-                        t.app.birth_date: state.profile.birthDate.isEmpty
-                            ? '-'
-                            : state.profile.birthDate,
-                        t.app.email: state.profile.email.isEmpty
-                            ? '-'
-                            : state.profile.email,
-                        t.app.phone_number: state.profile.phoneNumber.isEmpty
-                            ? '-'
-                            : state.profile.phoneNumber,
-                        t.app.address: state.profile.address.isEmpty
-                            ? '-'
-                            : state.profile.address,
-                      },
-                      secondTabTitle: t.app.work_info,
-                      secondTabFields: {
-                        t.app.employee_id: state.profile.noEmployee.isEmpty
-                            ? '-'
-                            : state.profile.noEmployee,
-                        t.app.hire_date: state.profile.startDate.isEmpty
-                            ? '-'
-                            : state.profile.startDate,
-                        t.app.position: state.profile.jabatan.isEmpty
-                            ? '-'
-                            : state.profile.jabatan,
-                        t.app.division: state.profile.division.isEmpty
-                            ? '-'
-                            : state.profile.division,
+                    Builder(
+                      builder: (context) {
+                        final p = state.profile;
+                        final isMasyarakat = p.roleName?.toLowerCase() == 'masyarakat';
+                        
+                        // Menyiapkan data fields sesuai Role
+                        final Map<String, String> infoFields = {};
+
+                        // Common Fields
+                        infoFields[t.app.email] = p.email;
+
+                        if (isMasyarakat) {
+                          // MASYARAKAT
+                          infoFields[t.app.first_name] = p.firstName ?? '-';
+                          infoFields[t.app.last_name] = p.lastName ?? '-';
+                          infoFields[t.app.phone_number] = p.phoneNumber ?? '-';
+                          infoFields[t.app.address] = p.address ?? '-';
+                        } else {
+                          // PEGAWAI / TEKNISI (INTERNAL)
+                          // Tampilkan data kepegawaian
+                          infoFields['Nama Lengkap'] = p.fullName; // Full name lebih cocok untuk pegawai
+                          infoFields['Username/NIP'] = p.usernameAsset ?? '-';
+                          infoFields['Instansi/Dinas'] = p.dinasName ?? '-';
+                          infoFields['Unit Kerja'] = p.unitKerja ?? '-';
+                          infoFields[t.app.address] = p.address ?? '-'; // Alamat kantor/personal jika ada
+                        }
+
+                        return InfoSectionCard(
+                          title: isMasyarakat ? t.app.personal_info : 'Data Kepegawaian',
+                          fields: infoFields,
+                        );
                       },
                     ),
 
                   SizedBox(height: 16.h),
 
-                  if (state is ProfileLoaded)
+                  // 3. EDIT BUTTON (ONLY FOR MASYARAKAT)
+                  // Pegawai/Teknisi tidak bisa edit data via mobile app
+                  if (state is ProfileLoaded && 
+                      state.profile.roleName?.toLowerCase() == 'masyarakat')
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         onPressed: () async {
+                          // Tampilkan dialog edit dengan data saat ini
                           final result = await AppEditProfileDialog.show(
                             context,
                             title: t.app.edit_profile_title,
-                            firstName: state.profile.firstName,
-                            lastName: state.profile.lastName,
-                            birthDate: state.profile.birthDate,
+                            firstName: state.profile.firstName ?? '',
+                            lastName: state.profile.lastName ?? '',
                             email: state.profile.email,
-                            phoneNumber: state.profile.phoneNumber,
-                            address: state.profile.address,
+                            phoneNumber: state.profile.phoneNumber ?? '',
+                            address: state.profile.address ?? '',
                             labels: {
                               'first_name': t.app.first_name,
                               'last_name': t.app.last_name,
-                              'birth_date': t.app.birth_date,
                               'email': t.app.email,
                               'phone_number': t.app.phone_number,
                               'address': t.app.address,
@@ -401,18 +277,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                           if (result != null && context.mounted) {
                             setState(() {
+                              _isUpdatingInfo = true;
                               _isUpdatingPhoto = false;
                             });
-
-                            context.read<ProfileCubit>().updateProfile(
+                            
+                            // Panggil Cubit untuk update data ke API
+                            widget.profileCubit.updateProfile(
                               firstName: result['firstName'],
                               lastName: result['lastName'],
-                              birthDate: _normalizeDateFormat(
-                                result['birthDate'],
-                              ),
                               phoneNumber: result['phoneNumber'],
                               address: result['address'],
-                              filePath: _selectedImage?.path,
                             );
                           }
                         },
@@ -428,7 +302,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
-                          elevation: 2,
+                        ),
+                      ),
+                    ),
+
+                  // Optional: Info Text for Internal Users
+                  if (state is ProfileLoaded && 
+                      state.profile.roleName?.toLowerCase() != 'masyarakat')
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.h),
+                      child: Text(
+                        "Data kepegawaian dikelola oleh administrator sistem. Hubungi admin jika terdapat kesalahan data.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade500,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ),

@@ -21,69 +21,37 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
+  final _fullNameController =
+      TextEditingController(); // Diganti dari First/Last
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
-  final _birthDateController = TextEditingController();
-
-  DateTime? _selectedDate;
+  final _nikController = TextEditingController(); // NIK Controller
 
   @override
   void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
+    _fullNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
-    _birthDateController.dispose();
+    _nikController.dispose();
     super.dispose();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final now = DateTime.now();
-    final initialDate =
-        _selectedDate ?? DateTime(now.year - 18, now.month, now.day);
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(1950),
-      lastDate: now,
-      helpText: 'Pilih Tanggal Lahir',
-      confirmText: 'Pilih',
-      cancelText: 'Batal',
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-        _birthDateController.text =
-            "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
-      });
-    }
   }
 
   void _onRegisterPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       context.read<RegisterCubit>().register(
-            email: _emailController.text.trim(),
-            firstName: _firstNameController.text.trim(),
-            lastName: _lastNameController.text.trim(),
-            password: _passwordController.text,
-            phoneNumber: _phoneController.text.trim().isEmpty
-                ? null
-                : _phoneController.text.trim(),
-            birthDate: _birthDateController.text.trim().isEmpty
-                ? null
-                : _birthDateController.text.trim(),
-            address: _addressController.text.trim().isEmpty
-                ? null
-                : _addressController.text.trim(),
-          );
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+        fullName: _fullNameController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
+        nik: _nikController.text.trim(),
+        address: _addressController.text.trim(),
+      );
     }
   }
 
@@ -105,32 +73,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: ColorName.background,
           body: Stack(
             children: [
-              // Decorative Background
               CustomPaint(
                 painter: RegisterBackgroundPainter(),
                 size: Size.infinite,
               ),
-
-              // Main Content
               SafeArea(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     children: [
                       SizedBox(height: 60.h),
-
-                      /// Auth Form Container
                       AuthContainer(
                         child: Form(
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              /// Logo
                               const Center(child: LogoWidget()),
                               SizedBox(height: 20.h),
-
-                              /// Title
                               Center(
                                 child: Text(
                                   t.app.create_account,
@@ -143,8 +103,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               SizedBox(height: 8.h),
-
-                              /// Already have account? Login
                               Center(
                                 child: LinkText(
                                   leadingText: t.app.already_have_account,
@@ -155,29 +113,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               SizedBox(height: 30.h),
 
-                              /// First Name
+                              /// Full Name
                               AppTextField(
-                                controller: _firstNameController,
-                                label: t.app.first_name,
+                                controller: _fullNameController,
+                                label:
+                                    "Nama Lengkap", // Bisa pakai t.app.full_name nanti
                                 hint: '',
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null || value.isEmpty)
                                     return t.app.required_field;
-                                  }
                                   return null;
                                 },
                               ),
                               SizedBox(height: 16.h),
 
-                              /// Last Name
+                              /// NIK
                               AppTextField(
-                                controller: _lastNameController,
-                                label: t.app.last_name,
+                                controller: _nikController,
+                                label: "NIK",
                                 hint: '',
+                                keyboardType: TextInputType.number,
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null || value.isEmpty)
                                     return t.app.required_field;
-                                  }
+                                  if (value.length != 16)
+                                    return "NIK harus 16 digit";
                                   return null;
                                 },
                               ),
@@ -190,12 +150,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hint: '',
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null || value.isEmpty)
                                     return t.app.required_field;
-                                  }
-                                  if (!value.contains('@')) {
+                                  if (!value.contains('@'))
                                     return t.app.invalid_email;
-                                  }
                                   return null;
                                 },
                               ),
@@ -207,22 +165,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 label: t.app.phone_number,
                                 hint: '',
                                 keyboardType: TextInputType.phone,
-                              ),
-                              SizedBox(height: 16.h),
-
-                              /// Birth Date
-                              GestureDetector(
-                                onTap: () => _selectDate(context),
-                                child: AbsorbPointer(
-                                  child: AppTextField(
-                                    controller: _birthDateController,
-                                    label: t.app.birth_date,
-                                    hint: 'YYYY-MM-DD',
-                                    suffixIcon: const Icon(
-                                        Icons.calendar_today_outlined,
-                                        size: 20),
-                                  ),
-                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty)
+                                    return t.app.required_field;
+                                  return null;
+                                },
                               ),
                               SizedBox(height: 16.h),
 
@@ -232,6 +179,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 label: t.app.address,
                                 hint: '',
                                 maxLines: 2,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty)
+                                    return t.app.required_field;
+                                  return null;
+                                },
                               ),
                               SizedBox(height: 16.h),
 
@@ -242,12 +194,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hint: '',
                                 showStrengthMeter: true,
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null || value.isEmpty)
                                     return t.app.required_field;
-                                  }
-                                  if (value.length < 8) {
+                                  if (value.length < 8)
                                     return t.app.password_too_short;
-                                  }
                                   return null;
                                 },
                               ),
@@ -259,24 +209,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 label: t.app.confirm_password,
                                 hint: '',
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null || value.isEmpty)
                                     return t.app.required_field;
-                                  }
-                                  if (value != _passwordController.text) {
+                                  if (value != _passwordController.text)
                                     return t.app.passwords_do_not_match;
-                                  }
                                   return null;
                                 },
-                              ),
-                              SizedBox(height: 8.h),
-
-                              /// Password requirement text
-                              Text(
-                                t.app.password_requirements,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.grey.shade600,
-                                ),
                               ),
                               SizedBox(height: 30.h),
 
@@ -318,8 +256,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           message: t.app.register_success,
           buttonText: t.app.go_to_login,
           onButtonPressed: () {
+            // ✅ Arahkan ke Login Route (Manual Login Flow)
             context.router.pop();
-            context.router.replace(const LoginRoute());
+            context.router.replaceAll([const LoginRoute()]);
           },
         );
       },

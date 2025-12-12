@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_guard.dart';
 import 'package:report/src/modules/masyarakat_home/presentation/screens/home_masyarakat_screen.dart';
+import 'package:report/src/modules/service_request/domain/models/service_request_response_model.dart';
 import 'package:report/src/modules/teknisi_home/presentation/screens/home_teknisi_screen.dart';
 import 'package:report/src/modules/teknisi_main_layout/presentation/screens/main_layout_teknisi_screen.dart';
 import 'package:report/src/modules/notification/presentation/screens/notification_screen.dart';
@@ -12,7 +13,7 @@ import 'package:report/src/modules/profile/presentation/screens/profile_screen.d
 import 'package:report/src/modules/qr/presentation/screens/qr_asset_detail_screen.dart';
 import 'package:report/src/modules/qr/presentation/screens/qr_screen.dart';
 import 'package:report/src/modules/report_activity/presentation/screens/activity_screen.dart';
-import 'package:report/src/modules/reporting/presentation/screens/opd_selection_screen.dart';
+import 'package:report/src/modules/masyarakat_reporting/presentation/screens/opd_selection_screen.dart';
 import 'package:report/src/modules/reporting/presentation/screens/report_success_screen.dart';
 import 'package:report/src/modules/reporting/presentation/screens/reporting_form_screen.dart';
 import 'package:report/src/modules/test_helper/presentation/screens/test_helper_screen.dart';
@@ -24,10 +25,10 @@ import '../../modules/main_layout/presentation/screens/main_layout_screen.dart';
 import 'package:report/src/modules/service_request/presentation/screens/service_request_selection_screen.dart';
 import 'package:report/src/modules/service_request/presentation/screens/service_request_form_screen.dart';
 import 'package:report/src/modules/knowledge_base/presentation/screens/knowledge_base_screen.dart';
-import 'package:report/src/modules/report_activity/presentation/screens/check_report_status_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/track_status/check_report_status_screen.dart';
 import 'package:report/src/modules/service_request/presentation/screens/service_request_success_screen.dart';
 import 'package:report/src/modules/helpdesk/presentation/screens/helpdesk_chat_screen.dart';
-import 'package:report/src/modules/report_activity/presentation/screens/check_report_status_result_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/track_status/check_report_status_result_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/edit_theme_screen.dart';
 import 'package:report/src/modules/teknisi_ticket_handling/presentation/screens/teknisi_ticket_detail_screen.dart';
@@ -42,42 +43,17 @@ import 'package:report/src/modules/auth/presentation/screens/forget_password/for
 import 'package:report/src/modules/auth/presentation/screens/forget_password/verify_otp_screen.dart';
 import 'package:report/src/modules/auth/presentation/screens/forget_password/reset_password_screen.dart';
 import 'package:report/src/modules/notification/presentation/screens/notification_detail_screen.dart';
-
-
-
-
-
-
-
-
+import 'package:report/src/modules/report_activity/presentation/screens/ticket_detail/report_activity_detail_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/ticket_detail/masyarakat_report_activity_detail_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/reopen_ticket/masyarakat_reopen_ticket_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/reopen_ticket/reopen_ticket_screen.dart';
+import 'package:report/src/modules/report_activity/presentation/screens/ticket_rating/ticket_rating_screen.dart';
 
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
 class AppRouter extends RootStackRouter {
-  // @override
-  // List<AutoRoute> get routes => [
-  //   AutoRoute(page: SplashRoute.page, ),
-  //   AutoRoute(page: RegisterRoute.page),
-  //   AutoRoute(page: LoginRoute.page),
-  //   AutoRoute(page: HomeRoute.page),
-  //   AutoRoute(page: MainLayoutRoute.page,initial: true),
-  //   AutoRoute(page: OpdSelectionRoute.page),
-  //   AutoRoute(page: ReportingFormRoute.page),
-  //   AutoRoute(page: ReportSuccessRoute.page),
-  //   AutoRoute(page: ServiceRequestSelectionRoute.page),
-  //   AutoRoute(page: ServiceRequestFormRoute.page),
-  //   AutoRoute(page: KnowledgeBaseRoute.page),
-  //   AutoRoute(page: CheckReportStatusRoute.page),
-  //   AutoRoute(page: ServiceRequestSuccessRoute.page),
-  //   AutoRoute(page: HelpdeskChatRoute.page),
-  //   AutoRoute(page: CheckReportStatusResultRoute.page),
-  //   AutoRoute(page: EditProfileRoute.page),
-  //   AutoRoute(page: EditThemeRoute.page),
-  //   AutoRoute(page: QRAssetDetailRoute.page),
-  // ];
-
-   @override
+  @override
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, initial: true),
     AutoRoute(page: RegisterRoute.page),
@@ -88,12 +64,12 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: MainLayoutMasyarakatRoute.page, guards: [AuthGuard()]),
     AutoRoute(page: OpdSelectionRoute.page),
     AutoRoute(page: ReportingFormRoute.page),
-    AutoRoute(page: ReportSuccessRoute.page),
+    // AutoRoute(page: ReportSuccessRoute.page),
     AutoRoute(page: ServiceRequestSelectionRoute.page),
     AutoRoute(page: ServiceRequestFormRoute.page),
     AutoRoute(page: KnowledgeBaseRoute.page),
     AutoRoute(page: CheckReportStatusRoute.page),
-    AutoRoute(page: ServiceRequestSuccessRoute.page),
+    // AutoRoute(page: ServiceRequestSuccessRoute.page),
     AutoRoute(page: HelpdeskChatRoute.page),
     AutoRoute(page: CheckReportStatusResultRoute.page),
     AutoRoute(page: EditProfileRoute.page),
@@ -111,5 +87,18 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: VerifyOtpRoute.page),
     AutoRoute(page: ResetPasswordRoute.page),
     AutoRoute(page: NotificationDetailRoute.page),
+    AutoRoute(page: ReportActivityDetailRoute.page),
+    AutoRoute(page: MasyarakatReportActivityDetailRoute.page),
+    AutoRoute(page: MasyarakatReopenTicketRoute.page),
+    AutoRoute(page: ReopenTicketRoute.page),
+    AutoRoute(page: TicketRatingRoute.page),
+
+    AutoRoute(
+      page: ReportSuccessRoute.page,
+      path: '/report-success',
+      // Gunakan placeholder untuk model, agar AutoRoute tahu tipe data yang dilempar.
+      // Definisinya akan berada di file app_router.gr.dart setelah build.
+    ),
+    AutoRoute(page: ServiceRequestSuccessRoute.page, path: '/request-success'),
   ];
 }
