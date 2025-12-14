@@ -54,6 +54,12 @@ class TranslationsAppEn {
 	/// en: 'REPORT'
 	String get title => 'REPORT';
 
+	/// en: 'Ticket Title'
+	String get ticket_title => 'Ticket Title';
+
+	/// en: 'Ticket Description'
+	String get ticket_description => 'Ticket Description';
+
 	/// en: 'Login'
 	String get login => 'Login';
 
@@ -2156,6 +2162,8 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'app.title': return 'REPORT';
+			case 'app.ticket_title': return 'Ticket Title';
+			case 'app.ticket_description': return 'Ticket Description';
 			case 'app.login': return 'Login';
 			case 'app.logout': return 'Logout';
 			case 'app.welcome': return 'Welcome';

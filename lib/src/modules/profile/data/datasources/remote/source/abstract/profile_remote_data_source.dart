@@ -11,4 +11,6 @@ abstract class ProfileRemoteDataSource {
     String? address,
     String? filePath,    // foto profil
   });
+
+  Future<bool> deleteProfilePicture();
 }

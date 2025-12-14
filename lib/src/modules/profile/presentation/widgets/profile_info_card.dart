@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
@@ -16,8 +17,12 @@ class ProfileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isNetworkImage =
-        imageAsset != null && (imageAsset!.startsWith('http') || imageAsset!.startsWith('https'));
+    // ✅ Perbaikan: Cek apakah ini network image, file path, atau asset
+    final isNetworkImage = imageAsset != null && 
+        (imageAsset!.startsWith('http://') || imageAsset!.startsWith('https://'));
+    
+    final isFilePath = imageAsset != null && 
+        (imageAsset!.startsWith('/') || imageAsset!.contains('cache'));
 
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -25,9 +30,8 @@ class ProfileInfoCard extends StatelessWidget {
         color: ColorName.white,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
-          // Stronger primary shadow for more visible depth
           BoxShadow(
-            color: ColorName.black.withValues(alpha:0.18),
+            color: ColorName.black.withValues(alpha: 0.18),
             blurRadius: 26.r,
             spreadRadius: 1.r,
             offset: Offset(0, 8.h),
@@ -43,26 +47,52 @@ class ProfileInfoCard extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.grey.shade200,
-              image: imageAsset != null
-                  ? DecorationImage(
-                      image: isNetworkImage
-                          ? NetworkImage(imageAsset!)
-                          : AssetImage(imageAsset!) as ImageProvider,
-                      fit: BoxFit.cover,
-                    )
-                  : null,
             ),
-            child: imageAsset == null
-                ? Icon(
-                    Icons.person,
-                    size: 35.sp,
-                    color: Colors.grey.shade400,
-                  )
-                : null,
+            child: ClipOval(
+              child: imageAsset != null
+                  ? (isNetworkImage
+                      ? Image.network(
+                          imageAsset!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.person,
+                              size: 35.sp,
+                              color: Colors.grey.shade400,
+                            );
+                          },
+                        )
+                      : isFilePath
+                          ? Image.file(
+                              File(imageAsset!),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(
+                                  Icons.person,
+                                  size: 35.sp,
+                                  color: Colors.grey.shade400,
+                                );
+                              },
+                            )
+                          : Image.asset(
+                              imageAsset!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(
+                                  Icons.person,
+                                  size: 35.sp,
+                                  color: Colors.grey.shade400,
+                                );
+                              },
+                            ))
+                  : Icon(
+                      Icons.person,
+                      size: 35.sp,
+                      color: Colors.grey.shade400,
+                    ),
+            ),
           ),
-
           SizedBox(width: 16.w),
-
           // Name and Role
           Expanded(
             child: Column(
@@ -77,7 +107,6 @@ class ProfileInfoCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.h),
-
                 // Role Badge
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),

@@ -65,6 +65,7 @@ dependencies:
   standard_searchbar: ^2.1.1
   styled_widget: ^0.4.1
   table_calendar: ^3.2.0
+  timeago: ^3.7.1
   url_launcher: ^6.3.2
   uuid: ^4.4.2
 

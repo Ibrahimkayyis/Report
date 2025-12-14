@@ -27,15 +27,14 @@ class HomeTeknisiScreen extends StatefulWidget {
 
 class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
     with SingleTickerProviderStateMixin {
-  
   // Local State untuk UI Filter
   int _selectedTabIndex = 0;
   String? _selectedSubKategori;
-  String? _selectedPriority; // ✅ Ganti Bentuk/Jenis
+  String? _selectedPriority; 
   String? _selectedStatusTeknisi;
 
   int _currentPage = 1;
-  final int _totalPages = 1; 
+  final int _totalPages = 1;
 
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
@@ -52,11 +51,13 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    _slideAnimation = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero)
-        .animate(CurvedAnimation(
-          parent: _animationController,
-          curve: Curves.easeInOut,
-        ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override
@@ -167,38 +168,37 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                 builder: (context, state) {
                   final cubit = context.read<TeknisiHomeCubit>();
 
-                  // Statistik Dinamis
-                  final totalIncoming = state.allTickets.length;
-                  final totalInProgress = state.allTickets
-                      .where((t) => t.statusTeknisi.toLowerCase() != 'draft')
-                      .length;
-                  
+                  // ✅ Ambil data Summary dari State API
+                  final summary = state.dashboardSummary;
+                  final isLoading = state.status == TeknisiHomeStatus.loading;
+
                   final stats = [
                     TeknisiStatData(
                       icon: Icons.check_circle_outline,
                       title: t.app.dashboard.ticket_incoming,
-                      value: '$totalIncoming',
+                      // ✅ Tampilkan '...' saat loading, atau data asli, atau '0'
+                      value: isLoading ? '...' : '${summary?.totalTickets ?? 0}',
                       subtitle: t.app.dashboard.ticket_incoming_desc,
                       color: ColorName.primary,
                     ),
                     TeknisiStatData(
                       icon: Icons.autorenew,
                       title: t.app.dashboard.in_progress,
-                      value: '$totalInProgress',
+                      value: isLoading ? '...' : '${summary?.inProgress ?? 0}',
                       subtitle: t.app.dashboard.in_progress_desc,
                       color: Colors.blue.shade700,
                     ),
                     TeknisiStatData(
                       icon: Icons.access_time,
                       title: t.app.dashboard.deadline,
-                      value: '0', 
+                      value: isLoading ? '...' : '${summary?.deadline ?? 0}',
                       subtitle: t.app.dashboard.deadline_desc,
                       color: Colors.orange.shade700,
                     ),
                     TeknisiStatData(
                       icon: Icons.refresh,
                       title: t.app.dashboard.reopen,
-                      value: '0', 
+                      value: isLoading ? '...' : '${summary?.reopen ?? 0}',
                       subtitle: t.app.dashboard.reopen_desc,
                       color: Colors.green.shade700,
                     ),
@@ -207,9 +207,9 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                   return Column(
                     children: [
                       TeknisiStatsCards(stats: stats),
-                      
+
                       SizedBox(height: 16.h),
-                      
+
                       TeknisiTabSection(
                         selectedTabIndex: _selectedTabIndex,
                         onTabSelected: (index) {
@@ -217,13 +217,12 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                           cubit.updateFilter(tabIndex: index);
                         },
                         onRefresh: () => cubit.fetchTickets(),
-                        
-                        // ✅ Filter Card Updated
+
                         filterCard: TeknisiFilterCard(
                           selectedSubKategori: _selectedSubKategori,
                           selectedPriority: _selectedPriority,
                           selectedStatusTeknisi: _selectedStatusTeknisi,
-                          
+
                           onSubKategoriChanged: (v) {
                             setState(() => _selectedSubKategori = v);
                             cubit.updateFilter(subKategori: v);
@@ -237,7 +236,7 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                             cubit.updateFilter(statusTeknisi: v);
                           },
                         ),
-                        
+
                         // List & Loading
                         ticketList: Builder(
                           builder: (context) {
@@ -248,7 +247,7 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                                 child: const CircularProgressIndicator(),
                               );
                             }
-                            
+
                             if (state.status == TeknisiHomeStatus.failure) {
                               return Container(
                                 height: 300.h,
@@ -256,23 +255,34 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.error_outline, color: Colors.red, size: 40),
+                                    const Icon(
+                                      Icons.error_outline,
+                                      color: Colors.red,
+                                      size: 40,
+                                    ),
                                     SizedBox(height: 8.h),
-                                    Text(state.errorMessage ?? "Terjadi Kesalahan"),
+                                    Text(
+                                      state.errorMessage ?? "Terjadi Kesalahan",
+                                    ),
                                     TextButton(
                                       onPressed: () => cubit.fetchTickets(),
                                       child: const Text("Coba Lagi"),
-                                    )
+                                    ),
                                   ],
                                 ),
                               );
                             }
 
-                            return TeknisiTicketList(tickets: state.filteredTickets);
+                            final isReportingTab = _selectedTabIndex == 0;
+
+                            return TeknisiTicketList(
+                              tickets: state.filteredTickets,
+                              isReportingTab: isReportingTab,
+                            );
                           },
                         ),
 
-                        // Pagination (UI Only)
+                        // Pagination (UI Only - Logic belum terhubung API Pagination)
                         pagination: Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 16.w,
@@ -281,7 +291,10 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                           decoration: BoxDecoration(
                             color: ColorName.white,
                             border: Border(
-                              top: BorderSide(color: Colors.grey.shade200, width: 1),
+                              top: BorderSide(
+                                color: Colors.grey.shade200,
+                                width: 1,
+                              ),
                             ),
                           ),
                           child: AppPagination(
@@ -301,13 +314,13 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                 },
               ),
             ),
-            
+
             if (_isSidebarVisible)
               GestureDetector(
                 onTap: _toggleSidebar,
-                child: Container(color: Colors.black.withValues(alpha: 0.5)),
+                child: Container(color: Colors.black.withOpacity(0.5)),
               ),
-            
+
             SlideTransition(
               position: _slideAnimation,
               child: Align(

@@ -17,8 +17,10 @@ abstract class RegisterModule {
     final dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
+        // connectTimeout: const Duration(seconds: 30),
+        // receiveTimeout: const Duration(seconds: 30),
+        connectTimeout: const Duration(seconds: 60), // Sementara ditambah
+        receiveTimeout: const Duration(seconds: 60), // Sementara ditambah
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

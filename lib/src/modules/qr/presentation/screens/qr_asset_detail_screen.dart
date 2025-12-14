@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
-import '../../../../core/widgets/app_bar/app_secondary_bar.dart';
+import 'package:report/src/core/router/app_router.dart'; // Import router
+import 'package:report/src/core/widgets/app_bar/app_secondary_bar.dart';
+import 'package:report/src/modules/reporting/data/datasources/remote/mapper/asset_mapper.dart'; // Import Mapper
+import 'package:report/src/modules/reporting/domain/models/asset_model.dart'; // Import Model
 
 @RoutePage()
 class QRAssetDetailScreen extends StatelessWidget {
@@ -22,19 +25,24 @@ class QRAssetDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.t.app.qr;
 
-    Map<String, dynamic>? assetData;
-    try {
-      // Coba decode isi QR sebagai JSON
-      assetData = jsonDecode(qrValue) as Map<String, dynamic>;
-    } catch (_) {
-      // Jika bukan JSON valid, biarkan null
-      assetData = null;
-    }
+    AssetModel? assetModel;
+    bool isValid = false;
 
-    // fallback data jika parsing gagal
-    final bool isValid = assetData != null &&
-        assetData.containsKey('id') &&
-        assetData.containsKey('name');
+    try {
+      // 1. Decode String JSON ke Map
+      final Map<String, dynamic> jsonMap = jsonDecode(qrValue) as Map<String, dynamic>;
+      
+      // 2. Gunakan Mapper untuk konversi ke AssetModel
+      //    (Aman karena mapper Anda sudah handle null/missing fields)
+      assetModel = AssetMapper.fromJson(jsonMap);
+
+      // 3. Validasi minimal: harus ada ID dan Nama
+      //    (Mapper mengisi ID default 0 jika null/error)
+      isValid = assetModel.id != 0 && assetModel.namaAsset.isNotEmpty;
+    } catch (_) {
+      isValid = false;
+      assetModel = null;
+    }
 
     return Scaffold(
       backgroundColor: ColorName.background,
@@ -54,7 +62,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha:0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -79,7 +87,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                               t.qr_preview_label,
                               style: TextStyle(
                                 fontSize: 13.sp,
-                                color: ColorName.textPrimary.withValues(alpha:0.7),
+                                color: ColorName.textPrimary.withValues(alpha: 0.7),
                               ),
                             ),
                           ],
@@ -97,22 +105,31 @@ class QRAssetDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha:0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-                child: isValid
+                child: isValid && assetModel != null
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildInfoRow(t.asset_id, assetData['id']),
-                          _buildInfoRow(t.asset_name, assetData['name']),
-                          _buildInfoRow(t.asset_type, assetData['type'] ?? '-'),
+                          _buildInfoRow(t.asset_id, assetModel.id.toString()),
+                          _buildInfoRow(t.asset_name, assetModel.namaAsset),
+                          _buildInfoRow(t.asset_type, assetModel.jenis),
                           _buildInfoRow(
-                              t.asset_location, assetData['location'] ?? '-'),
-                          _buildInfoRow(t.asset_status, assetData['status'] ?? '-'),
+                            t.asset_type, 
+                            assetModel.kategori, // Tambahan info kategori
+                          ),
+                          _buildInfoRow(
+                            t.asset_location,
+                            assetModel.assetBarang?.lokasi?.nama ?? '-',
+                          ),
+                          _buildInfoRow(
+                            "Sub Kategori", // Bisa diganti t.asset_subcategory jika ada
+                            assetModel.assetBarang?.subKategori?.nama ?? '-',
+                          ),
                         ],
                       )
                     : Center(
@@ -123,7 +140,7 @@ class QRAssetDetailScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: ColorName.textPrimary.withValues(alpha:0.7),
+                              color: ColorName.textPrimary.withValues(alpha: 0.7),
                             ),
                           ),
                         ),
@@ -135,12 +152,15 @@ class QRAssetDetailScreen extends StatelessWidget {
               /// ✅ Buttons
               Column(
                 children: [
-                  if (isValid) ...[
+                  if (isValid && assetModel != null) ...[
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          // TODO: arahkan ke form laporan
+                          // ✅ Navigasi ke Form dengan membawa Data Aset
+                          context.router.push(
+                            ReportingFormRoute(prefilledAsset: assetModel),
+                          );
                         },
                         icon: const Icon(Icons.report_problem_outlined),
                         label: Text(
@@ -203,7 +223,7 @@ class QRAssetDetailScreen extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 13.sp,
-              color: ColorName.textPrimary.withValues(alpha:0.6),
+              color: ColorName.textPrimary.withValues(alpha: 0.6),
             ),
           ),
           SizedBox(height: 4.h),

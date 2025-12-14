@@ -48,10 +48,13 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
     super.didUpdateWidget(oldWidget);
     // Update displayed items jika initial items berubah
     if (oldWidget.initialItems != widget.initialItems) {
-      setState(() {
-        _displayedItems = widget.initialItems;
-      });
-      _overlayEntry?.markNeedsBuild();  // ✅ Force rebuild overlay jika terbuka
+      // ✅ Check mounted before setState (good practice in async or callbacks)
+      if (mounted) {
+        setState(() {
+          _displayedItems = widget.initialItems;
+        });
+      }
+      _overlayEntry?.markNeedsBuild();  
     }
   }
 
@@ -60,7 +63,7 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
     _searchController.dispose();
     _searchFocusNode.dispose();
     _debounce?.cancel();
-    _removeOverlay();
+    _removeOverlay(isDisposing: true); // ✅ Pass flag true
     super.dispose();
   }
 
@@ -77,32 +80,38 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
     Overlay.of(context).insert(_overlayEntry!);
     setState(() {
       _isOpen = true;
-      // ✅ Reset ke initial items saat dibuka
       _displayedItems = widget.initialItems;
       _searchController.clear();
     });
     
-    // Auto focus search field
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _searchFocusNode.requestFocus();
     });
   }
 
-  void _removeOverlay() {
+  // ✅ FIX: Tambahkan parameter isDisposing
+  void _removeOverlay({bool isDisposing = false}) {
     _overlayEntry?.remove();
     _overlayEntry = null;
     _searchFocusNode.unfocus();
     _debounce?.cancel();
-    setState(() => _isOpen = false);
+    
+    // ✅ HANYA panggil setState jika TIDAK sedang dispose
+    if (!isDisposing && mounted) {
+      setState(() => _isOpen = false);
+    }
   }
 
+  // ... (Sisa kode _createOverlayEntry dan build method sama seperti sebelumnya) ...
+  
+  // Paste sisa kode di bawah ini untuk kelengkapan
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     var size = renderBox.size;
 
     return OverlayEntry(
       builder: (context) => GestureDetector(
-        onTap: _removeOverlay,
+        onTap: () => _removeOverlay(), // Tap outside to close
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
@@ -132,7 +141,6 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Search Field
                         Padding(
                           padding: EdgeInsets.all(12.w),
                           child: TextField(
@@ -170,10 +178,7 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
                             onChanged: _onSearchChanged,
                           ),
                         ),
-                        
                         Divider(height: 1.h, color: Colors.grey.shade300),
-                        
-                        // List Items
                         Flexible(
                           child: _isLoading
                               ? Padding(
@@ -237,26 +242,25 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
     );
   }
 
-  // ✅ DEBOUNCE SEARCH - Tunggu 800ms setelah user berhenti mengetik
   void _onSearchChanged(String query) {
-    // Cancel debounce timer sebelumnya
     _debounce?.cancel();
     
-    // ✅ Jika query kosong, langsung tampilkan initial items (no API call)
     if (query.trim().isEmpty) {
-      setState(() {
-        _displayedItems = widget.initialItems;
-        _isLoading = false;
-      });
-      _overlayEntry?.markNeedsBuild();  // ✅ Force rebuild overlay
+      if (mounted) {
+        setState(() {
+          _displayedItems = widget.initialItems;
+          _isLoading = false;
+        });
+        _overlayEntry?.markNeedsBuild();
+      }
       return;
     }
     
-    // Set loading state
-    setState(() => _isLoading = true);
-    _overlayEntry?.markNeedsBuild();  // ✅ Force rebuild untuk show loading
+    if (mounted) {
+      setState(() => _isLoading = true);
+      _overlayEntry?.markNeedsBuild();
+    }
     
-    // ✅ Debounce: Tunggu 800ms sebelum hit API
     _debounce = Timer(const Duration(milliseconds: 800), () async {
       try {
         final results = await widget.onSearch(query.trim());
@@ -265,7 +269,7 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
             _displayedItems = results;
             _isLoading = false;
           });
-          _overlayEntry?.markNeedsBuild();  // ✅ Force rebuild setelah data didapat
+          _overlayEntry?.markNeedsBuild();
         }
       } catch (e) {
         if (mounted) {
@@ -273,7 +277,7 @@ class _CustomAssetDropdownState extends State<CustomAssetDropdown> {
             _displayedItems = [];
             _isLoading = false;
           });
-          _overlayEntry?.markNeedsBuild();  // ✅ Force rebuild jika error
+          _overlayEntry?.markNeedsBuild();
         }
       }
     });

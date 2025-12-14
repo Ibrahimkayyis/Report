@@ -135,6 +135,8 @@ import 'package:report/src/modules/profile/data/repositories_impl/profile_reposi
     as _i799;
 import 'package:report/src/modules/profile/domain/repositories/profile_repository.dart'
     as _i429;
+import 'package:report/src/modules/profile/domain/usecase/delete_profile_picture_usecase.dart'
+    as _i75;
 import 'package:report/src/modules/profile/domain/usecase/get_profile_usecase.dart'
     as _i963;
 import 'package:report/src/modules/profile/domain/usecase/update_profile_usecase.dart'
@@ -227,10 +229,34 @@ import 'package:report/src/modules/teknisi_home/data/repositories_impl/teknisi_h
     as _i598;
 import 'package:report/src/modules/teknisi_home/domain/repositories/teknisi_home_repository.dart'
     as _i510;
+import 'package:report/src/modules/teknisi_home/domain/usecase/get_teknisi_dashboard_summary_usecase.dart'
+    as _i964;
 import 'package:report/src/modules/teknisi_home/domain/usecase/get_teknisi_tickets_usecase.dart'
     as _i874;
 import 'package:report/src/modules/teknisi_home/presentation/cubits/teknisi_home_cubit.dart'
     as _i348;
+import 'package:report/src/modules/teknisi_notification/data/datasources/remote/source/abstract/teknisi_notification_remote_data_source.dart'
+    as _i940;
+import 'package:report/src/modules/teknisi_notification/data/datasources/remote/source/implementation/teknisi_notification_remote_data_source_impl.dart'
+    as _i676;
+import 'package:report/src/modules/teknisi_notification/data/repositories_impl/teknisi_notification_repository_impl.dart'
+    as _i883;
+import 'package:report/src/modules/teknisi_notification/domain/repositories/teknisi_notification_repository.dart'
+    as _i644;
+import 'package:report/src/modules/teknisi_notification/domain/usecase/delete_teknisi_notification_usecase.dart'
+    as _i725;
+import 'package:report/src/modules/teknisi_notification/domain/usecase/get_teknisi_notification_detail_usecase.dart'
+    as _i456;
+import 'package:report/src/modules/teknisi_notification/domain/usecase/get_teknisi_notifications_usecase.dart'
+    as _i488;
+import 'package:report/src/modules/teknisi_notification/domain/usecase/mark_all_teknisi_notifications_read_usecase.dart'
+    as _i992;
+import 'package:report/src/modules/teknisi_notification/domain/usecase/mark_teknisi_notification_read_usecase.dart'
+    as _i836;
+import 'package:report/src/modules/teknisi_notification/presentation/cubits/teknisi_notification_cubit.dart'
+    as _i566;
+import 'package:report/src/modules/teknisi_notification/presentation/cubits/teknisi_notification_detail_cubit.dart'
+    as _i47;
 import 'package:report/src/modules/teknisi_rating/data/datasources/remote/source/abstract/teknisi_rating_remote_data_source.dart'
     as _i304;
 import 'package:report/src/modules/teknisi_rating/data/datasources/remote/source/implementation/teknisi_rating_remote_data_source_impl.dart'
@@ -247,6 +273,34 @@ import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_ra
     as _i870;
 import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_rating_detail_cubit.dart'
     as _i303;
+import 'package:report/src/modules/teknisi_rfc/data/datasources/remote/source/abstract/rfc_remote_data_source.dart'
+    as _i443;
+import 'package:report/src/modules/teknisi_rfc/data/datasources/remote/source/implementation/rfc_remote_data_source_impl.dart'
+    as _i497;
+import 'package:report/src/modules/teknisi_rfc/data/repositories_impl/rfc_repository_impl.dart'
+    as _i542;
+import 'package:report/src/modules/teknisi_rfc/domain/repositories/rfc_repository.dart'
+    as _i633;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/create_change_request_rfc_usecase.dart'
+    as _i347;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/create_incident_repeat_rfc_usecase.dart'
+    as _i809;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/get_active_assets_usecase.dart'
+    as _i382;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/get_change_request_detail_usecase.dart'
+    as _i744;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/get_change_request_rfc_usecase.dart'
+    as _i639;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/get_incident_repeat_detail_usecase.dart'
+    as _i529;
+import 'package:report/src/modules/teknisi_rfc/domain/usecase/get_incident_repeat_rfc_usecase.dart'
+    as _i834;
+import 'package:report/src/modules/teknisi_rfc/presentation/cubits/detail/rfc_detail_cubit.dart'
+    as _i503;
+import 'package:report/src/modules/teknisi_rfc/presentation/cubits/form/rfc_form_cubit.dart'
+    as _i534;
+import 'package:report/src/modules/teknisi_rfc/presentation/cubits/rfc_cubit.dart'
+    as _i951;
 import 'package:report/src/modules/teknisi_ticket_handling/data/datasources/remote/source/abstract/teknisi_ticket_handling_remote_data_source.dart'
     as _i683;
 import 'package:report/src/modules/teknisi_ticket_handling/data/datasources/remote/source/implementation/teknisi_ticket_handling_remote_data_source_impl.dart'
@@ -312,17 +366,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i969.MasyarakatReportRemoteDataSource>(
       () => _i991.MasyarakatReportRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i940.TeknisiNotificationRemoteDataSource>(
+      () => _i676.TeknisiNotificationRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i312.TicketCategoryRemoteDataSource>(
       () => _i774.TicketCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i425.ReportRemoteDataSource>(
       () => _i715.ReportRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i644.TeknisiNotificationRepository>(
+      () => _i883.TeknisiNotificationRepositoryImpl(
+        gh<_i940.TeknisiNotificationRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i803.AssetRemoteDataSource>(
       () => _i989.AssetRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i304.TeknisiRatingRemoteDataSource>(
       () => _i171.TeknisiRatingRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i443.RfcRemoteDataSource>(
+      () => _i497.RfcRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i698.ServiceRequestRemoteDataSource>(
       () => _i297.ServiceRequestRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -405,6 +470,31 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i287.CompleteOnboardingUseCase>(
       () => _i287.CompleteOnboardingUseCase(gh<_i564.OnboardingRepository>()),
     );
+    gh.lazySingleton<_i725.DeleteTeknisiNotificationUseCase>(
+      () => _i725.DeleteTeknisiNotificationUseCase(
+        gh<_i644.TeknisiNotificationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i456.GetTeknisiNotificationDetailUseCase>(
+      () => _i456.GetTeknisiNotificationDetailUseCase(
+        gh<_i644.TeknisiNotificationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i488.GetTeknisiNotificationsUseCase>(
+      () => _i488.GetTeknisiNotificationsUseCase(
+        gh<_i644.TeknisiNotificationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i992.MarkAllTeknisiNotificationsReadUseCase>(
+      () => _i992.MarkAllTeknisiNotificationsReadUseCase(
+        gh<_i644.TeknisiNotificationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i836.MarkTeknisiNotificationReadUseCase>(
+      () => _i836.MarkTeknisiNotificationReadUseCase(
+        gh<_i644.TeknisiNotificationRepository>(),
+      ),
+    );
     gh.lazySingleton<_i68.CreateServiceRequestUseCase>(
       () => _i68.CreateServiceRequestUseCase(
         gh<_i886.ServiceRequestRepository>(),
@@ -443,6 +533,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i27.KnowledgeBaseRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i964.GetTeknisiDashboardSummaryUseCase>(
+      () => _i964.GetTeknisiDashboardSummaryUseCase(
+        gh<_i510.TeknisiHomeRepository>(),
+      ),
+    );
     gh.lazySingleton<_i874.GetTeknisiTicketsUseCase>(
       () => _i874.GetTeknisiTicketsUseCase(gh<_i510.TeknisiHomeRepository>()),
     );
@@ -466,6 +561,20 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i308.GetAssetsUseCase>(
       () => _i308.GetAssetsUseCase(gh<_i671.AssetRepository>()),
+    );
+    gh.factory<_i566.TeknisiNotificationCubit>(
+      () => _i566.TeknisiNotificationCubit(
+        getNotifications: gh<_i488.GetTeknisiNotificationsUseCase>(),
+        deleteNotificationUseCase: gh<_i725.DeleteTeknisiNotificationUseCase>(),
+        markAllReadUseCase: gh<_i992.MarkAllTeknisiNotificationsReadUseCase>(),
+        markReadUseCase: gh<_i836.MarkTeknisiNotificationReadUseCase>(),
+      ),
+    );
+    gh.factory<_i348.TeknisiHomeCubit>(
+      () => _i348.TeknisiHomeCubit(
+        gh<_i874.GetTeknisiTicketsUseCase>(),
+        gh<_i964.GetTeknisiDashboardSummaryUseCase>(),
+      ),
     );
     gh.lazySingleton<_i754.ReportActivityRepository>(
       () => _i26.ReportActivityRepositoryImpl(
@@ -498,6 +607,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i217.GetTeknisiRatingDetailUseCase>(),
       ),
     );
+    gh.lazySingleton<_i633.RfcRepository>(
+      () => _i542.RfcRepositoryImpl(gh<_i443.RfcRemoteDataSource>()),
+    );
     gh.factory<_i870.TeknisiRatingCubit>(
       () => _i870.TeknisiRatingCubit(gh<_i199.GetTeknisiRatingsUseCase>()),
     );
@@ -521,11 +633,19 @@ extension GetItInjectableX on _i174.GetIt {
         completeOnboarding: gh<_i287.CompleteOnboardingUseCase>(),
       ),
     );
+    gh.factory<_i47.TeknisiNotificationDetailCubit>(
+      () => _i47.TeknisiNotificationDetailCubit(
+        getDetailUseCase: gh<_i456.GetTeknisiNotificationDetailUseCase>(),
+      ),
+    );
     gh.factory<_i963.GetProfileUsecase>(
       () => _i963.GetProfileUsecase(gh<_i429.ProfileRepository>()),
     );
     gh.factory<_i40.UpdateProfileUsecase>(
       () => _i40.UpdateProfileUsecase(gh<_i429.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i75.DeleteProfilePictureUseCase>(
+      () => _i75.DeleteProfilePictureUseCase(gh<_i429.ProfileRepository>()),
     );
     gh.lazySingleton<_i578.GetTicketDetailUseCase>(
       () => _i578.GetTicketDetailUseCase(gh<_i754.ReportActivityRepository>()),
@@ -556,9 +676,6 @@ extension GetItInjectableX on _i174.GetIt {
         remote: gh<_i260.AuthRemoteDataSource>(),
         local: gh<_i344.AuthLocalDataSource>(),
       ),
-    );
-    gh.factory<_i348.TeknisiHomeCubit>(
-      () => _i348.TeknisiHomeCubit(gh<_i874.GetTeknisiTicketsUseCase>()),
     );
     gh.factory<_i750.TicketDetailCubit>(
       () => _i750.TicketDetailCubit(
@@ -600,6 +717,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i96.RegisterUseCase>(
       () => _i96.RegisterUseCase(gh<_i292.AuthRepository>()),
     );
+    gh.factory<_i96.ProfileCubit>(
+      () => _i96.ProfileCubit(
+        gh<_i963.GetProfileUsecase>(),
+        gh<_i40.UpdateProfileUsecase>(),
+        gh<_i75.DeleteProfilePictureUseCase>(),
+      ),
+    );
     gh.factory<_i70.GetChatHistoryUseCase>(
       () => _i70.GetChatHistoryUseCase(gh<_i724.HelpdeskRepository>()),
     );
@@ -611,6 +735,27 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i573.TicketCategoryCubit>(
       () => _i573.TicketCategoryCubit(gh<_i813.GetTicketCategoriesUseCase>()),
+    );
+    gh.lazySingleton<_i347.CreateChangeRequestRfcUseCase>(
+      () => _i347.CreateChangeRequestRfcUseCase(gh<_i633.RfcRepository>()),
+    );
+    gh.lazySingleton<_i809.CreateIncidentRepeatRfcUseCase>(
+      () => _i809.CreateIncidentRepeatRfcUseCase(gh<_i633.RfcRepository>()),
+    );
+    gh.lazySingleton<_i382.GetActiveAssetsUseCase>(
+      () => _i382.GetActiveAssetsUseCase(gh<_i633.RfcRepository>()),
+    );
+    gh.lazySingleton<_i744.GetChangeRequestDetailUseCase>(
+      () => _i744.GetChangeRequestDetailUseCase(gh<_i633.RfcRepository>()),
+    );
+    gh.lazySingleton<_i639.GetChangeRequestRfcUseCase>(
+      () => _i639.GetChangeRequestRfcUseCase(gh<_i633.RfcRepository>()),
+    );
+    gh.lazySingleton<_i529.GetIncidentRepeatDetailUseCase>(
+      () => _i529.GetIncidentRepeatDetailUseCase(gh<_i633.RfcRepository>()),
+    );
+    gh.lazySingleton<_i834.GetIncidentRepeatRfcUseCase>(
+      () => _i834.GetIncidentRepeatRfcUseCase(gh<_i633.RfcRepository>()),
     );
     gh.factory<_i190.OpdCubit>(
       () => _i190.OpdCubit(gh<_i1046.GetAllOpdUsecase>()),
@@ -625,15 +770,28 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i70.GetChatHistoryUseCase>(),
       ),
     );
-    gh.factory<_i96.ProfileCubit>(
-      () => _i96.ProfileCubit(
-        gh<_i963.GetProfileUsecase>(),
-        gh<_i40.UpdateProfileUsecase>(),
+    gh.factory<_i534.RfcFormCubit>(
+      () => _i534.RfcFormCubit(
+        gh<_i382.GetActiveAssetsUseCase>(),
+        gh<_i809.CreateIncidentRepeatRfcUseCase>(),
+        gh<_i347.CreateChangeRequestRfcUseCase>(),
       ),
     );
     gh.factory<_i531.LoginCubit>(
       () =>
           _i531.LoginCubit(gh<_i95.LoginUseCase>(), gh<_i292.AuthRepository>()),
+    );
+    gh.factory<_i503.RfcDetailCubit>(
+      () => _i503.RfcDetailCubit(
+        gh<_i529.GetIncidentRepeatDetailUseCase>(),
+        gh<_i744.GetChangeRequestDetailUseCase>(),
+      ),
+    );
+    gh.factory<_i951.RfcCubit>(
+      () => _i951.RfcCubit(
+        gh<_i834.GetIncidentRepeatRfcUseCase>(),
+        gh<_i639.GetChangeRequestRfcUseCase>(),
+      ),
     );
     gh.factory<_i243.RegisterCubit>(
       () => _i243.RegisterCubit(gh<_i96.RegisterUseCase>()),

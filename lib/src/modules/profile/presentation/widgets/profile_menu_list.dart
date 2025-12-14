@@ -9,6 +9,7 @@ import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/modules/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_state.dart';
 import 'profile_menu_item.dart';
 
 class ProfileMenuList extends StatelessWidget {
@@ -26,18 +27,27 @@ class ProfileMenuList extends StatelessWidget {
         // ✏️ Edit Profile
         ProfileMenuItem(
           icon: Icons.person_outline,
-          title: t.app.edit_profile,
+          title: t.app.edit_profile, // Atau "Lihat Profil" jika pegawai
           onTap: () {
-            context.router
-                .push(
-                  EditProfileRoute(
-                    profileCubit:
-                        profileCubit, // ✅ kirim cubit aktif ke layar EditProfile
-                  ),
-                )
-                .then((_) {
-                  profileCubit.fetchProfile();
-                });
+            final state = profileCubit.state;
+            if (state is ProfileLoaded) {
+              final role = state.profile.roleName?.toLowerCase();
+              
+              if (role == 'masyarakat') {
+                // -> Ke Edit Profile Masyarakat
+                context.router.push(
+                  EditProfileMasyarakatRoute(profileCubit: profileCubit),
+                ).then((_) => profileCubit.fetchProfile());
+              } else {
+                // -> Ke View Profile Internal (Pegawai)
+                context.router.push(
+                  EditProfileInternalRoute(profileCubit: profileCubit),
+                );
+              }
+            } else {
+              // Fallback jika state belum loaded (jarang terjadi karena menu ada di profile screen)
+              profileCubit.fetchProfile();
+            }
           },
         ),
 

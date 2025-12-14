@@ -129,7 +129,7 @@ class ServiceRequestSuccessScreen extends StatelessWidget {
               },
               secondaryRightLabel: t.app.back_to_home,
               onSecondaryRightPressed: () {
-                context.router.replaceAll([const MainLayoutRoute()]);
+                context.router.replaceAll([ MainLayoutRoute()]);
               },
             ),
           ],

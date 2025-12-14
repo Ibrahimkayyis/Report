@@ -7,11 +7,15 @@ import 'package:report/src/modules/teknisi_home/domain/models/teknisi_ticket_mod
 class TeknisiTicketItem extends StatelessWidget {
   final TeknisiTicketModel ticket;
   final VoidCallback? onEditPressed;
+  final VoidCallback? onRFCPressed; // ✅ Callback untuk RFC
+  final bool isReportingTab; // ✅ Flag untuk cek tab Pelaporan
 
   const TeknisiTicketItem({
     super.key,
     required this.ticket,
     this.onEditPressed,
+    this.onRFCPressed,
+    this.isReportingTab = false, // Default false (Pelayanan)
   });
 
   @override
@@ -64,8 +68,7 @@ class TeknisiTicketItem extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      // Format tanggal sederhana, bisa gunakan intl package jika mau lebih rapi
-                      ticket.createdAt.split('T')[0], 
+                      ticket.createdAt.split('T')[0],
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: Colors.grey.shade600,
@@ -107,8 +110,6 @@ class TeknisiTicketItem extends StatelessWidget {
                 t.app.dashboard.ticket_type,
                 ticket.asset?.jenisAsset ?? '-',
               ),
-              // Field 'bentuk' tidak ada di API teknisi, mungkin perlu logic tambahan atau dihapus
-              // Untuk sementara kita pakai priority atau source sebagai pengganti visual
               _buildInfoChip(
                 "Prioritas",
                 ticket.priority,
@@ -123,23 +124,45 @@ class TeknisiTicketItem extends StatelessWidget {
 
           SizedBox(height: 12.h),
 
-          /// 🔹 Button Edit
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton.icon(
-              onPressed: onEditPressed,
-              icon: Icon(Icons.edit_outlined, size: 16.sp),
-              label: Text(t.app.dashboard.edit),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorName.primary,
-                foregroundColor: ColorName.white,
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                textStyle: TextStyle(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w600,
+          /// 🔹 Buttons (Edit + RFC jika tab Pelaporan)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // ✅ Button RFC (hanya muncul di tab Pelaporan)
+              if (isReportingTab) ...[
+                ElevatedButton.icon(
+                  onPressed: onRFCPressed,
+                  icon: Icon(Icons.change_circle_outlined, size: 16.sp),
+                  label: const Text('Buat RFC'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorName.primary,
+                    foregroundColor: ColorName.white,
+                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                    textStyle: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+              ],
+              
+              // ✅ Button Edit (selalu ada)
+              ElevatedButton.icon(
+                onPressed: onEditPressed,
+                icon: Icon(Icons.edit_outlined, size: 16.sp),
+                label: Text(t.app.dashboard.edit),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorName.primary,
+                  foregroundColor: ColorName.white,
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                  textStyle: TextStyle(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

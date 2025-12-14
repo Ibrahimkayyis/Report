@@ -12,14 +12,19 @@ import 'package:report/src/modules/notification/presentation/screens/notificatio
 
 @RoutePage()
 class MainLayoutScreen extends StatefulWidget {
-  const MainLayoutScreen({super.key});
+  final int initialIndex;
+
+  const MainLayoutScreen({
+    super.key,
+    this.initialIndex = 0, // Default 0 (Home)
+  });
 
   @override
   State<MainLayoutScreen> createState() => _MainLayoutScreenState();
 }
 
 class _MainLayoutScreenState extends State<MainLayoutScreen> {
-  int _currentIndex = 0;
+  late int _currentIndex;
   final GlobalKey<CurvedNavigationBarState> _bottomNavKey = GlobalKey();
 
   late final List<Widget> _screens;
@@ -27,6 +32,8 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialIndex;
+
     _screens = const [
       HomeScreen(),
       ActivityScreen(),
@@ -36,22 +43,36 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     ];
   }
 
+  // ✅ PERBAIKAN UTAMA DISINI
+  @override
+  void didUpdateWidget(MainLayoutScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    
+    // Cek apakah index yang diminta Router berbeda dengan Tab yang sedang aktif
+    // Jika Router minta index 0 (Home), tapi kita sedang di 2 (QR), maka paksa pindah.
+    if (widget.initialIndex != _currentIndex) {
+      setState(() {
+        _currentIndex = widget.initialIndex;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final items = <Widget>[
       Icon(Icons.home, size: 28.sp, color: ColorName.white),
-      Icon(Icons.assignment, size: 28.sp, color: ColorName.white), // Activity
+      Icon(Icons.assignment, size: 28.sp, color: ColorName.white),
       Icon(Icons.qr_code_scanner, size: 30.sp, color: ColorName.white),
       Icon(
         Icons.notifications,
         size: 28.sp,
         color: ColorName.white,
-      ), // Notification
+      ),
       Icon(Icons.person, size: 28.sp, color: ColorName.white),
     ];
 
     return Scaffold(
-      extendBody: true, // 👈 ini penting banget
+      extendBody: true,
       body: IndexedStack(index: _currentIndex, children: _screens),
 
       floatingActionButton: _currentIndex == 0
@@ -74,7 +95,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
         items: items,
         color: ColorName.primary,
         buttonBackgroundColor: ColorName.primary,
-        backgroundColor: Colors.transparent, // tetap transparan
+        backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,
         animationDuration: const Duration(milliseconds: 400),
         height: 60.h,

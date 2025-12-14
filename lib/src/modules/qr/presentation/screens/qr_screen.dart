@@ -36,6 +36,8 @@ class _QRScreenState extends State<QRScreen>
       torchEnabled: false,
       facing: CameraFacing.back,
       returnImage: true,
+      // Optional: Detection speed configuration
+      detectionSpeed: DetectionSpeed.noDuplicates,
     );
 
     // Animasi garis scan dengan durasi lebih lambat untuk smooth
@@ -53,6 +55,38 @@ class _QRScreenState extends State<QRScreen>
     );
 
     _subscription = _controller.barcodes.listen(_handleBarcode);
+  }
+
+  // ✅ FIX: Handle Lifecycle agar tidak freeze
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    
+    if (!_controller.value.isInitialized) return;
+
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        return;
+      case AppLifecycleState.resumed:
+        // Restart subscription & camera saat aplikasi aktif kembali
+        _subscription?.cancel();
+        _subscription = _controller.barcodes.listen(_handleBarcode);
+        unawaited(_controller.start());
+        
+        if (!_scanLineController.isAnimating) {
+           _scanLineController.repeat(reverse: true);
+        }
+        break;
+      case AppLifecycleState.inactive:
+        // Stop camera saat aplikasi tidak aktif
+        unawaited(_controller.stop());
+        unawaited(_subscription?.cancel());
+        _subscription = null;
+        _scanLineController.stop();
+        break;
+    }
   }
 
   Future<void> _handleBarcode(BarcodeCapture capture) async {
@@ -77,11 +111,12 @@ class _QRScreenState extends State<QRScreen>
     }
 
     // tampilkan animasi loading
-    _showLoadingDialog();
+    if (mounted) _showLoadingDialog();
 
     await Future.delayed(const Duration(seconds: 1, milliseconds: 300));
     if (!mounted) return;
 
+    // Tutup loading dialog
     Navigator.of(context, rootNavigator: true).pop();
 
     // navigasi ke detail screen, kirim qrImageBytes
@@ -94,12 +129,8 @@ class _QRScreenState extends State<QRScreen>
 
     if (!mounted) return;
 
-    await _controller.start();
-    _scanLineController
-      ..reset()
-      ..repeat(reverse: true);
-
-    setState(() => _isProcessing = false);
+    // Restart kamera setelah kembali dari detail screen
+    await _resetCamera();
   }
 
   void _showLoadingDialog() {
@@ -126,45 +157,43 @@ class _QRScreenState extends State<QRScreen>
     );
   }
 
+  /// ✅ Implementasi Scan dari Galeri
   Future<void> _pickImageAndScan() async {
     if (_isProcessing) return;
 
     try {
+      // 1. Pilih Gambar
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(
         source: ImageSource.gallery,
-        imageQuality: 100,
+        // imageQuality: 100, // Optional: bisa dikurangi jika file terlalu besar
       );
 
-      if (image == null) return;
+      if (image == null) return; // User membatalkan pemilihan gambar
 
       setState(() => _isProcessing = true);
 
-      // Hentikan kamera sementara
+      // 2. Hentikan kamera sementara untuk menghemat resource
       await _controller.stop();
       _scanLineController.stop();
 
-      _showLoadingDialog();
+      if (mounted) _showLoadingDialog();
 
-      // Baca file gambar
+      // 3. Baca bytes gambar (untuk preview di detail screen nanti)
       final Uint8List imageBytes = await image.readAsBytes();
 
-      // Scan QR code dari gambar menggunakan mobile_scanner
+      // 4. Analisis gambar menggunakan mobile_scanner
       final BarcodeCapture? result = await _controller.analyzeImage(image.path);
 
       if (!mounted) return;
+      
+      // Tutup loading dialog
       Navigator.of(context, rootNavigator: true).pop();
 
+      // 5. Validasi Hasil
       if (result == null || result.barcodes.isEmpty) {
-        // Tidak ada QR code ditemukan
-        _showErrorDialog('Tidak ada QR code yang ditemukan dalam gambar');
-        
-        // Restart kamera
-        await _controller.start();
-        _scanLineController
-          ..reset()
-          ..repeat(reverse: true);
-        setState(() => _isProcessing = false);
+        _showErrorDialog('Tidak ada QR code yang ditemukan dalam gambar ini.');
+        await _resetCamera();
         return;
       }
 
@@ -172,52 +201,47 @@ class _QRScreenState extends State<QRScreen>
       final value = barcode.rawValue;
 
       if (value == null || value.isEmpty) {
-        _showErrorDialog('QR code tidak valid');
-        
-        await _controller.start();
-        _scanLineController
-          ..reset()
-          ..repeat(reverse: true);
-        setState(() => _isProcessing = false);
+        _showErrorDialog('QR code tidak valid atau kosong.');
+        await _resetCamera();
         return;
       }
 
-      // Navigasi ke detail screen dengan hasil scan
+      // 6. Navigasi ke Detail Screen (Sukses)
       await context.pushRoute(
         QRAssetDetailRoute(
           qrValue: value,
-          qrImageBytes: imageBytes,
+          qrImageBytes: imageBytes, // Kirim bytes gambar asli dari galeri
         ),
       );
 
       if (!mounted) return;
+      await _resetCamera();
 
-      // Restart kamera
-      await _controller.start();
-      _scanLineController
-        ..reset()
-        ..repeat(reverse: true);
-
-      setState(() => _isProcessing = false);
     } catch (e) {
+      // Error Handling
       if (!mounted) return;
+      // Pastikan loading dialog tertutup jika masih terbuka
+      Navigator.of(context, rootNavigator: true).maybePop();
       
-      Navigator.of(context, rootNavigator: true).pop();
       _showErrorDialog('Gagal memproses gambar: ${e.toString()}');
-
-      await _controller.start();
-      _scanLineController
-        ..reset()
-        ..repeat(reverse: true);
-      setState(() => _isProcessing = false);
+      await _resetCamera();
     }
+  }
+
+  Future<void> _resetCamera() async {
+    if (!mounted) return;
+    await _controller.start();
+    _scanLineController
+      ..reset()
+      ..repeat(reverse: true);
+    setState(() => _isProcessing = false);
   }
 
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Error'),
+        title: const Text('Gagal Memindai'),
         content: Text(message),
         actions: [
           TextButton(
@@ -232,13 +256,10 @@ class _QRScreenState extends State<QRScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-
-    // hentikan dan dispose animasi sepenuhnya
     if (_scanLineController.isAnimating) {
       _scanLineController.stop();
     }
     _scanLineController.dispose();
-
     unawaited(_subscription?.cancel());
     _controller.dispose();
     super.dispose();
@@ -339,6 +360,7 @@ class _QRScreenState extends State<QRScreen>
                   onPressed: () => _controller.toggleTorch(),
                 ),
                 SizedBox(width: 60.w),
+                // ✅ Tombol Scan dari Galeri
                 _buildBottomButton(
                   icon: Icon(Icons.image, color: Colors.white, size: 28.sp),
                   onPressed: _pickImageAndScan,
@@ -370,7 +392,7 @@ class _QRScreenState extends State<QRScreen>
   }
 }
 
-/// Painter untuk overlay statis (kotak scanner + corners)
+// ... Painter classes tetap sama ...
 class QRScannerOverlayPainter extends CustomPainter {
   final double scanLineValue;
   final bool showScanLine;
@@ -441,7 +463,6 @@ class QRScannerOverlayPainter extends CustomPainter {
   bool shouldRepaint(covariant QRScannerOverlayPainter oldDelegate) => false;
 }
 
-/// Painter khusus untuk garis scan yang bergerak
 class ScanLinePainter extends CustomPainter {
   final double progress; // 0.0 to 1.0
 

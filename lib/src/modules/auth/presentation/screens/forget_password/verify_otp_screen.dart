@@ -11,10 +11,12 @@ import 'package:report/src/modules/auth/presentation/painters/login_background_p
 @RoutePage()
 class VerifyOtpScreen extends StatefulWidget {
   final String email;
+  final String generatedOtp; // ✅ Parameter Tambahan (Kunci Jawaban)
 
   const VerifyOtpScreen({
     super.key,
     required this.email,
+    required this.generatedOtp, // ✅ Wajib diisi saat navigasi
   });
 
   @override
@@ -48,29 +50,43 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     return _otpCode.length == 4;
   }
 
+  // --- Logic Modifikasi Client-Side Verification ---
   Future<void> _onVerifyPressed() async {
     if (!_isOtpComplete) return;
 
     setState(() => _isLoading = true);
 
-    // TODO: Call API to verify OTP
-    await Future.delayed(const Duration(seconds: 2));
+    // Simulasi loading sebentar
+    await Future.delayed(const Duration(seconds: 1));
 
     setState(() => _isLoading = false);
 
-    if (!mounted) return;
-
-    // Navigate to reset password screen
-    context.router.push(
-      ResetPasswordRoute(
-        email: widget.email,
-        otpCode: _otpCode,
-      ),
-    );
+    // 1. Bandingkan Input User dengan Generated OTP
+    if (_otpCode == widget.generatedOtp) {
+      // ✅ Jika COCOK -> Lanjut ke Reset Password
+      if (!mounted) return;
+      context.router.push(
+        ResetPasswordRoute(
+          email: widget.email,
+          otpCode: _otpCode,
+        ),
+      );
+    } else {
+      // ❌ Jika SALAH -> Tampilkan Error
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Kode OTP salah, silakan cek kembali."),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Future<void> _onResendOtp() async {
-    // TODO: Call API to resend OTP
+    // TODO: Implementasi logika resend (generate ulang & tampilkan snackbar)
+    // Untuk saat ini kita biarkan standar dulu
     if (!mounted) return;
     
     ScaffoldMessenger.of(context).showSnackBar(
