@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // ✅ Untuk copy to clipboard
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
@@ -26,20 +28,143 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
+  // --- Helper Function: Generate 4 Digit Random OTP ---
+  String _generateOtp() {
+    var rng = Random();
+    int code = rng.nextInt(9000) + 1000;
+    return code.toString();
+  }
+
+  // ✅ Custom SnackBar dengan Design yang Lebih Bagus
+  void _showOtpSnackBar(String otpCode) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          child: Row(
+            children: [
+              // Icon Email
+              Container(
+                padding: EdgeInsets.all(8.w),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Icon(
+                  Icons.mail_outline,
+                  color: Colors.white,
+                  size: 24.sp,
+                ),
+              ),
+              SizedBox(width: 12.w),
+              
+              // Text Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Kode OTP Terkirim',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Row(
+                      children: [
+                        Text(
+                          'Kode verifikasi: ',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.white.withOpacity(0.9),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 2.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Text(
+                            otpCode,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Copy Button
+              IconButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: otpCode));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Kode OTP berhasil disalin'),
+                      duration: const Duration(seconds: 1),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.content_copy,
+                  color: Colors.white,
+                  size: 20.sp,
+                ),
+                tooltip: 'Salin kode',
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: ColorName.primary,
+        duration: const Duration(seconds: 6),
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(16.w),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        elevation: 6,
+      ),
+    );
+  }
+
   Future<void> _onSendPressed() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => _isLoading = true);
       
-      // TODO: Call API to send OTP
+      // 1. Generate OTP secara lokal
+      final otpCode = _generateOtp();
+
+      // 2. Simulasi Loading API
       await Future.delayed(const Duration(seconds: 2));
       
       setState(() => _isLoading = false);
       
       if (!mounted) return;
+
+      // 3. ✅ Tampilkan Custom SnackBar
+      _showOtpSnackBar(otpCode);
       
-      // Navigate to OTP verification screen
+      // 4. Navigasi ke VerifyOtpScreen
       context.router.push(
-        VerifyOtpRoute(email: _emailController.text.trim()),
+        VerifyOtpRoute(
+          email: _emailController.text.trim(),
+          generatedOtp: otpCode,
+        ),
       );
     }
   }

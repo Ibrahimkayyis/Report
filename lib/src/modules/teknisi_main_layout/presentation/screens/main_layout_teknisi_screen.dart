@@ -5,16 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/modules/teknisi_home/presentation/screens/home_teknisi_screen.dart';
-import 'package:report/src/modules/notification/presentation/screens/notification_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
 import 'package:report/src/modules/report_activity/presentation/screens/activity_screen.dart';
 import 'package:report/src/modules/qr/presentation/screens/qr_screen.dart';
 
+// ✅ IMPORT SCREEN NOTIFIKASI KHUSUS TEKNISI
+import 'package:report/src/modules/teknisi_notification/presentation/screens/teknisi_notification_screen.dart';
+
 /// 🔹 Main layout khusus untuk user role = TEKNISI
-/// Berbeda dari MainLayoutRoute (pegawai/masyarakat)
 @RoutePage()
 class MainLayoutTeknisiScreen extends StatefulWidget {
-  const MainLayoutTeknisiScreen({super.key});
+  // ✅ Tambahkan parameter initialIndex (Konsistensi dengan MainLayoutScreen)
+  final int initialIndex;
+
+  const MainLayoutTeknisiScreen({
+    super.key,
+    this.initialIndex = 0,
+  });
 
   @override
   State<MainLayoutTeknisiScreen> createState() =>
@@ -22,7 +29,7 @@ class MainLayoutTeknisiScreen extends StatefulWidget {
 }
 
 class _MainLayoutTeknisiScreenState extends State<MainLayoutTeknisiScreen> {
-  int _currentIndex = 0;
+  late int _currentIndex; // Hapus inisialisasi langsung
   final GlobalKey<CurvedNavigationBarState> _bottomNavKey = GlobalKey();
 
   late final List<Widget> _screens;
@@ -30,15 +37,28 @@ class _MainLayoutTeknisiScreenState extends State<MainLayoutTeknisiScreen> {
   @override
   void initState() {
     super.initState();
+    // ✅ Gunakan initialIndex dari parameter
+    _currentIndex = widget.initialIndex;
 
-    /// 🔧 Ganti isi tab sesuai kebutuhan teknisi
+    /// 🔧 Tab Teknisi
     _screens = const [
-      HomeTeknisiScreen(), // nanti bisa diganti dengan HomeTeknisiScreen
+      HomeTeknisiScreen(),
       ActivityScreen(),
       QRScreen(),
-      NotificationScreen(),
+      TeknisiNotificationScreen(), // ✅ SUDAH DIGANTI KE TEKNISI
       ProfileScreen(),
     ];
+  }
+
+  // ✅ Tambahkan logic update widget agar navigasi "Kembali ke Beranda" lancar
+  @override
+  void didUpdateWidget(MainLayoutTeknisiScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialIndex != _currentIndex) {
+      setState(() {
+        _currentIndex = widget.initialIndex;
+      });
+    }
   }
 
   @override

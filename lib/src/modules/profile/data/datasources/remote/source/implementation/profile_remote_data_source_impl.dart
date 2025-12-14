@@ -89,4 +89,23 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
        rethrow;
     }
   }
+
+  @override
+  Future<bool> deleteProfilePicture() async {
+    try {
+      AppLogger.i("🗑️ Deleting Profile Picture (Masyarakat)...");
+      
+      final response = await dio.delete('/me/masyarakat/avatar');
+
+      if (response.statusCode == 200) {
+        AppLogger.i("✅ Foto Profil Berhasil Dihapus");
+        return true;
+      } else {
+        throw Exception('Gagal menghapus foto: ${response.statusCode}');
+      }
+    } catch (e) {
+      AppLogger.e("❌ Gagal delete profile picture", e);
+      rethrow;
+    }
+  }
 }

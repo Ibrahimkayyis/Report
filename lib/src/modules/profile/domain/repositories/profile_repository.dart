@@ -15,4 +15,6 @@ abstract class ProfileRepository {
     String? address,
     String? filePath,
   });
+
+  Future<void> deleteProfilePicture();
 }

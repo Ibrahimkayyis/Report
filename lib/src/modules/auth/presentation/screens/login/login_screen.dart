@@ -60,11 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
             if (!context.mounted) return;
 
             if (state.role == 'teknisi') {
-              context.router.replaceAll([const MainLayoutTeknisiRoute()]);
+              context.router.replaceAll([ MainLayoutTeknisiRoute()]);
             } else if (state.role == 'masyarakat') {
               context.router.replaceAll([const MainLayoutMasyarakatRoute()]);
             } else {
-              context.router.replaceAll([const MainLayoutRoute()]);
+              context.router.replaceAll([ MainLayoutRoute()]);
             }
           }
         },

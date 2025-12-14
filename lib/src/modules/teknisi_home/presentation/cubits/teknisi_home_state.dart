@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:report/src/modules/teknisi_home/domain/models/teknisi_ticket_model.dart';
+// ✅ Import Model Baru
+import 'package:report/src/modules/teknisi_home/domain/models/teknisi_dashboard_summary_model.dart';
 
 enum TeknisiHomeStatus { initial, loading, success, failure }
 
@@ -9,17 +11,21 @@ class TeknisiHomeState extends Equatable {
   final List<TeknisiTicketModel> filteredTickets;
   final String? errorMessage;
 
+  // ✅ Field Baru: Dashboard Summary
+  final TeknisiDashboardSummaryModel? dashboardSummary;
+
   // --- State Filter ---
   final int selectedTabIndex;
-  final String? filterPriority; 
-  final String? filterStatusTeknisi; // ✅ Ganti filterStatus -> filterStatusTeknisi
-  final String? filterSubKategori;   // ✅ Ganti filterKategori -> filterSubKategori
+  final String? filterPriority;
+  final String? filterStatusTeknisi;
+  final String? filterSubKategori;
 
   const TeknisiHomeState({
     this.status = TeknisiHomeStatus.initial,
     this.allTickets = const [],
     this.filteredTickets = const [],
     this.errorMessage,
+    this.dashboardSummary, // Initialize
     this.selectedTabIndex = 0,
     this.filterPriority,
     this.filterStatusTeknisi,
@@ -31,6 +37,7 @@ class TeknisiHomeState extends Equatable {
     List<TeknisiTicketModel>? allTickets,
     List<TeknisiTicketModel>? filteredTickets,
     String? errorMessage,
+    TeknisiDashboardSummaryModel? dashboardSummary, // Parameter
     int? selectedTabIndex,
     String? filterPriority,
     String? filterStatusTeknisi,
@@ -41,6 +48,7 @@ class TeknisiHomeState extends Equatable {
       allTickets: allTickets ?? this.allTickets,
       filteredTickets: filteredTickets ?? this.filteredTickets,
       errorMessage: errorMessage,
+      dashboardSummary: dashboardSummary ?? this.dashboardSummary, // Assignment
       selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
       filterPriority: filterPriority ?? this.filterPriority,
       filterStatusTeknisi: filterStatusTeknisi ?? this.filterStatusTeknisi,
@@ -54,6 +62,7 @@ class TeknisiHomeState extends Equatable {
         allTickets,
         filteredTickets,
         errorMessage,
+        dashboardSummary, // Add to props
         selectedTabIndex,
         filterPriority,
         filterStatusTeknisi,

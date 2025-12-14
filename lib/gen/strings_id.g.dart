@@ -48,6 +48,8 @@ class _TranslationsAppId implements TranslationsAppEn {
 
 	// Translations
 	@override String get title => 'REPORT';
+	@override String get ticket_title => 'JUdul Tiket';
+	@override String get ticket_description => 'Deskripsi Tiket';
 	@override String get welcome => 'Selamat datang';
 	@override String get login => 'Masuk';
 	@override String get logout => 'Keluar';
@@ -890,6 +892,8 @@ extension on TranslationsId {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'app.title': return 'REPORT';
+			case 'app.ticket_title': return 'JUdul Tiket';
+			case 'app.ticket_description': return 'Deskripsi Tiket';
 			case 'app.welcome': return 'Selamat datang';
 			case 'app.login': return 'Masuk';
 			case 'app.logout': return 'Keluar';

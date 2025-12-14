@@ -8,6 +8,7 @@ class RFCCardItem extends StatelessWidget {
   final String dateSent;
   final String status;
   final VoidCallback? onEditPressed;
+  final bool isDraft; // ✅ Parameter baru
 
   const RFCCardItem({
     super.key,
@@ -15,10 +16,21 @@ class RFCCardItem extends StatelessWidget {
     required this.dateSent,
     required this.status,
     this.onEditPressed,
+    required this.isDraft, // ✅ Wajib diisi
   });
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Tentukan Icon & Warna berdasarkan isDraft
+    final IconData actionIcon =
+        isDraft ? Icons.edit_outlined : Icons.remove_red_eye_outlined;
+    
+    final Color actionIconColor =
+        isDraft ? ColorName.primary : Colors.grey.shade700;
+        
+    final Color actionBgColor =
+        isDraft ? ColorName.primary.withValues(alpha: 0.1) : Colors.grey.shade100;
+
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
@@ -78,7 +90,7 @@ class RFCCardItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8.w),
-                
+
                 /// Status badge
                 RFCStatusBadge(status: status),
               ],
@@ -86,7 +98,7 @@ class RFCCardItem extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            /// Date sent info
+            /// Date sent info & Action Button
             Row(
               children: [
                 Icon(
@@ -103,20 +115,20 @@ class RFCCardItem extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                
-                /// Edit action button
+
+                /// ✅ Action Button (Edit / View)
                 InkWell(
                   onTap: onEditPressed,
                   borderRadius: BorderRadius.circular(8.r),
                   child: Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: ColorName.primary.withValues(alpha: 0.1),
+                      color: actionBgColor, // Warna dinamis
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Icon(
-                      Icons.edit_outlined,
-                      color: ColorName.primary,
+                      actionIcon, // Icon dinamis
+                      color: actionIconColor, // Warna icon dinamis
                       size: 18.sp,
                     ),
                   ),

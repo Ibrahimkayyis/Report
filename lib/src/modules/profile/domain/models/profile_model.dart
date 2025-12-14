@@ -43,6 +43,46 @@ class ProfileModel extends Equatable {
     this.birthDate,
   });
 
+  /// ✅ METHOD COPYWITH DITAMBAHKAN DI SINI
+  /// Berfungsi untuk menyalin objek saat ini dengan mengubah beberapa field tertentu
+  ProfileModel copyWith({
+    String? id,
+    String? email,
+    String? fullName,
+    String? firstName,
+    String? lastName,
+    String? roleName,
+    String? profileUrl,
+    int? roleId,
+    String? usernameAsset,
+    String? dinasName,
+    String? dinasId,
+    String? unitKerja,
+    String? phoneNumber,
+    String? address,
+    String? nik,
+    String? birthDate,
+  }) {
+    return ProfileModel(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      fullName: fullName ?? this.fullName,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      roleName: roleName ?? this.roleName,
+      profileUrl: profileUrl ?? this.profileUrl,
+      roleId: roleId ?? this.roleId,
+      usernameAsset: usernameAsset ?? this.usernameAsset,
+      dinasName: dinasName ?? this.dinasName,
+      dinasId: dinasId ?? this.dinasId,
+      unitKerja: unitKerja ?? this.unitKerja,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      nik: nik ?? this.nik,
+      birthDate: birthDate ?? this.birthDate,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id, email, fullName, firstName, lastName, roleName, 

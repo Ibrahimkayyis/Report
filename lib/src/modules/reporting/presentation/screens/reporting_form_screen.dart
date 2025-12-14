@@ -24,6 +24,9 @@ class ReportingFormScreen extends StatefulWidget {
   final String? opdName;
   final String? opdIconUrl;
   final Color? opdColor;
+  
+  // ✅ 1. Tambahkan parameter optional ini
+  final AssetModel? prefilledAsset;
 
   const ReportingFormScreen({
     super.key,
@@ -31,6 +34,7 @@ class ReportingFormScreen extends StatefulWidget {
     this.opdName,
     this.opdIconUrl,
     this.opdColor,
+    this.prefilledAsset, // ✅ Masukkan ke constructor
   });
 
   @override
@@ -60,6 +64,16 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
   // User OPD ID
   String? _userOpdId;
+
+  // ✅ 2. Tambahkan initState untuk cek prefilledAsset
+  @override
+  void initState() {
+    super.initState();
+    // Jika ada data aset dari QR/Screen lain, langsung isi form
+    if (widget.prefilledAsset != null) {
+      _onDataAssetChanged(widget.prefilledAsset);
+    }
+  }
 
   @override
   void dispose() {
@@ -323,6 +337,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<ReportCubit>()),
+        // Tetap fetch assets agar dropdown bisa bekerja jika user ingin mengganti aset
         BlocProvider(create: (_) => sl<AssetCubit>()..fetchAssets()),
         BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
       ],
@@ -333,7 +348,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
           } else if (state is ReportSuccess) {
             Navigator.of(context, rootNavigator: true).pop();
 
-            // ✅ Pass data dari response API
             context.router.push(
               ReportSuccessRoute(data: state.data),
             );

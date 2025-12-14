@@ -127,6 +127,168 @@ class CheckReportStatusRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CreateRFCFromTicketScreen]
+class CreateRFCFromTicketRoute
+    extends PageRouteInfo<CreateRFCFromTicketRouteArgs> {
+  CreateRFCFromTicketRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         CreateRFCFromTicketRoute.name,
+         args: CreateRFCFromTicketRouteArgs(key: key, ticketId: ticketId),
+         rawPathParams: {'ticketId': ticketId},
+         initialChildren: children,
+       );
+
+  static const String name = 'CreateRFCFromTicketRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<CreateRFCFromTicketRouteArgs>(
+        orElse: () => CreateRFCFromTicketRouteArgs(
+          ticketId: pathParams.getString('ticketId'),
+        ),
+      );
+      return CreateRFCFromTicketScreen(key: args.key, ticketId: args.ticketId);
+    },
+  );
+}
+
+class CreateRFCFromTicketRouteArgs {
+  const CreateRFCFromTicketRouteArgs({this.key, required this.ticketId});
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'CreateRFCFromTicketRouteArgs{key: $key, ticketId: $ticketId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! CreateRFCFromTicketRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
+}
+
+/// generated route for
+/// [EditProfileInternalScreen]
+class EditProfileInternalRoute
+    extends PageRouteInfo<EditProfileInternalRouteArgs> {
+  EditProfileInternalRoute({
+    Key? key,
+    required ProfileCubit profileCubit,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditProfileInternalRoute.name,
+         args: EditProfileInternalRouteArgs(
+           key: key,
+           profileCubit: profileCubit,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'EditProfileInternalRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<EditProfileInternalRouteArgs>();
+      return EditProfileInternalScreen(
+        key: args.key,
+        profileCubit: args.profileCubit,
+      );
+    },
+  );
+}
+
+class EditProfileInternalRouteArgs {
+  const EditProfileInternalRouteArgs({this.key, required this.profileCubit});
+
+  final Key? key;
+
+  final ProfileCubit profileCubit;
+
+  @override
+  String toString() {
+    return 'EditProfileInternalRouteArgs{key: $key, profileCubit: $profileCubit}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EditProfileInternalRouteArgs) return false;
+    return key == other.key && profileCubit == other.profileCubit;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ profileCubit.hashCode;
+}
+
+/// generated route for
+/// [EditProfileMasyarakatScreen]
+class EditProfileMasyarakatRoute
+    extends PageRouteInfo<EditProfileMasyarakatRouteArgs> {
+  EditProfileMasyarakatRoute({
+    Key? key,
+    required ProfileCubit profileCubit,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditProfileMasyarakatRoute.name,
+         args: EditProfileMasyarakatRouteArgs(
+           key: key,
+           profileCubit: profileCubit,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'EditProfileMasyarakatRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<EditProfileMasyarakatRouteArgs>();
+      return EditProfileMasyarakatScreen(
+        key: args.key,
+        profileCubit: args.profileCubit,
+      );
+    },
+  );
+}
+
+class EditProfileMasyarakatRouteArgs {
+  const EditProfileMasyarakatRouteArgs({this.key, required this.profileCubit});
+
+  final Key? key;
+
+  final ProfileCubit profileCubit;
+
+  @override
+  String toString() {
+    return 'EditProfileMasyarakatRouteArgs{key: $key, profileCubit: $profileCubit}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EditProfileMasyarakatRouteArgs) return false;
+    return key == other.key && profileCubit == other.profileCubit;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ profileCubit.hashCode;
+}
+
+/// generated route for
 /// [EditProfileScreen]
 class EditProfileRoute extends PageRouteInfo<EditProfileRouteArgs> {
   EditProfileRoute({
@@ -319,34 +481,103 @@ class MainLayoutMasyarakatRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MainLayoutScreen]
-class MainLayoutRoute extends PageRouteInfo<void> {
-  const MainLayoutRoute({List<PageRouteInfo>? children})
-    : super(MainLayoutRoute.name, initialChildren: children);
+class MainLayoutRoute extends PageRouteInfo<MainLayoutRouteArgs> {
+  MainLayoutRoute({
+    Key? key,
+    int initialIndex = 0,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MainLayoutRoute.name,
+         args: MainLayoutRouteArgs(key: key, initialIndex: initialIndex),
+         initialChildren: children,
+       );
 
   static const String name = 'MainLayoutRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const MainLayoutScreen();
+      final args = data.argsAs<MainLayoutRouteArgs>(
+        orElse: () => const MainLayoutRouteArgs(),
+      );
+      return MainLayoutScreen(key: args.key, initialIndex: args.initialIndex);
     },
   );
 }
 
+class MainLayoutRouteArgs {
+  const MainLayoutRouteArgs({this.key, this.initialIndex = 0});
+
+  final Key? key;
+
+  final int initialIndex;
+
+  @override
+  String toString() {
+    return 'MainLayoutRouteArgs{key: $key, initialIndex: $initialIndex}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MainLayoutRouteArgs) return false;
+    return key == other.key && initialIndex == other.initialIndex;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ initialIndex.hashCode;
+}
+
 /// generated route for
 /// [MainLayoutTeknisiScreen]
-class MainLayoutTeknisiRoute extends PageRouteInfo<void> {
-  const MainLayoutTeknisiRoute({List<PageRouteInfo>? children})
-    : super(MainLayoutTeknisiRoute.name, initialChildren: children);
+class MainLayoutTeknisiRoute extends PageRouteInfo<MainLayoutTeknisiRouteArgs> {
+  MainLayoutTeknisiRoute({
+    Key? key,
+    int initialIndex = 0,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MainLayoutTeknisiRoute.name,
+         args: MainLayoutTeknisiRouteArgs(key: key, initialIndex: initialIndex),
+         initialChildren: children,
+       );
 
   static const String name = 'MainLayoutTeknisiRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const MainLayoutTeknisiScreen();
+      final args = data.argsAs<MainLayoutTeknisiRouteArgs>(
+        orElse: () => const MainLayoutTeknisiRouteArgs(),
+      );
+      return MainLayoutTeknisiScreen(
+        key: args.key,
+        initialIndex: args.initialIndex,
+      );
     },
   );
+}
+
+class MainLayoutTeknisiRouteArgs {
+  const MainLayoutTeknisiRouteArgs({this.key, this.initialIndex = 0});
+
+  final Key? key;
+
+  final int initialIndex;
+
+  @override
+  String toString() {
+    return 'MainLayoutTeknisiRouteArgs{key: $key, initialIndex: $initialIndex}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MainLayoutTeknisiRouteArgs) return false;
+    return key == other.key && initialIndex == other.initialIndex;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ initialIndex.hashCode;
 }
 
 /// generated route for
@@ -734,19 +965,113 @@ class QRRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [RFCDetailScreen]
+class RFCDetailRoute extends PageRouteInfo<RFCDetailRouteArgs> {
+  RFCDetailRoute({
+    Key? key,
+    required String localRfcId,
+    required RfcType rfcType,
+    List<PageRouteInfo>? children,
+  }) : super(
+         RFCDetailRoute.name,
+         args: RFCDetailRouteArgs(
+           key: key,
+           localRfcId: localRfcId,
+           rfcType: rfcType,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'RFCDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<RFCDetailRouteArgs>();
+      return RFCDetailScreen(
+        key: args.key,
+        localRfcId: args.localRfcId,
+        rfcType: args.rfcType,
+      );
+    },
+  );
+}
+
+class RFCDetailRouteArgs {
+  const RFCDetailRouteArgs({
+    this.key,
+    required this.localRfcId,
+    required this.rfcType,
+  });
+
+  final Key? key;
+
+  final String localRfcId;
+
+  final RfcType rfcType;
+
+  @override
+  String toString() {
+    return 'RFCDetailRouteArgs{key: $key, localRfcId: $localRfcId, rfcType: $rfcType}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! RFCDetailRouteArgs) return false;
+    return key == other.key &&
+        localRfcId == other.localRfcId &&
+        rfcType == other.rfcType;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ localRfcId.hashCode ^ rfcType.hashCode;
+}
+
+/// generated route for
 /// [RFCFormScreen]
-class RFCFormRoute extends PageRouteInfo<void> {
-  const RFCFormRoute({List<PageRouteInfo>? children})
-    : super(RFCFormRoute.name, initialChildren: children);
+class RFCFormRoute extends PageRouteInfo<RFCFormRouteArgs> {
+  RFCFormRoute({Key? key, RfcModel? draftData, List<PageRouteInfo>? children})
+    : super(
+        RFCFormRoute.name,
+        args: RFCFormRouteArgs(key: key, draftData: draftData),
+        initialChildren: children,
+      );
 
   static const String name = 'RFCFormRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const RFCFormScreen();
+      final args = data.argsAs<RFCFormRouteArgs>(
+        orElse: () => const RFCFormRouteArgs(),
+      );
+      return RFCFormScreen(key: args.key, draftData: args.draftData);
     },
   );
+}
+
+class RFCFormRouteArgs {
+  const RFCFormRouteArgs({this.key, this.draftData});
+
+  final Key? key;
+
+  final RfcModel? draftData;
+
+  @override
+  String toString() {
+    return 'RFCFormRouteArgs{key: $key, draftData: $draftData}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! RFCFormRouteArgs) return false;
+    return key == other.key && draftData == other.draftData;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ draftData.hashCode;
 }
 
 /// generated route for
@@ -932,6 +1257,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
     String? opdName,
     String? opdIconUrl,
     Color? opdColor,
+    AssetModel? prefilledAsset,
     List<PageRouteInfo>? children,
   }) : super(
          ReportingFormRoute.name,
@@ -941,6 +1267,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
            opdName: opdName,
            opdIconUrl: opdIconUrl,
            opdColor: opdColor,
+           prefilledAsset: prefilledAsset,
          ),
          initialChildren: children,
        );
@@ -959,6 +1286,7 @@ class ReportingFormRoute extends PageRouteInfo<ReportingFormRouteArgs> {
         opdName: args.opdName,
         opdIconUrl: args.opdIconUrl,
         opdColor: args.opdColor,
+        prefilledAsset: args.prefilledAsset,
       );
     },
   );
@@ -971,6 +1299,7 @@ class ReportingFormRouteArgs {
     this.opdName,
     this.opdIconUrl,
     this.opdColor,
+    this.prefilledAsset,
   });
 
   final Key? key;
@@ -983,9 +1312,11 @@ class ReportingFormRouteArgs {
 
   final Color? opdColor;
 
+  final AssetModel? prefilledAsset;
+
   @override
   String toString() {
-    return 'ReportingFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdIconUrl: $opdIconUrl, opdColor: $opdColor}';
+    return 'ReportingFormRouteArgs{key: $key, opdId: $opdId, opdName: $opdName, opdIconUrl: $opdIconUrl, opdColor: $opdColor, prefilledAsset: $prefilledAsset}';
   }
 
   @override
@@ -996,7 +1327,8 @@ class ReportingFormRouteArgs {
         opdId == other.opdId &&
         opdName == other.opdName &&
         opdIconUrl == other.opdIconUrl &&
-        opdColor == other.opdColor;
+        opdColor == other.opdColor &&
+        prefilledAsset == other.prefilledAsset;
   }
 
   @override
@@ -1005,7 +1337,8 @@ class ReportingFormRouteArgs {
       opdId.hashCode ^
       opdName.hashCode ^
       opdIconUrl.hashCode ^
-      opdColor.hashCode;
+      opdColor.hashCode ^
+      prefilledAsset.hashCode;
 }
 
 /// generated route for
@@ -1233,6 +1566,70 @@ class SplashRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [TeknisiNotificationDetailScreen]
+class TeknisiNotificationDetailRoute
+    extends PageRouteInfo<TeknisiNotificationDetailRouteArgs> {
+  TeknisiNotificationDetailRoute({
+    Key? key,
+    required String id,
+    List<PageRouteInfo>? children,
+  }) : super(
+         TeknisiNotificationDetailRoute.name,
+         args: TeknisiNotificationDetailRouteArgs(key: key, id: id),
+         initialChildren: children,
+       );
+
+  static const String name = 'TeknisiNotificationDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TeknisiNotificationDetailRouteArgs>();
+      return TeknisiNotificationDetailScreen(key: args.key, id: args.id);
+    },
+  );
+}
+
+class TeknisiNotificationDetailRouteArgs {
+  const TeknisiNotificationDetailRouteArgs({this.key, required this.id});
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'TeknisiNotificationDetailRouteArgs{key: $key, id: $id}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TeknisiNotificationDetailRouteArgs) return false;
+    return key == other.key && id == other.id;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ id.hashCode;
+}
+
+/// generated route for
+/// [TeknisiNotificationScreen]
+class TeknisiNotificationRoute extends PageRouteInfo<void> {
+  const TeknisiNotificationRoute({List<PageRouteInfo>? children})
+    : super(TeknisiNotificationRoute.name, initialChildren: children);
+
+  static const String name = 'TeknisiNotificationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const TeknisiNotificationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [TeknisiRatingDetailScreen]
 class TeknisiRatingDetailRoute
     extends PageRouteInfo<TeknisiRatingDetailRouteArgs> {
@@ -1413,10 +1810,15 @@ class VerifyOtpRoute extends PageRouteInfo<VerifyOtpRouteArgs> {
   VerifyOtpRoute({
     Key? key,
     required String email,
+    required String generatedOtp,
     List<PageRouteInfo>? children,
   }) : super(
          VerifyOtpRoute.name,
-         args: VerifyOtpRouteArgs(key: key, email: email),
+         args: VerifyOtpRouteArgs(
+           key: key,
+           email: email,
+           generatedOtp: generatedOtp,
+         ),
          initialChildren: children,
        );
 
@@ -1426,30 +1828,42 @@ class VerifyOtpRoute extends PageRouteInfo<VerifyOtpRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<VerifyOtpRouteArgs>();
-      return VerifyOtpScreen(key: args.key, email: args.email);
+      return VerifyOtpScreen(
+        key: args.key,
+        email: args.email,
+        generatedOtp: args.generatedOtp,
+      );
     },
   );
 }
 
 class VerifyOtpRouteArgs {
-  const VerifyOtpRouteArgs({this.key, required this.email});
+  const VerifyOtpRouteArgs({
+    this.key,
+    required this.email,
+    required this.generatedOtp,
+  });
 
   final Key? key;
 
   final String email;
 
+  final String generatedOtp;
+
   @override
   String toString() {
-    return 'VerifyOtpRouteArgs{key: $key, email: $email}';
+    return 'VerifyOtpRouteArgs{key: $key, email: $email, generatedOtp: $generatedOtp}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! VerifyOtpRouteArgs) return false;
-    return key == other.key && email == other.email;
+    return key == other.key &&
+        email == other.email &&
+        generatedOtp == other.generatedOtp;
   }
 
   @override
-  int get hashCode => key.hashCode ^ email.hashCode;
+  int get hashCode => key.hashCode ^ email.hashCode ^ generatedOtp.hashCode;
 }

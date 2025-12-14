@@ -13,7 +13,6 @@ import 'package:report/src/modules/reporting/domain/models/report_response_model
 
 @RoutePage()
 class ReportSuccessScreen extends StatelessWidget {
-  // Menerima ReportResponseModel ATAU MasyarakatReportResponseModel
   final dynamic data;
 
   const ReportSuccessScreen({
@@ -21,7 +20,6 @@ class ReportSuccessScreen extends StatelessWidget {
     required this.data,
   });
 
-  // Helper untuk cek tipe user
   bool get _isMasyarakat => data is MasyarakatReportResponseModel;
 
   Map<String, String> _extractData() {
@@ -116,29 +114,24 @@ class ReportSuccessScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 20.h),
-                    
-                    Builder(
-                      builder: (innerContext) {
-                        return SuccessCard(
-                          ticketNumber: extracted['ticketNumber']!,
-                          status: extracted['status']!,
-                          opdName: extracted['opdName']!,
-                          title: t.app.report_success_title,
-                          description: t.app.report_success_description,
-                          checkWithLabel: t.app.check_report_with,
-                          ticketLabel: t.app.ticket_number,
-                          statusLabel: t.app.status,
-                          serviceTypeLabel: t.app.service_type,
-                          serviceTypeValue: t.app.service_type_reporting,
-                          destinationLabel: t.app.destination_opd,
-                          downloadLabel: t.app.download_ticket,
-                          detailFields: detailFields,
-                          
-                          onDownload: () => _handleDownload(innerContext, t),
-                        );
-                      }
-                    ),
-                    
+                    Builder(builder: (innerContext) {
+                      return SuccessCard(
+                        ticketNumber: extracted['ticketNumber']!,
+                        status: extracted['status']!,
+                        opdName: extracted['opdName']!,
+                        title: t.app.report_success_title,
+                        description: t.app.report_success_description,
+                        checkWithLabel: t.app.check_report_with,
+                        ticketLabel: t.app.ticket_number,
+                        statusLabel: t.app.status,
+                        serviceTypeLabel: t.app.service_type,
+                        serviceTypeValue: t.app.service_type_reporting,
+                        destinationLabel: t.app.destination_opd,
+                        downloadLabel: t.app.download_ticket,
+                        detailFields: detailFields,
+                        onDownload: () => _handleDownload(innerContext, t),
+                      );
+                    }),
                     SizedBox(height: 24.h),
                   ],
                 ),
@@ -152,25 +145,27 @@ class ReportSuccessScreen extends StatelessWidget {
               secondaryLeftLabel: t.app.create_new_report,
               onSecondaryLeftPressed: () {
                 context.router.popUntilRoot();
-                
-                // ✅ Logic Tombol "Buat Laporan Baru"
+
                 if (_isMasyarakat) {
-                  // Masyarakat: Pilih OPD dulu
                   context.router.push(const OpdSelectionRoute());
                 } else {
-                  // Pegawai: Langsung ke Form
+                  // ✅ HAPUS const karena sekarang ada parameter optional (AssetModel)
                   context.router.push(ReportingFormRoute());
                 }
               },
               secondaryRightLabel: t.app.back_to_home,
               onSecondaryRightPressed: () {
-                // ✅ Logic Tombol "Kembali ke Beranda"
                 if (_isMasyarakat) {
-                  // Jika Masyarakat -> MainLayoutMasyarakatRoute
-                  context.router.replaceAll([const MainLayoutMasyarakatRoute()]);
+                  // ✅ HAPUS const
+                  context.router.replaceAll([
+                    MainLayoutMasyarakatRoute()
+                    // MainLayoutMasyarakatRoute(initialIndex: 0)
+                  ]);
                 } else {
-                  // Jika Pegawai -> MainLayoutRoute
-                  context.router.replaceAll([const MainLayoutRoute()]);
+                  // ✅ HAPUS const dan set initialIndex: 0
+                  context.router.replaceAll([
+                    MainLayoutRoute(initialIndex: 0)
+                  ]);
                 }
               },
             ),

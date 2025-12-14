@@ -84,11 +84,11 @@ class _SplashScreenState extends State<SplashScreen>
       final auth = _authResult as AuthAuthenticated;
 
       if (auth.role == 'teknisi') {
-        context.router.replaceAll([const MainLayoutTeknisiRoute()]);
+        context.router.replaceAll([ MainLayoutTeknisiRoute()]);
       } else if (auth.role == 'masyarakat') {
         context.router.replaceAll([const MainLayoutMasyarakatRoute()]);
       } else {
-        context.router.replaceAll([const MainLayoutRoute()]);
+        context.router.replaceAll([ MainLayoutRoute()]);
       }
     } else {
       context.router.replaceAll([const LoginRoute()]);

@@ -45,4 +45,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
       throw Exception('Gagal memperbarui profil: $e');
     }
   }
+
+  @override
+  Future<void> deleteProfilePicture() async {
+    try {
+      // Panggil remote data source
+      await remoteDataSource.deleteProfilePicture();
+    } catch (e) {
+      // Lempar exception agar bisa ditangkap oleh Cubit
+      throw Exception('Gagal menghapus foto profil: $e');
+    }
+  }
 }

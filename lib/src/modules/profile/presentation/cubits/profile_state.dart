@@ -30,6 +30,16 @@ class ProfileUpdated extends ProfileState {
   List<Object?> get props => [profile];
 }
 
+/// ✅ State baru: Foto profil berhasil dihapus
+class ProfilePhotoDeleted extends ProfileState {
+  final ProfileModel profile; // Mengembalikan profil terbaru tanpa foto
+
+  const ProfilePhotoDeleted(this.profile);
+
+  @override
+  List<Object?> get props => [profile];
+}
+
 class ProfileError extends ProfileState {
   final String message;
 
