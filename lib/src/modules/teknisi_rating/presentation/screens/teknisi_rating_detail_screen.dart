@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
-import 'package:report/src/core/widgets/app_bar/app_primary_bar.dart';
 import 'package:report/src/core/widgets/widgets.dart'; // Untuk AppErrorState
 import 'package:report/src/modules/teknisi_rating/domain/models/teknisi_rating_model.dart';
 import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_rating_detail_cubit.dart';
 import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_rating_detail_state.dart';
+
+// ✅ Import Shimmer
+import '../widgets/shimmer/teknisi_rating_detail_shimmer.dart';
 
 @RoutePage()
 class TeknisiRatingDetailScreen extends StatefulWidget {
@@ -44,9 +46,10 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
         ),
         body: BlocBuilder<TeknisiRatingDetailCubit, TeknisiRatingDetailState>(
           builder: (context, state) {
-            // 1. Loading
+            
+            // ✅ GANTI LOADING STATE
             if (state.status == TeknisiRatingDetailStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
+              return const TeknisiRatingDetailShimmer();
             }
 
             // 2. Error
@@ -157,8 +160,7 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
     );
   }
 
-  // --- WIDGET BUILDERS ---
-
+  // ... (Widget Helpers: _buildSectionTitle, _buildSenderInfo, dll SAMA SEPERTI SEBELUMNYA)
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -357,7 +359,6 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
     );
   }
 
-  // ✅ Read Only Rating (Tanpa onTap)
   Widget _buildRatingStars(int rating) {
     return Center(
       child: Row(
@@ -376,7 +377,6 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
     );
   }
 
-  // ✅ Read Only Comment (Container, bukan TextField)
   Widget _buildReadOnlyTextArea(String value) {
     return Container(
       width: double.infinity,
@@ -397,7 +397,6 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
     );
   }
 
-  // ✅ Read Only Sub Rating
   Widget _buildSubRatingItem(String label, int rating) {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -443,7 +442,6 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
     );
   }
 
-  // ✅ Button (Hanya Kembali)
   Widget _buildBottomButton(BuildContext context, Translations t) {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -470,7 +468,7 @@ class _TeknisiRatingDetailScreenState extends State<TeknisiRatingDetailScreen> {
             ),
           ),
           child: Text(
-            t.app.rating_detail.button_cancel, // Atau "Kembali"
+            t.app.rating_detail.button_cancel,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,

@@ -3,21 +3,15 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
-import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/modules/teknisi_home/presentation/screens/home_teknisi_screen.dart';
 import 'package:report/src/modules/profile/presentation/screens/profile_screen.dart';
-import 'package:report/src/modules/report_activity/presentation/screens/activity_screen.dart';
-import 'package:report/src/modules/qr/presentation/screens/qr_screen.dart';
-
-// ✅ IMPORT SCREEN NOTIFIKASI KHUSUS TEKNISI
 import 'package:report/src/modules/teknisi_notification/presentation/screens/teknisi_notification_screen.dart';
 
 /// 🔹 Main layout khusus untuk user role = TEKNISI
 @RoutePage()
 class MainLayoutTeknisiScreen extends StatefulWidget {
-  // ✅ Tambahkan parameter initialIndex (Konsistensi dengan MainLayoutScreen)
   final int initialIndex;
-
+  
   const MainLayoutTeknisiScreen({
     super.key,
     this.initialIndex = 0,
@@ -29,28 +23,23 @@ class MainLayoutTeknisiScreen extends StatefulWidget {
 }
 
 class _MainLayoutTeknisiScreenState extends State<MainLayoutTeknisiScreen> {
-  late int _currentIndex; // Hapus inisialisasi langsung
+  late int _currentIndex;
   final GlobalKey<CurvedNavigationBarState> _bottomNavKey = GlobalKey();
-
   late final List<Widget> _screens;
 
   @override
   void initState() {
     super.initState();
-    // ✅ Gunakan initialIndex dari parameter
     _currentIndex = widget.initialIndex;
-
-    /// 🔧 Tab Teknisi
+    
+    /// 🔧 Tab Teknisi - Hanya 3 Tab
     _screens = const [
-      HomeTeknisiScreen(),
-      ActivityScreen(),
-      QRScreen(),
-      TeknisiNotificationScreen(), // ✅ SUDAH DIGANTI KE TEKNISI
-      ProfileScreen(),
+      HomeTeknisiScreen(),          // Tab 0: Dashboard
+      TeknisiNotificationScreen(),  // Tab 1: Notifikasi
+      ProfileScreen(),              // Tab 2: Profile
     ];
   }
 
-  // ✅ Tambahkan logic update widget agar navigasi "Kembali ke Beranda" lancar
   @override
   void didUpdateWidget(MainLayoutTeknisiScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -63,10 +52,9 @@ class _MainLayoutTeknisiScreenState extends State<MainLayoutTeknisiScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /// 🔧 Bottom Navigation Items - Hanya 3 Icon
     final items = <Widget>[
       Icon(Icons.dashboard_customize, size: 28.sp, color: ColorName.white),
-      Icon(Icons.assignment, size: 28.sp, color: ColorName.white),
-      Icon(Icons.qr_code_scanner, size: 30.sp, color: ColorName.white),
       Icon(Icons.notifications, size: 28.sp, color: ColorName.white),
       Icon(Icons.person, size: 28.sp, color: ColorName.white),
     ];
@@ -74,21 +62,11 @@ class _MainLayoutTeknisiScreenState extends State<MainLayoutTeknisiScreen> {
     return Scaffold(
       extendBody: true,
       body: IndexedStack(index: _currentIndex, children: _screens),
-
-      floatingActionButton: _currentIndex == 0
-          ? Padding(
-              padding: EdgeInsets.only(bottom: 60.h),
-              child: FloatingActionButton(
-                backgroundColor: ColorName.primary,
-                onPressed: () {
-                  context.router.push(const HelpdeskChatRoute());
-                },
-                child: const Icon(Icons.support_agent, color: ColorName.white),
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-
+      
+      // ❌ FloatingActionButton DIHAPUS
+      // floatingActionButton: null, // Tidak perlu ditulis, default null
+      
+      /// ✅ CurvedNavigationBar dengan 3 Items
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavKey,
         index: _currentIndex,

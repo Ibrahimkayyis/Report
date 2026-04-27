@@ -10,6 +10,9 @@ import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dar
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_cubit.dart';
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_state.dart';
 
+// ✅ Import Shimmer
+import '../../widgets/shimmer/report_detail_shimmer.dart';
+
 @RoutePage()
 class ReportActivityDetailScreen extends StatefulWidget {
   final String ticketId;
@@ -42,9 +45,13 @@ class _ReportActivityDetailScreenState extends State<ReportActivityDetailScreen>
         appBar: AppSecondaryBar(title: t.report_detail_title),
         body: BlocBuilder<TicketDetailCubit, TicketDetailState>(
           builder: (context, state) {
+            
+            // ✅ GANTI LOADING STATE DI SINI
             if (state is TicketDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is TicketDetailError) {
+              return const ReportDetailShimmer();
+            } 
+            
+            else if (state is TicketDetailError) {
               return AppErrorState.general(
                 context: context,
                 message: state.message,

@@ -71,6 +71,7 @@ class ReportApp extends StatelessWidget {
             child: BlocBuilder<AppCubit, AppState>(
               builder: (context, state) {
                 return MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
                   title: 'REPORT',
                   themeMode: state.themeMode,
                   theme: ThemeData(

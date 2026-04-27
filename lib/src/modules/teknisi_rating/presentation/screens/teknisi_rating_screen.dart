@@ -12,6 +12,9 @@ import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_ra
 import 'package:report/src/modules/teknisi_rating/presentation/cubits/teknisi_rating_state.dart';
 import '../widgets/rating_card_item.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/rating_list_shimmer.dart';
+
 @RoutePage()
 class TeknisiRatingScreen extends StatefulWidget {
   const TeknisiRatingScreen({super.key});
@@ -22,10 +25,7 @@ class TeknisiRatingScreen extends StatefulWidget {
 
 class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
     with SingleTickerProviderStateMixin {
-  
-  // Instance Cubit di State agar bisa diakses di listener TabController
   late TeknisiRatingCubit _cubit;
-  
   late TabController _tabController;
   final ScrollController _scrollController = ScrollController();
 
@@ -38,32 +38,23 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
   String? _selectedJenis;
   String? _selectedRating;
 
-  // ✅ FILTER OPTIONS (Disesuaikan dengan Data API)
   final List<String> _kategoriOptions = ['Semua', 'ti', 'non-ti'];
-  
   final List<String> _bentukOptions = [
     'Semua', 
     'Server', 'Komputer Desktop', 'Laptop', 'Printer', 
     'Monitor', 'Keyboard', 'Mouse', 'Router', 'Switch',
     'Kamera CCTV', 'Meja Kerja', 'Kursi Kerja', 'AC'
-  ]; // Sesuai Sub-Kategori
-  
+  ];
   final List<String> _jenisOptions = ['Semua', 'barang', 'jasa'];
-  
   final List<String> _ratingOptions = ['Semua', '1 ⭐', '2 ⭐', '3 ⭐', '4 ⭐', '5 ⭐'];
 
   @override
   void initState() {
     super.initState();
-    
-    // Init Cubit & Fetch Data
     _cubit = sl<TeknisiRatingCubit>()..fetchRatings();
-
     _tabController = TabController(length: 2, vsync: this);
-
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
-        // Update filter tab di cubit saat tab berubah
         _cubit.updateFilter(tabIndex: _tabController.index);
       }
     });
@@ -73,7 +64,7 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
   void dispose() {
     _tabController.dispose();
     _scrollController.dispose();
-    _cubit.close(); // Close manual karena init manual
+    _cubit.close();
     super.dispose();
   }
 
@@ -81,7 +72,6 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
   Widget build(BuildContext context) {
     final t = context.t;
 
-    // Gunakan BlocProvider.value karena instance cubit dibuat di initState
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
@@ -130,8 +120,10 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                 Expanded(
                   child: Builder(
                     builder: (context) {
+                      
+                      // ✅ GANTI LOADING STATE
                       if (state.status == TeknisiRatingStatus.loading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const RatingListShimmer();
                       }
 
                       if (state.status == TeknisiRatingStatus.failure) {
@@ -163,6 +155,9 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
     );
   }
 
+  // ... (Helper methods _buildFilterSection dan _buildListView tetap sama)
+  // ... (Paste kode helper methods yang sudah ada sebelumnya di sini)
+  
   Widget _buildFilterSection(Translations t, TeknisiRatingCubit cubit) {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -302,20 +297,15 @@ class _TeknisiRatingScreenState extends State<TeknisiRatingScreen>
                       final item = data[index];
                       return RatingCardItem(
                         senderName: item.creator.fullName,
-                        
-                        // Handle avatar null & empty
                         senderAvatar: (item.creator.profileUrl != null && item.creator.profileUrl!.isNotEmpty)
                             ? item.creator.profileUrl
                             : null,
-
-                        // Handle date safety
                         dateIn: item.pengerjaanAwal.isNotEmpty
                             ? item.pengerjaanAwal.split('T')[0]
                             : '-',
                         dateOut: item.pengerjaanAkhir.isNotEmpty
                             ? item.pengerjaanAkhir.split('T')[0]
                             : '-',
-                            
                         category: item.asset?.kategori ?? '-',
                         type: item.asset?.jenisAsset ?? '-',
                         form: item.asset?.subkategoriNama ?? '-',

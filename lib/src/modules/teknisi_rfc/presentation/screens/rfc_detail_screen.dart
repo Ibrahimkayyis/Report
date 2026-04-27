@@ -10,6 +10,9 @@ import 'package:report/src/modules/reporting/presentation/widgets/form_sections/
 import 'package:report/src/modules/teknisi_rfc/domain/models/rfc_model.dart';
 import 'package:report/src/modules/teknisi_rfc/presentation/cubits/detail/rfc_detail_cubit.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/rfc_detail_shimmer.dart';
+
 @RoutePage()
 class RFCDetailScreen extends StatefulWidget {
   final String localRfcId;
@@ -39,8 +42,10 @@ class _RFCDetailScreenState extends State<RFCDetailScreen> {
         ),
         body: BlocBuilder<RfcDetailCubit, RfcDetailState>(
           builder: (context, state) {
+            
+            // ✅ GANTI LOADING STATE
             if (state is RfcDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const RFCDetailShimmer();
             } 
             
             else if (state is RfcDetailError) {

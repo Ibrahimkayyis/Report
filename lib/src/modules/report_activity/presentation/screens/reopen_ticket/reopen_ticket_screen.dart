@@ -13,6 +13,9 @@ import 'package:report/src/modules/report_activity/presentation/cubits/reopen_ti
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_cubit.dart';
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_state.dart';
 
+// ✅ Import Shimmer
+import '../../widgets/shimmer/reopen_ticket_shimmer.dart';
+
 @RoutePage()
 class ReopenTicketScreen extends StatefulWidget {
   final String ticketId;
@@ -184,9 +187,13 @@ class _ReopenTicketScreenState extends State<ReopenTicketScreen> {
           // ✅ Kita menggunakan context dari BlocBuilder di sini
           body: BlocBuilder<TicketDetailCubit, TicketDetailState>(
             builder: (context, state) {
+              
+              // ✅ GANTI LOADING STATE DI SINI
               if (state is TicketDetailLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is TicketDetailError) {
+                return const ReopenTicketShimmer();
+              } 
+              
+              else if (state is TicketDetailError) {
                 return AppErrorState.general(
                   context: context,
                   message: state.message,
@@ -331,7 +338,6 @@ class _ReopenTicketScreenState extends State<ReopenTicketScreen> {
     String? profileUrl,
     required String ticketCode,
   }) {
-    // ... (Code same as before)
     return Column(children: [
       Row(children: [
         Expanded(flex: 1, child: Text("Pelapor", style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorName.textPrimary))),

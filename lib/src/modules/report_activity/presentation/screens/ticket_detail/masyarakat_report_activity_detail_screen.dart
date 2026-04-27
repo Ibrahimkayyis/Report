@@ -11,13 +11,16 @@ import 'package:report/src/modules/profile/presentation/cubits/profile_state.dar
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_cubit.dart';
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_state.dart';
 
+// ✅ Import Shimmer
+import '../../widgets/shimmer/masyarakat_report_detail_shimmer.dart';
+
 @RoutePage()
 class MasyarakatReportActivityDetailScreen extends StatefulWidget {
-  final String ticketId; // ✅ UBAH JADI ticketId (UUID)
+  final String ticketId;
 
   const MasyarakatReportActivityDetailScreen({
     super.key,
-    required this.ticketId, // ✅ Required UUID
+    required this.ticketId,
   });
 
   @override
@@ -34,7 +37,6 @@ class _MasyarakatReportActivityDetailScreenState
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
-        // ✅ Fetch menggunakan ticketId (UUID)
         BlocProvider(
           create: (_) =>
               sl<TicketDetailCubit>()..fetchTicketDetail(widget.ticketId),
@@ -45,9 +47,13 @@ class _MasyarakatReportActivityDetailScreenState
         appBar: AppSecondaryBar(title: t.report_detail_title),
         body: BlocBuilder<TicketDetailCubit, TicketDetailState>(
           builder: (context, state) {
+            
+            // ✅ GANTI LOADING STATE
             if (state is TicketDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is TicketDetailError) {
+              return const MasyarakatReportDetailShimmer();
+            } 
+            
+            else if (state is TicketDetailError) {
               return AppErrorState.general(
                 context: context,
                 message: state.message,
@@ -85,8 +91,7 @@ class _MasyarakatReportActivityDetailScreenState
                                 fullName: fullName,
                                 nik: nik,
                                 profileUrl: profileUrl,
-                                // ✅ Tampilkan Kode Readable dari API, bukan UUID
-                                ticketCode: ticket.ticketCode, 
+                                ticketCode: ticket.ticketCode,
                               );
                             },
                           ),

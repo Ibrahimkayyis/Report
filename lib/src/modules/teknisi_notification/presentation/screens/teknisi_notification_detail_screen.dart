@@ -2,16 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart'; // 👈 Import Intl untuk format tanggal lengkap
+import 'package:intl/intl.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
-import 'package:timeago/timeago.dart' as timeago; // 👈 Import timeago
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../domain/models/teknisi_notification_detail_model.dart';
 import '../cubits/teknisi_notification_detail_cubit.dart';
 import '../cubits/teknisi_notification_detail_state.dart';
 import '../widgets/teknisi_notification_detail_card.dart';
+
+// ✅ Import Shimmer
+import '../widgets/shimmer/teknisi_notification_detail_shimmer.dart';
 
 @RoutePage()
 class TeknisiNotificationDetailScreen extends StatelessWidget {
@@ -22,19 +25,15 @@ class TeknisiNotificationDetailScreen extends StatelessWidget {
     required this.id,
   });
 
-  // 🔹 Helper Function untuk Format Waktu
   String _formatDetailTime(String isoString) {
     try {
       final dt = DateTime.parse(isoString).toLocal();
       final now = DateTime.now();
       final difference = now.difference(dt);
 
-      // Jika kurang dari 24 jam, gunakan "x jam yang lalu"
       if (difference.inHours < 24) {
         return timeago.format(dt, locale: 'id');
-      } 
-      // Jika lebih dari 24 jam, tampilkan tanggal lengkap (Contoh: 14 Des 2025, 10:30)
-      else {
+      } else {
         return DateFormat('dd MMM yyyy, HH:mm', 'id').format(dt);
       }
     } catch (e) {
@@ -52,9 +51,13 @@ class TeknisiNotificationDetailScreen extends StatelessWidget {
         body: BlocBuilder<TeknisiNotificationDetailCubit,
             TeknisiNotificationDetailState>(
           builder: (context, state) {
+            
+            // ✅ GANTI LOADING STATE
             if (state is TeknisiNotificationDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is TeknisiNotificationDetailError) {
+              return const TeknisiNotificationDetailShimmer();
+            } 
+            
+            else if (state is TeknisiNotificationDetailError) {
               return AppErrorState.general(
                 context: context,
                 message: state.message,
@@ -124,7 +127,6 @@ class TeknisiNotificationDetailScreen extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               
-              // 🟢 GUNAKAN HELPER FORMAT TIME DI SINI
               Text(
                 _formatDetailTime(detail.createdAt), 
                 style: TextStyle(fontSize: 12.sp, color: Colors.grey),

@@ -11,6 +11,9 @@ import 'package:report/src/modules/report_activity/presentation/cubits/ticket_de
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_rating/ticket_rating_cubit.dart';
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_rating/ticket_rating_state.dart';
 
+// ✅ Import Shimmer
+import '../../widgets/shimmer/ticket_rating_shimmer.dart'; 
+
 @RoutePage()
 class TicketRatingScreen extends StatefulWidget {
   final String ticketId; // ✅ UUID
@@ -163,9 +166,13 @@ class _TicketRatingScreenState extends State<TicketRatingScreen> {
           ),
           body: BlocBuilder<TicketDetailCubit, TicketDetailState>(
             builder: (context, state) {
+              
+              // ✅ GANTI LOADING STATE
               if (state is TicketDetailLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is TicketDetailError) {
+                return const TicketRatingShimmer();
+              } 
+              
+              else if (state is TicketDetailError) {
                 return AppErrorState.general(
                   context: context,
                   message: state.message,

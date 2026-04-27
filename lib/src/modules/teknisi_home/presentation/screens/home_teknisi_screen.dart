@@ -8,6 +8,8 @@ import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dart';
+import 'package:report/src/modules/profile/presentation/cubits/profile_state.dart';
 import 'package:report/src/modules/teknisi_home/presentation/cubits/teknisi_home_cubit.dart';
 import 'package:report/src/modules/teknisi_home/presentation/cubits/teknisi_home_state.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_app_bar.dart';
@@ -16,6 +18,9 @@ import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknis
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_tab_section.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_filter_card.dart';
 import 'package:report/src/modules/teknisi_home/presentation/widgets/home_teknisi/teknisi_ticket_list.dart';
+
+// ✅ Import Shimmer
+import '../widgets/shimmer/teknisi_ticket_list_shimmer.dart';
 
 @RoutePage()
 class HomeTeknisiScreen extends StatefulWidget {
@@ -27,22 +32,18 @@ class HomeTeknisiScreen extends StatefulWidget {
 
 class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
     with SingleTickerProviderStateMixin {
-  // Local State untuk UI Filter
+  // ... (State & Variables sama seperti sebelumnya) ...
   int _selectedTabIndex = 0;
   String? _selectedSubKategori;
-  String? _selectedPriority; 
+  String? _selectedPriority;
   String? _selectedStatusTeknisi;
 
-  int _currentPage = 1;
+  final int _currentPage = 1;
   final int _totalPages = 1;
 
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
   bool _isSidebarVisible = false;
-
-  final String _userName = 'Teknisi User';
-  final String _userEmail = 'teknisi@example.com';
-  final String? _userAvatarUrl = null;
 
   @override
   void initState() {
@@ -77,30 +78,9 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
     });
   }
 
-  // --- Navigation Methods ---
   void _navigateToDashboard() {
     _toggleSidebar();
     AppLogger.d('Navigate to Dashboard');
-  }
-
-  void _navigateToMyTickets() {
-    _toggleSidebar();
-    AppLogger.d('Navigate to My Tickets');
-  }
-
-  void _navigateToHistory() {
-    _toggleSidebar();
-    AppLogger.d('Navigate to History');
-  }
-
-  void _navigateToSettings() {
-    _toggleSidebar();
-    AppLogger.d('Navigate to Settings');
-  }
-
-  void _navigateToKnowledgeBase() {
-    _toggleSidebar();
-    context.router.push(const KnowledgeBaseRoute());
   }
 
   void _navigateToRating() {
@@ -124,21 +104,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
         onTap: _navigateToDashboard,
       ),
       TeknisiMenuItem(
-        icon: Icons.assignment,
-        title: t.app.dashboard.menu_my_tickets,
-        onTap: _navigateToMyTickets,
-      ),
-      TeknisiMenuItem(
-        icon: Icons.history,
-        title: t.app.dashboard.menu_history,
-        onTap: _navigateToHistory,
-      ),
-      TeknisiMenuItem(
-        icon: Icons.book_outlined,
-        title: t.app.dashboard.menu_knowledge_base,
-        onTap: _navigateToKnowledgeBase,
-      ),
-      TeknisiMenuItem(
         icon: Icons.star_rate_rounded,
         title: 'Rating',
         onTap: _navigateToRating,
@@ -148,15 +113,13 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
         title: t.app.rfc.rfc_title,
         onTap: _navigateToRFC,
       ),
-      TeknisiMenuItem(
-        icon: Icons.settings,
-        title: t.app.dashboard.menu_settings,
-        onTap: _navigateToSettings,
-      ),
     ];
 
-    return BlocProvider(
-      create: (_) => sl<TeknisiHomeCubit>()..fetchTickets(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<TeknisiHomeCubit>()..fetchTickets()),
+        BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
+      ],
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         appBar: TeknisiAppBar(onMenuPressed: _toggleSidebar),
@@ -167,8 +130,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
               child: BlocBuilder<TeknisiHomeCubit, TeknisiHomeState>(
                 builder: (context, state) {
                   final cubit = context.read<TeknisiHomeCubit>();
-
-                  // ✅ Ambil data Summary dari State API
                   final summary = state.dashboardSummary;
                   final isLoading = state.status == TeknisiHomeStatus.loading;
 
@@ -176,7 +137,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                     TeknisiStatData(
                       icon: Icons.check_circle_outline,
                       title: t.app.dashboard.ticket_incoming,
-                      // ✅ Tampilkan '...' saat loading, atau data asli, atau '0'
                       value: isLoading ? '...' : '${summary?.totalTickets ?? 0}',
                       subtitle: t.app.dashboard.ticket_incoming_desc,
                       color: ColorName.primary,
@@ -207,7 +167,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                   return Column(
                     children: [
                       TeknisiStatsCards(stats: stats),
-
                       SizedBox(height: 16.h),
 
                       TeknisiTabSection(
@@ -222,7 +181,6 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                           selectedSubKategori: _selectedSubKategori,
                           selectedPriority: _selectedPriority,
                           selectedStatusTeknisi: _selectedStatusTeknisi,
-
                           onSubKategoriChanged: (v) {
                             setState(() => _selectedSubKategori = v);
                             cubit.updateFilter(subKategori: v);
@@ -240,12 +198,9 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                         // List & Loading
                         ticketList: Builder(
                           builder: (context) {
+                            // ✅ GANTI LOADING STATE
                             if (state.status == TeknisiHomeStatus.loading) {
-                              return Container(
-                                height: 300.h,
-                                alignment: Alignment.center,
-                                child: const CircularProgressIndicator(),
-                              );
+                              return const TeknisiTicketListShimmer();
                             }
 
                             if (state.status == TeknisiHomeStatus.failure) {
@@ -261,9 +216,7 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                                       size: 40,
                                     ),
                                     SizedBox(height: 8.h),
-                                    Text(
-                                      state.errorMessage ?? "Terjadi Kesalahan",
-                                    ),
+                                    Text(state.errorMessage ?? "Terjadi Kesalahan"),
                                     TextButton(
                                       onPressed: () => cubit.fetchTickets(),
                                       child: const Text("Coba Lagi"),
@@ -282,7 +235,7 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
                           },
                         ),
 
-                        // Pagination (UI Only - Logic belum terhubung API Pagination)
+                        // Pagination
                         pagination: Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 16.w,
@@ -315,22 +268,46 @@ class _HomeTeknisiScreenState extends State<HomeTeknisiScreen>
               ),
             ),
 
+            // Sidebar Overlay
             if (_isSidebarVisible)
               GestureDetector(
                 onTap: _toggleSidebar,
                 child: Container(color: Colors.black.withOpacity(0.5)),
               ),
 
+            // Sidebar
             SlideTransition(
               position: _slideAnimation,
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: TeknisiSidebar(
-                  onClose: _toggleSidebar,
-                  userName: _userName,
-                  userEmail: _userEmail,
-                  userAvatarUrl: _userAvatarUrl,
-                  menuItems: menuItems,
+                child: BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, profileState) {
+                    String userName = '-';
+                    String userEmail = '-';
+                    String? userAvatarUrl;
+
+                    if (profileState is ProfileLoaded) {
+                      final profile = profileState.profile;
+                      final fullName = profile.fullName.trim().isNotEmpty
+                          ? profile.fullName
+                          : '${profile.firstName ?? ''} ${profile.lastName ?? ''}'.trim();
+                      
+                      userName = fullName.isNotEmpty ? fullName : '-';
+                      userEmail = profile.email;
+                      
+                      if (profile.profileUrl != null && profile.profileUrl!.isNotEmpty) {
+                        userAvatarUrl = profile.profileUrl;
+                      }
+                    }
+
+                    return TeknisiSidebar(
+                      onClose: _toggleSidebar,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userAvatarUrl: userAvatarUrl,
+                      menuItems: menuItems,
+                    );
+                  },
                 ),
               ),
             ),

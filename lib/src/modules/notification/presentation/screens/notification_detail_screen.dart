@@ -11,6 +11,9 @@ import 'package:report/src/modules/notification/domain/models/notification_detai
 import 'package:report/src/modules/notification/presentation/cubits/notification_detail_cubit.dart';
 import 'package:report/src/modules/notification/presentation/cubits/notification_detail_state.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/notification_detail_shimmer.dart';
+
 @RoutePage()
 class NotificationDetailScreen extends StatelessWidget {
   final String id;
@@ -29,9 +32,13 @@ class NotificationDetailScreen extends StatelessWidget {
         appBar: const AppPrimaryBar(title: "Detail Notifikasi"),
         body: BlocBuilder<NotificationDetailCubit, NotificationDetailState>(
           builder: (context, state) {
+            
+            // ✅ GANTI LOADING STATE
             if (state is NotificationDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is NotificationDetailError) {
+              return const NotificationDetailShimmer();
+            } 
+            
+            else if (state is NotificationDetailError) {
               return AppErrorState.general(
                 context: context,
                 message: state.message,
@@ -47,6 +54,7 @@ class NotificationDetailScreen extends StatelessWidget {
     );
   }
 
+  // ... (Method _buildContent dan lainnya tetap sama) ...
   Widget _buildContent(BuildContext context, NotificationDetailModel detail) {
     final serviceTypeFormatted = detail.requestType.replaceAll('_', ' ').toUpperCase();
     final opdName = detail.opdName.isNotEmpty ? detail.opdName : '-';
@@ -139,9 +147,7 @@ class NotificationDetailScreen extends StatelessWidget {
 
                 SizedBox(height: 12.h),
 
-                // ======================================
-                //   🔥 ROW BARU: Ticket No + COPY BUTTON
-                // ======================================
+                // Ticket Number Row
                 _buildTicketInfoRowWithCopy(
                   context,
                   label: "No. Tiket",
@@ -249,9 +255,8 @@ class NotificationDetailScreen extends StatelessWidget {
     );
   }
 
-  // ================================================================
-  //   🔥 NEW WIDGET: Ticket Row with Copy Button
-  // ================================================================
+  // ... (Widget Helpers: _buildTicketInfoRowWithCopy, _buildTag, dll sama seperti sebelumnya)
+  
   Widget _buildTicketInfoRowWithCopy(
     BuildContext context, {
     required String label,
@@ -320,10 +325,6 @@ class NotificationDetailScreen extends StatelessWidget {
       ],
     );
   }
-
-  // ================================================================
-  // BUILD HELPERS
-  // ================================================================
 
   Widget _buildTag(String text) {
     return Container(

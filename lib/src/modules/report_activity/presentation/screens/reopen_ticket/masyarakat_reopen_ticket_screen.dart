@@ -14,6 +14,9 @@ import 'package:report/src/modules/report_activity/presentation/cubits/reopen_ti
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_cubit.dart';
 import 'package:report/src/modules/report_activity/presentation/cubits/ticket_detail/ticket_detail_state.dart';
 
+// ✅ Import Shimmer
+import '../../widgets/shimmer/masyarakat_reopen_shimmer.dart';
+
 @RoutePage()
 class MasyarakatReopenTicketScreen extends StatefulWidget {
   final String ticketId;
@@ -187,9 +190,13 @@ class _MasyarakatReopenTicketScreenState
           // ✅ Kita menggunakan context dari BlocBuilder di sini
           body: BlocBuilder<TicketDetailCubit, TicketDetailState>(
             builder: (context, state) {
+              
+              // ✅ GANTI LOADING STATE
               if (state is TicketDetailLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is TicketDetailError) {
+                return const MasyarakatReopenShimmer();
+              } 
+              
+              else if (state is TicketDetailError) {
                 return AppErrorState.general(
                   context: context,
                   message: state.message,
@@ -301,16 +308,13 @@ class _MasyarakatReopenTicketScreenState
     );
   }
 
-  // ... (Widget Helpers: _buildHeaderInfo, _buildReadOnlyTextField, _buildEditableTextField) 
-  // Gunakan kode yang sama seperti sebelumnya untuk widget-widget tersebut.
-
+  // --- WIDGET HELPER ---
   Widget _buildHeaderInfo({
     required String fullName,
     required String nik,
     String? profileUrl,
     required String ticketCode,
   }) {
-    // ... (Isi sama dengan sebelumnya)
     return Column(
       children: [
         Row(
@@ -403,65 +407,14 @@ class _MasyarakatReopenTicketScreenState
   // ✅ FIX: Terima context sebagai parameter
   Widget _buildBottomActions(BuildContext context) {
     final t = context.t.app;
-
     return Container(
       padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: OutlinedButton(
-              onPressed: _handleCancel,
-              style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                side: const BorderSide(color: ColorName.primary),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: Text(
-                t.back_button,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: ColorName.primary,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: ElevatedButton(
-              // ✅ FIX: Panggil _handleSubmit dengan context ini
-              onPressed: () => _handleSubmit(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorName.primary,
-                foregroundColor: ColorName.white,
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: Text(
-                t.submit_button,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -4))]),
+      child: Row(children: [
+        Expanded(child: OutlinedButton(onPressed: _handleCancel, style: OutlinedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 12.h), side: const BorderSide(color: ColorName.primary), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r))), child: Text(t.back_button, style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: ColorName.primary)))),
+        SizedBox(width: 12.w),
+        Expanded(child: ElevatedButton(onPressed: () => _handleSubmit(context), style: ElevatedButton.styleFrom(backgroundColor: ColorName.primary, foregroundColor: ColorName.white, padding: EdgeInsets.symmetric(vertical: 12.h), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r))), child: Text(t.submit_button, style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600)))),
+      ]),
     );
   }
 }

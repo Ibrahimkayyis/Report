@@ -6,13 +6,16 @@ import 'package:report/gen/colors.gen.dart';
 import 'package:report/src/core/router/app_router.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
-import 'package:timeago/timeago.dart' as timeago; // 👈 Import timeago
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../domain/models/teknisi_notification_model.dart';
 import '../cubits/teknisi_notification_cubit.dart';
 import '../cubits/teknisi_notification_state.dart';
 import '../widgets/teknisi_notification_header.dart';
 import '../widgets/teknisi_notification_item.dart';
+
+// ✅ Import Shimmer
+import '../widgets/shimmer/teknisi_notification_list_shimmer.dart';
 
 @RoutePage()
 class TeknisiNotificationScreen extends StatefulWidget {
@@ -28,17 +31,11 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
   final Set<String> _selectedIds = {};
   String _currentFilter = 'all';
 
-  List<TeknisiNotificationModel>? _lastLoadedData;
-
   @override
   void initState() {
     super.initState();
-    // 🟢 Set Locale Indonesia untuk timeago
     timeago.setLocaleMessages('id', timeago.IdMessages());
   }
-
-  // ... (Code logika selection mode dan API actions SAMA, tidak perlu diubah) ...
-  // ... (Paste kode _enterSelectionMode, _exitSelectionMode, _toggleItemSelection, _deleteSelectedItems, _handleMarkAllRead, _getIcon dari kode lama) ...
 
   void _enterSelectionMode() {
     setState(() => _isSelectionMode = true);
@@ -61,6 +58,7 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
     });
   }
 
+  // ✅ TERIMA CONTEXT YANG VALID
   void _deleteSelectedItems(BuildContext context) {
     showDialog(
       context: context,
@@ -83,6 +81,7 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
     );
   }
 
+  // ✅ TERIMA CONTEXT YANG VALID
   void _handleMarkAllRead(BuildContext context) {
     showDialog(
       context: context,
@@ -116,13 +115,12 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
     return Icons.notifications;
   }
 
-  // 🔹 Helper Function untuk Format Waktu
   String _formatTimeAgo(String isoString) {
     try {
-      final dt = DateTime.parse(isoString).toLocal(); // Convert ke Local Time
-      return timeago.format(dt, locale: 'id'); // Format pakai bahasa Indonesia
+      final dt = DateTime.parse(isoString).toLocal();
+      return timeago.format(dt, locale: 'id');
     } catch (e) {
-      return isoString; // Fallback jika gagal parse
+      return isoString;
     }
   }
 
@@ -130,6 +128,7 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => sl<TeknisiNotificationCubit>()..fetchNotifications(),
+      // ✅ GUNAKAN BUILDER UNTUK MENDAPATKAN CONTEXT BARU DI BAWAH PROVIDER
       child: Builder(
         builder: (context) {
           return PopScope(
@@ -150,11 +149,13 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
                         setState(() => _currentFilter = val);
                       },
                       onRefresh: () {
+                        // ✅ Sekarang aman menggunakan context dari Builder
                         context
                             .read<TeknisiNotificationCubit>()
                             .fetchNotifications();
                       },
                       onDeleteMode: _enterSelectionMode,
+                      // ✅ Pass context ke fungsi handler
                       onMarkAllRead: () => _handleMarkAllRead(context),
                     ),
                     Divider(
@@ -163,27 +164,9 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
                       child: BlocBuilder<TeknisiNotificationCubit,
                           TeknisiNotificationState>(
                         builder: (context, state) {
-                          if (state is TeknisiNotificationLoaded) {
-                            _lastLoadedData = state.notifications;
-                          }
-
-                          if (state is TeknisiNotificationLoading &&
-                              _lastLoadedData != null) {
-                            return Stack(
-                              children: [
-                                _buildNotificationList(_lastLoadedData!),
-                                Container(
-                                  color: Colors.white.withOpacity(0.5),
-                                  child: const Center(
-                                      child: CircularProgressIndicator()),
-                                )
-                              ],
-                            );
-                          }
-
+                          // ✅ LOADING STATE: Pakai Shimmer
                           if (state is TeknisiNotificationLoading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return const TeknisiNotificationListShimmer();
                           }
 
                           if (state is TeknisiNotificationError) {
@@ -201,7 +184,8 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
                           }
 
                           if (state is TeknisiNotificationLoaded) {
-                            return _buildNotificationList(state.notifications);
+                            // ✅ Pass context ke helper list
+                            return _buildNotificationList(context, state.notifications);
                           }
 
                           return const SizedBox.shrink();
@@ -222,6 +206,7 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
                         children: [
                           FloatingActionButton(
                             heroTag: "delete_fab_tech",
+                            // ✅ Pass context ke fungsi delete
                             onPressed: _selectedIds.isNotEmpty
                                 ? () => _deleteSelectedItems(context)
                                 : null,
@@ -271,7 +256,8 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
     );
   }
 
-  Widget _buildNotificationList(List<TeknisiNotificationModel> allData) {
+  // ✅ TERIMA CONTEXT SEBAGAI PARAMETER
+  Widget _buildNotificationList(BuildContext context, List<TeknisiNotificationModel> allData) {
     List<TeknisiNotificationModel> filteredList = [];
     if (_currentFilter == 'all') {
       filteredList = List.from(allData);
@@ -292,6 +278,7 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
 
     return RefreshIndicator(
       onRefresh: () async {
+        // ✅ Sekarang aman karena context berasal dari builder
         await context.read<TeknisiNotificationCubit>().fetchNotifications();
       },
       child: ListView.separated(
@@ -306,10 +293,7 @@ class _TeknisiNotificationScreenState extends State<TeknisiNotificationScreen> {
             title: n.status ?? "Info",
             description: n.message,
             type: n.status?.toLowerCase() ?? 'info',
-            
-            // 🟢 GUNAKAN HELPER FORMAT TIMEAGO
-            time: _formatTimeAgo(n.createdAt), 
-            
+            time: _formatTimeAgo(n.createdAt),
             isRead: n.isRead,
             icon: _getIcon(n.status, n.message),
             isSelectionMode: _isSelectionMode,

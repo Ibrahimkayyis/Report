@@ -9,6 +9,7 @@ import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/teknisi_rfc/domain/models/rfc_model.dart';
 import 'package:report/src/modules/teknisi_rfc/presentation/cubits/rfc_cubit.dart';
 import '../widgets/rfc_card_item.dart';
+import '../widgets/shimmer/rfc_card_list_shimmer.dart';
 
 @RoutePage()
 class RFCScreen extends StatefulWidget {
@@ -50,106 +51,38 @@ class _RFCScreenState extends State<RFCScreen>
     }
   }
 
-  // ✅ Method untuk Handle Refresh
-  void _handleRefresh() {
-    context.read<RfcCubit>().fetchSubmittedRfcs();
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Memuat ulang data...'),
-        duration: const Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: ColorName.primary,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<RfcCubit>()..fetchSubmittedRfcs(),
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
-        appBar: AppPrimaryBar(
-          title: "Request For Change (RFC)",
-          centerTitle: true,
-        ),
-        body: Column(
-          children: [
-            /// Header Section with Tambah & Refresh Button
-            Container(
-              color: ColorName.white,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
-                    child: Row(
-                      children: [
-                        // Tombol Tambah
-                        InkWell(
-                          onTap: () => context.router.push(RFCFormRoute()),
-                          borderRadius: BorderRadius.circular(12.r),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.w,
-                              vertical: 12.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: ColorName.white,
-                              borderRadius: BorderRadius.circular(12.r),
-                              border: Border.all(
-                                color: Colors.grey.shade300,
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(4.w),
-                                  decoration: BoxDecoration(
-                                    color: ColorName.primary,
-                                    borderRadius: BorderRadius.circular(6.r),
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: ColorName.white,
-                                    size: 18.sp,
-                                  ),
-                                ),
-                                SizedBox(width: 8.w),
-                                Text(
-                                  "Tambah",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: ColorName.textPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        const Spacer(),
-
-                        // Tombol Refresh
-                        BlocBuilder<RfcCubit, RfcState>(
-                          builder: (context, state) {
-                            final isLoading = state is RfcLoading;
-                            
-                            return InkWell(
-                              onTap: isLoading ? null : _handleRefresh,
+      child: Builder( // ✅ Wrap dengan Builder
+        builder: (context) { // ✅ Context ini punya akses ke BlocProvider
+          return Scaffold(
+            backgroundColor: Colors.grey.shade50,
+            appBar: AppPrimaryBar(
+              title: "Request For Change (RFC)",
+              centerTitle: true,
+            ),
+            body: Column(
+              children: [
+                /// Header Section with Tambah & Refresh Button
+                Container(
+                  color: ColorName.white,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
+                        child: Row(
+                          children: [
+                            // Tombol Tambah
+                            InkWell(
+                              onTap: () => context.router.push(RFCFormRoute()),
                               borderRadius: BorderRadius.circular(12.r),
                               child: Container(
-                                padding: EdgeInsets.all(12.w),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 12.h,
+                                ),
                                 decoration: BoxDecoration(
                                   color: ColorName.white,
                                   borderRadius: BorderRadius.circular(12.r),
@@ -165,116 +98,187 @@ class _RFCScreenState extends State<RFCScreen>
                                     ),
                                   ],
                                 ),
-                                child: isLoading
-                                    ? SizedBox(
-                                        width: 18.sp,
-                                        height: 18.sp,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(
-                                            ColorName.primary,
-                                          ),
-                                        ),
-                                      )
-                                    : Icon(
-                                        Icons.refresh_rounded,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(4.w),
+                                      decoration: BoxDecoration(
                                         color: ColorName.primary,
-                                        size: 20.sp,
+                                        borderRadius: BorderRadius.circular(6.r),
                                       ),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: ColorName.white,
+                                        size: 18.sp,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      "Tambah",
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: ColorName.textPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
+                            ),
 
-                  // Tab Bar
-                  TabBar(
-                    controller: _tabController,
-                    onTap: (index) => setState(() {}),
-                    labelColor: ColorName.primary,
-                    unselectedLabelColor: Colors.grey.shade600,
-                    labelStyle: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    unselectedLabelStyle: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    indicatorColor: ColorName.primary,
-                    indicatorWeight: 3,
-                    tabs: const [
-                      Tab(text: "Insiden Berulang"),
-                      Tab(text: "Permintaan Perubahan"),
+                            const Spacer(),
+
+                            // ✅ Tombol Refresh dengan context yang benar
+                            BlocBuilder<RfcCubit, RfcState>(
+                              builder: (context, state) {
+                                final isLoading = state is RfcLoading;
+                                
+                                return InkWell(
+                                  onTap: isLoading 
+                                      ? null 
+                                      : () {
+                                          // ✅ Gunakan context dari BlocBuilder
+                                          context.read<RfcCubit>().fetchSubmittedRfcs();
+                                          
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: const Text('Memuat ulang data...'),
+                                              duration: const Duration(seconds: 1),
+                                              behavior: SnackBarBehavior.floating,
+                                              backgroundColor: ColorName.primary,
+                                            ),
+                                          );
+                                        },
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.w),
+                                    decoration: BoxDecoration(
+                                      color: ColorName.white,
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      border: Border.all(
+                                        color: Colors.grey.shade300,
+                                        width: 1.5,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.05),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: isLoading
+                                        ? SizedBox(
+                                            width: 18.sp,
+                                            height: 18.sp,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                ColorName.primary,
+                                              ),
+                                            ),
+                                          )
+                                        : Icon(
+                                            Icons.refresh_rounded,
+                                            color: ColorName.primary,
+                                            size: 20.sp,
+                                          ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+
+                      // Tab Bar
+                      TabBar(
+                        controller: _tabController,
+                        onTap: (index) => setState(() {}),
+                        labelColor: ColorName.primary,
+                        unselectedLabelColor: Colors.grey.shade600,
+                        labelStyle: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        unselectedLabelStyle: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        indicatorColor: ColorName.primary,
+                        indicatorWeight: 3,
+                        tabs: const [
+                          Tab(text: "Insiden Berulang"),
+                          Tab(text: "Permintaan Perubahan"),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+
+                /// Content Area
+                Expanded(
+                  child: BlocBuilder<RfcCubit, RfcState>(
+                    builder: (context, state) {
+                      if (state is RfcLoading) {
+                        return const RFCCardListShimmer();
+                      } else if (state is RfcError) {
+                        return Center(
+                          child: AppErrorState.general(
+                            context: context,
+                            message: state.message,
+                            onRetry: () =>
+                                context.read<RfcCubit>().fetchSubmittedRfcs(),
+                          ),
+                        );
+                      } else if (state is RfcLoaded) {
+                        final allData = state.submittedRfcs;
+
+                        // Filter Data
+                        final incidentList = allData
+                            .where((e) => e.type == RfcType.incidentRepeat)
+                            .toList();
+
+                        final changeRequestList = allData
+                            .where((e) => e.type == RfcType.changeRequest)
+                            .toList();
+
+                        return TabBarView(
+                          controller: _tabController,
+                          children: [
+                            // Tab 1: Insiden Berulang
+                            _buildRfcList(
+                              context,
+                              changeRequestList,
+                              "Tidak ada data Insiden Berulang",
+                            ),
+
+                            // Tab 2: Permintaan Perubahan
+                            _buildRfcList(
+                              context,
+                              incidentList,
+                              "Tidak ada data Permintaan Perubahan",
+                            ),
+                          ],
+                        );
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
             ),
-
-            /// Content Area
-            Expanded(
-              child: BlocBuilder<RfcCubit, RfcState>(
-                builder: (context, state) {
-                  if (state is RfcLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is RfcError) {
-                    return Center(
-                      child: AppErrorState.general(
-                        context: context,
-                        message: state.message,
-                        onRetry: () =>
-                            context.read<RfcCubit>().fetchSubmittedRfcs(),
-                      ),
-                    );
-                  } else if (state is RfcLoaded) {
-                    final allData = state.submittedRfcs;
-
-                    // Filter Data
-                    final incidentList = allData
-                        .where((e) => e.type == RfcType.incidentRepeat)
-                        .toList();
-
-                    final changeRequestList = allData
-                        .where((e) => e.type == RfcType.changeRequest)
-                        .toList();
-
-                    return TabBarView(
-                      controller: _tabController,
-                      children: [
-                        // Tab 1: Insiden Berulang
-                        _buildRfcList(
-                          context, // ✅ Pass context dari BlocBuilder
-                          incidentList,
-                          "Tidak ada data Insiden Berulang",
-                        ),
-
-                        // Tab 2: Permintaan Perubahan
-                        _buildRfcList(
-                          context, // ✅ Pass context dari BlocBuilder
-                          changeRequestList,
-                          "Tidak ada data Permintaan Perubahan",
-                        ),
-                      ],
-                    );
-                  }
-
-                  return const SizedBox.shrink();
-                },
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  // ✅ Widget Reusable List - Terima BuildContext sebagai parameter
   Widget _buildRfcList(
-    BuildContext context, // ✅ Tambahkan parameter context
+    BuildContext context,
     List<RfcModel> data,
     String emptyMessage,
   ) {
@@ -294,7 +298,6 @@ class _RFCScreenState extends State<RFCScreen>
       );
     }
 
-    // ✅ Gunakan context yang di-pass dari BlocBuilder
     return RefreshIndicator(
       onRefresh: () async {
         context.read<RfcCubit>().fetchSubmittedRfcs();

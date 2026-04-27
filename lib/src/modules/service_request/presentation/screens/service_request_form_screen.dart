@@ -18,6 +18,9 @@ import 'package:report/src/modules/service_request/domain/models/asset_sub_categ
 import 'package:report/src/modules/service_request/presentation/cubits/service_request_cubit.dart';
 import 'package:report/src/modules/service_request/presentation/cubits/service_request_state.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/service_request_form_shimmer.dart';
+
 @RoutePage()
 class ServiceRequestFormScreen extends StatefulWidget {
   final String? opdId;
@@ -300,7 +303,6 @@ class _ServiceRequestFormScreenState extends State<ServiceRequestFormScreen> {
             
             final result = state.submitResult!;
             
-            // ✅ Pass data dari response API
             context.router.push(
               ServiceRequestSuccessRoute(data: result),
             );
@@ -320,143 +322,146 @@ class _ServiceRequestFormScreenState extends State<ServiceRequestFormScreen> {
             return Scaffold(
               backgroundColor: ColorName.background,
               appBar: AppPrimaryBar(title: t.service_request_title),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BlocBuilder<ProfileCubit, ProfileState>(
-                            builder: (context, state) {
-                              ProfileModel? profile;
-                              if (state is ProfileLoaded) {
-                                profile = state.profile;
-                              }
+              body: Builder(
+                builder: (context) {
+                  // ✅ CEK LOADING STATE (Profile & ServiceRequest)
+                  final serviceState = context.watch<ServiceRequestCubit>().state;
+                  final profileState = context.watch<ProfileCubit>().state;
 
-                              final displayOpdName = profile?.dinasName ?? 
-                                                     widget.opdName ?? 
-                                                     "Dinas Komunikasi dan Informatika";
+                  // Tampilkan Shimmer jika sedang loading data awal
+                  if (serviceState.status == ServiceRequestStatus.loading ||
+                      profileState is ProfileLoading) {
+                    return const ServiceRequestFormShimmer();
+                  }
 
-                              return Column(
-                                children: [
-                                  AppFormTargetDisplay(
-                                    name: displayOpdName,
-                                    imageUrl: widget.opdIconUrl,
-                                    color: widget.opdColor ?? ColorName.primary,
-                                  ),
-                                  SizedBox(height: 24.h),
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.all(16.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BlocBuilder<ProfileCubit, ProfileState>(
+                                builder: (context, state) {
+                                  ProfileModel? profile;
+                                  if (state is ProfileLoaded) {
+                                    profile = state.profile;
+                                  }
 
-                                  _buildProfileSection(profile),
-                                ],
-                              );
-                            },
-                          ),
-                          
-                          SizedBox(height: 24.h),
+                                  final displayOpdName = profile?.dinasName ?? 
+                                                         widget.opdName ?? 
+                                                         "Dinas Komunikasi dan Informatika";
 
-                          ReportingTextField(
-                            label: t.request_title_label,
-                            hint: t.request_title_hint,
-                            controller: _titleController,
-                            errorText: _errors['title'],
-                            onChanged: (_) => _clearError('title'),
-                          ),
-                          SizedBox(height: 24.h),
-
-                          BlocBuilder<ServiceRequestCubit, ServiceRequestState>(
-                            builder: (context, state) {
-                              final List<String> assetNames = state.subCategories
-                                  .map((e) => e.nama)
-                                  .toList();
-                              
-                              String? currentSelectionName = _selectedSubCategory?.nama;
-
-                              if (state.status == ServiceRequestStatus.loading) {
-                                return Center(
-                                  child: Column(
+                                  return Column(
                                     children: [
-                                      const CircularProgressIndicator.adaptive(),
-                                      SizedBox(height: 8.h),
-                                      Text('Memuat opsi aset...', style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600))
+                                      AppFormTargetDisplay(
+                                        name: displayOpdName,
+                                        imageUrl: widget.opdIconUrl,
+                                        color: widget.opdColor ?? ColorName.primary,
+                                      ),
+                                      SizedBox(height: 24.h),
+
+                                      _buildProfileSection(profile),
                                     ],
-                                  ),
-                                );
-                              }
-                              
-                              if (state.status == ServiceRequestStatus.failure) {
-                                return Center(child: Text('Gagal memuat data aset. ${state.errorMessage}', style: TextStyle(color: Colors.red, fontSize: 12.sp)));
-                              }
-
-                              return AppDropdownField(
-                                label: "Nama Aset",
-                                value: currentSelectionName,
-                                items: assetNames,
-                                errorText: _errors['assetName'],
-                                onChanged: (val) {
-                                  setState(() {
-                                    _selectedSubCategory = state.subCategories
-                                        .firstWhere((e) => e.nama == val);
-                                        
-                                    if (_hasAttemptedSubmit) {
-                                      _errors['assetName'] = null;
-                                    }
-                                  });
+                                  );
                                 },
-                              );
-                            },
-                          ),
-                          
-                          SizedBox(height: 24.h),
+                              ),
+                              
+                              SizedBox(height: 24.h),
 
-                          ReportingTextField(
-                            label: t.service_location_label,
-                            hint: t.service_location_hint,
-                            controller: _serviceLocationController,
-                            errorText: _errors['serviceLocation'],
-                            onChanged: (_) => _clearError('serviceLocation'),
-                          ),
-                          SizedBox(height: 24.h),
+                              ReportingTextField(
+                                label: t.request_title_label,
+                                hint: t.request_title_hint,
+                                controller: _titleController,
+                                errorText: _errors['title'],
+                                onChanged: (_) => _clearError('title'),
+                              ),
+                              SizedBox(height: 24.h),
 
-                          AppFormProblemDescription(
-                            controller: _serviceDescriptionController,
-                            title: t.service_description_label,
-                            hint: t.service_description_hint,
-                            errorText: _errors['serviceDescription'],
-                            onChanged: (_) => _clearError('serviceDescription'),
-                          ),
-                          SizedBox(height: 24.h),
+                              BlocBuilder<ServiceRequestCubit, ServiceRequestState>(
+                                builder: (context, state) {
+                                  final List<String> assetNames = state.subCategories
+                                      .map((e) => e.nama)
+                                      .toList();
+                                  
+                                  String? currentSelectionName = _selectedSubCategory?.nama;
 
-                          AppFormAttachFile(
-                            key: _attachFileKey,
-                            title: t.attach_file_label,
-                            onFilesChanged: (files) =>
-                                setState(() => _attachedFiles = files),
-                          ),
-                          SizedBox(height: 24.h),
+                                  // Error State khusus untuk dropdown
+                                  if (state.status == ServiceRequestStatus.failure) {
+                                    return Center(child: Text('Gagal memuat data aset. ${state.errorMessage}', style: TextStyle(color: Colors.red, fontSize: 12.sp)));
+                                  }
 
-                          ReportingTextField(
-                            label: t.expected_solution_label,
-                            hint: t.expected_solution_hint,
-                            controller: _expectedSolutionController,
-                            errorText: _errors['expectedSolution'],
-                            maxLines: 5,
-                            onChanged: (_) => _clearError('expectedSolution'),
+                                  return AppDropdownField(
+                                    label: "Nama Aset",
+                                    value: currentSelectionName,
+                                    items: assetNames,
+                                    errorText: _errors['assetName'],
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _selectedSubCategory = state.subCategories
+                                            .firstWhere((e) => e.nama == val);
+                                        
+                                        if (_hasAttemptedSubmit) {
+                                          _errors['assetName'] = null;
+                                        }
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
+                              
+                              SizedBox(height: 24.h),
+
+                              ReportingTextField(
+                                label: t.service_location_label,
+                                hint: t.service_location_hint,
+                                controller: _serviceLocationController,
+                                errorText: _errors['serviceLocation'],
+                                onChanged: (_) => _clearError('serviceLocation'),
+                              ),
+                              SizedBox(height: 24.h),
+
+                              AppFormProblemDescription(
+                                controller: _serviceDescriptionController,
+                                title: t.service_description_label,
+                                hint: t.service_description_hint,
+                                errorText: _errors['serviceDescription'],
+                                onChanged: (_) => _clearError('serviceDescription'),
+                              ),
+                              SizedBox(height: 24.h),
+
+                              AppFormAttachFile(
+                                key: _attachFileKey,
+                                title: t.attach_file_label,
+                                onFilesChanged: (files) =>
+                                    setState(() => _attachedFiles = files),
+                              ),
+                              SizedBox(height: 24.h),
+
+                              ReportingTextField(
+                                label: t.expected_solution_label,
+                                hint: t.expected_solution_hint,
+                                controller: _expectedSolutionController,
+                                errorText: _errors['expectedSolution'],
+                                maxLines: 5,
+                                onChanged: (_) => _clearError('expectedSolution'),
+                              ),
+                              SizedBox(height: 24.h),
+                            ],
                           ),
-                          SizedBox(height: 24.h),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  AppFormBottomActions(
-                    onCancel: () => _handleCancel(context),
-                    onSaveDraft: () => ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(t.draft_saved))),
-                    onSubmit: () => _handleSubmit(context),
-                  ),
-                ],
+                      AppFormBottomActions(
+                        onCancel: () => _handleCancel(context),
+                        onSaveDraft: () => ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(t.draft_saved))),
+                        onSubmit: () => _handleSubmit(context),
+                      ),
+                    ],
+                  );
+                },
               ),
             );
           },

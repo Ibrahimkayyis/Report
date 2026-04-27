@@ -12,6 +12,9 @@ import 'package:report/src/modules/report_activity/presentation/cubits/report_ac
 import 'package:report/src/modules/report_activity/presentation/cubits/report_activity_state.dart';
 import '../widgets/activity_item.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/activity_list_shimmer.dart'; 
+
 @RoutePage()
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -21,6 +24,7 @@ class ActivityScreen extends StatefulWidget {
 }
 
 class _ActivityScreenState extends State<ActivityScreen> {
+  // ... (kode state lainnya tetap sama) ...
   int _currentPage = 1;
   final int _itemsPerPage = 5;
   String? _userRole;
@@ -96,9 +100,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
         body: SafeArea(
           child: BlocBuilder<ReportActivityCubit, ReportActivityState>(
             builder: (context, state) {
+              
+              // ✅ GANTI LOADING STATE DI SINI
               if (state is ReportActivityLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is ReportActivityError) {
+                return const ActivityListShimmer();
+              } 
+              
+              else if (state is ReportActivityError) {
                 return AppErrorState.general(
                   context: context,
                   message: state.message,
@@ -121,7 +129,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
                 return Column(
                   children: [
-                    // Content List - Expanded untuk mengisi ruang tersisa
+                    // Content List
                     Expanded(
                       child: RefreshIndicator(
                         onRefresh: () async {
@@ -135,7 +143,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
                           itemBuilder: (context, index) {
                             final activity = currentActivities[index];
 
-                            // Logic UX
                             final statusLower = activity.status.toLowerCase();
                             final isFinished = statusLower == 'selesai';
                             final canReopen = isFinished;
@@ -157,7 +164,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                       ),
                     ),
 
-                    // Pagination - Selalu di bawah
+                    // Pagination
                     if (allActivities.isNotEmpty) ...[
                       Divider(height: 1.h, color: ColorName.black.withOpacity(0.1)),
                       Container(

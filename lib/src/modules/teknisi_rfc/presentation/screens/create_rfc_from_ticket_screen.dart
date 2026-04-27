@@ -14,6 +14,9 @@ import 'package:report/src/modules/reporting/presentation/widgets/form_sections/
 import 'package:report/src/modules/teknisi_rfc/presentation/cubits/form/rfc_form_cubit.dart';
 import '../widgets/opd_dropdown_section.dart';
 
+// ✅ Import Shimmer yang sudah dibuat sebelumnya
+import '../widgets/shimmer/rfc_form_shimmer.dart';
+
 @RoutePage()
 class CreateRFCFromTicketScreen extends StatefulWidget {
   final String ticketId;
@@ -24,7 +27,8 @@ class CreateRFCFromTicketScreen extends StatefulWidget {
   });
 
   @override
-  State<CreateRFCFromTicketScreen> createState() => _CreateRFCFromTicketScreenState();
+  State<CreateRFCFromTicketScreen> createState() =>
+      _CreateRFCFromTicketScreenState();
 }
 
 class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
@@ -39,8 +43,8 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
 
   // --- State Variables ---
   String? _selectedOpdId;
-  String? _selectedAssetId; // ✅ Menyimpan ID dari asset yang dipilih
-  String? _selectedAssetName; // ✅ Menyimpan nama untuk ditampilkan di dropdown
+  String? _selectedAssetId;
+  String? _selectedAssetName;
   String? _selectedEstimasiWaktu;
   String? _selectedEstimasiBiaya;
 
@@ -66,7 +70,6 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
   void initState() {
     super.initState();
     AppLogger.d('📋 Creating RFC for Ticket ID: ${widget.ticketId}');
-    // TODO: Fetch ticket detail dan auto-fill form jika diperlukan
   }
 
   @override
@@ -108,8 +111,10 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
     }
 
     validate('judul', _judulController.text.trim().isEmpty, t.validation_required);
-    validate('namaPemohon', _namaPemohonController.text.trim().isEmpty, t.validation_required);
-    validate('opdAsal', _selectedOpdId?.isEmpty ?? true, t.validation_opd_required);
+    validate('namaPemohon', _namaPemohonController.text.trim().isEmpty,
+        t.validation_required);
+    validate('opdAsal', _selectedOpdId?.isEmpty ?? true,
+        t.validation_opd_required);
 
     final phone = _nomorHpController.text.trim();
     validate('nomorHp', phone.isEmpty, t.validation_required);
@@ -117,13 +122,20 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
       validate('nomorHp', true, t.validation_phone_invalid);
     }
 
-    validate('dataAsset', _selectedAssetId == null, t.validation_data_asset_required);
-    validate('estimasiWaktu', _selectedEstimasiWaktu?.isEmpty ?? true, t.validation_time_estimate_required);
-    validate('estimasiBiaya', _selectedEstimasiBiaya?.isEmpty ?? true, t.validation_cost_estimate_required);
-    validate('deskripsi', _deskripsiController.text.trim().isEmpty, t.validation_required);
-    validate('alasanPerubahan', _alasanPerubahanController.text.trim().isEmpty, t.validation_required);
-    validate('dampakPerubahan', _dampakPerubahanController.text.trim().isEmpty, t.validation_required);
-    validate('dampakJikaTidak', _dampakJikaTidakController.text.trim().isEmpty, t.validation_required);
+    validate('dataAsset', _selectedAssetId == null,
+        t.validation_data_asset_required);
+    validate('estimasiWaktu', _selectedEstimasiWaktu?.isEmpty ?? true,
+        t.validation_time_estimate_required);
+    validate('estimasiBiaya', _selectedEstimasiBiaya?.isEmpty ?? true,
+        t.validation_cost_estimate_required);
+    validate('deskripsi', _deskripsiController.text.trim().isEmpty,
+        t.validation_required);
+    validate('alasanPerubahan', _alasanPerubahanController.text.trim().isEmpty,
+        t.validation_required);
+    validate('dampakPerubahan', _dampakPerubahanController.text.trim().isEmpty,
+        t.validation_required);
+    validate('dampakJikaTidak', _dampakJikaTidakController.text.trim().isEmpty,
+        t.validation_required);
 
     setState(() {
       _hasAttemptedSubmit = true;
@@ -156,21 +168,20 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
         icon: Icons.warning_amber_rounded,
         onConfirm: () {
           Navigator.of(dialogContext).pop();
-          
+
           AppLogger.i('📤 Submitting RFC from Ticket: ${widget.ticketId}');
           AppLogger.i('Asset ID: $_selectedAssetId');
-          
-          // ✅ Submit Change Request dengan ticketId
+
           context.read<RfcFormCubit>().submitChangeRequest(
-            ticketId: widget.ticketId,
-            judul: _judulController.text.trim(),
-            idAset: int.tryParse(_selectedAssetId ?? '0') ?? 0,
-            deskripsi: _deskripsiController.text.trim(),
-            alasan: _alasanPerubahanController.text.trim(),
-            dampak: _dampakPerubahanController.text.trim(),
-            dampakJikaTidak: _dampakJikaTidakController.text.trim(),
-            biaya: _parseBiayaEstimasi(_selectedEstimasiBiaya),
-          );
+                ticketId: widget.ticketId,
+                judul: _judulController.text.trim(),
+                idAset: int.tryParse(_selectedAssetId ?? '0') ?? 0,
+                deskripsi: _deskripsiController.text.trim(),
+                alasan: _alasanPerubahanController.text.trim(),
+                dampak: _dampakPerubahanController.text.trim(),
+                dampakJikaTidak: _dampakJikaTidakController.text.trim(),
+                biaya: _parseBiayaEstimasi(_selectedEstimasiBiaya),
+              );
         },
         onCancel: () => Navigator.of(dialogContext).pop(),
       ),
@@ -201,12 +212,12 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
                 buttonText: t.dialog_report_success_button,
                 onPressed: () {
                   Navigator.of(successContext).pop();
-                  context.router.maybePop(true); // ✅ Return true untuk refresh list
+                  context.router.maybePop(true);
                 },
               ),
             );
           }
-          
+
           if (state.formStatus == FormSubmitStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -222,188 +233,218 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
             title: 'Buat RFC dari Tiket',
             centerTitle: true,
           ),
-          body: BlocBuilder<RfcFormCubit, RfcFormState>(
-            builder: (context, state) {
-              final isSubmitting = state.formStatus == FormSubmitStatus.submitting;
+          body: Builder(
+            builder: (context) {
+              // ✅ CEK LOADING STATE (OPD & Asset)
+              final opdState = context.watch<OpdCubit>().state;
+              final rfcState = context.watch<RfcFormCubit>().state;
 
-              return Stack(
-                children: [
-                  Column(
+              // Tampilkan Shimmer jika sedang loading data awal
+              if (opdState is OpdLoading ||
+                  rfcState.assetStatus == AssetStatus.loading) {
+                // ✅ Reuse shimmer yang sudah dibuat
+                return const RFCFormShimmer();
+              }
+
+              return BlocBuilder<RfcFormCubit, RfcFormState>(
+                builder: (context, state) {
+                  final isSubmitting =
+                      state.formStatus == FormSubmitStatus.submitting;
+
+                  return Stack(
                     children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: EdgeInsets.all(16.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // ✅ Info Ticket ID
-                              Container(
-                                padding: EdgeInsets.all(12.w),
-                                margin: EdgeInsets.only(bottom: 16.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.shade50,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  border: Border.all(color: Colors.blue.shade200),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.info_outline,
-                                      color: Colors.blue.shade700,
-                                      size: 20.sp,
+                      Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              padding: EdgeInsets.all(16.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // ✅ Info Ticket ID (Read Only)
+                                  Container(
+                                    padding: EdgeInsets.all(12.w),
+                                    margin: EdgeInsets.only(bottom: 16.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue.shade50,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(
+                                          color: Colors.blue.shade200),
                                     ),
-                                    SizedBox(width: 8.w),
-                                    Expanded(
-                                      child: Text(
-                                        'RFC ini dibuat dari Tiket ID: ${widget.ticketId}',
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.blue.shade900,
-                                          fontWeight: FontWeight.w500,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.info_outline,
+                                          color: Colors.blue.shade700,
+                                          size: 20.sp,
                                         ),
-                                      ),
+                                        SizedBox(width: 8.w),
+                                        Expanded(
+                                          child: Text(
+                                            'RFC ini dibuat dari Tiket ID: ${widget.ticketId}',
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.blue.shade900,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  ),
 
-                              // Form Fields
-                              ReportingTextField(
-                                label: t.submission_title,
-                                hint: t.submission_title_hint,
-                                controller: _judulController,
-                                errorText: _errors['judul'],
-                                onChanged: (_) => _clearError('judul'),
-                              ),
-                              SizedBox(height: 20.h),
+                                  // 1. Judul
+                                  ReportingTextField(
+                                    label: t.submission_title,
+                                    hint: t.submission_title_hint,
+                                    controller: _judulController,
+                                    errorText: _errors['judul'],
+                                    onChanged: (_) => _clearError('judul'),
+                                  ),
+                                  SizedBox(height: 20.h),
 
-                              ReportingTextField(
-                                label: t.applicant_name,
-                                hint: t.applicant_name_hint,
-                                controller: _namaPemohonController,
-                                errorText: _errors['namaPemohon'],
-                                onChanged: (_) => _clearError('namaPemohon'),
-                              ),
-                              SizedBox(height: 20.h),
+                                  // 2. Nama Pemohon
+                                  ReportingTextField(
+                                    label: t.applicant_name,
+                                    hint: t.applicant_name_hint,
+                                    controller: _namaPemohonController,
+                                    errorText: _errors['namaPemohon'],
+                                    onChanged: (_) =>
+                                        _clearError('namaPemohon'),
+                                  ),
+                                  SizedBox(height: 20.h),
 
-                              // OPD Dropdown
-                              BlocBuilder<OpdCubit, OpdState>(
-                                builder: (context, opdState) {
-                                  final items = (opdState is OpdLoaded) ? opdState.opdList : [];
-                                  return OpdDropdownSection(
-                                    label: t.opd_origin_label,
-                                    hint: t.opd_origin_hint,
-                                    selectedOpdId: _selectedOpdId,
-                                    errorText: _errors['opdAsal'],
-                                    items: items,
-                                    isLoading: opdState is OpdLoading,
-                                    isError: opdState is OpdError,
-                                    onRetry: () => context.read<OpdCubit>().fetchOpdList(),
-                                    onChanged: (selectedOpd) {
-                                      if (selectedOpd != null) {
-                                        setState(() => _selectedOpdId = selectedOpd.opdId);
-                                        _clearError('opdAsal');
-                                      }
+                                  // 3. OPD Dropdown
+                                  BlocBuilder<OpdCubit, OpdState>(
+                                    builder: (context, opdState) {
+                                      final items = (opdState is OpdLoaded)
+                                          ? opdState.opdList
+                                          : [];
+                                      return OpdDropdownSection(
+                                        label: t.opd_origin_label,
+                                        hint: t.opd_origin_hint,
+                                        selectedOpdId: _selectedOpdId,
+                                        errorText: _errors['opdAsal'],
+                                        items: items,
+                                        isLoading: opdState is OpdLoading,
+                                        isError: opdState is OpdError,
+                                        onRetry: () => context
+                                            .read<OpdCubit>()
+                                            .fetchOpdList(),
+                                        onChanged: (selectedOpd) {
+                                          if (selectedOpd != null) {
+                                            setState(() => _selectedOpdId =
+                                                selectedOpd.opdId);
+                                            _clearError('opdAsal');
+                                          }
+                                        },
+                                      );
                                     },
-                                  );
-                                },
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 4. Nomor HP
+                                  _buildPhoneField(t),
+                                  SizedBox(height: 20.h),
+
+                                  // 5. Data Aset (Dropdown)
+                                  _buildAssetDropdown(state, t),
+                                  SizedBox(height: 20.h),
+
+                                  // 6. Estimasi Waktu
+                                  AppDropdownField(
+                                    label: t.time_estimate_hint,
+                                    value: _selectedEstimasiWaktu,
+                                    items: _estimasiWaktuOptions,
+                                    onChanged: (val) {
+                                      setState(
+                                          () => _selectedEstimasiWaktu = val);
+                                      _clearError('estimasiWaktu');
+                                    },
+                                    errorText: _errors['estimasiWaktu'],
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 7. Estimasi Biaya
+                                  AppDropdownField(
+                                    label: t.cost_estimate_hint,
+                                    value: _selectedEstimasiBiaya,
+                                    items: _estimasiBiayaOptions,
+                                    onChanged: (val) {
+                                      setState(
+                                          () => _selectedEstimasiBiaya = val);
+                                      _clearError('estimasiBiaya');
+                                    },
+                                    errorText: _errors['estimasiBiaya'],
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 8. Deskripsi
+                                  ReportingTextField(
+                                    label: t.description,
+                                    hint: t.description_hint,
+                                    controller: _deskripsiController,
+                                    maxLines: 4,
+                                    errorText: _errors['deskripsi'],
+                                    onChanged: (_) => _clearError('deskripsi'),
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 9. Alasan Perubahan
+                                  ReportingTextField(
+                                    label: t.change_reason,
+                                    hint: t.change_reason_hint,
+                                    controller: _alasanPerubahanController,
+                                    maxLines: 4,
+                                    errorText: _errors['alasanPerubahan'],
+                                    onChanged: (_) =>
+                                        _clearError('alasanPerubahan'),
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 10. Dampak Perubahan
+                                  ReportingTextField(
+                                    label: t.change_impact,
+                                    hint: t.change_impact_hint,
+                                    controller: _dampakPerubahanController,
+                                    maxLines: 4,
+                                    errorText: _errors['dampakPerubahan'],
+                                    onChanged: (_) =>
+                                        _clearError('dampakPerubahan'),
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 11. Dampak Jika Tidak
+                                  ReportingTextField(
+                                    label: t.no_change_impact,
+                                    hint: t.no_change_impact_hint,
+                                    controller: _dampakJikaTidakController,
+                                    maxLines: 4,
+                                    errorText: _errors['dampakJikaTidak'],
+                                    onChanged: (_) =>
+                                        _clearError('dampakJikaTidak'),
+                                  ),
+                                  SizedBox(height: 24.h),
+                                ],
                               ),
-                              SizedBox(height: 20.h),
+                            ),
+                          ),
+                          _buildBottomActions(context, t),
+                        ],
+                      ),
 
-                              _buildPhoneField(t),
-                              SizedBox(height: 20.h),
-
-                              // ✅ Asset Dropdown (Custom Fixed)
-                              _buildAssetDropdown(state, t),
-                              SizedBox(height: 20.h),
-
-                              // Estimasi Waktu
-                              AppDropdownField(
-                                label: t.time_estimate_hint,
-                                value: _selectedEstimasiWaktu,
-                                items: _estimasiWaktuOptions,
-                                onChanged: (val) {
-                                  setState(() => _selectedEstimasiWaktu = val);
-                                  _clearError('estimasiWaktu');
-                                },
-                                errorText: _errors['estimasiWaktu'],
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // Estimasi Biaya
-                              AppDropdownField(
-                                label: t.cost_estimate_hint,
-                                value: _selectedEstimasiBiaya,
-                                items: _estimasiBiayaOptions,
-                                onChanged: (val) {
-                                  setState(() => _selectedEstimasiBiaya = val);
-                                  _clearError('estimasiBiaya');
-                                },
-                                errorText: _errors['estimasiBiaya'],
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // Deskripsi
-                              ReportingTextField(
-                                label: t.description,
-                                hint: t.description_hint,
-                                controller: _deskripsiController,
-                                maxLines: 4,
-                                errorText: _errors['deskripsi'],
-                                onChanged: (_) => _clearError('deskripsi'),
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // Alasan Perubahan
-                              ReportingTextField(
-                                label: t.change_reason,
-                                hint: t.change_reason_hint,
-                                controller: _alasanPerubahanController,
-                                maxLines: 4,
-                                errorText: _errors['alasanPerubahan'],
-                                onChanged: (_) => _clearError('alasanPerubahan'),
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // Dampak Perubahan
-                              ReportingTextField(
-                                label: t.change_impact,
-                                hint: t.change_impact_hint,
-                                controller: _dampakPerubahanController,
-                                maxLines: 4,
-                                errorText: _errors['dampakPerubahan'],
-                                onChanged: (_) => _clearError('dampakPerubahan'),
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // Dampak Jika Tidak
-                              ReportingTextField(
-                                label: t.no_change_impact,
-                                hint: t.no_change_impact_hint,
-                                controller: _dampakJikaTidakController,
-                                maxLines: 4,
-                                errorText: _errors['dampakJikaTidak'],
-                                onChanged: (_) => _clearError('dampakJikaTidak'),
-                              ),
-                              SizedBox(height: 24.h),
-                            ],
+                      // Loading Overlay saat Submit
+                      if (isSubmitting)
+                        Container(
+                          color: Colors.black.withOpacity(0.5),
+                          child: const Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.white),
                           ),
                         ),
-                      ),
-                      
-                      _buildBottomActions(context, t),
                     ],
-                  ),
-
-                  // Loading Overlay
-                  if (isSubmitting)
-                    Container(
-                      color: Colors.black.withOpacity(0.5),
-                      child: const Center(
-                        child: CircularProgressIndicator(color: Colors.white),
-                      ),
-                    ),
-                ],
+                  );
+                },
               );
             },
           ),
@@ -412,7 +453,7 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
     );
   }
 
-  // ✅ Custom Asset Dropdown dengan Error Handling yang Benar
+  // --- Helpers ---
   Widget _buildAssetDropdown(RfcFormState state, dynamic t) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,8 +467,8 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
           ),
         ),
         SizedBox(height: 8.h),
-        
-        // Loading State
+
+        // Loading
         if (state.assetStatus == AssetStatus.loading)
           Container(
             padding: EdgeInsets.all(14.w),
@@ -448,7 +489,7 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
               ],
             ),
           )
-        // Error State
+        // Failure
         else if (state.assetStatus == AssetStatus.failure)
           Container(
             padding: EdgeInsets.all(14.w),
@@ -474,32 +515,40 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
               ],
             ),
           )
-        // Success State - Dropdown
+        // Success
         else if (state.assets.isNotEmpty)
           DropdownButtonFormField<String>(
             value: _selectedAssetName,
             decoration: InputDecoration(
               hintText: 'Pilih Data Aset',
-              hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
+              hintStyle:
+                  TextStyle(fontSize: 14.sp, color: Colors.grey.shade500),
               filled: true,
               fillColor: ColorName.white,
-              contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
                 borderSide: BorderSide(
-                  color: _errors['dataAsset'] != null ? Colors.red : Colors.grey.shade400,
+                  color: _errors['dataAsset'] != null
+                      ? Colors.red
+                      : Colors.grey.shade400,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
                 borderSide: BorderSide(
-                  color: _errors['dataAsset'] != null ? Colors.red : Colors.grey.shade400,
+                  color: _errors['dataAsset'] != null
+                      ? Colors.red
+                      : Colors.grey.shade400,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
                 borderSide: BorderSide(
-                  color: _errors['dataAsset'] != null ? Colors.red : ColorName.primary,
+                  color: _errors['dataAsset'] != null
+                      ? Colors.red
+                      : ColorName.primary,
                   width: 2,
                 ),
               ),
@@ -519,21 +568,18 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
                 final selectedAsset = state.assets.firstWhere(
                   (asset) => asset.name == selectedName,
                 );
-                
+
                 setState(() {
                   _selectedAssetName = selectedName;
                   _selectedAssetId = selectedAsset.assetId;
                 });
-                
+
                 _clearError('dataAsset');
-                
-                AppLogger.d('✅ Selected Asset: $selectedName (ID: ${selectedAsset.assetId})');
               }
             },
             isExpanded: true,
             icon: Icon(Icons.arrow_drop_down, color: Colors.grey.shade700),
           )
-        // Empty State
         else
           Container(
             padding: EdgeInsets.all(14.w),
@@ -547,8 +593,7 @@ class _CreateRFCFromTicketScreenState extends State<CreateRFCFromTicketScreen> {
               style: TextStyle(color: Colors.grey.shade600),
             ),
           ),
-        
-        // Error Message
+
         if (_errors['dataAsset'] != null) ...[
           SizedBox(height: 6.h),
           Text(

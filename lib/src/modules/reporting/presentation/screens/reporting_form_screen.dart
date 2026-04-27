@@ -13,10 +13,13 @@ import 'package:report/src/modules/profile/presentation/cubits/profile_cubit.dar
 import 'package:report/src/modules/profile/presentation/cubits/profile_state.dart';
 import 'package:report/src/modules/reporting/domain/models/asset_model.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/asset/asset_cubit.dart';
+import 'package:report/src/modules/reporting/presentation/cubits/asset/asset_state.dart'; // ✅ Import Asset State
 import 'package:report/src/modules/reporting/presentation/cubits/report_cubit.dart';
 import 'package:report/src/modules/reporting/presentation/cubits/report_state.dart';
+import 'package:report/src/modules/reporting/presentation/widgets/shimmer/reporting_form_shimmer.dart';
 import '../widgets/form_sections/asset_info_section.dart';
 import '../widgets/form_sections/reporting_text_field.dart';
+
 
 @RoutePage()
 class ReportingFormScreen extends StatefulWidget {
@@ -24,8 +27,6 @@ class ReportingFormScreen extends StatefulWidget {
   final String? opdName;
   final String? opdIconUrl;
   final Color? opdColor;
-  
-  // ✅ 1. Tambahkan parameter optional ini
   final AssetModel? prefilledAsset;
 
   const ReportingFormScreen({
@@ -34,7 +35,7 @@ class ReportingFormScreen extends StatefulWidget {
     this.opdName,
     this.opdIconUrl,
     this.opdColor,
-    this.prefilledAsset, // ✅ Masukkan ke constructor
+    this.prefilledAsset,
   });
 
   @override
@@ -42,13 +43,12 @@ class ReportingFormScreen extends StatefulWidget {
 }
 
 class _ReportingFormScreenState extends State<ReportingFormScreen> {
-  // Controllers
+  // ... (Controller dan Variabel State sama seperti sebelumnya) ...
   final _titleController = TextEditingController();
   final _problemController = TextEditingController();
   final _locationController = TextEditingController();
   final _expectedSolutionController = TextEditingController();
 
-  // Asset Controllers (Read Only)
   final _serialNumberController = TextEditingController();
   final _assetCategoryController = TextEditingController();
   final _assetSubcategoryController = TextEditingController();
@@ -56,20 +56,15 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
   final GlobalKey<AppFormAttachFileState> _attachFileKey = GlobalKey();
 
-  // State Variables
   AssetModel? _selectedDataAsset;
   List<File> _attachedFiles = [];
   bool _hasAttemptedSubmit = false;
   final Map<String, String?> _errors = {};
-
-  // User OPD ID
   String? _userOpdId;
 
-  // ✅ 2. Tambahkan initState untuk cek prefilledAsset
   @override
   void initState() {
     super.initState();
-    // Jika ada data aset dari QR/Screen lain, langsung isi form
     if (widget.prefilledAsset != null) {
       _onDataAssetChanged(widget.prefilledAsset);
     }
@@ -88,27 +83,21 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     super.dispose();
   }
 
-  // --- Logic Methods ---
-
+  // ... (Logic Methods: _onDataAssetChanged, _validateForm, _handleSubmit, etc. sama seperti sebelumnya) ...
+  
   void _onDataAssetChanged(AssetModel? asset) {
     setState(() {
       _selectedDataAsset = asset;
-
-      if (_hasAttemptedSubmit) {
-        _errors['dataAsset'] = null;
-      }
+      if (_hasAttemptedSubmit) _errors['dataAsset'] = null;
 
       if (asset != null) {
         _serialNumberController.text = asset.nomorSeri ?? '-';
         _assetCategoryController.text = asset.kategori;
-        _assetSubcategoryController.text =
-            asset.assetBarang?.subKategori?.nama ?? '-';
+        _assetSubcategoryController.text = asset.assetBarang?.subKategori?.nama ?? '-';
         _assetTypeController.text = asset.jenis;
-
         if (asset.assetBarang?.lokasi?.nama != null) {
           _locationController.text = asset.assetBarang!.lokasi!.nama;
         }
-
         if (_hasAttemptedSubmit) {
           _errors['serialNumber'] = null;
           _errors['assetCategory'] = null;
@@ -134,7 +123,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
   bool _validateForm(BuildContext context) {
     final t = context.t.app;
     final newErrors = <String, String?>{};
-
     void validate(String key, bool isInvalid, String errorMessage) {
       if (isInvalid) newErrors[key] = errorMessage;
     }
@@ -143,26 +131,11 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     final problem = _problemController.text.trim();
 
     validate('title', title.isEmpty, t.validation.title_required);
-
-    validate(
-      'dataAsset',
-      _selectedDataAsset == null,
-      t.validation.data_asset_required,
-    );
-
-    validate(
-      'location',
-      _locationController.text.trim().isEmpty,
-      t.validation.location_required,
-    );
-
+    validate('dataAsset', _selectedDataAsset == null, t.validation.data_asset_required);
+    validate('location', _locationController.text.trim().isEmpty, t.validation.location_required);
     validate('problem', problem.isEmpty, t.validation.description_required);
     if (problem.isNotEmpty) {
-      validate(
-        'problem',
-        problem.length < 20,
-        t.validation.description_min_length,
-      );
+      validate('problem', problem.length < 20, t.validation.description_min_length);
     }
 
     setState(() {
@@ -170,7 +143,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
       _errors.clear();
       _errors.addAll(newErrors);
     });
-
     return _errors.isEmpty;
   }
 
@@ -188,7 +160,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
         icon: Icons.warning_amber_rounded,
         onConfirm: () {
           Navigator.of(dialogContext).pop(); 
-
           if (_selectedDataAsset?.id != null) {
             context.read<ReportCubit>().submitReport(
               assetId: _selectedDataAsset!.id,
@@ -211,8 +182,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
 
   void _handleCancel(BuildContext context) {
     final t = context.t.app;
-    final hasData =
-        _titleController.text.isNotEmpty ||
+    final hasData = _titleController.text.isNotEmpty ||
         _problemController.text.isNotEmpty ||
         _selectedDataAsset != null ||
         _locationController.text.isNotEmpty ||
@@ -269,8 +239,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
       ),
     );
   }
-
-  // --- Widget Builders ---
 
   Widget _buildProfileSection(ProfileModel? profile) {
     final name = profile?.fullName ?? '-';
@@ -337,7 +305,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<ReportCubit>()),
-        // Tetap fetch assets agar dropdown bisa bekerja jika user ingin mengganti aset
         BlocProvider(create: (_) => sl<AssetCubit>()..fetchAssets()),
         BlocProvider(create: (_) => sl<ProfileCubit>()..fetchProfile()),
       ],
@@ -347,10 +314,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
             _showLoadingDialog(context);
           } else if (state is ReportSuccess) {
             Navigator.of(context, rootNavigator: true).pop();
-
-            context.router.push(
-              ReportSuccessRoute(data: state.data),
-            );
+            context.router.push(ReportSuccessRoute(data: state.data));
           } else if (state is ReportError) {
             Navigator.of(context, rootNavigator: true).pop();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -361,12 +325,21 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
             );
           }
         },
-        child: Builder(
-          builder: (context) {
-            return Scaffold(
-              backgroundColor: ColorName.background,
-              appBar: AppPrimaryBar(title: t.online_reporting_title),
-              body: Column(
+        child: Scaffold(
+          backgroundColor: ColorName.background,
+          appBar: AppPrimaryBar(title: t.online_reporting_title),
+          body: Builder(
+            builder: (context) {
+              // ✅ CEK STATE LOADING DARI ASSET & PROFILE
+              final assetState = context.watch<AssetCubit>().state;
+              final profileState = context.watch<ProfileCubit>().state;
+
+              // Jika salah satu masih loading awal (initial fetch), tampilkan Shimmer
+              if (assetState is AssetLoading || profileState is ProfileLoading) {
+                return const ReportingFormShimmer();
+              }
+
+              return Column(
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
@@ -381,8 +354,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                                 profile = state.profile;
                               }
 
-                              final displayOpdName =
-                                  profile?.dinasName ??
+                              final displayOpdName = profile?.dinasName ??
                                   widget.opdName ??
                                   "Dinas Komunikasi dan Informatika";
 
@@ -394,7 +366,6 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                                     color: widget.opdColor ?? ColorName.primary,
                                   ),
                                   SizedBox(height: 24.h),
-
                                   _buildProfileSection(profile),
                                 ],
                               );
@@ -416,8 +387,7 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                             selectedDataAsset: _selectedDataAsset,
                             serialNumberController: _serialNumberController,
                             assetCategoryController: _assetCategoryController,
-                            assetSubcategoryController:
-                                _assetSubcategoryController,
+                            assetSubcategoryController: _assetSubcategoryController,
                             assetTypeController: _assetTypeController,
                             onDataAssetChanged: _onDataAssetChanged,
                             errors: _errors,
@@ -468,9 +438,9 @@ class _ReportingFormScreenState extends State<ReportingFormScreen> {
                     onSubmit: () => _handleSubmit(context),
                   ),
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

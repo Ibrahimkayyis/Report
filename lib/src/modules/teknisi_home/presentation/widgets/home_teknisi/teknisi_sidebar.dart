@@ -32,7 +32,7 @@ class TeknisiSidebar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: ColorName.black.withValues(alpha:0.15),
+            color: ColorName.black.withOpacity(0.15),
             blurRadius: 20,
             offset: const Offset(2, 0),
           ),
@@ -79,6 +79,7 @@ class TeknisiSidebar extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start, // ✅ Align top agar rapi jika teks panjang
         children: [
           CircleAvatar(
             radius: 28.r,
@@ -97,6 +98,7 @@ class TeknisiSidebar extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center, // Center vertikal relatif terhadap avatar
               children: [
                 Text(
                   'Hello,',
@@ -106,6 +108,7 @@ class TeknisiSidebar extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 2.h),
+                // ✅ PERBAIKAN DI SINI
                 Text(
                   userName,
                   style: TextStyle(
@@ -113,7 +116,8 @@ class TeknisiSidebar extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: ColorName.textPrimary,
                   ),
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3, // ✅ Izinkan teks turun hingga 3 baris
+                  overflow: TextOverflow.ellipsis, // Ellipsis hanya muncul jika > 3 baris
                 ),
               ],
             ),

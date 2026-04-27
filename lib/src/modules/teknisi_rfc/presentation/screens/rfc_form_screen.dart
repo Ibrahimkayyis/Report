@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:report/gen/colors.gen.dart';
 import 'package:report/gen/i18n/translations.g.dart';
-import 'package:report/src/core/log/app_logger.dart';
 import 'package:report/src/core/service_locator/service_locator.dart';
 import 'package:report/src/core/widgets/widgets.dart';
 import 'package:report/src/modules/masyarakat_reporting/presentation/cubits/opd_cubit.dart';
@@ -14,6 +13,9 @@ import 'package:report/src/modules/reporting/presentation/widgets/form_sections/
 import 'package:report/src/modules/teknisi_rfc/domain/models/rfc_model.dart';
 import 'package:report/src/modules/teknisi_rfc/presentation/cubits/form/rfc_form_cubit.dart';
 import '../widgets/opd_dropdown_section.dart';
+
+// ✅ Import Shimmer
+import '../widgets/shimmer/rfc_form_shimmer.dart';
 
 @RoutePage()
 class RFCFormScreen extends StatefulWidget {
@@ -26,7 +28,7 @@ class RFCFormScreen extends StatefulWidget {
 }
 
 class _RFCFormScreenState extends State<RFCFormScreen> {
-  // --- Controllers ---
+  // ... (Controllers, State Variables, Options sama seperti sebelumnya) ...
   final _judulController = TextEditingController();
   final _namaPemohonController = TextEditingController();
   final _nomorHpController = TextEditingController();
@@ -35,18 +37,15 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
   final _dampakPerubahanController = TextEditingController();
   final _dampakJikaTidakController = TextEditingController();
 
-  // --- State Variables ---
   String? _selectedOpdId;
-  String? _selectedAssetId; // ✅ Menyimpan ID dari asset yang dipilih
-  String? _selectedAssetName; // ✅ Menyimpan nama untuk ditampilkan di dropdown
+  String? _selectedAssetId;
+  String? _selectedAssetName;
   String? _selectedEstimasiWaktu;
   String? _selectedEstimasiBiaya;
 
-  // Error Handling
   bool _hasAttemptedSubmit = false;
   final Map<String, String?> _errors = {};
 
-  // --- Static Options ---
   final List<String> _estimasiWaktuOptions = [
     '1-3 Hari',
     '4-7 Hari',
@@ -90,15 +89,12 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
     super.dispose();
   }
 
-  // --- Logic Methods ---
-
   void _clearError(String key) {
     if (_hasAttemptedSubmit && _errors[key] != null) {
       setState(() => _errors[key] = null);
     }
   }
 
-  // Helper konversi String Estimasi ke Int
   int _parseBiayaEstimasi(String? value) {
     if (value == null) return 0;
     if (value.contains('Kurang dari')) return 250000;
@@ -127,14 +123,11 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
       validate('nomorHp', true, t.validation_phone_invalid);
     }
 
-    // Validasi Aset
     validate('dataAsset', _selectedAssetId == null, t.validation_data_asset_required);
     
-    // Validasi Estimasi
     validate('estimasiWaktu', _selectedEstimasiWaktu?.isEmpty ?? true, t.validation_time_estimate_required);
     validate('estimasiBiaya', _selectedEstimasiBiaya?.isEmpty ?? true, t.validation_cost_estimate_required);
 
-    // Validasi Deskripsi
     validate('deskripsi', _deskripsiController.text.trim().isEmpty, t.validation_required);
     validate('alasanPerubahan', _alasanPerubahanController.text.trim().isEmpty, t.validation_required);
     validate('dampakPerubahan', _dampakPerubahanController.text.trim().isEmpty, t.validation_required);
@@ -172,9 +165,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
         onConfirm: () {
           Navigator.of(dialogContext).pop();
           
-          AppLogger.i('📤 Submitting RFC: Asset ID = $_selectedAssetId');
-          
-          // ✅ Panggil Cubit untuk Submit ke API
           context.read<RfcFormCubit>().submitIncidentRepeat(
             judul: _judulController.text.trim(),
             idAset: int.tryParse(_selectedAssetId ?? '0') ?? 0,
@@ -205,7 +195,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
       ],
       child: BlocListener<RfcFormCubit, RfcFormState>(
         listener: (context, state) {
-          // 🟢 Listen: Sukses Submit
           if (state.formStatus == FormSubmitStatus.success) {
             showDialog(
               context: context,
@@ -221,7 +210,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
             );
           }
           
-          // 🔴 Listen: Gagal Submit
           if (state.formStatus == FormSubmitStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -237,159 +225,173 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
             title: widget.draftData != null ? "Edit Draft RFC" : t.rfc_form_title,
             centerTitle: true,
           ),
-          body: BlocBuilder<RfcFormCubit, RfcFormState>(
-            builder: (context, state) {
-              final isSubmitting = state.formStatus == FormSubmitStatus.submitting;
+          body: Builder(
+            builder: (context) {
+              // ✅ CEK LOADING STATE DARI OPD & ASSETS
+              final opdState = context.watch<OpdCubit>().state;
+              final rfcState = context.watch<RfcFormCubit>().state;
 
-              return Stack(
-                children: [
-                  Column(
+              // Tampilkan Shimmer jika sedang loading data awal
+              if (opdState is OpdLoading || rfcState.assetStatus == AssetStatus.loading) {
+                return const RFCFormShimmer();
+              }
+
+              // Jika loaded, tampilkan Form
+              return BlocBuilder<RfcFormCubit, RfcFormState>(
+                builder: (context, state) {
+                  final isSubmitting = state.formStatus == FormSubmitStatus.submitting;
+
+                  return Stack(
                     children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: EdgeInsets.all(16.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // 1. Judul
-                              ReportingTextField(
-                                label: t.submission_title,
-                                hint: t.submission_title_hint,
-                                controller: _judulController,
-                                errorText: _errors['judul'],
-                                onChanged: (_) => _clearError('judul'),
-                              ),
-                              SizedBox(height: 20.h),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              padding: EdgeInsets.all(16.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // 1. Judul
+                                  ReportingTextField(
+                                    label: t.submission_title,
+                                    hint: t.submission_title_hint,
+                                    controller: _judulController,
+                                    errorText: _errors['judul'],
+                                    onChanged: (_) => _clearError('judul'),
+                                  ),
+                                  SizedBox(height: 20.h),
 
-                              // 2. Nama Pemohon
-                              ReportingTextField(
-                                label: t.applicant_name,
-                                hint: t.applicant_name_hint,
-                                controller: _namaPemohonController,
-                                errorText: _errors['namaPemohon'],
-                                onChanged: (_) => _clearError('namaPemohon'),
-                              ),
-                              SizedBox(height: 20.h),
+                                  // 2. Nama Pemohon
+                                  ReportingTextField(
+                                    label: t.applicant_name,
+                                    hint: t.applicant_name_hint,
+                                    controller: _namaPemohonController,
+                                    errorText: _errors['namaPemohon'],
+                                    onChanged: (_) => _clearError('namaPemohon'),
+                                  ),
+                                  SizedBox(height: 20.h),
 
-                              // 3. OPD Dropdown
-                              BlocBuilder<OpdCubit, OpdState>(
-                                builder: (context, opdState) {
-                                  final items = (opdState is OpdLoaded) ? opdState.opdList : [];
-                                  return OpdDropdownSection(
-                                    label: t.opd_origin_label,
-                                    hint: t.opd_origin_hint,
-                                    selectedOpdId: _selectedOpdId,
-                                    errorText: _errors['opdAsal'],
-                                    items: items,
-                                    isLoading: opdState is OpdLoading,
-                                    isError: opdState is OpdError,
-                                    onRetry: () => context.read<OpdCubit>().fetchOpdList(),
-                                    onChanged: (selectedOpd) {
-                                      if (selectedOpd != null) {
-                                        setState(() => _selectedOpdId = selectedOpd.opdId);
-                                        _clearError('opdAsal');
-                                      }
+                                  // 3. OPD Dropdown
+                                  BlocBuilder<OpdCubit, OpdState>(
+                                    builder: (context, opdState) {
+                                      final items = (opdState is OpdLoaded) ? opdState.opdList : [];
+                                      return OpdDropdownSection(
+                                        label: t.opd_origin_label,
+                                        hint: t.opd_origin_hint,
+                                        selectedOpdId: _selectedOpdId,
+                                        errorText: _errors['opdAsal'],
+                                        items: items,
+                                        isLoading: opdState is OpdLoading,
+                                        isError: opdState is OpdError,
+                                        onRetry: () => context.read<OpdCubit>().fetchOpdList(),
+                                        onChanged: (selectedOpd) {
+                                          if (selectedOpd != null) {
+                                            setState(() => _selectedOpdId = selectedOpd.opdId);
+                                            _clearError('opdAsal');
+                                          }
+                                        },
+                                      );
                                     },
-                                  );
-                                },
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 4. Nomor HP
+                                  _buildPhoneField(t),
+                                  SizedBox(height: 20.h),
+
+                                  // 5. Data Aset (Dropdown)
+                                  _buildAssetDropdown(state, t),
+                                  SizedBox(height: 20.h),
+
+                                  // 6. Estimasi Waktu
+                                  AppDropdownField(
+                                    label: t.time_estimate_hint,
+                                    value: _selectedEstimasiWaktu,
+                                    items: _estimasiWaktuOptions,
+                                    onChanged: (val) {
+                                      setState(() => _selectedEstimasiWaktu = val);
+                                      _clearError('estimasiWaktu');
+                                    },
+                                    errorText: _errors['estimasiWaktu'],
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 7. Estimasi Biaya
+                                  AppDropdownField(
+                                    label: t.cost_estimate_hint,
+                                    value: _selectedEstimasiBiaya,
+                                    items: _estimasiBiayaOptions,
+                                    onChanged: (val) {
+                                      setState(() => _selectedEstimasiBiaya = val);
+                                      _clearError('estimasiBiaya');
+                                    },
+                                    errorText: _errors['estimasiBiaya'],
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 8. Deskripsi
+                                  ReportingTextField(
+                                    label: t.description,
+                                    hint: t.description_hint,
+                                    controller: _deskripsiController,
+                                    maxLines: 4,
+                                    errorText: _errors['deskripsi'],
+                                    onChanged: (_) => _clearError('deskripsi'),
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 9. Alasan Perubahan
+                                  ReportingTextField(
+                                    label: t.change_reason,
+                                    hint: t.change_reason_hint,
+                                    controller: _alasanPerubahanController,
+                                    maxLines: 4,
+                                    errorText: _errors['alasanPerubahan'],
+                                    onChanged: (_) => _clearError('alasanPerubahan'),
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 10. Dampak Perubahan
+                                  ReportingTextField(
+                                    label: t.change_impact,
+                                    hint: t.change_impact_hint,
+                                    controller: _dampakPerubahanController,
+                                    maxLines: 4,
+                                    errorText: _errors['dampakPerubahan'],
+                                    onChanged: (_) => _clearError('dampakPerubahan'),
+                                  ),
+                                  SizedBox(height: 20.h),
+
+                                  // 11. Dampak Jika Tidak
+                                  ReportingTextField(
+                                    label: t.no_change_impact,
+                                    hint: t.no_change_impact_hint,
+                                    controller: _dampakJikaTidakController,
+                                    maxLines: 4,
+                                    errorText: _errors['dampakJikaTidak'],
+                                    onChanged: (_) => _clearError('dampakJikaTidak'),
+                                  ),
+                                  SizedBox(height: 24.h),
+                                ],
                               ),
-                              SizedBox(height: 20.h),
+                            ),
+                          ),
+                          
+                          _buildBottomActions(context, t),
+                        ],
+                      ),
 
-                              // 4. Nomor HP
-                              _buildPhoneField(t),
-                              SizedBox(height: 20.h),
-
-                              // 5. ✅ Data Aset (Dropdown dari API) - FIXED
-                              _buildAssetDropdown(state, t),
-                              SizedBox(height: 20.h),
-
-                              // 6. Estimasi Waktu
-                              AppDropdownField(
-                                label: t.time_estimate_hint,
-                                value: _selectedEstimasiWaktu,
-                                items: _estimasiWaktuOptions,
-                                onChanged: (val) {
-                                  setState(() => _selectedEstimasiWaktu = val);
-                                  _clearError('estimasiWaktu');
-                                },
-                                errorText: _errors['estimasiWaktu'],
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // 7. Estimasi Biaya
-                              AppDropdownField(
-                                label: t.cost_estimate_hint,
-                                value: _selectedEstimasiBiaya,
-                                items: _estimasiBiayaOptions,
-                                onChanged: (val) {
-                                  setState(() => _selectedEstimasiBiaya = val);
-                                  _clearError('estimasiBiaya');
-                                },
-                                errorText: _errors['estimasiBiaya'],
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // 8. Deskripsi
-                              ReportingTextField(
-                                label: t.description,
-                                hint: t.description_hint,
-                                controller: _deskripsiController,
-                                maxLines: 4,
-                                errorText: _errors['deskripsi'],
-                                onChanged: (_) => _clearError('deskripsi'),
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // 9. Alasan Perubahan
-                              ReportingTextField(
-                                label: t.change_reason,
-                                hint: t.change_reason_hint,
-                                controller: _alasanPerubahanController,
-                                maxLines: 4,
-                                errorText: _errors['alasanPerubahan'],
-                                onChanged: (_) => _clearError('alasanPerubahan'),
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // 10. Dampak Perubahan
-                              ReportingTextField(
-                                label: t.change_impact,
-                                hint: t.change_impact_hint,
-                                controller: _dampakPerubahanController,
-                                maxLines: 4,
-                                errorText: _errors['dampakPerubahan'],
-                                onChanged: (_) => _clearError('dampakPerubahan'),
-                              ),
-                              SizedBox(height: 20.h),
-
-                              // 11. Dampak Jika Tidak
-                              ReportingTextField(
-                                label: t.no_change_impact,
-                                hint: t.no_change_impact_hint,
-                                controller: _dampakJikaTidakController,
-                                maxLines: 4,
-                                errorText: _errors['dampakJikaTidak'],
-                                onChanged: (_) => _clearError('dampakJikaTidak'),
-                              ),
-                              SizedBox(height: 24.h),
-                            ],
+                      // Loading Overlay saat Submit
+                      if (isSubmitting)
+                        Container(
+                          color: Colors.black.withOpacity(0.5),
+                          child: const Center(
+                            child: CircularProgressIndicator(color: Colors.white),
                           ),
                         ),
-                      ),
-                      
-                      _buildBottomActions(context, t),
                     ],
-                  ),
-
-                  // Loading Overlay saat Submit
-                  if (isSubmitting)
-                    Container(
-                      color: Colors.black.withOpacity(0.5),
-                      child: const Center(
-                        child: CircularProgressIndicator(color: Colors.white),
-                      ),
-                    ),
-                ],
+                  );
+                },
               );
             },
           ),
@@ -398,7 +400,7 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
     );
   }
 
-  // ✅ Custom Asset Dropdown dengan Error Handling yang Benar
+  // ... (Helper Methods: _buildAssetDropdown, _buildPhoneField, _buildBottomActions SAMA SEPERTI SEBELUMNYA)
   Widget _buildAssetDropdown(RfcFormState state, dynamic t) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,7 +415,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
         ),
         SizedBox(height: 8.h),
         
-        // Loading State
         if (state.assetStatus == AssetStatus.loading)
           Container(
             padding: EdgeInsets.all(14.w),
@@ -434,7 +435,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
               ],
             ),
           )
-        // Error State
         else if (state.assetStatus == AssetStatus.failure)
           Container(
             padding: EdgeInsets.all(14.w),
@@ -460,7 +460,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
               ],
             ),
           )
-        // Success State - Dropdown
         else if (state.assets.isNotEmpty)
           DropdownButtonFormField<String>(
             value: _selectedAssetName,
@@ -492,7 +491,7 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
             ),
             items: state.assets.map((asset) {
               return DropdownMenuItem<String>(
-                value: asset.name, // ✅ Value adalah nama (untuk UI)
+                value: asset.name, 
                 child: Text(
                   asset.name,
                   style: TextStyle(fontSize: 14.sp),
@@ -502,25 +501,21 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
             }).toList(),
             onChanged: (String? selectedName) {
               if (selectedName != null) {
-                // ✅ Cari object asset berdasarkan nama
                 final selectedAsset = state.assets.firstWhere(
                   (asset) => asset.name == selectedName,
                 );
                 
                 setState(() {
-                  _selectedAssetName = selectedName; // Untuk UI dropdown
-                  _selectedAssetId = selectedAsset.assetId; // Untuk dikirim ke API
+                  _selectedAssetName = selectedName;
+                  _selectedAssetId = selectedAsset.assetId;
                 });
                 
                 _clearError('dataAsset');
-                
-                AppLogger.d('✅ Selected Asset: $selectedName (ID: ${selectedAsset.assetId})');
               }
             },
             isExpanded: true,
             icon: Icon(Icons.arrow_drop_down, color: Colors.grey.shade700),
           )
-        // Empty State
         else
           Container(
             padding: EdgeInsets.all(14.w),
@@ -535,7 +530,6 @@ class _RFCFormScreenState extends State<RFCFormScreen> {
             ),
           ),
         
-        // Error Message
         if (_errors['dataAsset'] != null) ...[
           SizedBox(height: 6.h),
           Text(

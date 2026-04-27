@@ -14,6 +14,9 @@ import 'package:report/src/modules/notification/presentation/cubits/notification
 import '../widgets/notification_header.dart';
 import '../widgets/notification_item.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/notification_list_shimmer.dart';
+
 @RoutePage()
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -26,9 +29,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool _isSelectionMode = false;
   final Set<String> _selectedIds = {};
   String _currentFilter = 'all';
-  
-  // ✅ Cache data terakhir untuk ditampilkan saat loading
-  List<NotificationModel>? _lastLoadedData;
 
   void _enterSelectionMode() {
     setState(() => _isSelectionMode = true);
@@ -51,23 +51,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  // ✅ HAPUS LOADING DIALOG - Biarkan Cubit Handle
   void _deleteSelectedItems(BuildContext context) {
     showDialog(
       context: context,
       builder: (dialogContext) => AppConfirmationDialog(
         title: "Hapus Notifikasi",
-        message: "Apakah Anda yakin ingin menghapus ${_selectedIds.length} item yang dipilih?",
+        message:
+            "Apakah Anda yakin ingin menghapus ${_selectedIds.length} item yang dipilih?",
         confirmText: "Hapus",
         cancelText: "Batal",
         icon: Icons.delete_outline,
         onConfirm: () async {
-          Navigator.pop(dialogContext); // Tutup dialog konfirmasi
-          
-          // ✅ Langsung panggil delete - Cubit akan emit Loading otomatis
-          await context.read<NotificationCubit>().deleteNotifications(_selectedIds.toList());
-          
-          // Exit selection mode
+          Navigator.pop(dialogContext);
+
+          await context
+              .read<NotificationCubit>()
+              .deleteNotifications(_selectedIds.toList());
+
           if (context.mounted) {
             _exitSelectionMode();
           }
@@ -82,7 +82,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
       context: context,
       builder: (dialogContext) => AppConfirmationDialog(
         title: "Tandai Semua Dibaca",
-        message: "Apakah Anda ingin menandai semua notifikasi sebagai sudah dibaca?",
+        message:
+            "Apakah Anda ingin menandai semua notifikasi sebagai sudah dibaca?",
         confirmText: "Ya",
         cancelText: "Batal",
         icon: Icons.mark_email_read,
@@ -101,121 +102,109 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     return BlocProvider(
       create: (_) => sl<NotificationCubit>()..fetchNotifications(),
-      child: Builder(
-        builder: (context) { 
-          return PopScope(
-            canPop: !_isSelectionMode,
-            onPopInvokedWithResult: (didPop, result) {
-              if (didPop) return;
-              if (_isSelectionMode) _exitSelectionMode();
-            },
-            child: Scaffold(
-              backgroundColor: ColorName.background,
-              appBar: AppSecondaryBar(title: t.title),
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    NotificationHeader(
-                      currentFilter: _currentFilter,
-                      onFilterChanged: (val) {
-                        setState(() => _currentFilter = val);
+      child: Builder(builder: (context) {
+        return PopScope(
+          canPop: !_isSelectionMode,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) return;
+            if (_isSelectionMode) _exitSelectionMode();
+          },
+          child: Scaffold(
+            backgroundColor: ColorName.background,
+            appBar: AppSecondaryBar(title: t.title),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  NotificationHeader(
+                    currentFilter: _currentFilter,
+                    onFilterChanged: (val) {
+                      setState(() => _currentFilter = val);
+                    },
+                    onRefresh: () {
+                      context.read<NotificationCubit>().fetchNotifications();
+                    },
+                    onDeleteMode: _enterSelectionMode,
+                    onMarkAllRead: () => _handleMarkAllRead(context),
+                  ),
+                  Divider(
+                      height: 1.h, color: ColorName.black.withOpacity(0.1)),
+                  Expanded(
+                    child: BlocBuilder<NotificationCubit, NotificationState>(
+                      builder: (context, state) {
+                        // ✅ LOGIKA BARU:
+                        // Jika Loading (baik initial maupun refresh), tampilkan Shimmer
+                        if (state is NotificationLoading) {
+                          return const NotificationListShimmer();
+                        } 
+                        
+                        else if (state is NotificationError) {
+                          return AppErrorState.general(
+                            context: context,
+                            message: state.message,
+                            onRetry: () => context
+                                .read<NotificationCubit>()
+                                .fetchNotifications(),
+                          );
+                        } else if (state is NotificationEmpty) {
+                          return const Center(
+                            child: Text("Tidak ada notifikasi",
+                                style: TextStyle(color: Colors.grey)),
+                          );
+                        } else if (state is NotificationLoaded) {
+                          return _buildNotificationList(
+                              context, state.notifications);
+                        }
+                        return const SizedBox.shrink();
                       },
-                      onRefresh: () {
-                        context.read<NotificationCubit>().fetchNotifications();
-                      },
-                      onDeleteMode: _enterSelectionMode,
-                      onMarkAllRead: () => _handleMarkAllRead(context),
                     ),
-                    
-                    Divider(height: 1.h, color: ColorName.black.withOpacity(0.1)),
-
-                    Expanded(
-                      child: BlocBuilder<NotificationCubit, NotificationState>(
-                        builder: (context, state) {
-                          // ✅ CACHE DATA SAAT LOADED
-                          if (state is NotificationLoaded) {
-                            _lastLoadedData = state.notifications;
-                          }
-                          
-                          // ✅ TAMPILKAN LOADING OVERLAY JIKA SEDANG DELETE
-                          if (state is NotificationLoading && _lastLoadedData != null) {
-                            // Tampilkan data lama dengan loading overlay
-                            return Stack(
-                              children: [
-                                _buildNotificationList(_lastLoadedData!),
-                                // Loading Overlay
-                                Container(
-                                  color: Colors.black.withOpacity(0.3),
-                                  child: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                          
-                          if (state is NotificationLoading) {
-                            return const Center(child: CircularProgressIndicator());
-                          } else if (state is NotificationError) {
-                            return AppErrorState.general(
-                              context: context,
-                              message: state.message,
-                              onRetry: () => context.read<NotificationCubit>().fetchNotifications(),
-                            );
-                          } else if (state is NotificationEmpty) {
-                            return const Center(
-                              child: Text("Tidak ada notifikasi", style: TextStyle(color: Colors.grey)),
-                            );
-                          } else if (state is NotificationLoaded) {
-                            return _buildNotificationList(state.notifications);
-                          }
-                          return const SizedBox.shrink();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              
-              floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-              floatingActionButton: _isSelectionMode
-                  ? Padding(
-                      padding: EdgeInsets.only(bottom: 80.h, right: 4.w),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          FloatingActionButton(
-                            heroTag: "delete_fab",
-                            onPressed: _selectedIds.isNotEmpty ? () => _deleteSelectedItems(context) : null,
-                            backgroundColor: _selectedIds.isNotEmpty ? Colors.red : Colors.grey,
-                            elevation: 4,
-                            shape: const CircleBorder(),
-                            child: Icon(Icons.delete_outline, color: Colors.white, size: 26.sp),
-                          ),
-                          SizedBox(height: 16.h),
-                          FloatingActionButton(
-                            heroTag: "cancel_fab",
-                            onPressed: _exitSelectionMode,
-                            backgroundColor: ColorName.white,
-                            elevation: 4,
-                            shape: const CircleBorder(),
-                            child: Icon(Icons.close, color: Colors.black87, size: 26.sp),
-                          ),
-                        ],
-                      ),
-                    )
-                  : null,
             ),
-          );
-        }
-      ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.endFloat,
+            floatingActionButton: _isSelectionMode
+                ? Padding(
+                    padding: EdgeInsets.only(bottom: 80.h, right: 4.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        FloatingActionButton(
+                          heroTag: "delete_fab",
+                          onPressed: _selectedIds.isNotEmpty
+                              ? () => _deleteSelectedItems(context)
+                              : null,
+                          backgroundColor: _selectedIds.isNotEmpty
+                              ? Colors.red
+                              : Colors.grey,
+                          elevation: 4,
+                          shape: const CircleBorder(),
+                          child: Icon(Icons.delete_outline,
+                              color: Colors.white, size: 26.sp),
+                        ),
+                        SizedBox(height: 16.h),
+                        FloatingActionButton(
+                          heroTag: "cancel_fab",
+                          onPressed: _exitSelectionMode,
+                          backgroundColor: ColorName.white,
+                          elevation: 4,
+                          shape: const CircleBorder(),
+                          child: Icon(Icons.close,
+                              color: Colors.black87, size: 26.sp),
+                        ),
+                      ],
+                    ),
+                  )
+                : null,
+          ),
+        );
+      }),
     );
   }
 
-  // ✅ EXTRACT METHOD UNTUK BUILD LIST
-  Widget _buildNotificationList(List<NotificationModel> allNotifications) {
-    // Filtering
+  Widget _buildNotificationList(
+      BuildContext context, List<NotificationModel> allNotifications) {
     List<NotificationModel> filteredList = [];
     if (_currentFilter == 'all') {
       filteredList = List.from(allNotifications);
@@ -225,19 +214,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
       filteredList = allNotifications.where((n) => n.isRead).toList();
     }
 
-    // Sorting (Unread First)
+    // ✅ Sorting Logic: Unread di atas, lalu Waktu Terbaru
     filteredList.sort((a, b) {
-      if (a.isRead == b.isRead) return 0;
-      return a.isRead ? 1 : -1;
+      if (a.isRead != b.isRead) {
+        return a.isRead ? 1 : -1;
+      }
+      try {
+        final dateA = DateTime.parse(a.createdAt);
+        final dateB = DateTime.parse(b.createdAt);
+        return dateB.compareTo(dateA);
+      } catch (e) {
+        return 0;
+      }
     });
 
-    // Handle Empty After Filter
     if (filteredList.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.filter_list_off, size: 48.sp, color: Colors.grey.shade300),
+            Icon(Icons.filter_list_off,
+                size: 48.sp, color: Colors.grey.shade300),
             SizedBox(height: 12.h),
             Text(
               "Tidak ada notifikasi ${_currentFilter == 'unread' ? 'baru' : _currentFilter == 'read' ? 'lama' : ''}",
@@ -256,7 +253,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 160.h),
         itemCount: filteredList.length,
         separatorBuilder: (_, __) => SizedBox(height: 4.h),
-        itemBuilder: (context, index) {
+        itemBuilder: (ctx, index) {
           final n = filteredList[index];
           final isSelected = _selectedIds.contains(n.id);
           final iconData = NotificationMapper.getIcon(n.requestType, n.message);
@@ -274,7 +271,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               if (_isSelectionMode) {
                 _toggleItemSelection(n.id);
               } else {
-                await context.router.push(NotificationDetailRoute(id: n.id)); 
+                await context.router.push(NotificationDetailRoute(id: n.id));
                 if (context.mounted) {
                   context.read<NotificationCubit>().fetchNotifications();
                 }

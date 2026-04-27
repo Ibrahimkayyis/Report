@@ -10,6 +10,9 @@ import 'package:report/src/modules/teknisi_ticket_handling/domain/models/teknisi
 import 'package:report/src/modules/teknisi_ticket_handling/presentation/cubits/teknisi_ticket_detail_cubit.dart';
 import 'package:report/src/modules/teknisi_ticket_handling/presentation/cubits/teknisi_ticket_detail_state.dart';
 
+// ✅ Import Shimmer
+import '../widgets/shimmer/teknisi_ticket_detail_shimmer.dart';
+
 @RoutePage()
 class TeknisiTicketDetailScreen extends StatefulWidget {
   final String ticketId;
@@ -32,7 +35,6 @@ class _TeknisiTicketDetailScreenState extends State<TeknisiTicketDetailScreen> {
       child: BlocListener<TeknisiTicketDetailCubit, TeknisiTicketDetailState>(
         listener: (context, state) {
           if (state.status == TeknisiTicketDetailStatus.updateSuccess) {
-            // Tampilkan Pesan Sukses Singkat
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.successMessage ?? "Update berhasil"),
@@ -40,9 +42,6 @@ class _TeknisiTicketDetailScreenState extends State<TeknisiTicketDetailScreen> {
                 duration: const Duration(seconds: 1),
               ),
             );
-
-            // ✅ FIX: Langsung kembali ke halaman sebelumnya dengan hasil 'true'
-            // Ini akan mentrigger refresh di halaman list
             context.router.pop(true);
           } else if (state.status == TeknisiTicketDetailStatus.failure &&
               state.errorMessage != null) {
@@ -66,8 +65,10 @@ class _TeknisiTicketDetailScreenState extends State<TeknisiTicketDetailScreen> {
           appBar: AppPrimaryBar(title: t.app.ticket_detail_title),
           body: BlocBuilder<TeknisiTicketDetailCubit, TeknisiTicketDetailState>(
             builder: (context, state) {
+              
+              // ✅ GANTI LOADING STATE
               if (state.status == TeknisiTicketDetailStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return const TeknisiTicketDetailShimmer();
               }
 
               if (state.status == TeknisiTicketDetailStatus.failure &&
@@ -97,6 +98,7 @@ class _TeknisiTicketDetailScreenState extends State<TeknisiTicketDetailScreen> {
     );
   }
 
+  // ... (Method _buildContent dan Widget Helpers lainnya TETAP SAMA) ...
   Widget _buildContent(
     BuildContext context,
     TeknisiTicketDetailModel ticket,
@@ -271,7 +273,7 @@ class _TeknisiTicketDetailScreenState extends State<TeknisiTicketDetailScreen> {
     );
   }
 
-  // --- Widget Builders (Copy-Paste dari kode sebelumnya, tidak ada perubahan logika di sini) ---
+  // --- Widget Builders (Sama seperti sebelumnya) ---
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
